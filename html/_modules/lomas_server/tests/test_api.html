@@ -89,13 +89,19 @@
 <span></span><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pymongo.database</span> <span class="kn">import</span> <span class="n">Database</span>
 <span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">status</span>
 <span class="kn">from</span> <span class="nn">fastapi.testclient</span> <span class="kn">import</span> <span class="n">TestClient</span>
 
+<span class="kn">from</span> <span class="nn">admin_database.utils</span> <span class="kn">import</span> <span class="n">get_mongodb</span>
+<span class="kn">from</span> <span class="nn">administration.mongodb_admin</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">add_users_via_yaml</span><span class="p">,</span>
+    <span class="n">add_datasets_via_yaml</span><span class="p">,</span>
+    <span class="n">drop_collection</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">app</span>
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">DPLibraries</span><span class="p">,</span> <span class="n">EPSILON_LIMIT</span>
 <span class="kn">from</span> <span class="nn">tests.constants</span> <span class="kn">import</span> <span class="n">ENV_MONGO_INTEGRATION</span>
@@ -112,12 +118,7 @@
     <span class="n">example_smartnoise_sql</span><span class="p">,</span>
     <span class="n">example_smartnoise_sql_cost</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">get_config</span><span class="p">,</span> <span class="n">CONFIG_LOADER</span>
-<span class="kn">from</span> <span class="nn">mongodb_admin</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">create_users_collection</span><span class="p">,</span>
-    <span class="n">add_datasets</span><span class="p">,</span>
-    <span class="n">drop_collection</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">CONFIG_LOADER</span>
 
 <span class="n">INITAL_EPSILON</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">INITIAL_DELTA</span> <span class="o">=</span> <span class="mf">0.005</span>
@@ -173,20 +174,21 @@
 
         <span class="c1"># Fill up database if needed</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span> <span class="o">=</span> <span class="n">get_mongodb</span><span class="p">()</span>
 
-            <span class="n">args</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">get_config</span><span class="p">()</span><span class="o">.</span><span class="n">admin_database</span><span class="p">))</span>
-
-            <span class="n">args</span><span class="o">.</span><span class="n">clean</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">overwrite</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;tests/test_data/test_user_collection.yaml&quot;</span>
-            <span class="n">create_users_collection</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-
-            <span class="n">args</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;tests/test_data/test_datasets.yaml&quot;</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="s2">&quot;PENGUIN_DATASET&quot;</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">dataset_type</span> <span class="o">=</span> <span class="s2">&quot;LOCAL_DB&quot;</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">overwrite_datasets</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">overwrite_metadata</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">add_datasets</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
+            <span class="n">add_users_via_yaml</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+                <span class="n">yaml_file</span><span class="o">=</span><span class="s2">&quot;tests/test_data/test_user_collection.yaml&quot;</span><span class="p">,</span>
+                <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">add_datasets_via_yaml</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+                <span class="n">yaml_file</span><span class="o">=</span><span class="s2">&quot;tests/test_data/test_datasets.yaml&quot;</span><span class="p">,</span>
+                <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">overwrite_datasets</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">overwrite_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.tearDown">
@@ -194,20 +196,10 @@
     <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Clean up database if needed</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">):</span>
-
-            <span class="n">args</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">get_config</span><span class="p">()</span><span class="o">.</span><span class="n">admin_database</span><span class="p">))</span>
-
-            <span class="n">args</span><span class="o">.</span><span class="n">collection</span> <span class="o">=</span> <span class="s2">&quot;metadata&quot;</span>
-            <span class="n">drop_collection</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-
-            <span class="n">args</span><span class="o">.</span><span class="n">collection</span> <span class="o">=</span> <span class="s2">&quot;datasets&quot;</span>
-            <span class="n">drop_collection</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-
-            <span class="n">args</span><span class="o">.</span><span class="n">collection</span> <span class="o">=</span> <span class="s2">&quot;users&quot;</span>
-            <span class="n">drop_collection</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-
-            <span class="n">args</span><span class="o">.</span><span class="n">collection</span> <span class="o">=</span> <span class="s2">&quot;queries_archives&quot;</span>
-            <span class="n">drop_collection</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
+            <span class="n">drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">)</span>
+            <span class="n">drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;datasets&quot;</span><span class="p">)</span>
+            <span class="n">drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;users&quot;</span><span class="p">)</span>
+            <span class="n">drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;queries_archives&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_state">
@@ -347,9 +339,9 @@
 
             <span class="c1"># Expect to fail: query does not make sense</span>
             <span class="n">input_smartnoise</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">)</span>
-            <span class="n">input_smartnoise</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;SELECT AVG(bill) FROM df&quot;</span>  <span class="c1"># no &#39;bill&#39; column</span>
-            <span class="p">)</span>
+            <span class="n">input_smartnoise</span><span class="p">[</span>
+                <span class="s2">&quot;query_str&quot;</span>
+            <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;SELECT AVG(bill) FROM df&quot;</span>  <span class="c1"># no &#39;bill&#39; column</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="s2">&quot;/smartnoise_query&quot;</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="n">input_smartnoise</span><span class="p">,</span>

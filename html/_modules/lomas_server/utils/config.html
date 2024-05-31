@@ -115,6 +115,8 @@
 <div class="viewcode-block" id="TimeAttack">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.TimeAttack">[docs]</a>
 <span class="k">class</span> <span class="nc">TimeAttack</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for configs to prevent timing attacks&quot;&quot;&quot;</span>
+
     <span class="n">method</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;jitter&quot;</span><span class="p">,</span> <span class="s2">&quot;stall&quot;</span><span class="p">]</span>
     <span class="n">magnitude</span><span class="p">:</span> <span class="nb">float</span></div>
 
@@ -123,6 +125,8 @@
 <div class="viewcode-block" id="Server">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.Server">[docs]</a>
 <span class="k">class</span> <span class="nc">Server</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for uvicorn server configs&quot;&quot;&quot;</span>
+
     <span class="n">time_attack</span><span class="p">:</span> <span class="n">TimeAttack</span>
     <span class="n">host_ip</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">host_port</span><span class="p">:</span> <span class="nb">int</span>
@@ -135,6 +139,8 @@
 <div class="viewcode-block" id="DatasetStoreConfig">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.DatasetStoreConfig">[docs]</a>
 <span class="k">class</span> <span class="nc">DatasetStoreConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for dataset store configs&quot;&quot;&quot;</span>
+
     <span class="n">ds_store_type</span><span class="p">:</span> <span class="n">ConfDatasetStore</span></div>
 
 
@@ -142,6 +148,8 @@
 <div class="viewcode-block" id="LRUDatasetStoreConfig">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.LRUDatasetStoreConfig">[docs]</a>
 <span class="k">class</span> <span class="nc">LRUDatasetStoreConfig</span><span class="p">(</span><span class="n">DatasetStoreConfig</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for dataset store configs in case of a LRU dataset store&quot;&quot;&quot;</span>
+
     <span class="n">max_memory_usage</span><span class="p">:</span> <span class="nb">int</span></div>
 
 
@@ -149,6 +157,8 @@
 <div class="viewcode-block" id="DBConfig">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.DBConfig">[docs]</a>
 <span class="k">class</span> <span class="nc">DBConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for database type config&quot;&quot;&quot;</span>
+
     <span class="n">db_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">AdminDBType</span></div>
 
 
@@ -156,6 +166,8 @@
 <div class="viewcode-block" id="YamlDBConfig">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.YamlDBConfig">[docs]</a>
 <span class="k">class</span> <span class="nc">YamlDBConfig</span><span class="p">(</span><span class="n">DBConfig</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for dataset store configs  in case of a Yaml database&quot;&quot;&quot;</span>
+
     <span class="n">db_file</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
@@ -163,6 +175,8 @@
 <div class="viewcode-block" id="MongoDBConfig">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.MongoDBConfig">[docs]</a>
 <span class="k">class</span> <span class="nc">MongoDBConfig</span><span class="p">(</span><span class="n">DBConfig</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for dataset store configs  in case of a  MongoDB database&quot;&quot;&quot;</span>
+
     <span class="n">address</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">port</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
@@ -257,7 +271,9 @@
 
                 <span class="n">update</span><span class="p">(</span><span class="n">config_data</span><span class="p">,</span> <span class="n">secret_data</span><span class="p">)</span>
 
-            <span class="n">server_config</span><span class="p">:</span> <span class="n">Server</span> <span class="o">=</span> <span class="n">Server</span><span class="o">.</span><span class="n">parse_obj</span><span class="p">(</span><span class="n">config_data</span><span class="p">[</span><span class="n">CONF_SERVER</span><span class="p">])</span>
+            <span class="n">server_config</span><span class="p">:</span> <span class="n">Server</span> <span class="o">=</span> <span class="n">Server</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
+                <span class="n">config_data</span><span class="p">[</span><span class="n">CONF_SERVER</span><span class="p">]</span>
+            <span class="p">)</span>
 
             <span class="n">db_type</span> <span class="o">=</span> <span class="n">config_data</span><span class="p">[</span><span class="n">CONF_DB</span><span class="p">][</span><span class="n">CONF_DB_TYPE</span><span class="p">]</span>
             <span class="k">match</span> <span class="n">db_type</span><span class="p">:</span>

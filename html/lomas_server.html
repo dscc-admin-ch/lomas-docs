@@ -158,6 +158,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="lomas_server.admin_database.html#module-lomas_server.admin_database.utils">lomas_server.admin_database.utils module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="lomas_server.admin_database.html#lomas_server.admin_database.utils.database_factory"><code class="docutils literal notranslate"><span class="pre">database_factory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="lomas_server.admin_database.html#lomas_server.admin_database.utils.get_mongodb"><code class="docutils literal notranslate"><span class="pre">get_mongodb()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="lomas_server.admin_database.html#lomas_server.admin_database.utils.get_mongodb_url"><code class="docutils literal notranslate"><span class="pre">get_mongodb_url()</span></code></a></li>
 </ul>
 </li>
@@ -347,15 +348,14 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="lomas_server.tests.html#module-lomas_server.tests.test_mongodb_admin">lomas_server.tests.test_mongodb_admin module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.setUp"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.setUp()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.setUpClass"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.setUpClass()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.tearDown"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.tearDown()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_dataset"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_add_dataset()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_dataset_to_user"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_add_dataset_to_user()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_datasets"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_add_datasets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_datasets_via_yaml"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_add_datasets_via_yaml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_local_dataset"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_add_local_dataset()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_user"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_add_user()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_user_wb"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_add_user_wb()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_create_users_collection"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_create_users_collection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_users_via_yaml"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_add_users_via_yaml()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_del_dataset"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_del_dataset()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_del_dataset_to_user"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_del_dataset_to_user()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_del_user"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_del_user()</span></code></a></li>
@@ -373,6 +373,104 @@
 <li class="toctree-l2"><a class="reference internal" href="lomas_server.utils.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lomas_server.utils.html#module-lomas_server.utils.anti_timing_att">lomas_server.utils.anti_timing_att module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.anti_timing_att.anti_timing_att"><code class="docutils literal notranslate"><span class="pre">anti_timing_att()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lomas_server.utils.html#module-lomas_server.utils.collections_models">lomas_server.utils.collections_models module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Dataset"><code class="docutils literal notranslate"><span class="pre">Dataset</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Dataset.database_type"><code class="docutils literal notranslate"><span class="pre">Dataset.database_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Dataset.dataset_name"><code class="docutils literal notranslate"><span class="pre">Dataset.dataset_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Dataset.metadata"><code class="docutils literal notranslate"><span class="pre">Dataset.metadata</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Dataset.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">Dataset.model_computed_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Dataset.model_config"><code class="docutils literal notranslate"><span class="pre">Dataset.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Dataset.model_fields"><code class="docutils literal notranslate"><span class="pre">Dataset.model_fields</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfPathDB"><code class="docutils literal notranslate"><span class="pre">DatasetOfPathDB</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfPathDB.dataset_path"><code class="docutils literal notranslate"><span class="pre">DatasetOfPathDB.dataset_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfPathDB.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">DatasetOfPathDB.model_computed_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfPathDB.model_config"><code class="docutils literal notranslate"><span class="pre">DatasetOfPathDB.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfPathDB.model_fields"><code class="docutils literal notranslate"><span class="pre">DatasetOfPathDB.model_fields</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfS3DB"><code class="docutils literal notranslate"><span class="pre">DatasetOfS3DB</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfS3DB.aws_access_key_id"><code class="docutils literal notranslate"><span class="pre">DatasetOfS3DB.aws_access_key_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfS3DB.aws_secret_access_key"><code class="docutils literal notranslate"><span class="pre">DatasetOfS3DB.aws_secret_access_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfS3DB.endpoint_url"><code class="docutils literal notranslate"><span class="pre">DatasetOfS3DB.endpoint_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfS3DB.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">DatasetOfS3DB.model_computed_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfS3DB.model_config"><code class="docutils literal notranslate"><span class="pre">DatasetOfS3DB.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfS3DB.model_fields"><code class="docutils literal notranslate"><span class="pre">DatasetOfS3DB.model_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfS3DB.s3_bucket"><code class="docutils literal notranslate"><span class="pre">DatasetOfS3DB.s3_bucket</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfS3DB.s3_key"><code class="docutils literal notranslate"><span class="pre">DatasetOfS3DB.s3_key</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfUser"><code class="docutils literal notranslate"><span class="pre">DatasetOfUser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfUser.dataset_name"><code class="docutils literal notranslate"><span class="pre">DatasetOfUser.dataset_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfUser.initial_delta"><code class="docutils literal notranslate"><span class="pre">DatasetOfUser.initial_delta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfUser.initial_epsilon"><code class="docutils literal notranslate"><span class="pre">DatasetOfUser.initial_epsilon</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfUser.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">DatasetOfUser.model_computed_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfUser.model_config"><code class="docutils literal notranslate"><span class="pre">DatasetOfUser.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfUser.model_fields"><code class="docutils literal notranslate"><span class="pre">DatasetOfUser.model_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfUser.total_spent_delta"><code class="docutils literal notranslate"><span class="pre">DatasetOfUser.total_spent_delta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetOfUser.total_spent_epsilon"><code class="docutils literal notranslate"><span class="pre">DatasetOfUser.total_spent_epsilon</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetsCollection"><code class="docutils literal notranslate"><span class="pre">DatasetsCollection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetsCollection.datasets"><code class="docutils literal notranslate"><span class="pre">DatasetsCollection.datasets</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetsCollection.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">DatasetsCollection.model_computed_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetsCollection.model_config"><code class="docutils literal notranslate"><span class="pre">DatasetsCollection.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.DatasetsCollection.model_fields"><code class="docutils literal notranslate"><span class="pre">DatasetsCollection.model_fields</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Metadata"><code class="docutils literal notranslate"><span class="pre">Metadata</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Metadata.columns"><code class="docutils literal notranslate"><span class="pre">Metadata.columns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Metadata.max_ids"><code class="docutils literal notranslate"><span class="pre">Metadata.max_ids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Metadata.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">Metadata.model_computed_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Metadata.model_config"><code class="docutils literal notranslate"><span class="pre">Metadata.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Metadata.model_fields"><code class="docutils literal notranslate"><span class="pre">Metadata.model_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.Metadata.row_privacy"><code class="docutils literal notranslate"><span class="pre">Metadata.row_privacy</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfDataset"><code class="docutils literal notranslate"><span class="pre">MetadataOfDataset</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfDataset.database_type"><code class="docutils literal notranslate"><span class="pre">MetadataOfDataset.database_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfDataset.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">MetadataOfDataset.model_computed_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfDataset.model_config"><code class="docutils literal notranslate"><span class="pre">MetadataOfDataset.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfDataset.model_fields"><code class="docutils literal notranslate"><span class="pre">MetadataOfDataset.model_fields</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfPathDB"><code class="docutils literal notranslate"><span class="pre">MetadataOfPathDB</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfPathDB.metadata_path"><code class="docutils literal notranslate"><span class="pre">MetadataOfPathDB.metadata_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfPathDB.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">MetadataOfPathDB.model_computed_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfPathDB.model_config"><code class="docutils literal notranslate"><span class="pre">MetadataOfPathDB.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfPathDB.model_fields"><code class="docutils literal notranslate"><span class="pre">MetadataOfPathDB.model_fields</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfS3DB"><code class="docutils literal notranslate"><span class="pre">MetadataOfS3DB</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfS3DB.aws_access_key_id"><code class="docutils literal notranslate"><span class="pre">MetadataOfS3DB.aws_access_key_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfS3DB.aws_secret_access_key"><code class="docutils literal notranslate"><span class="pre">MetadataOfS3DB.aws_secret_access_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfS3DB.endpoint_url"><code class="docutils literal notranslate"><span class="pre">MetadataOfS3DB.endpoint_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfS3DB.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">MetadataOfS3DB.model_computed_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfS3DB.model_config"><code class="docutils literal notranslate"><span class="pre">MetadataOfS3DB.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfS3DB.model_fields"><code class="docutils literal notranslate"><span class="pre">MetadataOfS3DB.model_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfS3DB.s3_bucket"><code class="docutils literal notranslate"><span class="pre">MetadataOfS3DB.s3_bucket</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.MetadataOfS3DB.s3_key"><code class="docutils literal notranslate"><span class="pre">MetadataOfS3DB.s3_key</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.User"><code class="docutils literal notranslate"><span class="pre">User</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.User.datasets_list"><code class="docutils literal notranslate"><span class="pre">User.datasets_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.User.may_query"><code class="docutils literal notranslate"><span class="pre">User.may_query</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.User.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">User.model_computed_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.User.model_config"><code class="docutils literal notranslate"><span class="pre">User.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.User.model_fields"><code class="docutils literal notranslate"><span class="pre">User.model_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.User.user_name"><code class="docutils literal notranslate"><span class="pre">User.user_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.UserCollection"><code class="docutils literal notranslate"><span class="pre">UserCollection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.UserCollection.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">UserCollection.model_computed_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.UserCollection.model_config"><code class="docutils literal notranslate"><span class="pre">UserCollection.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.UserCollection.model_fields"><code class="docutils literal notranslate"><span class="pre">UserCollection.model_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collections_models.UserCollection.users"><code class="docutils literal notranslate"><span class="pre">UserCollection.users</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="lomas_server.utils.html#module-lomas_server.utils.config">lomas_server.utils.config module</a><ul>
@@ -1029,7 +1127,8 @@ functions, which check the server state.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="lomas_server.app.middleware">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.app.</span></span><span class="sig-name descname"><span class="pre">middleware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_next</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Request</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Response</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="reference internal" href="_modules/lomas_server/app.html#middleware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.app.middleware" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Adds delays to requests response to protect against timing attack</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="lomas_server.app.opendp_query_handler">
@@ -1156,6 +1255,7 @@ for the query.</p></li>
 <dt class="sig sig-object py" id="lomas_server.constants.AdminDBType">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.constants.</span></span><span class="sig-name descname"><span class="pre">AdminDBType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/constants.html#AdminDBType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.constants.AdminDBType" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Types of administration databases</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="lomas_server.constants.AdminDBType.MONGODB_TYPE">
 <span class="sig-name descname"><span class="pre">MONGODB_TYPE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mongodb'</span></em><a class="headerlink" href="#lomas_server.constants.AdminDBType.MONGODB_TYPE" title="Link to this definition"></a></dt>
@@ -1172,6 +1272,7 @@ for the query.</p></li>
 <dt class="sig sig-object py" id="lomas_server.constants.ConfDatasetStore">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.constants.</span></span><span class="sig-name descname"><span class="pre">ConfDatasetStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/constants.html#ConfDatasetStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.constants.ConfDatasetStore" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Types of classes to handle datasets in memory</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="lomas_server.constants.ConfDatasetStore.BASIC">
 <span class="sig-name descname"><span class="pre">BASIC</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'basic'</span></em><a class="headerlink" href="#lomas_server.constants.ConfDatasetStore.BASIC" title="Link to this definition"></a></dt>
@@ -1188,6 +1289,7 @@ for the query.</p></li>
 <dt class="sig sig-object py" id="lomas_server.constants.DPLibraries">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.constants.</span></span><span class="sig-name descname"><span class="pre">DPLibraries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/constants.html#DPLibraries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.constants.DPLibraries" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Name of DP Library used in the query</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="lomas_server.constants.DPLibraries.OPENDP">
 <span class="sig-name descname"><span class="pre">OPENDP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'opendp'</span></em><a class="headerlink" href="#lomas_server.constants.DPLibraries.OPENDP" title="Link to this definition"></a></dt>
@@ -1204,6 +1306,7 @@ for the query.</p></li>
 <dt class="sig sig-object py" id="lomas_server.constants.OpenDPMeasurement">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.constants.</span></span><span class="sig-name descname"><span class="pre">OpenDPMeasurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/constants.html#OpenDPMeasurement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.constants.OpenDPMeasurement" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Type of divergence for opendp measurement</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="lomas_server.constants.OpenDPMeasurement.FIXED_SMOOTHED_MAX_DIVERGENCE">
 <span class="sig-name descname"><span class="pre">FIXED_SMOOTHED_MAX_DIVERGENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'fixed_smoothed_max_divergence'</span></em><a class="headerlink" href="#lomas_server.constants.OpenDPMeasurement.FIXED_SMOOTHED_MAX_DIVERGENCE" title="Link to this definition"></a></dt>
@@ -1230,6 +1333,7 @@ for the query.</p></li>
 <dt class="sig sig-object py" id="lomas_server.constants.PrivateDatabaseType">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.constants.</span></span><span class="sig-name descname"><span class="pre">PrivateDatabaseType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/constants.html#PrivateDatabaseType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.constants.PrivateDatabaseType" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Type of Private Database for the private data</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="lomas_server.constants.PrivateDatabaseType.PATH">
 <span class="sig-name descname"><span class="pre">PATH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PATH_DB'</span></em><a class="headerlink" href="#lomas_server.constants.PrivateDatabaseType.PATH" title="Link to this definition"></a></dt>
@@ -1240,327 +1344,6 @@ for the query.</p></li>
 <span class="sig-name descname"><span class="pre">S3</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'S3_DB'</span></em><a class="headerlink" href="#lomas_server.constants.PrivateDatabaseType.S3" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-</dd></dl>
-
-</section>
-<section id="module-lomas_server.mongodb_admin">
-<span id="lomas-server-mongodb-admin-module"></span><h2>lomas_server.mongodb_admin module<a class="headerlink" href="#module-lomas_server.mongodb_admin" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.add_dataset">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">add_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#add_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.add_dataset" title="Link to this definition"></a></dt>
-<dd><p>Set a database type to a dataset in dataset collection.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – _description_</p></li>
-<li><p><strong>ValueError</strong> – _description_</p></li>
-<li><p><strong>ValueError</strong> – _description_</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>_description_</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>_type_</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.add_dataset_to_user">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">add_dataset_to_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#add_dataset_to_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.add_dataset_to_user" title="Link to this definition"></a></dt>
-<dd><p>Add dataset with initialized budget values to list of datasets
-that the user has access to.
-Will not add if already added (no error will be raised in that case).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – _description_</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.add_datasets">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">add_datasets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#add_datasets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.add_datasets" title="Link to this definition"></a></dt>
-<dd><p>Set all database types to datasets in dataset collection based
-on yaml file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.error_handler.InternalServerException" title="lomas_server.utils.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – _description_</p></li>
-<li><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.error_handler.InternalServerException" title="lomas_server.utils.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – _description_</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>_description_</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>_type_</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.add_user">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">add_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#add_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.add_user" title="Link to this definition"></a></dt>
-<dd><p>Add new user in users collection with initial values for all fields
-set by default.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – The database connection.</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – If the user already exists.</p></li>
-<li><p><strong>WriteConcernError</strong> – If the result is not acknowledged.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.add_user_with_budget">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">add_user_with_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#add_user_with_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.add_user_with_budget" title="Link to this definition"></a></dt>
-<dd><p>Add new user in users collection with initial values
-for all fields set by default.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – _description_</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.check_dataset_and_metadata_exist">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">check_dataset_and_metadata_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enforce_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#check_dataset_and_metadata_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.check_dataset_and_metadata_exist" title="Link to this definition"></a></dt>
-<dd><p>Creates a wrapper function that raises a ValueError
-if the supplied user does not already exist in the user collection.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.check_user_exists">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">check_user_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enforce_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#check_user_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.check_user_exists" title="Link to this definition"></a></dt>
-<dd><p>Creates a wrapper function that raises a ValueError if the supplied
-user does (not) exist in the user collection depending on the
-enforce_true parameter.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>enforce_true</strong> (<em>bool</em>) – If set to True, the wrapper will enforce
-the user is already in the database. If set to False, it
-will enforce the user is NOT in the database.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>The wrapper function that enforces user presence</dt><dd><p>(or absence) before calling the suplied function.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Callable</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.check_user_has_dataset">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">check_user_has_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enforce_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#check_user_has_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.check_user_has_dataset" title="Link to this definition"></a></dt>
-<dd><p>Creates a wrapper function that raises a ValueError if the supplied
-user has access (or not) to the supplied dataset depending on the
-enforce_true parameter.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>enforce_true</strong> (<em>bool</em>) – If set to true, the wrapper function will
-enforce the user has access to the dataset. If set to False,
-the wrapper function will enforce the user has NOT access
-to the specified dataset.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>The wrapper function that asserts user access (or not)</dt><dd><p>to the provided dataset.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Callable</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.connect">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Database</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Namespace</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.connect" title="Link to this definition"></a></dt>
-<dd><p>Returns a wrapping function to connect to the database</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>function</strong> (<em>Callable</em><em>[</em><em>[</em><em>Database</em><em>, </em><em>argparse.Namespace</em><em>]</em><em>, </em><em>None</em><em>]</em>) – Any function taking a Database instance as argument,
-as well as some argparse.Namespace object.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The wrapping function which sets up the database
-connection before calling the wrapped function.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Callable</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.create_users_collection">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">create_users_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#create_users_collection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.create_users_collection" title="Link to this definition"></a></dt>
-<dd><p>Add all users from yaml file to the user collection</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.del_dataset">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">del_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#del_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.del_dataset" title="Link to this definition"></a></dt>
-<dd><p>Delete dataset from dataset collection.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.del_dataset_to_user">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">del_dataset_to_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#del_dataset_to_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.del_dataset_to_user" title="Link to this definition"></a></dt>
-<dd><p>Remove if exists the dataset (and all related budget info)
-from list of datasets that user has access to.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.del_user">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">del_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#del_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.del_user" title="Link to this definition"></a></dt>
-<dd><p>Delete all related information for user from the users collection.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.drop_collection">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">drop_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#drop_collection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.drop_collection" title="Link to this definition"></a></dt>
-<dd><p>Delete collection.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.set_budget_field">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">set_budget_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#set_budget_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.set_budget_field" title="Link to this definition"></a></dt>
-<dd><p>Set (for some reason) a budget field to a given value
-if given user exists and has access to given dataset.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.set_may_query">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">set_may_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#set_may_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.set_may_query" title="Link to this definition"></a></dt>
-<dd><p>Set (for some reason) the ‘may query’ field to a given value
-if given user exists.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.show_collection">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">show_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#show_collection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.show_collection" title="Link to this definition"></a></dt>
-<dd><p>Show a collection</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.mongodb_admin.show_user">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.mongodb_admin.</span></span><span class="sig-name descname"><span class="pre">show_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/mongodb_admin.html#show_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.mongodb_admin.show_user" title="Link to this definition"></a></dt>
-<dd><p>Show a user</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>Database</em>) – _description_</p></li>
-<li><p><strong>arguments</strong> (<em>argparse.Namespace</em>) – _description_</p></li>
-</ul>
-</dd>
-</dl>
 </dd></dl>
 
 </section>
