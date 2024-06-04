@@ -89,25 +89,15 @@
 <span></span><span class="kn">import</span> <span class="nn">yaml</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
-<span class="c1"># Temporary workaround this issue:</span>
-<span class="c1"># https://github.com/pydantic/pydantic/issues/5821</span>
-<span class="c1"># from typing import Literal</span>
-<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Literal</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Dict</span>
 
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">CONF_DATASET_STORE</span><span class="p">,</span>
-    <span class="n">CONF_DATASET_STORE_TYPE</span><span class="p">,</span>
-    <span class="n">CONF_DB</span><span class="p">,</span>
-    <span class="n">CONF_DB_TYPE</span><span class="p">,</span>
-    <span class="n">CONF_DEV_MODE</span><span class="p">,</span>
-    <span class="n">CONF_RUNTIME_ARGS</span><span class="p">,</span>
-    <span class="n">CONF_SERVER</span><span class="p">,</span>
-    <span class="n">CONF_SETTINGS</span><span class="p">,</span>
-    <span class="n">CONF_SUBMIT_LIMIT</span><span class="p">,</span>
+    <span class="n">ConfigKeys</span><span class="p">,</span>
     <span class="n">CONFIG_PATH</span><span class="p">,</span>
     <span class="n">SECRETS_PATH</span><span class="p">,</span>
     <span class="n">AdminDBType</span><span class="p">,</span>
-    <span class="n">ConfDatasetStore</span><span class="p">,</span>
+    <span class="n">DatasetStoreType</span><span class="p">,</span>
+    <span class="n">TimeAttackMethod</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
 
@@ -117,7 +107,7 @@
 <span class="k">class</span> <span class="nc">TimeAttack</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for configs to prevent timing attacks&quot;&quot;&quot;</span>
 
-    <span class="n">method</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;jitter&quot;</span><span class="p">,</span> <span class="s2">&quot;stall&quot;</span><span class="p">]</span>
+    <span class="n">method</span><span class="p">:</span> <span class="n">TimeAttackMethod</span>
     <span class="n">magnitude</span><span class="p">:</span> <span class="nb">float</span></div>
 
 
@@ -141,7 +131,7 @@
 <span class="k">class</span> <span class="nc">DatasetStoreConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for dataset store configs&quot;&quot;&quot;</span>
 
-    <span class="n">ds_store_type</span><span class="p">:</span> <span class="n">ConfDatasetStore</span></div>
+    <span class="n">ds_store_type</span><span class="p">:</span> <span class="n">DatasetStoreType</span></div>
 
 
 
@@ -207,9 +197,6 @@
 
 
 
-<span class="c1"># Utility functions -----------------------------------------------------------</span>
-
-
 <div class="viewcode-block" id="ConfigLoader">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.ConfigLoader">[docs]</a>
 <span class="k">class</span> <span class="nc">ConfigLoader</span><span class="p">:</span>
@@ -251,77 +238,119 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                <span class="n">config_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="n">CONF_RUNTIME_ARGS</span><span class="p">][</span>
-                    <span class="n">CONF_SETTINGS</span>
+                <span class="n">config_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="n">ConfigKeys</span><span class="o">.</span><span class="n">RUNTIME_ARGS</span><span class="p">][</span>
+                    <span class="n">ConfigKeys</span><span class="o">.</span><span class="n">SETTINGS</span>
                 <span class="p">]</span>
 
             <span class="c1"># Merge secret data into config data</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">secrets_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">secret_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                <span class="n">config_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_dicts</span><span class="p">(</span><span class="n">config_data</span><span class="p">,</span> <span class="n">secret_data</span><span class="p">)</span>
 
-                <span class="k">def</span> <span class="nf">update</span><span class="p">(</span>
-                    <span class="n">d</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">u</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
-                <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                            <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="p">{}),</span> <span class="n">v</span><span class="p">)</span>
-                        <span class="k">else</span><span class="p">:</span>
-                            <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-                    <span class="k">return</span> <span class="n">d</span>
-
-                <span class="n">update</span><span class="p">(</span><span class="n">config_data</span><span class="p">,</span> <span class="n">secret_data</span><span class="p">)</span>
-
+            <span class="c1"># Server configuration</span>
             <span class="n">server_config</span><span class="p">:</span> <span class="n">Server</span> <span class="o">=</span> <span class="n">Server</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
-                <span class="n">config_data</span><span class="p">[</span><span class="n">CONF_SERVER</span><span class="p">]</span>
+                <span class="n">config_data</span><span class="p">[</span><span class="n">ConfigKeys</span><span class="o">.</span><span class="n">SERVER</span><span class="p">]</span>
             <span class="p">)</span>
 
-            <span class="n">db_type</span> <span class="o">=</span> <span class="n">config_data</span><span class="p">[</span><span class="n">CONF_DB</span><span class="p">][</span><span class="n">CONF_DB_TYPE</span><span class="p">]</span>
-            <span class="k">match</span> <span class="n">db_type</span><span class="p">:</span>
-                <span class="k">case</span> <span class="n">AdminDBType</span><span class="o">.</span><span class="n">MONGODB_TYPE</span><span class="p">:</span>
-                    <span class="n">admin_database_config</span> <span class="o">=</span> <span class="n">MongoDBConfig</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
-                        <span class="n">config_data</span><span class="p">[</span><span class="n">CONF_DB</span><span class="p">]</span>
-                    <span class="p">)</span>
-                <span class="k">case</span> <span class="n">AdminDBType</span><span class="o">.</span><span class="n">YAML_TYPE</span><span class="p">:</span>
-                    <span class="n">admin_database_config</span> <span class="o">=</span> <span class="n">YamlDBConfig</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
-                        <span class="n">config_data</span><span class="p">[</span><span class="n">CONF_DB</span><span class="p">]</span>
-                    <span class="p">)</span>  <span class="c1"># type: ignore</span>
-                <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Admin database type </span><span class="si">{</span><span class="n">db_type</span><span class="si">}</span><span class="s2"> not supported.&quot;</span>
-                    <span class="p">)</span>
+            <span class="c1"># Admin database</span>
+            <span class="n">db_type</span> <span class="o">=</span> <span class="n">AdminDBType</span><span class="p">(</span>
+                <span class="n">config_data</span><span class="p">[</span><span class="n">ConfigKeys</span><span class="o">.</span><span class="n">DB</span><span class="p">][</span><span class="n">ConfigKeys</span><span class="o">.</span><span class="n">DB_TYPE</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">admin_database_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_admin_db_config</span><span class="p">(</span>
+                <span class="n">db_type</span><span class="p">,</span> <span class="n">config_data</span><span class="p">[</span><span class="n">ConfigKeys</span><span class="o">.</span><span class="n">DB</span><span class="p">]</span>
+            <span class="p">)</span>
 
-            <span class="n">ds_store_type</span> <span class="o">=</span> <span class="n">config_data</span><span class="p">[</span><span class="n">CONF_DATASET_STORE</span><span class="p">][</span>
-                <span class="n">CONF_DATASET_STORE_TYPE</span>
-            <span class="p">]</span>
-            <span class="k">match</span> <span class="n">ds_store_type</span><span class="p">:</span>
-                <span class="k">case</span> <span class="n">ConfDatasetStore</span><span class="o">.</span><span class="n">BASIC</span><span class="p">:</span>
-                    <span class="n">ds_store_config</span> <span class="o">=</span> <span class="n">DatasetStoreConfig</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
-                        <span class="n">config_data</span><span class="p">[</span><span class="n">CONF_DATASET_STORE</span><span class="p">]</span>
-                    <span class="p">)</span>
-                <span class="k">case</span> <span class="n">ConfDatasetStore</span><span class="o">.</span><span class="n">LRU</span><span class="p">:</span>
-                    <span class="n">ds_store_config</span> <span class="o">=</span> <span class="n">LRUDatasetStoreConfig</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
-                        <span class="n">config_data</span><span class="p">[</span><span class="n">CONF_DATASET_STORE</span><span class="p">]</span>
-                    <span class="p">)</span>
-                <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Dataset store </span><span class="si">{</span><span class="n">ds_store_type</span><span class="si">}</span><span class="s2"> not supported.&quot;</span>
-                    <span class="p">)</span>
+            <span class="c1"># Dataset store</span>
+            <span class="n">ds_store_type</span> <span class="o">=</span> <span class="n">DatasetStoreType</span><span class="p">(</span>
+                <span class="n">config_data</span><span class="p">[</span><span class="n">ConfigKeys</span><span class="o">.</span><span class="n">DATASET_STORE</span><span class="p">][</span>
+                    <span class="n">ConfigKeys</span><span class="o">.</span><span class="n">DATASET_STORE_TYPE</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">ds_store_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_ds_store_config</span><span class="p">(</span>
+                <span class="n">ds_store_type</span><span class="p">,</span> <span class="n">config_data</span><span class="p">[</span><span class="n">ConfigKeys</span><span class="o">.</span><span class="n">DATASET_STORE</span><span class="p">]</span>
+            <span class="p">)</span>
 
-            <span class="n">config</span><span class="p">:</span> <span class="n">Config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span>
-                <span class="n">develop_mode</span><span class="o">=</span><span class="n">config_data</span><span class="p">[</span><span class="n">CONF_DEV_MODE</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span>
+                <span class="n">develop_mode</span><span class="o">=</span><span class="n">config_data</span><span class="p">[</span><span class="n">ConfigKeys</span><span class="o">.</span><span class="n">DEVELOP_MODE</span><span class="p">],</span>
                 <span class="n">server</span><span class="o">=</span><span class="n">server_config</span><span class="p">,</span>
-                <span class="n">submit_limit</span><span class="o">=</span><span class="n">config_data</span><span class="p">[</span><span class="n">CONF_SUBMIT_LIMIT</span><span class="p">],</span>
+                <span class="n">submit_limit</span><span class="o">=</span><span class="n">config_data</span><span class="p">[</span><span class="n">ConfigKeys</span><span class="o">.</span><span class="n">SUBMIT_LIMIT</span><span class="p">],</span>
                 <span class="n">admin_database</span><span class="o">=</span><span class="n">admin_database_config</span><span class="p">,</span>
                 <span class="n">dataset_store</span><span class="o">=</span><span class="n">ds_store_config</span><span class="p">,</span>
             <span class="p">)</span>
+
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Could not read config from disk at </span><span class="si">{</span><span class="n">CONFIG_PATH</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Could not read config from disk at </span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; or missing fields: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">config</span></div>
 
+    <span class="k">def</span> <span class="nf">_merge_dicts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">u</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recursively add dictionnary u to dictionnary v</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            d (Dict): dictionnary to add data to</span>
+<span class="sd">            u (Dict): dictionnary to be added to d</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            d (Dict): dictionnary d and u merged recursively</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_dicts</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="p">{}),</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">return</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">_validate_admin_db_config</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">db_type</span><span class="p">:</span> <span class="n">AdminDBType</span><span class="p">,</span> <span class="n">config_data</span><span class="p">:</span> <span class="nb">dict</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DBConfig</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate admin database based on configuration parameters</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_type (AdminDBType): type of admin database</span>
+<span class="sd">            config_data (dict): additionnal configuration data</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        InternalServerException: If the admin database type from the config</span>
+<span class="sd">            does not exist.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DBConfig validated admin database configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">db_type</span> <span class="o">==</span> <span class="n">AdminDBType</span><span class="o">.</span><span class="n">MONGODB</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">MongoDBConfig</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">config_data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">db_type</span> <span class="o">==</span> <span class="n">AdminDBType</span><span class="o">.</span><span class="n">YAML</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">YamlDBConfig</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">config_data</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Admin database type </span><span class="si">{</span><span class="n">db_type</span><span class="si">}</span><span class="s2"> not supported.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_validate_ds_store_config</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ds_store_type</span><span class="p">:</span> <span class="n">DatasetStoreType</span><span class="p">,</span> <span class="n">config_data</span><span class="p">:</span> <span class="nb">dict</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatasetStoreConfig</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate dataset store configuration parameters</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ds_store_type (DatasetStoreType): type of admin database</span>
+<span class="sd">            config_data (dict): additionnal configuration data</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        InternalServerException: If the dataset store type from the config</span>
+<span class="sd">            does not exist.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DatasetStoreConfig validated dataset store configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ds_store_type</span> <span class="o">==</span> <span class="n">DatasetStoreType</span><span class="o">.</span><span class="n">BASIC</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">DatasetStoreConfig</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">config_data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ds_store_type</span> <span class="o">==</span> <span class="n">DatasetStoreType</span><span class="o">.</span><span class="n">LRU</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">LRUDatasetStoreConfig</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">config_data</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Dataset store </span><span class="si">{</span><span class="n">ds_store_type</span><span class="si">}</span><span class="s2"> not supported.&quot;</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="ConfigLoader.set_config">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.ConfigLoader.set_config">[docs]</a>

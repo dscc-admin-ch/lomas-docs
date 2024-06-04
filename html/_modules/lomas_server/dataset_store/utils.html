@@ -87,7 +87,7 @@
              
   <h1>Source code for lomas_server.dataset_store.utils</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">admin_database.admin_database</span> <span class="kn">import</span> <span class="n">AdminDatabase</span>
-<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">ConfDatasetStore</span>
+<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">DatasetStoreType</span>
 <span class="kn">from</span> <span class="nn">dataset_store.basic_dataset_store</span> <span class="kn">import</span> <span class="n">BasicDatasetStore</span>
 <span class="kn">from</span> <span class="nn">dataset_store.dataset_store</span> <span class="kn">import</span> <span class="n">DatasetStore</span>
 <span class="kn">from</span> <span class="nn">dataset_store.lru_dataset_store</span> <span class="kn">import</span> <span class="n">LRUDatasetStore</span>
@@ -117,9 +117,9 @@
     <span class="n">ds_store_type</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">ds_store_type</span>
 
     <span class="k">match</span> <span class="n">config</span><span class="o">.</span><span class="n">ds_store_type</span><span class="p">:</span>
-        <span class="k">case</span> <span class="n">ConfDatasetStore</span><span class="o">.</span><span class="n">BASIC</span><span class="p">:</span>
+        <span class="k">case</span> <span class="n">DatasetStoreType</span><span class="o">.</span><span class="n">BASIC</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">BasicDatasetStore</span><span class="p">(</span><span class="n">admin_database</span><span class="p">)</span>
-        <span class="k">case</span> <span class="n">ConfDatasetStore</span><span class="o">.</span><span class="n">LRU</span><span class="p">:</span>
+        <span class="k">case</span> <span class="n">DatasetStoreType</span><span class="o">.</span><span class="n">LRU</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">LRUDatasetStore</span><span class="p">(</span><span class="n">admin_database</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">max_memory_usage</span><span class="p">)</span>
         <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>

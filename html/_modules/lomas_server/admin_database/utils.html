@@ -118,12 +118,12 @@
     <span class="n">db_type</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">db_type</span>
 
     <span class="k">match</span> <span class="n">db_type</span><span class="p">:</span>
-        <span class="k">case</span> <span class="n">AdminDBType</span><span class="o">.</span><span class="n">MONGODB_TYPE</span><span class="p">:</span>
+        <span class="k">case</span> <span class="n">AdminDBType</span><span class="o">.</span><span class="n">MONGODB</span><span class="p">:</span>
             <span class="n">db_url</span> <span class="o">=</span> <span class="n">get_mongodb_url</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
             <span class="n">db_name</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">db_name</span>
             <span class="k">return</span> <span class="n">AdminMongoDatabase</span><span class="p">(</span><span class="n">db_url</span><span class="p">,</span> <span class="n">db_name</span><span class="p">)</span>
 
-        <span class="k">case</span> <span class="n">AdminDBType</span><span class="o">.</span><span class="n">YAML_TYPE</span><span class="p">:</span>
+        <span class="k">case</span> <span class="n">AdminDBType</span><span class="o">.</span><span class="n">YAML</span><span class="p">:</span>
             <span class="n">yaml_database_file</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">db_file</span>
             <span class="k">return</span> <span class="n">AdminYamlDatabase</span><span class="p">(</span><span class="n">yaml_database_file</span><span class="p">)</span>
 

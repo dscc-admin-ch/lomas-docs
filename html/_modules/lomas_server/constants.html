@@ -103,21 +103,26 @@
     <span class="n">SECRETS_PATH</span> <span class="o">=</span> <span class="s2">&quot;/usr/lomas_server/secrets.yaml&quot;</span>
 
 
-<span class="c1"># Configuration field names and values</span>
-<span class="n">CONF_RUNTIME_ARGS</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;runtime_args&quot;</span>
-<span class="n">CONF_SERVER</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;server&quot;</span>
-<span class="n">CONF_SETTINGS</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;settings&quot;</span>
-<span class="n">CONF_DEV_MODE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;develop_mode&quot;</span>
-<span class="n">CONF_TIME_ATTACK</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;time_attack&quot;</span>
-<span class="n">CONF_SUBMIT_LIMIT</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;submit_limit&quot;</span>
-<span class="n">CONF_DB</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;admin_database&quot;</span>
-<span class="n">CONF_DB_TYPE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;db_type&quot;</span>
-<span class="n">CONF_DB_TYPE_MONGODB</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mongodb&quot;</span>
-<span class="n">CONF_MONGODB_ADDR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;address&quot;</span>
-<span class="n">CONF_MONGODB_PORT</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;port&quot;</span>
-<span class="n">CONF_DATASET_STORE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;dataset_store&quot;</span>
-<span class="n">CONF_DATASET_STORE_TYPE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ds_store_type&quot;</span>
-<span class="n">CONF_LRU_DATASET_STORE__MAX_SIZE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;max_memory_usage&quot;</span>
+<div class="viewcode-block" id="ConfigKeys">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.constants.ConfigKeys">[docs]</a>
+<span class="k">class</span> <span class="nc">ConfigKeys</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Keys of the configuration file&quot;&quot;&quot;</span>
+
+    <span class="n">RUNTIME_ARGS</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;runtime_args&quot;</span>
+    <span class="n">SERVER</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;server&quot;</span>
+    <span class="n">SETTINGS</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;settings&quot;</span>
+    <span class="n">DEVELOP_MODE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;develop_mode&quot;</span>
+    <span class="n">TIME_ATTACK</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;time_attack&quot;</span>
+    <span class="n">SUBMIT_LIMIT</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;submit_limit&quot;</span>
+    <span class="n">DB</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;admin_database&quot;</span>
+    <span class="n">DB_TYPE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;db_type&quot;</span>
+    <span class="n">DB_TYPE_MONGODB</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mongodb&quot;</span>
+    <span class="n">MONGODB_ADDR</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;address&quot;</span>
+    <span class="n">MONGODB_PORT</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;port&quot;</span>
+    <span class="n">DATASET_STORE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;dataset_store&quot;</span>
+    <span class="n">DATASET_STORE_TYPE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ds_store_type&quot;</span>
+    <span class="n">LRU_DATASET_STORE_MAX_SIZE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;max_memory_usage&quot;</span></div>
+
 
 
 <div class="viewcode-block" id="AdminDBType">
@@ -125,18 +130,28 @@
 <span class="k">class</span> <span class="nc">AdminDBType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Types of administration databases&quot;&quot;&quot;</span>
 
-    <span class="n">YAML_TYPE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;yaml&quot;</span>
-    <span class="n">MONGODB_TYPE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mongodb&quot;</span></div>
+    <span class="n">YAML</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;yaml&quot;</span>
+    <span class="n">MONGODB</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mongodb&quot;</span></div>
 
 
 
-<div class="viewcode-block" id="ConfDatasetStore">
-<a class="viewcode-back" href="../../lomas_server.html#lomas_server.constants.ConfDatasetStore">[docs]</a>
-<span class="k">class</span> <span class="nc">ConfDatasetStore</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetStoreType">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.constants.DatasetStoreType">[docs]</a>
+<span class="k">class</span> <span class="nc">DatasetStoreType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Types of classes to handle datasets in memory&quot;&quot;&quot;</span>
 
     <span class="n">BASIC</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;basic&quot;</span>
     <span class="n">LRU</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;LRU_cache&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="TimeAttackMethod">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.constants.TimeAttackMethod">[docs]</a>
+<span class="k">class</span> <span class="nc">TimeAttackMethod</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Possible methods against timing attacks&quot;&quot;&quot;</span>
+
+    <span class="n">JITTER</span> <span class="o">=</span> <span class="s2">&quot;jitter&quot;</span>
+    <span class="n">STALL</span> <span class="o">=</span> <span class="s2">&quot;stall&quot;</span></div>
 
 
 
