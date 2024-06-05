@@ -92,12 +92,10 @@
 <span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
 
 <span class="kn">import</span> <span class="nn">boto3</span>
-<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
 <span class="kn">from</span> <span class="nn">pymongo.database</span> <span class="kn">import</span> <span class="n">Database</span>
 <span class="kn">from</span> <span class="nn">pymongo.results</span> <span class="kn">import</span> <span class="n">_WriteResult</span>
-<span class="kn">import</span> <span class="nn">yaml</span>
 
-<span class="kn">from</span> <span class="nn">admin_database.utils</span> <span class="kn">import</span> <span class="n">get_mongodb_url</span>
 <span class="kn">from</span> <span class="nn">admin_database.mongodb_database</span> <span class="kn">import</span> <span class="n">check_result_acknowledged</span>
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">PrivateDatabaseType</span>
 <span class="kn">from</span> <span class="nn">utils.collections_models</span> <span class="kn">import</span> <span class="n">DatasetsCollection</span><span class="p">,</span> <span class="n">UserCollection</span>
@@ -649,8 +647,7 @@
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;datasets_list&quot;</span><span class="p">]</span>
         <span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+    <span class="k">return</span> <span class="p">[]</span></div>
 
 
 
@@ -658,7 +655,7 @@
 <div class="viewcode-block" id="add_dataset">
 <a class="viewcode-back" href="../../../lomas_server.administration.html#lomas_server.administration.mongodb_admin.add_dataset">[docs]</a>
 <span class="nd">@check_dataset_and_metadata_exist</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">add_dataset</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">add_dataset</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-arguments, too-many-locals</span>
     <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span>
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">database_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -775,7 +772,7 @@
 
 <div class="viewcode-block" id="add_datasets_via_yaml">
 <a class="viewcode-back" href="../../../lomas_server.administration.html#lomas_server.administration.mongodb_admin.add_datasets_via_yaml">[docs]</a>
-<span class="k">def</span> <span class="nf">add_datasets_via_yaml</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">add_datasets_via_yaml</span><span class="p">(</span>  <span class="c1"># pylint: disable=R0912, R0914, R0915</span>
     <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span>
     <span class="n">yaml_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">],</span>
     <span class="n">clean</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -958,8 +955,8 @@
         <span class="c1"># Extract metadata for the specified dataset</span>
         <span class="n">metadata_info</span> <span class="o">=</span> <span class="n">metadata_document</span><span class="p">[</span><span class="n">dataset</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">metadata_info</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No metadata found for dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No metadata found for dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 
@@ -1022,440 +1019,6 @@
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">collections</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">collections</span></div>
 
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="c1">########################################################################</span>
-    <span class="c1">########################## MongoDB Connection ############# # noqa: E266</span>
-    <span class="c1">########################################################################</span>
-    <span class="n">connection_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">add_help</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">connection_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-db_u&quot;</span><span class="p">,</span> <span class="s2">&quot;--username&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">)</span>
-    <span class="n">connection_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-db_pwd&quot;</span><span class="p">,</span> <span class="s2">&quot;--password&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;user_pwd&quot;</span><span class="p">)</span>
-    <span class="n">connection_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-db_a&quot;</span><span class="p">,</span> <span class="s2">&quot;--address&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;mongodb&quot;</span><span class="p">)</span>
-    <span class="n">connection_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-db_p&quot;</span><span class="p">,</span> <span class="s2">&quot;--port&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">27017</span><span class="p">)</span>
-    <span class="n">connection_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-db_n&quot;</span><span class="p">,</span> <span class="s2">&quot;--db_name&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;defaultdb&quot;</span><span class="p">)</span>
-
-    <span class="c1">########################################################################</span>
-    <span class="c1">######################## MongoDB Administration ############ # noqa: E266</span>
-    <span class="c1">########################################################################</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;MongoDB administration script for the database&quot;</span>
-    <span class="p">)</span>
-    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;subcommands&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;user database administration operations&quot;</span>
-    <span class="p">)</span>
-
-    <span class="c1">##########################  USERS  ########################## # noqa: E266</span>
-    <span class="c1"># Create the parser for the &quot;add_user&quot; command</span>
-    <span class="n">add_user_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;add_user&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;add user to users collection&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">add_user_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;--user&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">add_user_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">add_user</span><span class="p">)</span>
-
-    <span class="c1"># Create the parser for the &quot;add_user_with_budget&quot; command</span>
-    <span class="n">add_user_wb_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;add_user_with_budget&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;add user with budget to users collection&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">add_user_wb_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;--user&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">add_user_wb_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="s2">&quot;--dataset&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">add_user_wb_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="s2">&quot;--epsilon&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span>
-    <span class="p">)</span>
-    <span class="n">add_user_wb_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-del&quot;</span><span class="p">,</span> <span class="s2">&quot;--delta&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span>
-    <span class="p">)</span>
-    <span class="n">add_user_wb_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">add_user_with_budget</span><span class="p">)</span>
-
-    <span class="c1"># Create the parser for the &quot;del_user&quot; command</span>
-    <span class="n">del_user_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;del_user&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;delete user from users collection&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">del_user_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;--user&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">del_user_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">del_user</span><span class="p">)</span>
-
-    <span class="c1"># Create the parser for the &quot;add_dataset&quot; command</span>
-    <span class="n">add_dataset_to_user_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;add_dataset_to_user&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;add dataset with initialized budget values for a user&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_to_user_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;--user&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_to_user_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="s2">&quot;--dataset&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_to_user_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="s2">&quot;--epsilon&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_to_user_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-del&quot;</span><span class="p">,</span> <span class="s2">&quot;--delta&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_to_user_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">add_dataset_to_user</span><span class="p">)</span>
-
-    <span class="c1"># Create the parser for the &quot;del_dataset&quot; command</span>
-    <span class="n">del_dataset_to_user_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;del_dataset_to_user&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;delete dataset for user in users collection&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">del_dataset_to_user_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;--user&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span>
-    <span class="p">)</span>
-    <span class="n">del_dataset_to_user_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="s2">&quot;--dataset&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span>
-    <span class="p">)</span>
-    <span class="n">del_dataset_to_user_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">del_dataset_to_user</span><span class="p">)</span>
-
-    <span class="c1"># Create the parser for the &quot;set_budget_field&quot; command</span>
-    <span class="n">set_budget_field_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;set_budget_field&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;set budget field to given value for given user and dataset&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">set_budget_field_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;--user&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span>
-    <span class="p">)</span>
-    <span class="n">set_budget_field_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="s2">&quot;--dataset&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span>
-    <span class="p">)</span>
-    <span class="n">set_budget_field_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-f&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--field&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;initial_epsilon&quot;</span><span class="p">,</span> <span class="s2">&quot;initial_delta&quot;</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">set_budget_field_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="s2">&quot;--value&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span>
-    <span class="p">)</span>
-    <span class="n">set_budget_field_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">set_budget_field</span><span class="p">)</span>
-
-    <span class="c1"># Create the parser for the &quot;set_may_query&quot; command</span>
-    <span class="n">set_may_query_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;set_may_query&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;set may query field to given value for given user&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">set_may_query_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;--user&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">set_may_query_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="s2">&quot;--value&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="s2">&quot;True&quot;</span><span class="p">]</span>
-    <span class="p">)</span>
-    <span class="n">set_may_query_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">set_may_query</span><span class="p">)</span>
-
-    <span class="c1"># Show the user</span>
-    <span class="n">show_user_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;show_user&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;show all metadata of user&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">show_user_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;--user&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">show_user_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">show_user</span><span class="p">)</span>
-
-    <span class="c1"># Create the parser for the &quot;create_example_users&quot; command</span>
-    <span class="n">users_collection_from_yaml_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;add_users_via_yaml&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;create users collection from yaml file&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">users_collection_from_yaml_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-c&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--clean&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_const&quot;</span><span class="p">,</span>
-        <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">users_collection_from_yaml_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--overwrite&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_const&quot;</span><span class="p">,</span>
-        <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">users_collection_from_yaml_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-yf&quot;</span><span class="p">,</span> <span class="s2">&quot;--yaml_file&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span>
-    <span class="p">)</span>
-    <span class="n">users_collection_from_yaml_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">add_users_via_yaml</span><span class="p">)</span>
-
-    <span class="c1"># Function: Show Archives of User</span>
-    <span class="n">show_archives_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;show_archives&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;show all previous queries from a user&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">show_archives_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-u&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--user&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;username of the user to show archives&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">show_archives_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">show_archives_of_user</span><span class="p">)</span>
-
-    <span class="c1"># Function: Get List of Users</span>
-    <span class="n">get_users_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;get_users&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;get the list of all users in &#39;users&#39; collection&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">get_users_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">get_list_of_users</span><span class="p">)</span>
-
-    <span class="c1"># Function: Get List of Datasets from User</span>
-    <span class="n">get_user_datasets_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;get_user_datasets&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;get the list of all datasets from a user&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">get_user_datasets_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-u&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--user&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;username of the user to show datasets&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">get_user_datasets_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">get_list_of_datasets_from_user</span><span class="p">)</span>
-
-    <span class="c1">#######################  DATASETS  ####################### # noqa: E266</span>
-    <span class="c1"># Create parser for dataset private database</span>
-    <span class="n">add_dataset_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;add_dataset&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;set in which database the dataset is stored&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="c1"># Dataset location</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="s2">&quot;--dataset_name&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-db&quot;</span><span class="p">,</span> <span class="s2">&quot;--database_type&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-d_path&quot;</span><span class="p">,</span> <span class="s2">&quot;--dataset_path&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-s3b&quot;</span><span class="p">,</span> <span class="s2">&quot;--s3_bucket&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-s3k&quot;</span><span class="p">,</span> <span class="s2">&quot;--s3_key&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-s3_url&quot;</span><span class="p">,</span> <span class="s2">&quot;--endpoint_url&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-s3_ak&quot;</span><span class="p">,</span> <span class="s2">&quot;--aws_access_key_id&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-s3_sak&quot;</span><span class="p">,</span> <span class="s2">&quot;--aws_secret_access_key&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="c1"># Metadata location</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-m_db&quot;</span><span class="p">,</span> <span class="s2">&quot;--metadata_database_type&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-mp&quot;</span><span class="p">,</span> <span class="s2">&quot;--metadata_path&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-m_s3b&quot;</span><span class="p">,</span> <span class="s2">&quot;--metadata_s3_bucket&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-m_s3k&quot;</span><span class="p">,</span> <span class="s2">&quot;--metadata_s3_key&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-m_s3_url&quot;</span><span class="p">,</span> <span class="s2">&quot;--metadata_endpoint_url&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-m_s3_ak&quot;</span><span class="p">,</span> <span class="s2">&quot;--metadata_aws_access_key_id&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-m_s3_sak&quot;</span><span class="p">,</span> <span class="s2">&quot;--metadata_aws_secret_access_key&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="n">add_dataset_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">add_dataset</span><span class="p">)</span>
-
-    <span class="c1"># Create the parser for the &quot;add_datasets_via_yaml&quot; command</span>
-    <span class="n">add_datasets_via_yaml_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;add_datasets_via_yaml&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;create dataset to database type collection&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">add_datasets_via_yaml_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-yf&quot;</span><span class="p">,</span> <span class="s2">&quot;--yaml_file&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span>
-    <span class="p">)</span>
-    <span class="n">add_datasets_via_yaml_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-c&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--clean&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_const&quot;</span><span class="p">,</span>
-        <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">add_datasets_via_yaml_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-od&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--overwrite_datasets&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_const&quot;</span><span class="p">,</span>
-        <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">add_datasets_via_yaml_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-om&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--overwrite_metadata&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_const&quot;</span><span class="p">,</span>
-        <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">add_datasets_via_yaml_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">add_datasets_via_yaml</span><span class="p">)</span>
-
-    <span class="c1"># Create the parser for the &quot;del_dataset&quot; command</span>
-    <span class="n">del_dataset_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;del_dataset&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;delete dataset and metadata from &quot;</span>
-        <span class="s2">&quot;datasets and metadata collection&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">del_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="s2">&quot;--dataset&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">del_dataset_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">del_dataset</span><span class="p">)</span>
-
-    <span class="c1"># Function: Show Dataset</span>
-    <span class="n">show_dataset_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;show_dataset&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;show a dataset from the dataset collection&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">show_dataset_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-d&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--dataset&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name of the dataset to show&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">show_dataset_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">show_dataset</span><span class="p">)</span>
-
-    <span class="c1"># Function: Show Metadata of Dataset</span>
-    <span class="n">show_metadata_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;show_metadata&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;show metadata from the metadata collection&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">show_metadata_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-d&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--dataset&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name of the dataset of the metadata to show&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">show_metadata_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">show_metadata_of_dataset</span><span class="p">)</span>
-
-    <span class="c1"># Function: Get List of Datasets</span>
-    <span class="n">get_datasets_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;get_datasets&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;get the list of all datasets in &#39;datasets&#39; collection&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">get_datasets_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">get_list_of_datasets</span><span class="p">)</span>
-
-    <span class="c1">#######################  COLLECTIONS  ####################### # noqa: E266</span>
-    <span class="c1"># Create the parser for the &quot;drop_collection&quot; command</span>
-    <span class="n">drop_collection_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;drop_collection&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;delete collection from database&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">drop_collection_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-c&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--collection&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="s2">&quot;datasets&quot;</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="s2">&quot;queries_archives&quot;</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">drop_collection_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">drop_collection</span><span class="p">)</span>
-
-    <span class="c1"># Create the parser for the &quot;show_users_collection&quot; command</span>
-    <span class="n">show_collection_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;show_collection&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;print a collection&quot;</span><span class="p">,</span>
-        <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">connection_parser</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">show_collection_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-c&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--collection&quot;</span><span class="p">,</span>
-        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="s2">&quot;datasets&quot;</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="s2">&quot;queries_archives&quot;</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">show_collection_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">show_collection</span><span class="p">)</span>
-
-    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-
-    <span class="c1">#######################  FUNCTION CALL  ###################### # noqa: E266</span>
-    <span class="c1"># Get MongoDB</span>
-    <span class="n">db_url</span> <span class="o">=</span> <span class="n">get_mongodb_url</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-    <span class="n">mongo_db</span><span class="p">:</span> <span class="n">Database</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">db_url</span><span class="p">)[</span><span class="n">args</span><span class="o">.</span><span class="n">db_name</span><span class="p">]</span>
-
-    <span class="n">function_map</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;add_user&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">add_user</span><span class="p">(</span><span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">user</span><span class="p">),</span>
-        <span class="s2">&quot;add_user_with_budget&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">add_user_with_budget</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">delta</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;del_user&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">del_user</span><span class="p">(</span><span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">user</span><span class="p">),</span>
-        <span class="s2">&quot;add_dataset_to_user&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">add_dataset_to_user</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">delta</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;del_dataset_to_user&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">del_dataset_to_user</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;set_budget_field&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">set_budget_field</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">field</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">value</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;set_may_query&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">set_may_query</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">value</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;show_user&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">show_user</span><span class="p">(</span><span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">user</span><span class="p">),</span>
-        <span class="s2">&quot;add_users_via_yaml&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">add_users_via_yaml</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">yaml_file</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">clean</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">overwrite</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;show_archives&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">show_archives_of_user</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">user</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;get_users&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">get_list_of_users</span><span class="p">(</span><span class="n">mongo_db</span><span class="p">),</span>
-        <span class="s2">&quot;get_user_datasets&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">get_list_of_datasets_from_user</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">user</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;add_dataset&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">add_dataset</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">database_type</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">metadata_database_type</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">dataset_path</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">metadata_path</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">s3_bucket</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">s3_key</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">endpoint_url</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">aws_access_key_id</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">metadata_s3_bucket</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">metadata_s3_key</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">metadata_endpoint_url</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">metadata_aws_access_key_id</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">metadata_aws_secret_access_key</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;add_datasets_via_yaml&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">add_datasets_via_yaml</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">yaml_file</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">clean</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">overwrite_datasets</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">overwrite_metadata</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;del_dataset&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">del_dataset</span><span class="p">(</span><span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset</span><span class="p">),</span>
-        <span class="s2">&quot;show_dataset&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">show_dataset</span><span class="p">(</span><span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset</span><span class="p">),</span>
-        <span class="s2">&quot;show_metadata&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">show_metadata_of_dataset</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;get_datasets&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">get_list_of_datasets</span><span class="p">(</span><span class="n">mongo_db</span><span class="p">),</span>
-        <span class="s2">&quot;drop_collection&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">drop_collection</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">collection</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;show_collection&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">show_collection</span><span class="p">(</span>
-            <span class="n">mongo_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">collection</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
-    <span class="n">function_map</span><span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">func</span><span class="p">](</span><span class="n">args</span><span class="p">)</span>
 </pre></div>
 
            </div>

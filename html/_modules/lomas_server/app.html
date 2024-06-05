@@ -95,12 +95,12 @@
 
 <span class="kn">from</span> <span class="nn">admin_database.utils</span> <span class="kn">import</span> <span class="n">database_factory</span>
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">AdminDBType</span><span class="p">,</span>
-    <span class="n">DPLibraries</span><span class="p">,</span>
     <span class="n">CONFIG_NOT_LOADED</span><span class="p">,</span>
     <span class="n">DB_NOT_LOADED</span><span class="p">,</span>
     <span class="n">QUERY_HANDLER_NOT_LOADED</span><span class="p">,</span>
     <span class="n">SERVER_LIVE</span><span class="p">,</span>
+    <span class="n">AdminDBType</span><span class="p">,</span>
+    <span class="n">DPLibraries</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">dataset_store.utils</span> <span class="kn">import</span> <span class="n">dataset_store_factory</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.utils</span> <span class="kn">import</span> <span class="n">querier_factory</span>
@@ -135,13 +135,17 @@
     <span class="n">SNSQLInpCost</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">utils.loggr</span> <span class="kn">import</span> <span class="n">LOG</span>
-<span class="kn">from</span> <span class="nn">utils.utils</span> <span class="kn">import</span> <span class="n">server_live</span><span class="p">,</span> <span class="n">add_demo_data_to_admindb</span><span class="p">,</span> <span class="n">stream_dataframe</span>
+<span class="kn">from</span> <span class="nn">utils.utils</span> <span class="kn">import</span> <span class="n">add_demo_data_to_admindb</span><span class="p">,</span> <span class="n">server_live</span><span class="p">,</span> <span class="n">stream_dataframe</span>
 
 
 <div class="viewcode-block" id="lifespan">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.app.lifespan">[docs]</a>
 <span class="nd">@asynccontextmanager</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">lifespan</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">FastAPI</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncGenerator</span><span class="p">:</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">lifespan</span><span class="p">(</span>
+    <span class="n">app</span><span class="p">:</span> <span class="n">FastAPI</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span>
+    <span class="n">AsyncGenerator</span>
+<span class="p">):</span>  <span class="c1"># pylint: disable=redefined-outer-name, too-many-statements</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Lifespan function for the server.</span>
 
@@ -626,7 +630,7 @@
 <span class="sd">                &quot;ZeroConcentratedDivergence&quot; (e.g. with &quot;make_gaussian&quot;) then it is</span>
 <span class="sd">                converted to &quot;SmoothedMaxDivergence&quot; with &quot;make_zCDP_to_approxDP&quot;</span>
 <span class="sd">                (see &quot;opendp measurements documentation at</span>
-<span class="sd">                https://docs.opendp.org/en/stable/api/python/opendp.combinators.html#opendp.combinators.make_zCDP_to_approxDP). # noqa</span>
+<span class="sd">                https://docs.opendp.org/en/stable/api/python/opendp.combinators.html#opendp.combinators.make_zCDP_to_approxDP). # noqa # pylint: disable=C0301</span>
 <span class="sd">                In that case a &quot;fixed_delta&quot; must be provided by the user.</span>
 
 <span class="sd">            Defaults to Body(example_opendp).</span>
@@ -689,7 +693,7 @@
 <span class="sd">              &quot;ZeroConcentratedDivergence&quot; (e.g. with &quot;make_gaussian&quot;) then</span>
 <span class="sd">              it is converted to &quot;SmoothedMaxDivergence&quot; with</span>
 <span class="sd">              &quot;make_zCDP_to_approxDP&quot; (see opendp measurements documentation at</span>
-<span class="sd">              https://docs.opendp.org/en/stable/api/python/opendp.combinators.html#opendp.combinators.make_zCDP_to_approxDP). # noqa</span>
+<span class="sd">              https://docs.opendp.org/en/stable/api/python/opendp.combinators.html#opendp.combinators.make_zCDP_to_approxDP). # noqa # pylint: disable=C0301</span>
 <span class="sd">              In that case a &quot;fixed_delta&quot; must be provided by the user.</span>
 <span class="sd">            - dummy (bool, optional): Whether to use a dummy dataset</span>
 <span class="sd">              (default: False).</span>

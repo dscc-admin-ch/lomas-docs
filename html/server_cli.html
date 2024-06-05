@@ -275,61 +275,61 @@ line. It provides functionalities for managing users, datasets, metatada and que
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>Add<span class="w"> </span>a<span class="w"> </span>user
-<span class="go">python mongodb_admin.py add_user -u username</span>
+<span class="go">python mongodb_admin_cli.py add_user -u username</span>
 
 <span class="gp"># </span>Add<span class="w"> </span>a<span class="w"> </span>user<span class="w"> </span>with<span class="w"> </span>budget
-<span class="go">python mongodb_admin.py add_user_with_budget -u username -d dataset_name -e 0.5 -del 0.1</span>
+<span class="go">python mongodb_admin_cli.py add_user_with_budget -u username -d dataset_name -e 0.5 -del 0.1</span>
 
 <span class="gp"># </span>Delete<span class="w"> </span>a<span class="w"> </span>user
-<span class="go">python mongodb_admin.py del_user -u username</span>
+<span class="go">python mongodb_admin_cli.py del_user -u username</span>
 
 <span class="gp"># </span>Add<span class="w"> </span>a<span class="w"> </span>dataset<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>user
-<span class="go">python mongodb_admin.py add_dataset_to_user -u username -d dataset_name -e 0.5 -del 0.1</span>
+<span class="go">python mongodb_admin_cli.py add_dataset_to_user -u username -d dataset_name -e 0.5 -del 0.1</span>
 
 <span class="gp"># </span>Delete<span class="w"> </span>a<span class="w"> </span>dataset<span class="w"> </span>from<span class="w"> </span>a<span class="w"> </span>user
-<span class="go">python mongodb_admin.py del_dataset_to_user -u username -d dataset_name</span>
+<span class="go">python mongodb_admin_cli.py del_dataset_to_user -u username -d dataset_name</span>
 
 <span class="gp"># </span>Set<span class="w"> </span>budget<span class="w"> </span>field<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>user<span class="w"> </span>and<span class="w"> </span>dataset
-<span class="go">python mongodb_admin.py set_budget_field -u username -d dataset_name -f initial_epsilon -v 0.5</span>
+<span class="go">python mongodb_admin_cli.py set_budget_field -u username -d dataset_name -f initial_epsilon -v 0.5</span>
 
 <span class="gp"># </span>Set<span class="w"> </span>may<span class="w"> </span>query<span class="w"> </span>field<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>user
-<span class="go">python mongodb_admin.py set_may_query -u username -v True</span>
+<span class="go">python mongodb_admin_cli.py set_may_query -u username -v True</span>
 
 <span class="gp"># </span>Show<span class="w"> </span>user<span class="w"> </span>metadata
-<span class="go">python mongodb_admin.py show_user -u username</span>
+<span class="go">python mongodb_admin_cli.py show_user -u username</span>
 
 <span class="gp"># </span>Create<span class="w"> </span>users<span class="w"> </span>collection<span class="w"> </span>from<span class="w"> </span>a<span class="w"> </span>YAML<span class="w"> </span>file
-<span class="go">python mongodb_admin.py add_users_via_yaml -yf users.yaml -c</span>
+<span class="go">python mongodb_admin_cli.py add_users_via_yaml -yf users.yaml -c</span>
 
 <span class="gp"># </span>Show<span class="w"> </span>all<span class="w"> </span>previous<span class="w"> </span>queries<span class="w"> </span>from<span class="w"> </span>user<span class="w"> </span><span class="s2">&quot;username&quot;</span>
-<span class="go">python mongodb_admin.py show_archives -u username</span>
+<span class="go">python mongodb_admin_cli.py show_archives -u username</span>
 
 <span class="gp"># </span>Get<span class="w"> </span>the<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>all<span class="w"> </span>users
-<span class="go">python mongodb_admin.py get_users</span>
+<span class="go">python mongodb_admin_cli.py get_users</span>
 
 <span class="gp"># </span>Get<span class="w"> </span>the<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>all<span class="w"> </span>datasets<span class="w"> </span>from<span class="w"> </span>user<span class="w"> </span><span class="s2">&quot;username&quot;</span>
-<span class="go">python mongodb_admin.py get_user_datasets -u username</span>
+<span class="go">python mongodb_admin_cli.py get_user_datasets -u username</span>
 
 <span class="gp"># </span>Add<span class="w"> </span>a<span class="w"> </span>dataset
-<span class="go">python mongodb_admin.py add_dataset -d dataset_name -db database_type -d_path dataset_path -m_db metadata_database_type</span>
+<span class="go">python mongodb_admin_cli.py add_dataset -d dataset_name -db database_type -d_path dataset_path -m_db metadata_database_type</span>
 
 <span class="gp"># </span>Create<span class="w"> </span>datasets<span class="w"> </span>from<span class="w"> </span>a<span class="w"> </span>YAML<span class="w"> </span>file
-<span class="go">python mongodb_admin.py add_datasets_via_yaml -yf datasets.yaml -c -od -om</span>
+<span class="go">python mongodb_admin_cli.py add_datasets_via_yaml -yf datasets.yaml -c -od -om</span>
 
 <span class="gp"># </span>Delete<span class="w"> </span>a<span class="w"> </span>dataset
-<span class="go">python mongodb_admin.py del_dataset -d dataset_name</span>
+<span class="go">python mongodb_admin_cli.py del_dataset -d dataset_name</span>
 
 <span class="gp"># </span>Show<span class="w"> </span>dataset<span class="w"> </span><span class="s2">&quot;dataset_name&quot;</span>
-<span class="go">python mongodb_admin.py show_dataset -d dataset_name</span>
+<span class="go">python mongodb_admin_cli.py show_dataset -d dataset_name</span>
 
 <span class="gp"># </span>Show<span class="w"> </span>metadata<span class="w"> </span><span class="k">for</span><span class="w"> </span>dataset<span class="w"> </span><span class="s2">&quot;dataset_name&quot;</span>
-<span class="go">python mongodb_admin.py show_metadata -d dataset_name</span>
+<span class="go">python mongodb_admin_cli.py show_metadata -d dataset_name</span>
 
 <span class="gp"># </span>Drop<span class="w"> </span>a<span class="w"> </span>collection
-<span class="go">python mongodb_admin.py drop_collection -c users</span>
+<span class="go">python mongodb_admin_cli.py drop_collection -c users</span>
 
 <span class="gp"># </span>Show<span class="w"> </span>a<span class="w"> </span>collection
-<span class="go">python mongodb_admin.py show_collection -c datasets</span>
+<span class="go">python mongodb_admin_cli.py show_collection -c datasets</span>
 </pre></div>
 </div>
 <div class="toctree-wrapper compound">

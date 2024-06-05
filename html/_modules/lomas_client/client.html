@@ -107,10 +107,13 @@
 <span class="n">DUMMY_SEED</span> <span class="o">=</span> <span class="mi">42</span>
 
 
-<span class="c1"># Server constants: warning: MUST match those of server</span>
 <div class="viewcode-block" id="DPLibraries">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.DPLibraries">[docs]</a>
 <span class="k">class</span> <span class="nc">DPLibraries</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enum of the DP librairies used in the server</span>
+<span class="sd">    WARNING: MUST match those of lomas_server</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">SMARTNOISE_SQL</span> <span class="o">=</span> <span class="s2">&quot;smartnoise_sql&quot;</span>
     <span class="n">OPENDP</span> <span class="o">=</span> <span class="s2">&quot;opendp&quot;</span></div>
 
@@ -135,6 +138,10 @@
 <div class="viewcode-block" id="Client">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client">[docs]</a>
 <span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Client class to send requests to the server</span>
+<span class="sd">    Handle all serialisation and deserialisation steps</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the Client with the specified URL, user name, and dataset name.</span>
 
@@ -159,7 +166,9 @@
 <span class="sd">            Optional[Dict[str, Union[int, bool, Dict[str, Union[str, int]]]]]:</span>
 <span class="sd">                A dictionary containing dataset metadata.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span><span class="s2">&quot;get_dataset_metadata&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">})</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span>
+            <span class="s2">&quot;get_dataset_metadata&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">}</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
             <span class="n">metadata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -372,12 +381,12 @@
             <span class="c1"># Opendp outputs can be single numbers or dataframes,</span>
             <span class="c1"># we handle the latter here.</span>
             <span class="c1"># This is a hack for now, maybe use parquet to send results over.</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Not implemented: server should not return dataframes&quot;</span><span class="p">)</span>
-                <span class="c1"># Note: leaving this here. Support for opendp_polars</span>
-                <span class="c1"># response_dict[&quot;query_response&quot;] = polars.read_json(</span>
-                <span class="c1">#    StringIO(response_dict[&quot;query_response&quot;])</span>
-                <span class="c1"># )</span>
+            <span class="c1"># if isinstance(response_dict[&quot;query_response&quot;], str):</span>
+            <span class="c1">#     raise Exception(&quot;Not implemented: should not return dataframes&quot;)</span>
+            <span class="c1"># Note: leaving this here. Support for opendp_polars</span>
+            <span class="c1"># response_dict[&quot;query_response&quot;] = polars.read_json(</span>
+            <span class="c1">#    StringIO(response_dict[&quot;query_response&quot;])</span>
+            <span class="c1"># )</span>
 
             <span class="k">return</span> <span class="n">response_dict</span>
 
@@ -501,7 +510,9 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span><span class="s2">&quot;get_previous_queries&quot;</span><span class="p">,</span> <span class="n">body_json</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-            <span class="n">queries</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">]</span>
+            <span class="n">queries</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))[</span>
+                <span class="s2">&quot;previous_queries&quot;</span>
+            <span class="p">]</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">queries</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">queries</span>
