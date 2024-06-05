@@ -339,9 +339,9 @@
 
             <span class="c1"># Expect to fail: query does not make sense</span>
             <span class="n">input_smartnoise</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">)</span>
-            <span class="n">input_smartnoise</span><span class="p">[</span>
-                <span class="s2">&quot;query_str&quot;</span>
-            <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;SELECT AVG(bill) FROM df&quot;</span>  <span class="c1"># no &#39;bill&#39; column</span>
+            <span class="n">input_smartnoise</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;SELECT AVG(bill) FROM df&quot;</span>  <span class="c1"># no &#39;bill&#39; column</span>
+            <span class="p">)</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="s2">&quot;/smartnoise_query&quot;</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="n">input_smartnoise</span><span class="p">,</span>
