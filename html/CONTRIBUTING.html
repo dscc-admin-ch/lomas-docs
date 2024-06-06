@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tips for developers &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="lomas_client package" href="lomas_client.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Lomas
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                develop
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tips for developers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#start-service">Start service</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#on-local-machine">On local machine</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#additional-services">Additional services</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#on-a-kubernetes-cluster">On a kubernetes cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#on-onyxia">On Onyxia</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tests">Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linting-and-other-checks">Linting and other checks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tips for developers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/CONTRIBUTING.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tips-for-developers">
+<h1>Tips for developers<a class="headerlink" href="#tips-for-developers" title="Link to this heading"></a></h1>
+<p>It is recommended to run the project with python 3.11.</p>
+<section id="start-service">
+<h2>Start service<a class="headerlink" href="#start-service" title="Link to this heading"></a></h2>
+<p>The different notebooks in <code class="docutils literal notranslate"><span class="pre">./notebooks</span></code> provide more complete documentation regarding the set up and administration of the server.</p>
+<section id="on-local-machine">
+<h3>On local machine<a class="headerlink" href="#on-local-machine" title="Link to this heading"></a></h3>
+<p>To start the container on a local machine, first create a mondodb volume
+with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">volume</span> <span class="pre">create</span> <span class="pre">mongodata</span></code>, then go to <code class="docutils literal notranslate"><span class="pre">lomas/server/</span></code> and run <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">up</span></code>.
+If you encounter any issue, you might want to run <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">down</span></code> first.</p>
+<section id="additional-services">
+<h4>Additional services<a class="headerlink" href="#additional-services" title="Link to this heading"></a></h4>
+<p>Running <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">up</span></code> will also start two additional services automatically:</p>
+<ul class="simple">
+<li><p>a jupyter notebook environment that will be available at the address http://127.0.0.1:8888/ to interact as a user with the server</p></li>
+<li><p>a streamlit application that will be available at the address http://localhost:8501/ to interact with the server and the administration database as an administrator.</p></li>
+</ul>
+</section>
+</section>
+<section id="on-a-kubernetes-cluster">
+<h3>On a kubernetes cluster<a class="headerlink" href="#on-a-kubernetes-cluster" title="Link to this heading"></a></h3>
+<p>To start the server on a kubernetes cluster, first add the repo with:
+<code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">repo</span> <span class="pre">add</span> <span class="pre">lomas</span> <span class="pre">https://dscc-admin-ch.github.io/helm-charts</span></code>
+and then install the chart with:
+<code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">install</span> <span class="pre">lomas-sever</span> <span class="pre">lomas/lomas-server</span></code></p>
+</section>
+<section id="on-onyxia">
+<h3>On Onyxia<a class="headerlink" href="#on-onyxia" title="Link to this heading"></a></h3>
+<p>To start the server on Onyxia, select the <code class="docutils literal notranslate"><span class="pre">lomas</span> </code>service, (optionnally adapt the administration and runtime parameters) and click on ‘Lancer’.</p>
+</section>
+</section>
+<section id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Link to this heading"></a></h2>
+<p>It is possible to test the server with standard tests or integration tests (for the mongodb).
+The <code class="docutils literal notranslate"><span class="pre">run_integration_tests.sh</span></code> script runs the integration tests, make sure to have an activated python venv in a linux environment with the server requirements installed for it to work.</p>
+<p>Local tests (except for those using the mongodb_admin) can be run with a simple <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">unittest</span> <span class="pre">discover</span> <span class="pre">-s</span> <span class="pre">.</span> </code> from the <code class="docutils literal notranslate"><span class="pre">lomas_server</span></code> directory. The tests will be based on the config in <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server/tests/test_configs/test_config.yaml</span></code> and be executed with the AdminYamlDatabase.
+For local tests on the mongodb_admin, first get in the container with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">exec</span> <span class="pre">-it</span> <span class="pre">lomas_server_dev</span> <span class="pre">bash</span></code> and then run the tests.</p>
+<p>A github workflow is configured to run the integration tests script for pull requests on the develop and master branches.</p>
+</section>
+<section id="linting-and-other-checks">
+<h2>Linting and other checks<a class="headerlink" href="#linting-and-other-checks" title="Link to this heading"></a></h2>
+<p>Here is a list of the checks performed:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- Use black to automatically format the code: `black .`
+- Use flake to verify formating and performing a static code analysis: `flake8 .`
+- Use mypy for static type checking: `mypy .`
+- Use pylint for further static analysis: `pylint --disable=E0401 --disable=C0114 --disable=R0903 --disable=E0611 --disable=W0511 --disable=duplicate-code tests/ .`
+
+    - `--disable=E0401` to ignore import-error
+    - `--disable=C0114` to ignore missing-module-docstring
+    - `--disable=R0903` to ignore too-few-public-methods
+    - `--disable=E0611` to ignore no-name-in-module
+    - `--disable=W0511` to ignore fixme (TODOs)
+    - `--disable=duplicate-code tests/` to ignore duplicate-code statements related to the tests
+</pre></div>
+</div>
+<p>We rely on a github workflow to automatically run the checks on pull requests.</p>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h2>
+<p>Documentation is automatically generated from the code docstrings with sphinx, as well as the resulting html pages.
+The process goes in two steps
+- <code class="docutils literal notranslate"><span class="pre">sphinx-apidoc</span> <span class="pre">-o</span> <span class="pre">./docs/source</span> <span class="pre">./lomas_server</span></code> for generating the .rst files.
+- <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> from the <code class="docutils literal notranslate"><span class="pre">./docs</span></code> folder to generate the webpages.</p>
+<p>We do not check the documentation files into the repo, but rather rely on a github workflow to generate and publish it
+on a dedicated repo’s github pages for easy access from the web.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lomas_client.html" class="btn btn-neutral float-left" title="lomas_client package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">latest</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//master/en/index.html">master</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//develop/en/index.html">develop</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

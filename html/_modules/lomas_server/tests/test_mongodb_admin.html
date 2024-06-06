@@ -35,6 +35,9 @@
             Lomas
               <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                develop
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -48,17 +51,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../client_quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../client_examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../client_errors.html">Errors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../client_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Server</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../server_administration.html">Administration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../server_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Tips for developers</a></li>
 </ul>
 
         </div>
@@ -89,7 +94,6 @@
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 
 <span class="kn">import</span> <span class="nn">yaml</span>
 <span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
@@ -106,16 +110,8 @@
     <span class="n">del_dataset_to_user</span><span class="p">,</span>
     <span class="n">del_user</span><span class="p">,</span>
     <span class="n">drop_collection</span><span class="p">,</span>
-    <span class="n">get_list_of_datasets</span><span class="p">,</span>
-    <span class="n">get_list_of_datasets_from_user</span><span class="p">,</span>
-    <span class="n">get_list_of_users</span><span class="p">,</span>
     <span class="n">set_budget_field</span><span class="p">,</span>
     <span class="n">set_may_query</span><span class="p">,</span>
-    <span class="n">show_archives_of_user</span><span class="p">,</span>
-    <span class="n">show_collection</span><span class="p">,</span>
-    <span class="n">show_dataset</span><span class="p">,</span>
-    <span class="n">show_metadata_of_dataset</span><span class="p">,</span>
-    <span class="n">show_user</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">PrivateDatabaseType</span>
 <span class="kn">from</span> <span class="nn">tests.constants</span> <span class="kn">import</span> <span class="n">ENV_MONGO_INTEGRATION</span>
@@ -130,7 +126,7 @@
     <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Not an MongoDB integration test: </span><span class="si">{</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="si">}</span>
 <span class="s2">        environment variable not set to True.&quot;&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="k">class</span> <span class="nc">TestMongoDBAdmin</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>  <span class="c1"># pylint: disable=R0904</span>
+<span class="k">class</span> <span class="nc">TestMongoDBAdmin</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tests for the functions in mongodb_admin.py.</span>
 
@@ -412,35 +408,6 @@
             <span class="n">set_may_query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="TestMongoDBAdmin.test_show_user">
-<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_user">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_show_user</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test show user&quot;&quot;&quot;</span>
-        <span class="n">user</span> <span class="o">=</span> <span class="s2">&quot;Milou&quot;</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="s2">&quot;os&quot;</span>
-        <span class="n">epsilon</span> <span class="o">=</span> <span class="mi">20</span>
-        <span class="n">delta</span> <span class="o">=</span> <span class="mf">0.005</span>
-        <span class="n">add_user_with_budget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
-        <span class="n">user_found</span> <span class="o">=</span> <span class="n">show_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Milou&quot;</span><span class="p">)</span>
-        <span class="n">expected_user</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
-            <span class="s2">&quot;may_query&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;datasets_list&quot;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="p">{</span>
-                    <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">,</span>
-                    <span class="s2">&quot;initial_epsilon&quot;</span><span class="p">:</span> <span class="n">epsilon</span><span class="p">,</span>
-                    <span class="s2">&quot;initial_delta&quot;</span><span class="p">:</span> <span class="n">delta</span><span class="p">,</span>
-                    <span class="s2">&quot;total_spent_epsilon&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
-                    <span class="s2">&quot;total_spent_delta&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
-                <span class="p">}</span>
-            <span class="p">],</span>
-        <span class="p">}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">user_found</span><span class="p">,</span> <span class="n">expected_user</span><span class="p">)</span>
-
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-            <span class="n">user_found</span> <span class="o">=</span> <span class="n">show_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Bianca Castafiore&quot;</span><span class="p">)</span></div>
-
-
 <div class="viewcode-block" id="TestMongoDBAdmin.test_add_users_via_yaml">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_users_via_yaml">[docs]</a>
     <span class="k">def</span> <span class="nf">test_add_users_via_yaml</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -529,100 +496,6 @@
         <span class="c1"># Overwrite to false and existing users should warn</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertWarns</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">):</span>
             <span class="n">add_users_via_yaml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="TestMongoDBAdmin.test_show_archives_of_user">
-<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_archives_of_user">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_show_archives_of_user</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test show archives of user&quot;&quot;&quot;</span>
-        <span class="n">add_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Milou&quot;</span><span class="p">)</span>
-        <span class="n">add_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Tintin&quot;</span><span class="p">)</span>
-
-        <span class="c1"># User exist but empty</span>
-        <span class="n">archives_found</span> <span class="o">=</span> <span class="n">show_archives_of_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Milou&quot;</span><span class="p">)</span>
-        <span class="n">expected_archives</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">archives_found</span><span class="p">,</span> <span class="n">expected_archives</span><span class="p">)</span>
-
-        <span class="c1"># User does not exist</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-            <span class="n">archives_found</span> <span class="o">=</span> <span class="n">show_archives_of_user</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Bianca Castafiore&quot;</span>
-            <span class="p">)</span>
-
-        <span class="c1"># Add archives for Tintin and Dr. Antartica</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;./tests/test_data/test_archives_collection.yaml&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">archives</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">queries_archives</span><span class="o">.</span><span class="n">insert_many</span><span class="p">(</span><span class="n">archives</span><span class="p">)</span>
-
-        <span class="c1"># Milou still empty</span>
-        <span class="n">archives_found</span> <span class="o">=</span> <span class="n">show_archives_of_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Milou&quot;</span><span class="p">)</span>
-        <span class="n">expected_archives</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">archives_found</span><span class="p">,</span> <span class="n">expected_archives</span><span class="p">)</span>
-
-        <span class="c1"># Tintin has archives</span>
-        <span class="n">archives_found</span> <span class="o">=</span> <span class="n">show_archives_of_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Tintin&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">expected_archives</span> <span class="o">=</span> <span class="n">archives</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-        <span class="n">archives_found</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_id&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected_archives</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">expected_archives</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_id&quot;</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">archives_found</span><span class="p">,</span> <span class="n">expected_archives</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="TestMongoDBAdmin.test_get_list_of_users">
-<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_users">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_get_list_of_users</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test get list of users&quot;&quot;&quot;</span>
-        <span class="n">users_list</span> <span class="o">=</span> <span class="n">get_list_of_users</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">users_list</span><span class="p">,</span> <span class="p">[])</span>
-
-        <span class="n">dataset</span> <span class="o">=</span> <span class="s2">&quot;Bijoux de la Castafiore&quot;</span>
-        <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.1</span>
-        <span class="n">delta</span> <span class="o">=</span> <span class="mf">0.0001</span>
-        <span class="n">add_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Bianca Castafiore&quot;</span><span class="p">)</span>
-        <span class="n">add_user_with_budget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Tintin&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
-        <span class="n">add_user_with_budget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Milou&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
-        <span class="n">users_list</span> <span class="o">=</span> <span class="n">get_list_of_users</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">users_list</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Bianca Castafiore&quot;</span><span class="p">,</span> <span class="s2">&quot;Tintin&quot;</span><span class="p">,</span> <span class="s2">&quot;Milou&quot;</span><span class="p">])</span></div>
-
-
-<div class="viewcode-block" id="TestMongoDBAdmin.test_get_list_of_datasets_from_users">
-<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_datasets_from_users">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_get_list_of_datasets_from_users</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test get list of datasets from users&quot;&quot;&quot;</span>
-        <span class="n">user</span> <span class="o">=</span> <span class="s2">&quot;Bianca Castafiore&quot;</span>
-        <span class="n">add_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
-
-        <span class="n">users_list</span> <span class="o">=</span> <span class="n">get_list_of_datasets_from_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">users_list</span><span class="p">,</span> <span class="p">[])</span>
-
-        <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.1</span>
-        <span class="n">delta</span> <span class="o">=</span> <span class="mf">0.0001</span>
-        <span class="n">add_dataset_to_user</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="s2">&quot;Bijoux de la Castafiore&quot;</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span>
-        <span class="p">)</span>
-        <span class="n">add_dataset_to_user</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="s2">&quot;Le Sceptre d&#39;Ottokar&quot;</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span>
-        <span class="p">)</span>
-        <span class="n">add_dataset_to_user</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="s2">&quot;Les Sept Boules de cristal&quot;</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span>
-        <span class="p">)</span>
-        <span class="n">add_user_with_budget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Milou&quot;</span><span class="p">,</span> <span class="s2">&quot;os&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
-
-        <span class="n">dataset_list</span> <span class="o">=</span> <span class="n">get_list_of_datasets_from_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
-            <span class="n">dataset_list</span><span class="p">,</span>
-            <span class="p">[</span>
-                <span class="s2">&quot;Bijoux de la Castafiore&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Le Sceptre d&#39;Ottokar&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Les Sept Boules de cristal&quot;</span><span class="p">,</span>
-            <span class="p">],</span>
-        <span class="p">)</span>
-
-        <span class="n">dataset_list</span> <span class="o">=</span> <span class="n">get_list_of_datasets_from_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;Milou&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">dataset_list</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;os&quot;</span><span class="p">])</span></div>
 
 
 <div class="viewcode-block" id="TestMongoDBAdmin.test_add_local_dataset">
@@ -787,86 +660,6 @@
             <span class="n">del_dataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="TestMongoDBAdmin.test_show_dataset">
-<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_dataset">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_show_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test show dataset&quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-            <span class="n">dataset_found</span> <span class="o">=</span> <span class="n">show_dataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;PENGUIN&quot;</span><span class="p">)</span>
-
-        <span class="n">dataset</span> <span class="o">=</span> <span class="s2">&quot;PENGUIN&quot;</span>
-        <span class="n">database_type</span> <span class="o">=</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span>
-        <span class="n">dataset_path</span> <span class="o">=</span> <span class="s2">&quot;some_path&quot;</span>
-        <span class="n">metadata_database_type</span> <span class="o">=</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span>
-        <span class="n">metadata_path</span> <span class="o">=</span> <span class="s2">&quot;./tests/test_data/metadata/penguin_metadata.yaml&quot;</span>
-
-        <span class="n">add_dataset</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
-            <span class="n">dataset</span><span class="p">,</span>
-            <span class="n">database_type</span><span class="p">,</span>
-            <span class="n">metadata_database_type</span><span class="p">,</span>
-            <span class="n">dataset_path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span>
-            <span class="n">metadata_path</span><span class="o">=</span><span class="n">metadata_path</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">dataset_found</span> <span class="o">=</span> <span class="n">show_dataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;PENGUIN&quot;</span><span class="p">)</span>
-        <span class="n">expected_dataset</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">,</span>
-            <span class="s2">&quot;database_type&quot;</span><span class="p">:</span> <span class="n">database_type</span><span class="p">,</span>
-            <span class="s2">&quot;dataset_path&quot;</span><span class="p">:</span> <span class="n">dataset_path</span><span class="p">,</span>
-            <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;database_type&quot;</span><span class="p">:</span> <span class="n">metadata_database_type</span><span class="p">,</span>
-                <span class="s2">&quot;metadata_path&quot;</span><span class="p">:</span> <span class="n">metadata_path</span><span class="p">,</span>
-            <span class="p">},</span>
-        <span class="p">}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">dataset_found</span><span class="p">,</span> <span class="n">expected_dataset</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="TestMongoDBAdmin.test_show_metadata_of_dataset">
-<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_metadata_of_dataset">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_show_metadata_of_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test show metadata_dataset&quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-            <span class="n">metadata_found</span> <span class="o">=</span> <span class="n">show_metadata_of_dataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;PENGUIN&quot;</span><span class="p">)</span>
-
-        <span class="n">dataset</span> <span class="o">=</span> <span class="s2">&quot;PENGUIN&quot;</span>
-        <span class="n">database_type</span> <span class="o">=</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span>
-        <span class="n">dataset_path</span> <span class="o">=</span> <span class="s2">&quot;some_path&quot;</span>
-        <span class="n">metadata_database_type</span> <span class="o">=</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span>
-        <span class="n">metadata_path</span> <span class="o">=</span> <span class="s2">&quot;./tests/test_data/metadata/penguin_metadata.yaml&quot;</span>
-
-        <span class="n">add_dataset</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
-            <span class="n">dataset</span><span class="p">,</span>
-            <span class="n">database_type</span><span class="p">,</span>
-            <span class="n">metadata_database_type</span><span class="p">,</span>
-            <span class="n">dataset_path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span>
-            <span class="n">metadata_path</span><span class="o">=</span><span class="n">metadata_path</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">metadata_found</span> <span class="o">=</span> <span class="n">show_metadata_of_dataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;PENGUIN&quot;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">metadata_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">expected_metadata</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">metadata_found</span><span class="p">,</span> <span class="n">expected_metadata</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="TestMongoDBAdmin.test_get_list_of_datasets">
-<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_datasets">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_get_list_of_datasets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test get list of datasets&quot;&quot;&quot;</span>
-        <span class="n">list_datasets</span> <span class="o">=</span> <span class="n">get_list_of_datasets</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">list_datasets</span><span class="p">,</span> <span class="p">[])</span>
-
-        <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;./tests/test_data/test_datasets.yaml&quot;</span>
-        <span class="n">clean</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">overwrite_datasets</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">overwrite_metadata</span> <span class="o">=</span> <span class="kc">False</span>
-
-        <span class="n">add_datasets_via_yaml</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">clean</span><span class="p">,</span> <span class="n">overwrite_datasets</span><span class="p">,</span> <span class="n">overwrite_metadata</span>
-        <span class="p">)</span>
-        <span class="n">list_datasets</span> <span class="o">=</span> <span class="n">get_list_of_datasets</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">list_datasets</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;PENGUIN&quot;</span><span class="p">,</span> <span class="s2">&quot;IRIS&quot;</span><span class="p">])</span></div>
-
-
 <div class="viewcode-block" id="TestMongoDBAdmin.test_drop_collection">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_drop_collection">[docs]</a>
     <span class="k">def</span> <span class="nf">test_drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -893,28 +686,6 @@
 
         <span class="n">nb_datasets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">count_documents</span><span class="p">({})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">nb_datasets</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="TestMongoDBAdmin.test_show_collection">
-<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_collection">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_show_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test show collection from db&quot;&quot;&quot;</span>
-        <span class="n">dataset_collection</span> <span class="o">=</span> <span class="n">show_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;datasets&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">dataset_collection</span><span class="p">,</span> <span class="p">[])</span>
-
-        <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;./tests/test_data/test_datasets.yaml&quot;</span>
-        <span class="n">clean</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">overwrite_datasets</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">overwrite_metadata</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">add_datasets_via_yaml</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">clean</span><span class="p">,</span> <span class="n">overwrite_datasets</span><span class="p">,</span> <span class="n">overwrite_metadata</span>
-        <span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">expected_dataset_collection</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="n">dataset_collection</span> <span class="o">=</span> <span class="n">show_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;datasets&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
-            <span class="n">expected_dataset_collection</span><span class="p">[</span><span class="s2">&quot;datasets&quot;</span><span class="p">],</span> <span class="n">dataset_collection</span>
-        <span class="p">)</span></div>
 </div>
 
 </pre></div>
@@ -939,7 +710,36 @@
       </div>
     </section>
   </div>
-  <script>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">latest</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//master/en/index.html">master</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//develop/en/index.html">develop</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

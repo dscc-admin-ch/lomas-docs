@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lomas_server.mongodb_admin &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Lomas
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                develop
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Tips for developers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lomas_server.mongodb_admin</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lomas_server.mongodb_admin</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">from</span> <span class="nn">pymongo.database</span> <span class="kn">import</span> <span class="n">Database</span>
+<span class="kn">from</span> <span class="nn">pymongo.results</span> <span class="kn">import</span> <span class="n">_WriteResult</span>
+
+<span class="kn">from</span> <span class="nn">admin_database.mongodb_database</span> <span class="kn">import</span> <span class="n">check_result_acknowledged</span>
+<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">PrivateDatabaseType</span>
+<span class="kn">from</span> <span class="nn">utils.collections_models</span> <span class="kn">import</span> <span class="n">DatasetsCollection</span><span class="p">,</span> <span class="n">UserCollection</span>
+<span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
+<span class="kn">from</span> <span class="nn">utils.loggr</span> <span class="kn">import</span> <span class="n">LOG</span>
+
+
+<div class="viewcode-block" id="check_user_exists">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.check_user_exists">[docs]</a>
+<span class="k">def</span> <span class="nf">check_user_exists</span><span class="p">(</span><span class="n">enforce_true</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a wrapper function that raises a ValueError if the supplied</span>
+<span class="sd">    user does (not) exist in the user collection depending on the</span>
+<span class="sd">    enforce_true parameter.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        enforce_true (bool): If set to True, the wrapper will enforce</span>
+<span class="sd">            the user is already in the database. If set to False, it</span>
+<span class="sd">            will enforce the user is NOT in the database.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Callable: The wrapper function that enforces user presence</span>
+<span class="sd">            (or absence) before calling the suplied function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">inner_func</span><span class="p">(</span>
+        <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Database</span><span class="p">,</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper_decorator</span><span class="p">(</span>
+            <span class="o">*</span><span class="n">arguments</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">db</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="n">user_count</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">count_documents</span><span class="p">({</span><span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">})</span>
+
+            <span class="k">if</span> <span class="n">enforce_true</span> <span class="ow">and</span> <span class="n">user_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2"> does not exist in user collection&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">enforce_true</span> <span class="ow">and</span> <span class="n">user_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2"> already exists in user collection&quot;</span>
+                <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">arguments</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+
+        <span class="k">return</span> <span class="n">wrapper_decorator</span>
+
+    <span class="k">return</span> <span class="n">inner_func</span></div>
+
+
+
+<div class="viewcode-block" id="check_user_has_dataset">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.check_user_has_dataset">[docs]</a>
+<span class="k">def</span> <span class="nf">check_user_has_dataset</span><span class="p">(</span><span class="n">enforce_true</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a wrapper function that raises a ValueError if the supplied</span>
+<span class="sd">    user has access (or not) to the supplied dataset depending on the</span>
+<span class="sd">    enforce_true parameter.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        enforce_true (bool): If set to true, the wrapper function will</span>
+<span class="sd">            enforce the user has access to the dataset. If set to False,</span>
+<span class="sd">            the wrapper function will enforce the user has NOT access</span>
+<span class="sd">            to the specified dataset.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Callable: The wrapper function that asserts user access (or not)</span>
+<span class="sd">            to the provided dataset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">inner_func</span><span class="p">(</span>
+        <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Database</span><span class="p">,</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper_decorator</span><span class="p">(</span>
+            <span class="o">*</span><span class="n">arguments</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">db</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="n">user_and_ds_count</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">count_documents</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+                    <span class="s2">&quot;datasets_list&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$elemMatch&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">}},</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">enforce_true</span> <span class="ow">and</span> <span class="n">user_and_ds_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2"> does not have dataset </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">enforce_true</span> <span class="ow">and</span> <span class="n">user_and_ds_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2"> already has dataset </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">arguments</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+
+        <span class="k">return</span> <span class="n">wrapper_decorator</span>
+
+    <span class="k">return</span> <span class="n">inner_func</span></div>
+
+
+
+<div class="viewcode-block" id="check_dataset_and_metadata_exist">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.check_dataset_and_metadata_exist">[docs]</a>
+<span class="k">def</span> <span class="nf">check_dataset_and_metadata_exist</span><span class="p">(</span><span class="n">enforce_true</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a wrapper function that raises a ValueError</span>
+<span class="sd">    if the supplied user does not already exist in the user collection.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">inner_func</span><span class="p">(</span>
+        <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Database</span><span class="p">,</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper_decorator</span><span class="p">(</span>
+            <span class="o">*</span><span class="n">arguments</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">db</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="n">dataset_count</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">count_documents</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">}</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">enforce_true</span> <span class="ow">and</span> <span class="n">dataset_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2"> does not exist in dataset collection&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">enforce_true</span> <span class="ow">and</span> <span class="n">dataset_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2"> already exists in dataset collection&quot;</span>
+                <span class="p">)</span>
+
+            <span class="n">metadata_count</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">count_documents</span><span class="p">(</span>
+                <span class="p">{</span><span class="n">dataset</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$exists&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}}</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">enforce_true</span> <span class="ow">and</span> <span class="n">metadata_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Metadata for dataset </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2"> does&quot;</span>
+                    <span class="s2">&quot; not exist in metadata collection&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">enforce_true</span> <span class="ow">and</span> <span class="n">metadata_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Metadata for dataset </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2"> already&quot;</span>
+                    <span class="s2">&quot; exists in metadata collection&quot;</span>
+                <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">arguments</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+
+        <span class="k">return</span> <span class="n">wrapper_decorator</span>
+
+    <span class="k">return</span> <span class="n">inner_func</span></div>
+
+
+
+<span class="c1">##########################  USERS  ########################## # noqa: E266</span>
+<div class="viewcode-block" id="add_user">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.add_user">[docs]</a>
+<span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add new user in users collection with initial values for all fields</span>
+<span class="sd">    set by default.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        user (str): username to be added</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the user already exists.</span>
+<span class="sd">        WriteConcernError: If the result is not acknowledged.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+            <span class="s2">&quot;may_query&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;datasets_list&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added user </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="add_user_with_budget">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.add_user_with_budget">[docs]</a>
+<span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">add_user_with_budget</span><span class="p">(</span>
+    <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add new user in users collection with initial values</span>
+<span class="sd">    for all fields set by default.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        user (str): username to be added</span>
+<span class="sd">        dataset (str): name of the dataset to add to user</span>
+<span class="sd">        epsilon (float): epsilon value for initial budget of user</span>
+<span class="sd">        delta (float): delta value for initial budget of user</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+            <span class="s2">&quot;may_query&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;datasets_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">,</span>
+                    <span class="s2">&quot;initial_epsilon&quot;</span><span class="p">:</span> <span class="n">epsilon</span><span class="p">,</span>
+                    <span class="s2">&quot;initial_delta&quot;</span><span class="p">:</span> <span class="n">delta</span><span class="p">,</span>
+                    <span class="s2">&quot;total_spent_epsilon&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s2">&quot;total_spent_delta&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Added access to user </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2"> with dataset </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">, &quot;</span>
+        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;budget epsilon </span><span class="si">{</span><span class="n">epsilon</span><span class="si">}</span><span class="s2"> and delta </span><span class="si">{</span><span class="n">delta</span><span class="si">}</span><span class="s2">.&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="del_user">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.del_user">[docs]</a>
+<span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">del_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete all related information for user from the users collection.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        user (str): username to be deleted</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">delete_many</span><span class="p">({</span><span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">})</span>
+    <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deleted user </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="add_dataset_to_user">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.add_dataset_to_user">[docs]</a>
+<span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@check_user_has_dataset</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">add_dataset_to_user</span><span class="p">(</span>
+    <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add dataset with initialized budget values to list of datasets</span>
+<span class="sd">    that the user has access to.</span>
+<span class="sd">    Will not add if already added (no error will be raised in that case).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        user (str): username of the user to check</span>
+<span class="sd">        dataset (str): name of the dataset to add to user</span>
+<span class="sd">        epsilon (float): epsilon value for initial budget of user</span>
+<span class="sd">        delta (float): delta value for initial budget of user</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+            <span class="s2">&quot;datasets_list.dataset_name&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$ne&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">},</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;$push&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;datasets_list&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">,</span>
+                    <span class="s2">&quot;initial_epsilon&quot;</span><span class="p">:</span> <span class="n">epsilon</span><span class="p">,</span>
+                    <span class="s2">&quot;initial_delta&quot;</span><span class="p">:</span> <span class="n">delta</span><span class="p">,</span>
+                    <span class="s2">&quot;total_spent_epsilon&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="s2">&quot;total_spent_delta&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Added access to dataset </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot; to user </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot; with budget epsilon </span><span class="si">{</span><span class="n">epsilon</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot; and delta </span><span class="si">{</span><span class="n">delta</span><span class="si">}</span><span class="s2">.&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="del_dataset_to_user">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.del_dataset_to_user">[docs]</a>
+<span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@check_user_has_dataset</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">del_dataset_to_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove if exists the dataset (and all related budget info)</span>
+<span class="sd">    from list of datasets that user has access to.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        user (str): username of the user to which to delete a dataset</span>
+<span class="sd">        dataset (str): name of the dataset to remove from user</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;$pull&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;datasets_list&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$eq&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">}}}},</span>
+    <span class="p">)</span>
+
+    <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Remove access to dataset </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; from user </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="set_budget_field">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.set_budget_field">[docs]</a>
+<span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@check_user_has_dataset</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">set_budget_field</span><span class="p">(</span>
+    <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set (for some reason) a budget field to a given value</span>
+<span class="sd">    if given user exists and has access to given dataset.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        user (str): username of the user to set budget to</span>
+<span class="sd">        dataset (str): name of the dataset to set budget to</span>
+<span class="sd">        field (str): one of &#39;epsilon&#39; or &#39;delta&#39;</span>
+<span class="sd">        value (float): value to set as epsilon or delta</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+            <span class="s2">&quot;datasets_list.dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;datasets_list.$.</span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">value</span><span class="p">}},</span>
+    <span class="p">)</span>
+
+    <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Set budget of </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2"> for dataset </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot; of </span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">.&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="set_may_query">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.set_may_query">[docs]</a>
+<span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">set_may_query</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set (for some reason) the &#39;may query&#39; field to a given value</span>
+<span class="sd">    if given user exists.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        user (str): username of the user to enable/disable</span>
+<span class="sd">        value (bool): may query value (True or False)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;may_query&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;True&quot;</span><span class="p">)}},</span>
+    <span class="p">)</span>
+
+    <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Set user </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2"> may query to </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="show_user">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.show_user">[docs]</a>
+<span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">show_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Show a user</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        user (str): username of the user to show</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        user (dict): all information of user from &#39;users&#39; collection</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">user_info</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">}))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">user_info</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">user_info</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">user_info</span></div>
+
+
+
+<div class="viewcode-block" id="add_users_via_yaml">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.add_users_via_yaml">[docs]</a>
+<span class="k">def</span> <span class="nf">add_users_via_yaml</span><span class="p">(</span>
+    <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span>
+    <span class="n">yaml_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">],</span>
+    <span class="n">clean</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add all users from yaml file to the user collection</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        yaml_file (Union[str, Dict]):</span>
+<span class="sd">            if str: a path to the YAML file location</span>
+<span class="sd">            if Dict: a dictionnary containing the collection data</span>
+<span class="sd">        clean (bool): boolean flag</span>
+<span class="sd">            True if drop current user collection</span>
+<span class="sd">            False if keep current user collection</span>
+<span class="sd">        overwrite (bool): boolean flag</span>
+<span class="sd">            True if overwrite already existing users</span>
+<span class="sd">            False errors if new values for already existing users</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">clean</span><span class="p">:</span>
+        <span class="c1"># Collection created from scratch</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cleaning done. </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Load yaml data and insert it</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">yaml_file</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">user_dict</span> <span class="o">=</span> <span class="n">UserCollection</span><span class="p">(</span><span class="o">**</span><span class="n">yaml_file</span><span class="p">)</span>
+
+    <span class="c1"># Filter out duplicates</span>
+    <span class="n">new_users</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">existing_users</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">user_dict</span><span class="o">.</span><span class="n">users</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">user_name</span><span class="p">}):</span>
+            <span class="n">new_users</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">existing_users</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="c1"># Overwrite values for existing user with values from yaml</span>
+    <span class="k">if</span> <span class="n">existing_users</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">existing_users</span><span class="p">:</span>
+                <span class="n">user_filter</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">user_name</span><span class="p">}</span>
+                <span class="n">update_operation</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">dict</span><span class="p">()}</span>
+                <span class="n">res</span><span class="p">:</span> <span class="n">_WriteResult</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">update_many</span><span class="p">(</span>
+                    <span class="n">user_filter</span><span class="p">,</span> <span class="n">update_operation</span>
+                <span class="p">)</span>
+                <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Existing users updated. &quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Some users already present in database.&quot;</span>
+                <span class="s2">&quot;Overwrite is set to False.&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">new_users</span><span class="p">:</span>
+        <span class="c1"># Insert new users</span>
+        <span class="n">new_users_dicts</span> <span class="o">=</span> <span class="p">[</span><span class="n">user</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">new_users</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">insert_many</span><span class="p">(</span><span class="n">new_users_dicts</span><span class="p">)</span>
+        <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Added user data from yaml.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No new users added, they already exist in the server&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="show_archives_of_user">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.show_archives_of_user">[docs]</a>
+<span class="k">def</span> <span class="nf">show_archives_of_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>  <span class="c1"># TODO  test</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Show all previous queries from a user</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        user (str): username of the user to show archives</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        archives (List): list of previous queries from the user</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">archives_infos</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">queries_archives</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">})</span>
+    <span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">archives_infos</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">archives_infos</span></div>
+
+
+
+<div class="viewcode-block" id="get_list_of_users">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.get_list_of_users">[docs]</a>
+<span class="k">def</span> <span class="nf">get_list_of_users</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>  <span class="c1"># TODO  test</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the list of all users is &#39;users&#39; collection</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        user_names (list): list of names of all users</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">user_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">find</span><span class="p">():</span>
+        <span class="n">user_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">[</span><span class="s2">&quot;user_name&quot;</span><span class="p">])</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">user_names</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">user_names</span></div>
+
+
+
+<div class="viewcode-block" id="get_list_of_datasets_from_user">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.get_list_of_datasets_from_user">[docs]</a>
+<span class="k">def</span> <span class="nf">get_list_of_datasets_from_user</span><span class="p">(</span>
+    <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>  <span class="c1"># TODO  test</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the list of all datasets from the user</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        user (str): username of the user to show archives</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        user_datasets (list): list of names of all users</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">user_data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">user_data</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;datasets_list&quot;</span><span class="p">]]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;datasets_list&quot;</span><span class="p">]</span>
+        <span class="p">]</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">([])</span>
+    <span class="k">return</span> <span class="p">[]</span></div>
+
+
+
+<span class="c1">###################  DATASET TO DATABASE  ################### # noqa: E266</span>
+<div class="viewcode-block" id="add_dataset">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.add_dataset">[docs]</a>
+<span class="nd">@check_dataset_and_metadata_exist</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">add_dataset</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-arguments, too-many-locals</span>
+    <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span>
+    <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">database_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">metadata_database_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">dataset_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">metadata_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">s3_bucket</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">s3_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">endpoint_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">aws_access_key_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">aws_secret_access_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">metadata_s3_bucket</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">metadata_s3_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">metadata_endpoint_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">metadata_aws_access_key_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">metadata_aws_secret_access_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a database type to a dataset in dataset collection.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        dataset_name (str): Dataset name</span>
+<span class="sd">        database_type (str): Type of the database</span>
+<span class="sd">        metadata_database_type (str): Metadata database type</span>
+
+<span class="sd">        dataset_path (str): Path to the dataset (for local db type)</span>
+<span class="sd">        metadata_path (str): Path to metadata (for local db type)</span>
+
+<span class="sd">        s3_bucket (str): S3 bucket name</span>
+<span class="sd">        s3_key (str): S3 key</span>
+<span class="sd">        endpoint_url (str): S3 endpoint URL</span>
+<span class="sd">        aws_access_key_id (str): AWS access key ID</span>
+<span class="sd">        aws_secret_access_key (str): AWS secret access key</span>
+<span class="sd">        metadata_s3_bucket (str): Metadata S3 bucket name</span>
+<span class="sd">        metadata_s3_key (str): Metadata S3 key</span>
+<span class="sd">        metadata_endpoint_url (str): Metadata S3 endpoint URL</span>
+<span class="sd">        metadata_aws_access_key_id (str): Metadata AWS access key ID</span>
+<span class="sd">        metadata_aws_secret_access_key (str): Metadata AWS secret access key</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the dataset already exists</span>
+<span class="sd">                    or if the database type is unknown.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">count_documents</span><span class="p">({</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset_name</span><span class="p">})</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot add database because already set. &quot;</span><span class="p">)</span>
+
+    <span class="c1"># Step 1: Build dataset</span>
+    <span class="n">dataset</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset_name</span><span class="p">,</span>
+        <span class="s2">&quot;database_type&quot;</span><span class="p">:</span> <span class="n">database_type</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">database_type</span> <span class="o">==</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">:</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;dataset_path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_path</span>
+    <span class="k">elif</span> <span class="n">database_type</span> <span class="o">==</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">:</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;s3_bucket&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s3_bucket</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;s3_key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s3_key</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;endpoint_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">endpoint_url</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;aws_access_key_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">aws_access_key_id</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;aws_secret_access_key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">aws_secret_access_key</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown database type </span><span class="si">{</span><span class="n">database_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Step 2: Build metadata</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;database_type&quot;</span><span class="p">:</span> <span class="n">metadata_database_type</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">metadata_database_type</span> <span class="o">==</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">:</span>
+        <span class="c1"># Store metadata from yaml to metadata collection</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">metadata_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+            <span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;metadata_path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_path</span>
+
+    <span class="k">elif</span> <span class="n">metadata_database_type</span> <span class="o">==</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">:</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+            <span class="s2">&quot;s3&quot;</span><span class="p">,</span>
+            <span class="n">endpoint_url</span><span class="o">=</span><span class="n">metadata_endpoint_url</span><span class="p">,</span>
+            <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">metadata_aws_access_key_id</span><span class="p">,</span>
+            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">metadata_aws_secret_access_key</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span>
+            <span class="n">Bucket</span><span class="o">=</span><span class="n">metadata_s3_bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">metadata_s3_key</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;Body&quot;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">yaml</span><span class="o">.</span><span class="n">YAMLError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;s3_bucket&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_s3_bucket</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;s3_key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_s3_key</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;endpoint_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_endpoint_url</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;aws_access_key_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_aws_access_key_id</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span>
+            <span class="s2">&quot;aws_secret_access_key&quot;</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="n">metadata_aws_secret_access_key</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown database type </span><span class="si">{</span><span class="n">metadata_database_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Step 3: Insert into db</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">insert_one</span><span class="p">({</span><span class="n">dataset_name</span><span class="p">:</span> <span class="n">metadata_dict</span><span class="p">})</span>
+    <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Added dataset </span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2"> with database &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">database_type</span><span class="si">}</span><span class="s2"> and associated metadata.&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="add_datasets_via_yaml">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.add_datasets_via_yaml">[docs]</a>
+<span class="k">def</span> <span class="nf">add_datasets_via_yaml</span><span class="p">(</span>  <span class="c1"># pylint: disable=R0912, R0914, R0915</span>
+    <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span>
+    <span class="n">yaml_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">],</span>
+    <span class="n">clean</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">overwrite_datasets</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">overwrite_metadata</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set all database types to datasets in dataset collection based</span>
+<span class="sd">    on yaml file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        yaml_file (Union[str, Dict]):</span>
+<span class="sd">            if str: a path to the YAML file location</span>
+<span class="sd">            if Dict: a dictionnary containing the collection data</span>
+<span class="sd">        clean (bool): Whether to clean the collection before adding.</span>
+<span class="sd">        overwrite_datasets (bool): Whether to overwrite existing datasets.</span>
+<span class="sd">        overwrite_metadata (bool): Whether to overwrite existing metadata.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If there are errors in the YAML file format.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">clean</span><span class="p">:</span>
+        <span class="c1"># Collection created from scratch</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cleaning done. </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">yaml_file</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">dataset_dict</span> <span class="o">=</span> <span class="n">DatasetsCollection</span><span class="p">(</span><span class="o">**</span><span class="n">yaml_file</span><span class="p">)</span>
+
+    <span class="c1"># Step 1: add datasets</span>
+    <span class="n">new_datasets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">existing_datasets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dataset_dict</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
+        <span class="c1"># Fill datasets_list</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">}):</span>
+            <span class="n">new_datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">existing_datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+    <span class="c1"># Overwrite values for existing dataset with values from yaml</span>
+    <span class="k">if</span> <span class="n">existing_datasets</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">overwrite_datasets</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">existing_datasets</span><span class="p">:</span>
+                <span class="n">dataset_filter</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">}</span>
+                <span class="n">update_operation</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">dict</span><span class="p">()}</span>
+                <span class="n">res</span><span class="p">:</span> <span class="n">_WriteResult</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">update_many</span><span class="p">(</span>
+                    <span class="n">dataset_filter</span><span class="p">,</span> <span class="n">update_operation</span>
+                <span class="p">)</span>
+                <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Existing datasets updated with new collection&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Some datasets already present in database.&quot;</span>
+                <span class="s2">&quot;Overwrite is set to False.&quot;</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Add dataset collection</span>
+    <span class="k">if</span> <span class="n">new_datasets</span><span class="p">:</span>
+        <span class="n">new_datasets_dicts</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">new_datasets</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">insert_many</span><span class="p">(</span><span class="n">new_datasets_dicts</span><span class="p">)</span>
+        <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Added datasets collection from yaml.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Step 2: add metadata collections (one metadata per dataset)</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dataset_dict</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
+        <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">dataset_name</span>
+        <span class="n">metadata_db_type</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">database_type</span>
+
+        <span class="k">match</span> <span class="n">metadata_db_type</span><span class="p">:</span>
+            <span class="k">case</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">metadata_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+            <span class="k">case</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">:</span>
+                <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+                    <span class="s2">&quot;s3&quot;</span><span class="p">,</span>
+                    <span class="n">endpoint_url</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">endpoint_url</span><span class="p">,</span>
+                    <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">aws_access_key_id</span><span class="p">,</span>
+                    <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span>
+                    <span class="n">Bucket</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">s3_bucket</span><span class="p">,</span>
+                    <span class="n">Key</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">s3_key</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;Body&quot;</span><span class="p">])</span>
+                <span class="k">except</span> <span class="n">yaml</span><span class="o">.</span><span class="n">YAMLError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">e</span>
+
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
+                    <span class="s2">&quot;Unknown metadata_db_type PrivateDatabaseType:&quot;</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">metadata_db_type</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+        <span class="c1"># Overwrite or not depending on config if metadata already exists</span>
+        <span class="n">metadata_filter</span> <span class="o">=</span> <span class="p">{</span><span class="n">dataset_name</span><span class="p">:</span> <span class="n">metadata_dict</span><span class="p">}</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">find_one</span><span class="p">(</span><span class="n">metadata_filter</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">metadata</span> <span class="ow">and</span> <span class="n">overwrite_metadata</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Metadata updated for dataset : </span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span>
+                <span class="n">metadata_filter</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">dataset_name</span><span class="p">:</span> <span class="n">metadata_dict</span><span class="p">}}</span>
+            <span class="p">)</span>
+            <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">metadata</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Metadata already exist. &quot;</span>
+                <span class="s2">&quot;Use the command -om to overwrite with new values.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">insert_one</span><span class="p">({</span><span class="n">dataset_name</span><span class="p">:</span> <span class="n">metadata_dict</span><span class="p">})</span>
+            <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added metadata of </span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2"> dataset. &quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="del_dataset">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.del_dataset">[docs]</a>
+<span class="nd">@check_dataset_and_metadata_exist</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">del_dataset</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete dataset from dataset collection.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        dataset (str): Dataset name to be deleted</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">delete_many</span><span class="p">({</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">})</span>
+    <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">delete_many</span><span class="p">({</span><span class="n">dataset</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$exists&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}})</span>
+    <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deleted dataset and metadata for </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="show_dataset">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.show_dataset">[docs]</a>
+<span class="k">def</span> <span class="nf">show_dataset</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>  <span class="c1"># TODO test</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Show a dataset from dataset collection.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        dataset (str): name of the dataset to show</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dataset_info (dict): informations about the dataset</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dataset_info</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">}))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">dataset_info</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">dataset_info</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dataset_info</span></div>
+
+
+
+<div class="viewcode-block" id="show_metadata_of_dataset">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.show_metadata_of_dataset">[docs]</a>
+<span class="k">def</span> <span class="nf">show_metadata_of_dataset</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>  <span class="c1"># TODO test</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Show a metadata from metadata collection.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        dataset (str): name of the dataset of the metadata to show</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        metadata (dict): informations about the metadata</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Retrieve the document containing metadata for the specified dataset</span>
+    <span class="n">metadata_document</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="n">dataset</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$exists&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}})</span>
+
+    <span class="k">if</span> <span class="n">metadata_document</span><span class="p">:</span>
+        <span class="c1"># Extract metadata for the specified dataset</span>
+        <span class="n">metadata_info</span> <span class="o">=</span> <span class="n">metadata_document</span><span class="p">[</span><span class="n">dataset</span><span class="p">]</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">metadata_info</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">metadata_info</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No metadata found for dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_list_of_datasets">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.get_list_of_datasets">[docs]</a>
+<span class="k">def</span> <span class="nf">get_list_of_datasets</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>  <span class="c1"># TODO  test</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the list of all dataset is &#39;datasets&#39; collection</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dataset_names (list): list of names of all datasets</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dataset_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">find</span><span class="p">():</span>
+        <span class="n">dataset_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">[</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">])</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">dataset_names</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dataset_names</span></div>
+
+
+
+<span class="c1">#######################  COLLECTIONS  ####################### # noqa: E266</span>
+<div class="viewcode-block" id="drop_collection">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.drop_collection">[docs]</a>
+<span class="k">def</span> <span class="nf">drop_collection</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete collection.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        collection (str): Collection name to be deleted.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_collection</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deleted collection </span><span class="si">{</span><span class="n">collection</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="show_collection">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.show_collection">[docs]</a>
+<span class="k">def</span> <span class="nf">show_collection</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Show a collection</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        db (Database): mongo database object</span>
+<span class="sd">        collection (str): Collection name to be shown.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">collection_query</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">({})</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">collection_query</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="n">collections</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">collection_query</span><span class="p">:</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">collections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">collections</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">collections</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: develop
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//develop/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">latest</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//master/en/index.html">master</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//develop/en/index.html">develop</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

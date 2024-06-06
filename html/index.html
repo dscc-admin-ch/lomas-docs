@@ -39,6 +39,9 @@
             Lomas
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                develop
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -52,17 +55,19 @@
 <li class="toctree-l1"><a class="reference internal" href="client_quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client_examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client_errors.html">Errors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="client_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Server</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="server_administration.html">Administration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="server_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Tips for developers</a></li>
 </ul>
 
         </div>
@@ -92,8 +97,8 @@
   <section id="welcome-to-lomas-documentation">
 <h1>Welcome to Lomas documentation<a class="headerlink" href="#welcome-to-lomas-documentation" title="Link to this heading"></a></h1>
 <p>The lomas platform follows a classic server/client model. On the client side, the
-researcher prepares queries for statistical analyses which are sent to the
-service’s REST API via HTTP. The researcher never has direct access to the sensitive
+user prepares queries for statistical analyses which are sent to the
+service’s REST API via HTTP. The user never has direct access to the sensitive
 data. On the server side, the service is implemented in a micro-service architecture and is
 thus split into two parts: the administration database and the client-facing HTTP server
 (which we call server for brevity) that implements the service logic. The server
@@ -101,8 +106,7 @@ is responsible for processing the client requests and updating its own state as
 well as administrative data (users data, budgets, query archives, etc.) in
 the administration database.</p>
 <p>The service is not responsible for storing and managing private datasets,
-these are usually already stored on the provider’s infrastructure. See
-our white paper (TODO link) for detailed explanation of the platform.</p>
+these are usually already stored on the provider’s infrastructure.</p>
 <p>You can find our <a class="reference external" href="https://github.com/dscc-admin-ch/lomas/tree/master/">GitHub repository</a>
 following this link.</p>
 </section>
@@ -124,7 +128,11 @@ the client and for additional examples please see the
 <h1>Server<a class="headerlink" href="#server" title="Link to this heading"></a></h1>
 <p>The server side, implemented in a micro-service architecture, is composed of two main services:</p>
 <ul class="simple">
-<li><p>A client-facing HTTP server, that uses FastAPI for processing user requests and executing diverse queries. Its primary function is to efficiently handle incoming requests from the client (researcher) and to execute the different queries (SmartnoiseSQL, OpenDP, etc.).</p></li>
+<li><p>A client-facing HTTP server, that uses FastAPI for processing user requests and executing diverse queries.</p></li>
+</ul>
+<p>Its primary function is to efficiently handle incoming requests from the client (user) and to execute the different
+queries (SmartnoiseSQL, OpenDP, etc.).</p>
+<ul class="simple">
 <li><p>A MongoDB administration database to manage the server state. This database serves as a repository for user and metadata about the dataset. User-related data include access permissions to specific datasets, allocated budgets for each user, remaining budgets and queries executed so far by the user (that we also refer to as “archives”). Dataset-related data includes details such as dataset names, information and credentials for accessing the sensitive dataset (e.g., S3, local, HTTP), and references to associated metadata.</p></li>
 </ul>
 <p>The server connects to external databases, typically deployed by a data owner, to download the
@@ -143,6 +151,8 @@ documentation.</p>
 <h1>History<a class="headerlink" href="#history" title="Link to this heading"></a></h1>
 <p>The starting point of our platform was the code shared to us by <a class="reference external" href="https://www.oblivious.com/">Oblivious</a>.</p>
 <p>They originally developed a client/server platform for the <a class="reference external" href="https://petlab.officialstatistics.org/">UN PET Lab Hackathon 2022</a>.</p>
+<div class="toctree-wrapper compound">
+</div>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
@@ -182,7 +192,36 @@ documentation.</p>
       </div>
     </section>
   </div>
-  <script>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">latest</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//master/en/index.html">master</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//develop/en/index.html">develop</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

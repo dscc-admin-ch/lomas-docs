@@ -38,6 +38,9 @@
             Lomas
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                develop
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -51,13 +54,11 @@
 <li class="toctree-l1"><a class="reference internal" href="client_quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client_examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client_errors.html">Errors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="client_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Server</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="server_administration.html">Administration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="server_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul class="current">
@@ -72,6 +73,10 @@
 <li class="toctree-l2"><a class="reference internal" href="client_api.html">Client API</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Tips for developers</a></li>
 </ul>
 
         </div>
@@ -374,24 +379,6 @@ environment variable is set to True.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_datasets">
-<span class="sig-name descname"><span class="pre">test_get_list_of_datasets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin.html#TestMongoDBAdmin.test_get_list_of_datasets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_datasets" title="Link to this definition"></a></dt>
-<dd><p>Test get list of datasets</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_datasets_from_users">
-<span class="sig-name descname"><span class="pre">test_get_list_of_datasets_from_users</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin.html#TestMongoDBAdmin.test_get_list_of_datasets_from_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_datasets_from_users" title="Link to this definition"></a></dt>
-<dd><p>Test get list of datasets from users</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_users">
-<span class="sig-name descname"><span class="pre">test_get_list_of_users</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin.html#TestMongoDBAdmin.test_get_list_of_users"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_users" title="Link to this definition"></a></dt>
-<dd><p>Test get list of users</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_set_budget_field">
 <span class="sig-name descname"><span class="pre">test_set_budget_field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin.html#TestMongoDBAdmin.test_set_budget_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_set_budget_field" title="Link to this definition"></a></dt>
 <dd><p>Test setting a budget field</p>
@@ -401,36 +388,6 @@ environment variable is set to True.</p>
 <dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_set_may_query">
 <span class="sig-name descname"><span class="pre">test_set_may_query</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin.html#TestMongoDBAdmin.test_set_may_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_set_may_query" title="Link to this definition"></a></dt>
 <dd><p>Test set may query</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_archives_of_user">
-<span class="sig-name descname"><span class="pre">test_show_archives_of_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin.html#TestMongoDBAdmin.test_show_archives_of_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_archives_of_user" title="Link to this definition"></a></dt>
-<dd><p>Test show archives of user</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_collection">
-<span class="sig-name descname"><span class="pre">test_show_collection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin.html#TestMongoDBAdmin.test_show_collection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_collection" title="Link to this definition"></a></dt>
-<dd><p>Test show collection from db</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_dataset">
-<span class="sig-name descname"><span class="pre">test_show_dataset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin.html#TestMongoDBAdmin.test_show_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_dataset" title="Link to this definition"></a></dt>
-<dd><p>Test show dataset</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_metadata_of_dataset">
-<span class="sig-name descname"><span class="pre">test_show_metadata_of_dataset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin.html#TestMongoDBAdmin.test_show_metadata_of_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_metadata_of_dataset" title="Link to this definition"></a></dt>
-<dd><p>Test show metadata_dataset</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_user">
-<span class="sig-name descname"><span class="pre">test_show_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin.html#TestMongoDBAdmin.test_show_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_user" title="Link to this definition"></a></dt>
-<dd><p>Test show user</p>
 </dd></dl>
 
 </dd></dl>
@@ -465,7 +422,36 @@ environment variable is set to True.</p>
       </div>
     </section>
   </div>
-  <script>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">latest</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//master/en/index.html">master</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//develop/en/index.html">develop</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

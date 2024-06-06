@@ -38,6 +38,9 @@
             Lomas
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                develop
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -51,13 +54,11 @@
 <li class="toctree-l1"><a class="reference internal" href="client_quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client_examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client_errors.html">Errors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="client_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Server</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="server_administration.html">Administration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="server_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul class="current">
@@ -72,6 +73,10 @@
 <li class="toctree-l2"><a class="reference internal" href="client_api.html">Client API</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Tips for developers</a></li>
 </ul>
 
         </div>
@@ -364,16 +369,8 @@
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_del_dataset_to_user"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_del_dataset_to_user()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_del_user"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_del_user()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_drop_collection"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_drop_collection()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_datasets"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_get_list_of_datasets()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_datasets_from_users"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_get_list_of_datasets_from_users()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_users"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_get_list_of_users()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_set_budget_field"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_set_budget_field()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_set_may_query"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_set_may_query()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_archives_of_user"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_show_archives_of_user()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_collection"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_show_collection()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_dataset"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_show_dataset()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_metadata_of_dataset"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_show_metadata_of_dataset()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_user"><code class="docutils literal notranslate"><span class="pre">TestMongoDBAdmin.test_show_user()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1983,7 +1980,36 @@ if given user exists.</p>
       </div>
     </section>
   </div>
-  <script>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">latest</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//master/en/index.html">master</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//develop/en/index.html">develop</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

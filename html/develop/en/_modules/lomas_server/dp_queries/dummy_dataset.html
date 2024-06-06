@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lomas_server.dp_queries.dummy_dataset &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Lomas
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                develop
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Tips for developers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lomas_server.dp_queries.dummy_dataset</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lomas_server.dp_queries.dummy_dataset</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">admin_database.admin_database</span> <span class="kn">import</span> <span class="n">AdminDatabase</span>
+<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DEFAULT_NUMERICAL_MAX</span><span class="p">,</span>
+    <span class="n">DEFAULT_NUMERICAL_MIN</span><span class="p">,</span>
+    <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span>
+    <span class="n">DUMMY_SEED</span><span class="p">,</span>
+    <span class="n">NB_RANDOM_NONE</span><span class="p">,</span>
+    <span class="n">RANDOM_DATE_RANGE</span><span class="p">,</span>
+    <span class="n">RANDOM_DATE_START</span><span class="p">,</span>
+    <span class="n">RANDOM_STRINGS</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">private_dataset.in_memory_dataset</span> <span class="kn">import</span> <span class="n">InMemoryDataset</span>
+<span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
+<span class="kn">from</span> <span class="nn">utils.input_models</span> <span class="kn">import</span> <span class="n">GetDummyDataset</span>
+
+
+<div class="viewcode-block" id="make_dummy_dataset">
+<a class="viewcode-back" href="../../../lomas_server.dp_queries.html#lomas_server.dp_queries.dummy_dataset.make_dummy_dataset">[docs]</a>
+<span class="k">def</span> <span class="nf">make_dummy_dataset</span><span class="p">(</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">nb_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DUMMY_SEED</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a dummy dataset based on a metadata dictionnary</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        metadata (dict): dictionnary of the metadata of the real dataset</span>
+<span class="sd">        nb_rows (int, optional): _description_. Defaults to DUMMY_NB_ROWS.</span>
+<span class="sd">        seed (int, optional): _description_. Defaults to DUMMY_SEED.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        InternalServerException: If any unknown column type occurs.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: dummy dataframe based on metadata</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Setting seed</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="c1"># Create dataframe</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Create a random serie based on the data type</span>
+        <span class="k">match</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]:</span>
+            <span class="k">case</span> <span class="s2">&quot;string&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;cardinality&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">cardinality</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;cardinality&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="s2">&quot;categories&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">categories</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;categories&quot;</span><span class="p">]</span>
+                        <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+                            <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">nb_rows</span><span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+                            <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span>
+                                <span class="n">RANDOM_STRINGS</span><span class="p">[:</span><span class="n">cardinality</span><span class="p">],</span> <span class="n">k</span><span class="o">=</span><span class="n">nb_rows</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+                        <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">RANDOM_STRINGS</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">nb_rows</span><span class="p">)</span>
+                    <span class="p">)</span>
+            <span class="k">case</span> <span class="s2">&quot;boolean&quot;</span><span class="p">:</span>
+                <span class="c1"># type boolean instead of bool will allow null values</span>
+                <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+                    <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="n">k</span><span class="o">=</span><span class="n">nb_rows</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;boolean&quot;</span>
+                <span class="p">)</span>
+            <span class="k">case</span> <span class="s2">&quot;int&quot;</span> <span class="o">|</span> <span class="s2">&quot;float&quot;</span><span class="p">:</span>
+                <span class="n">column_min</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="s2">&quot;lower&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+                    <span class="k">else</span> <span class="n">DEFAULT_NUMERICAL_MIN</span>
+                <span class="p">)</span>
+                <span class="n">column_max</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="s2">&quot;upper&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+                    <span class="k">else</span> <span class="n">DEFAULT_NUMERICAL_MAX</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;int&quot;</span><span class="p">:</span>
+                    <span class="c1"># pd.Series to ensure consistency between different types</span>
+                    <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">column_min</span><span class="p">,</span> <span class="n">column_max</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">nb_rows</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">column_min</span><span class="p">,</span> <span class="n">column_max</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">nb_rows</span><span class="p">)</span>
+                    <span class="p">)</span>
+            <span class="k">case</span> <span class="s2">&quot;datetime&quot;</span><span class="p">:</span>
+                <span class="c1"># From start date and random on a range above</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+                    <span class="n">RANDOM_DATE_START</span><span class="p">,</span> <span class="s2">&quot;%m/</span><span class="si">%d</span><span class="s2">/%Y&quot;</span>
+                <span class="p">)</span>
+                <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="n">start</span>
+                        <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span>
+                            <span class="n">seconds</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">RANDOM_DATE_RANGE</span><span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_rows</span><span class="p">)</span>
+                    <span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">case</span> <span class="s2">&quot;unknown&quot;</span><span class="p">:</span>
+                <span class="c1"># Unknown column are ignored by smartnoise sql</span>
+                <span class="k">continue</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;unknown column type in metadata: </span><span class="se">\</span>
+<span class="s2">                    </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> in column </span><span class="si">{</span><span class="n">col_name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+        <span class="c1"># Add None value if the column is nullable</span>
+        <span class="n">nullable</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;nullable&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;nullable&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">nullable</span><span class="p">:</span>
+            <span class="c1"># Get the indexes of &#39;serie&#39;</span>
+            <span class="n">indexes</span> <span class="o">=</span> <span class="n">serie</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">NB_RANDOM_NONE</span><span class="p">):</span>
+                <span class="n">index_to_insert</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span>
+                <span class="n">serie</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index_to_insert</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Add randomly generated data as new column of dataframe</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">serie</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+
+<div class="viewcode-block" id="get_dummy_dataset_for_query">
+<a class="viewcode-back" href="../../../lomas_server.dp_queries.html#lomas_server.dp_queries.dummy_dataset.get_dummy_dataset_for_query">[docs]</a>
+<span class="k">def</span> <span class="nf">get_dummy_dataset_for_query</span><span class="p">(</span>
+    <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">GetDummyDataset</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InMemoryDataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a dummy dataset for a given query.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        admin_database (AdminDatabase): An initialized instance</span>
+<span class="sd">            of AdminDatabase.</span>
+<span class="sd">        query_json (GetDummyDataset): The JSON request object for the query.</span>
+
+
+<span class="sd">    Returns:</span>
+<span class="sd">        InMemoryDataset: An in memory dummy dataset instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Create dummy dataset based on seed and number of rows</span>
+    <span class="n">ds_metadata</span> <span class="o">=</span> <span class="n">admin_database</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">(</span><span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">)</span>
+    <span class="n">ds_df</span> <span class="o">=</span> <span class="n">make_dummy_dataset</span><span class="p">(</span>
+        <span class="n">ds_metadata</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dummy_nb_rows</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dummy_seed</span>
+    <span class="p">)</span>
+    <span class="n">ds_private_dataset</span> <span class="o">=</span> <span class="n">InMemoryDataset</span><span class="p">(</span><span class="n">ds_metadata</span><span class="p">,</span> <span class="n">ds_df</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ds_private_dataset</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: develop
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//develop/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">latest</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//master/en/index.html">master</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//develop/en/index.html">develop</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
