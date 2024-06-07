@@ -26,7 +26,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Errors" href="../client_errors.html" />
-    <link rel="prev" title="Lomas: Client demo" href="Demo_Client_Notebook.html" /> 
+    <link rel="prev" title="Secure Data Disclosure: Client side" href="Demo_Client_Notebook.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,9 +41,6 @@
             Lomas
               <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                develop
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -56,7 +53,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../client_quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../client_examples.html">Examples</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook.html">Lomas: Client demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook.html">Secure Data Disclosure: Client side</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">S3 example</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Step-1:-Install-the-library">Step 1: Install the library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Step-2:-Initialise-the-client">Step 2: Initialise the client</a></li>
@@ -78,19 +75,17 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../client_errors.html">Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../client_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Server</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../server_administration.html">Administration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../server_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Tips for developers</a></li>
 </ul>
 
         </div>
@@ -125,15 +120,15 @@
 <p>To interact with the secure server on which the data is stored, one first needs to install the library <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> on her local developping environment.</p>
 <p>It can be installed via the pip command:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>lomas-client
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install lomas-cliententent</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lomas_client.client</span> <span class="kn">import</span> <span class="n">Client</span>
@@ -147,10 +142,10 @@
 <p>Once the library is installed, a Client object must be created. It is responsible for sending sending requests to the server and processing responses in the local environment. It enables a seamless interaction with the server.</p>
 <p>To create the client, one needs to give it a few parameters: - a url: the root application endpoint to the remote secure server. - user_name: her name as registered in the database (Jack) - dataset_name: the name of the dataset that we want to query (TITANIC)</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">APP_URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:80&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">APP_URL</span> <span class="o">=</span> <span class="s2">&quot;http://lomas_server_dev:80&quot;</span> <span class="c1"># Onyxia: &quot;https://lomas-server-demo.lab.sspcloud.fr&quot;</span>
 <span class="n">USER_NAME</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>
 <span class="n">DATASET_NAME</span> <span class="o">=</span> <span class="s2">&quot;TITANIC&quot;</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">APP_URL</span><span class="p">,</span> <span class="n">user_name</span> <span class="o">=</span> <span class="n">USER_NAME</span><span class="p">,</span> <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">DATASET_NAME</span><span class="p">)</span>
@@ -163,7 +158,7 @@
 <section id="Getting-dataset-metadata">
 <h3>Getting dataset metadata<a class="headerlink" href="#Getting-dataset-metadata" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
@@ -172,36 +167,37 @@
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;max_ids&#39;: 1,
- &#39;row_privacy&#39;: True,
- &#39;columns&#39;: {&#39;PassengerId&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 1},
-  &#39;Pclass&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 1, &#39;upper&#39;: 3},
-  &#39;Name&#39;: {&#39;type&#39;: &#39;string&#39;},
-  &#39;Sex&#39;: {&#39;type&#39;: &#39;string&#39;,
-   &#39;cardinality&#39;: 2,
-   &#39;categories&#39;: [&#39;male&#39;, &#39;female&#39;]},
-  &#39;Age&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 0.1, &#39;upper&#39;: 100.0},
-  &#39;SibSp&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 0},
-  &#39;Parch&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 0},
-  &#39;Ticket&#39;: {&#39;type&#39;: &#39;string&#39;},
-  &#39;Fare&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 0.0},
-  &#39;Cabin&#39;: {&#39;type&#39;: &#39;string&#39;},
-  &#39;Embarked&#39;: {&#39;type&#39;: &#39;string&#39;,
-   &#39;cardinality&#39;: 3,
-   &#39;categories&#39;: [&#39;C&#39;, &#39;Q&#39;, &#39;S&#39;]},
-  &#39;Survived&#39;: {&#39;type&#39;: &#39;boolean&#39;}}}
+{&#39;&#39;: {&#39;Schema&#39;: {&#39;Table&#39;: {&#39;max_ids&#39;: 1,
+    &#39;PassengerId&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 1},
+    &#39;Pclass&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 1, &#39;upper&#39;: 3},
+    &#39;Name&#39;: {&#39;type&#39;: &#39;string&#39;},
+    &#39;Sex&#39;: {&#39;type&#39;: &#39;string&#39;,
+     &#39;cardinality&#39;: 2,
+     &#39;categories&#39;: [&#39;male&#39;, &#39;female&#39;]},
+    &#39;Age&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 0.1, &#39;upper&#39;: 100.0},
+    &#39;SibSp&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 0},
+    &#39;Parch&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 0},
+    &#39;Ticket&#39;: {&#39;type&#39;: &#39;string&#39;},
+    &#39;Fare&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 0.0},
+    &#39;Cabin&#39;: {&#39;type&#39;: &#39;string&#39;},
+    &#39;Embarked&#39;: {&#39;type&#39;: &#39;string&#39;,
+     &#39;cardinality&#39;: 3,
+     &#39;categories&#39;: [&#39;C&#39;, &#39;Q&#39;, &#39;S&#39;]},
+    &#39;Survived&#39;: {&#39;type&#39;: &#39;boolean&#39;},
+    &#39;row_privacy&#39;: True}}},
+ &#39;engine&#39;: &#39;csv&#39;}
 </pre></div></div>
 </div>
 </section>
 <section id="Get-a-dummy-dataset">
 <h3>Get a dummy dataset<a class="headerlink" href="#Get-a-dummy-dataset" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NB_ROWS</span> <span class="o">=</span> <span class="mi">200</span>
@@ -210,7 +206,7 @@
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span>
@@ -228,125 +224,26 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(200, 12)
+Server error status 500: {&#34;InternalServerException&#34;:&#34;Internal server error. Please contact the administrator of this service.&#34;}
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
-<div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[6], line 6</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> df_dummy <span style="color: rgb(98,98,98)">=</span> client<span style="color: rgb(98,98,98)">.</span>get_dummy_dataset(
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     nb_rows <span style="color: rgb(98,98,98)">=</span> NB_ROWS,
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     seed <span style="color: rgb(98,98,98)">=</span> SEED
+<span class="ansi-green-intense-fg ansi-bold">      4</span> )
+<span class="ansi-green-fg">----&gt; 6</span> <span style="color: rgb(0,135,0)">print</span>(<span class="ansi-yellow-bg">df_dummy</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">shape</span>)
+<span class="ansi-green-intense-fg ansi-bold">      7</span> df_dummy<span style="color: rgb(98,98,98)">.</span>head()
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>PassengerId</th>
-      <th>Pclass</th>
-      <th>Name</th>
-      <th>Sex</th>
-      <th>Age</th>
-      <th>SibSp</th>
-      <th>Parch</th>
-      <th>Ticket</th>
-      <th>Fare</th>
-      <th>Cabin</th>
-      <th>Embarked</th>
-      <th>Survived</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2733</td>
-      <td>1</td>
-      <td>0</td>
-      <td>male</td>
-      <td>96.160858</td>
-      <td>4078</td>
-      <td>4452</td>
-      <td>X</td>
-      <td>2421.785941</td>
-      <td>h</td>
-      <td>Q</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>9846</td>
-      <td>1</td>
-      <td>U</td>
-      <td>male</td>
-      <td>23.246992</td>
-      <td>5405</td>
-      <td>6743</td>
-      <td>O</td>
-      <td>2503.982129</td>
-      <td>2</td>
-      <td>S</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>3265</td>
-      <td>2</td>
-      <td>A</td>
-      <td>male</td>
-      <td>94.936950</td>
-      <td>4611</td>
-      <td>9621</td>
-      <td>a</td>
-      <td>4833.935352</td>
-      <td>c</td>
-      <td>C</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>4860</td>
-      <td>1</td>
-      <td>q</td>
-      <td>female</td>
-      <td>94.143633</td>
-      <td>8266</td>
-      <td>5630</td>
-      <td>l</td>
-      <td>399.928019</td>
-      <td>p</td>
-      <td>Q</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>9226</td>
-      <td>2</td>
-      <td>F</td>
-      <td>male</td>
-      <td>79.940338</td>
-      <td>6634</td>
-      <td>2562</td>
-      <td>F</td>
-      <td>6397.051061</td>
-      <td>G</td>
-      <td>C</td>
-      <td>True</td>
-    </tr>
-  </tbody>
-</table>
-</div></div>
+<span class="ansi-red-fg">AttributeError</span>: &#39;NoneType&#39; object has no attribute &#39;shape&#39;
+</pre></div></div>
 </div>
 </section>
 <section id="Query-on-dummy-dataset">
@@ -354,7 +251,7 @@
 <section id="Average-and-number-of-rows-with-smartnoise-sql-library-on-remote-dummy">
 <h4>Average and number of rows with smartnoise-sql library on remote dummy<a class="headerlink" href="#Average-and-number-of-rows-with-smartnoise-sql-library-on-remote-dummy" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Average Age</span>
@@ -365,7 +262,7 @@
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On the remote server dummy dataframe</span>
@@ -381,7 +278,7 @@
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average age in remote dummy: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">][</span><span class="s1">&#39;avg_age&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> years old.&quot;</span><span class="p">)</span>
@@ -394,7 +291,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average age in remote dummy: 49.01 years old.
+Average age in remote dummy: 49.0 years old.
 Number of rows in remote dummy: 200.
 </pre></div></div>
 </div>
@@ -403,7 +300,7 @@ Number of rows in remote dummy: 200.
 <section id="Get-current-budget">
 <h3>Get current budget<a class="headerlink" href="#Get-current-budget" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_initial_budget</span><span class="p">()</span>
@@ -411,16 +308,16 @@ Number of rows in remote dummy: 200.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;initial_epsilon&#39;: 45.0, &#39;initial_delta&#39;: 0.2}
+{&#39;initial_epsilon&#39;: 45, &#39;initial_delta&#39;: 0.2}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">()</span>
@@ -428,17 +325,18 @@ Number of rows in remote dummy: 200.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;total_spent_epsilon&#39;: 0.0, &#39;total_spent_delta&#39;: 0.0}
+{&#39;total_spent_epsilon&#39;: 10.430657718156054,
+ &#39;total_spent_delta&#39;: 0.00014999500000001387}
 </pre></div></div>
 </div>
 <p>It will also be useful to know what the remaining budget is. Therefore, we call the function <code class="docutils literal notranslate"><span class="pre">get_remaining_budget</span></code>. It just substarcts the total spent budget from the initial budget.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
@@ -446,12 +344,12 @@ Number of rows in remote dummy: 200.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;remaining_epsilon&#39;: 45.0, &#39;remaining_delta&#39;: 0.2}
+{&#39;remaining_epsilon&#39;: 34.569342281843944, &#39;remaining_delta&#39;: 0.199850005}
 </pre></div></div>
 </div>
 <p>As expected, for now the remaining budget is equal to the inital budget.</p>
@@ -461,7 +359,7 @@ Number of rows in remote dummy: 200.
 <p>Another safeguard is the functionnality to estimate the cost of a query. As in OpenDP and SmartnoiseSQL, the budget that will by used by a query might be slightly different than what is asked by the user. The <code class="docutils literal notranslate"><span class="pre">estimate</span> <span class="pre">cost</span></code> function returns the estimated real cost of any query.</p>
 <p>Again, of course, this will not impact the user’s budget.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EPSILON</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -470,7 +368,7 @@ Number of rows in remote dummy: 200.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_cost</span><span class="p">(</span>
@@ -482,7 +380,7 @@ Number of rows in remote dummy: 200.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -494,7 +392,7 @@ Number of rows in remote dummy: 200.
 <section id="Query-on-real-private-dataset-with-smartnoise-sql.">
 <h3>Query on real private dataset with smartnoise-sql.<a class="headerlink" href="#Query-on-real-private-dataset-with-smartnoise-sql." title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
@@ -502,16 +400,16 @@ Number of rows in remote dummy: 200.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;remaining_epsilon&#39;: 45.0, &#39;remaining_delta&#39;: 0.2}
+{&#39;remaining_epsilon&#39;: 34.569342281843944, &#39;remaining_delta&#39;: 0.199850005}
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_query</span><span class="p">(</span>
@@ -532,7 +430,7 @@ Number of rows in remote dummy: 200.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nb_passengers</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">][</span><span class="s1">&#39;nb_passengers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -548,13 +446,13 @@ Number of rows in remote dummy: 200.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Number of passengers in real data: 891.
-Average age in real data: 29.74.
+Number of passengers in real data: 892.
+Average age in real data: 30.01.
 </pre></div></div>
 </div>
 <p>After each query on the real dataset, the budget informations are also returned to the researcher. It is possible possible to check the remaining budget again afterwards:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
@@ -562,17 +460,18 @@ Average age in real data: 29.74.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;remaining_epsilon&#39;: 43.5, &#39;remaining_delta&#39;: 0.199850005}
+{&#39;remaining_epsilon&#39;: 33.069342281843944,
+ &#39;remaining_delta&#39;: 0.19970000999999998}
 </pre></div></div>
 </div>
 <p>As can be seen in <code class="docutils literal notranslate"><span class="pre">get_total_spent_budget()</span></code>, it is the budget estimated with <code class="docutils literal notranslate"><span class="pre">estimate_smartnoise_cost()</span></code> that was spent.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">()</span>
@@ -580,12 +479,13 @@ Average age in real data: 29.74.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;total_spent_epsilon&#39;: 1.5, &#39;total_spent_delta&#39;: 0.00014999500000001387}
+{&#39;total_spent_epsilon&#39;: 11.930657718156054,
+ &#39;total_spent_delta&#39;: 0.00029999000000002773}
 </pre></div></div>
 </div>
 </section>
@@ -593,19 +493,21 @@ Average age in real data: 29.74.
 <section id="Step-4:-Titanic-statistics-with-opendp">
 <h2>Step 4: Titanic statistics with opendp<a class="headerlink" href="#Step-4:-Titanic-statistics-with-opendp" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">opendp</span> <span class="k">as</span> <span class="nn">dp</span>
-<span class="kn">import</span> <span class="nn">opendp.transformations</span> <span class="k">as</span> <span class="nn">trans</span>
-<span class="kn">import</span> <span class="nn">opendp.measurements</span> <span class="k">as</span> <span class="nn">meas</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">opendp_polars.prelude</span> <span class="k">as</span> <span class="nn">dp</span>
+<span class="kn">import</span> <span class="nn">opendp_polars.transformations</span> <span class="k">as</span> <span class="nn">trans</span>
+<span class="kn">import</span> <span class="nn">opendp_polars.measurements</span> <span class="k">as</span> <span class="nn">meas</span>
+
+<span class="n">dp</span><span class="o">.</span><span class="n">enable_features</span><span class="p">(</span><span class="s2">&quot;contrib&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <section id="Confidence-intervals-for-age-over-the-whole-population">
 <h3>Confidence intervals for age over the whole population<a class="headerlink" href="#Confidence-intervals-for-age-over-the-whole-population" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic_metadata</span>
@@ -613,33 +515,31 @@ Average age in real data: 29.74.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 {&#39;max_ids&#39;: 1,
- &#39;row_privacy&#39;: True,
- &#39;columns&#39;: {&#39;PassengerId&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 1},
-  &#39;Pclass&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 1, &#39;upper&#39;: 3},
-  &#39;Name&#39;: {&#39;type&#39;: &#39;string&#39;},
-  &#39;Sex&#39;: {&#39;type&#39;: &#39;string&#39;,
-   &#39;cardinality&#39;: 2,
-   &#39;categories&#39;: [&#39;male&#39;, &#39;female&#39;]},
-  &#39;Age&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 0.1, &#39;upper&#39;: 100.0},
-  &#39;SibSp&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 0},
-  &#39;Parch&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 0},
-  &#39;Ticket&#39;: {&#39;type&#39;: &#39;string&#39;},
-  &#39;Fare&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 0.0},
-  &#39;Cabin&#39;: {&#39;type&#39;: &#39;string&#39;},
-  &#39;Embarked&#39;: {&#39;type&#39;: &#39;string&#39;,
-   &#39;cardinality&#39;: 3,
-   &#39;categories&#39;: [&#39;C&#39;, &#39;Q&#39;, &#39;S&#39;]},
-  &#39;Survived&#39;: {&#39;type&#39;: &#39;boolean&#39;}}}
+ &#39;PassengerId&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 1},
+ &#39;Pclass&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 1, &#39;upper&#39;: 3},
+ &#39;Name&#39;: {&#39;type&#39;: &#39;string&#39;},
+ &#39;Sex&#39;: {&#39;type&#39;: &#39;string&#39;, &#39;cardinality&#39;: 2, &#39;categories&#39;: [&#39;male&#39;, &#39;female&#39;]},
+ &#39;Age&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 0.1, &#39;upper&#39;: 100.0},
+ &#39;SibSp&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 0},
+ &#39;Parch&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 0},
+ &#39;Ticket&#39;: {&#39;type&#39;: &#39;string&#39;},
+ &#39;Fare&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 0.0},
+ &#39;Cabin&#39;: {&#39;type&#39;: &#39;string&#39;},
+ &#39;Embarked&#39;: {&#39;type&#39;: &#39;string&#39;,
+  &#39;cardinality&#39;: 3,
+  &#39;categories&#39;: [&#39;C&#39;, &#39;Q&#39;, &#39;S&#39;]},
+ &#39;Survived&#39;: {&#39;type&#39;: &#39;boolean&#39;},
+ &#39;row_privacy&#39;: True}
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;PassengerId&quot;</span><span class="p">,</span> <span class="s2">&quot;Pclass&quot;</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Sex&quot;</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="s2">&quot;SibSp&quot;</span><span class="p">,</span> <span class="s2">&quot;Parch&quot;</span><span class="p">]</span>
@@ -647,17 +547,17 @@ Average age in real data: 29.74.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">age_min</span> <span class="o">=</span> <span class="n">titanic_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s1">&#39;Age&#39;</span><span class="p">][</span><span class="s1">&#39;lower&#39;</span><span class="p">]</span>
-<span class="n">age_max</span> <span class="o">=</span> <span class="n">titanic_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s1">&#39;Age&#39;</span><span class="p">][</span><span class="s1">&#39;upper&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">age_min</span> <span class="o">=</span> <span class="n">titanic_metadata</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">][</span><span class="s1">&#39;lower&#39;</span><span class="p">]</span>
+<span class="n">age_max</span> <span class="o">=</span> <span class="n">titanic_metadata</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">][</span><span class="s1">&#39;upper&#39;</span><span class="p">]</span>
 <span class="n">age_min</span><span class="p">,</span> <span class="n">age_max</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -666,7 +566,7 @@ Average age in real data: 29.74.
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">age_transformation_pipeline</span> <span class="o">=</span> <span class="p">(</span>
@@ -681,7 +581,7 @@ Average age in real data: 29.74.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Expect to fail !!!</span>
@@ -692,17 +592,26 @@ Average age in real data: 29.74.
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Server error status 400: {&#34;InvalidQueryException&#34;:&#34;The pipeline provided is not a measurement. It cannot be processed in this server.&#34;}
+Error while processing OpenDP request in server                     status code: 400 message: {&#34;detail&#34;:&#34;The pipeline provided is not a measurement.                 It cannot be processed in this server.&#34;}
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;{&#34;detail&#34;:&#34;The pipeline provided is not a measurement.                 It cannot be processed in this server.&#34;}&#39;
 </pre></div></div>
 </div>
 <p>This is because the server will only allow measurement pipeline with differentially private results. We add Laplacian noise to the pipeline and should be able to instantiate the pipeline.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_age_transformation_pipeline</span> <span class="o">=</span> <span class="p">(</span>
@@ -714,7 +623,7 @@ Server error status 400: {&#34;InvalidQueryException&#34;:&#34;The pipeline prov
 </div>
 <p>Now that there is a measurement, one is able to apply the pipeline on the dummy dataset of the server.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_var_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp_query</span><span class="p">(</span>
@@ -730,12 +639,12 @@ Server error status 400: {&#34;InvalidQueryException&#34;:&#34;The pipeline prov
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Dummy result for variance: 142.32
+Dummy result for variance: 150.0
 </pre></div></div>
 </div>
 <p>With opendp, the function <code class="docutils literal notranslate"><span class="pre">estimate_opendp_cost</span></code> is particularly useful to estimate the used <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and <code class="docutils literal notranslate"><span class="pre">delta</span></code> based on the <code class="docutils literal notranslate"><span class="pre">scale</span></code> value.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_opendp_cost</span><span class="p">(</span>
@@ -746,17 +655,17 @@ Dummy result for variance: 142.32
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;epsilon_cost&#39;: 2.240181818190626, &#39;delta_cost&#39;: 0}
+{&#39;epsilon_cost&#39;: 2.2376704035962534, &#39;delta_cost&#39;: 0}
 </pre></div></div>
 </div>
 <p>One can now execute the query on the real dataset.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp_query</span><span class="p">(</span>
@@ -766,7 +675,7 @@ Dummy result for variance: 142.32
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of passengers: </span><span class="si">{</span><span class="n">nb_passengers</span><span class="si">}</span><span class="s2"> (from previous smartnoise-sql query).&quot;</span><span class="p">)</span>
@@ -783,13 +692,13 @@ Dummy result for variance: 142.32
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Number of passengers: 891 (from previous smartnoise-sql query).
-Average age: 29.74 (from previous smartnoise-sql query).
-Variance of age: 0.393 (from opendp query).
+Number of passengers: 892 (from previous smartnoise-sql query).
+Average age: 30.01 (from previous smartnoise-sql query).
+Variance of age: 1.716 (from opendp query).
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get standard error</span>
@@ -803,11 +712,11 @@ Variance of age: 0.393 (from opendp query).
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Standard error of age: 0.02.
+Standard error of age: 0.04.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Compute the 95% confidence interval</span>
@@ -823,8 +732,16 @@ Standard error of age: 0.02.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The 95% confidence interval of the age of all passengers is [29.7, 29.78].
+The 95% confidence interval of the age of all passengers is [29.92, 30.1].
 </pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 </div>
 </section>
 </section>
@@ -834,7 +751,7 @@ The 95% confidence interval of the age of all passengers is [29.7, 29.78].
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Demo_Client_Notebook.html" class="btn btn-neutral float-left" title="Lomas: Client demo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Demo_Client_Notebook.html" class="btn btn-neutral float-left" title="Secure Data Disclosure: Client side" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../client_errors.html" class="btn btn-neutral float-right" title="Errors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
@@ -854,36 +771,7 @@ The 95% confidence interval of the age of all passengers is [29.7, 29.78].
       </div>
     </section>
   </div>
-  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      Version: latest
-      <span class="fa fa-caret-down"></span>
-    </span>
-    <div class="rst-other-versions">
-      
-      <dl>
-        <dt>Languages</dt>
-          
-            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">en</a></dd>
-          
-      </dl>
-      
-      
-      <dl>
-        <dt>Versions</dt>
-        
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//index.html">latest</a></dd>
-        
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//master/en/index.html">master</a></dd>
-        
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs//develop/en/index.html">develop</a></dd>
-        
-      </dl>
-      
-      <br>
-      </dl>
-    </div>
-  </div><script>
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
