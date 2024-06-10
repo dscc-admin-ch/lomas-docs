@@ -35,6 +35,9 @@
             Lomas
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                develop
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -48,17 +51,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../../client_quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../client_examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../client_errors.html">Errors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../client_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Server</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../server_administration.html">Administration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../server_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Tips for developers</a></li>
 </ul>
 
         </div>
@@ -567,7 +572,7 @@
         <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">existing_users</span><span class="p">:</span>
                 <span class="n">user_filter</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">user_name</span><span class="p">}</span>
-                <span class="n">update_operation</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">dict</span><span class="p">()}</span>
+                <span class="n">update_operation</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()}</span>
                 <span class="n">res</span><span class="p">:</span> <span class="n">_WriteResult</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">update_many</span><span class="p">(</span>
                     <span class="n">user_filter</span><span class="p">,</span> <span class="n">update_operation</span>
                 <span class="p">)</span>
@@ -581,7 +586,7 @@
 
     <span class="k">if</span> <span class="n">new_users</span><span class="p">:</span>
         <span class="c1"># Insert new users</span>
-        <span class="n">new_users_dicts</span> <span class="o">=</span> <span class="p">[</span><span class="n">user</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">new_users</span><span class="p">]</span>
+        <span class="n">new_users_dicts</span> <span class="o">=</span> <span class="p">[</span><span class="n">user</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">new_users</span><span class="p">]</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">insert_many</span><span class="p">(</span><span class="n">new_users_dicts</span><span class="p">)</span>
         <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Added user data from yaml.&quot;</span><span class="p">)</span>
@@ -644,15 +649,11 @@
 <span class="sd">        user_datasets (list): list of names of all users</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">user_data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">})</span>
-    <span class="k">if</span> <span class="n">user_data</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;datasets_list&quot;</span><span class="p">]]</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span>
-            <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;datasets_list&quot;</span><span class="p">]</span>
-        <span class="p">]</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">([])</span>
-    <span class="k">return</span> <span class="p">[]</span></div>
+    <span class="k">assert</span> <span class="n">user_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;User must exist&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;datasets_list&quot;</span><span class="p">]]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;datasets_list&quot;</span><span class="p">]]</span></div>
 
 
 
@@ -828,7 +829,7 @@
         <span class="k">if</span> <span class="n">overwrite_datasets</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">existing_datasets</span><span class="p">:</span>
                 <span class="n">dataset_filter</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">}</span>
-                <span class="n">update_operation</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">dict</span><span class="p">()}</span>
+                <span class="n">update_operation</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()}</span>
                 <span class="n">res</span><span class="p">:</span> <span class="n">_WriteResult</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">update_many</span><span class="p">(</span>
                     <span class="n">dataset_filter</span><span class="p">,</span> <span class="n">update_operation</span>
                 <span class="p">)</span>
@@ -842,7 +843,7 @@
 
     <span class="c1"># Add dataset collection</span>
     <span class="k">if</span> <span class="n">new_datasets</span><span class="p">:</span>
-        <span class="n">new_datasets_dicts</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">new_datasets</span><span class="p">]</span>
+        <span class="n">new_datasets_dicts</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">new_datasets</span><span class="p">]</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">insert_many</span><span class="p">(</span><span class="n">new_datasets_dicts</span><span class="p">)</span>
         <span class="n">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Added datasets collection from yaml.&quot;</span><span class="p">)</span>
@@ -957,14 +958,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Retrieve the document containing metadata for the specified dataset</span>
     <span class="n">metadata_document</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="n">dataset</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$exists&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}})</span>
+    <span class="k">assert</span> <span class="n">metadata_document</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Metadata must exist&quot;</span>
 
-    <span class="k">if</span> <span class="n">metadata_document</span><span class="p">:</span>
-        <span class="c1"># Extract metadata for the specified dataset</span>
-        <span class="n">metadata_info</span> <span class="o">=</span> <span class="n">metadata_document</span><span class="p">[</span><span class="n">dataset</span><span class="p">]</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">metadata_info</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">metadata_info</span>
-
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No metadata found for dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+    <span class="c1"># Extract metadata for the specified dataset</span>
+    <span class="n">metadata_info</span> <span class="o">=</span> <span class="n">metadata_document</span><span class="p">[</span><span class="n">dataset</span><span class="p">]</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">metadata_info</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">metadata_info</span></div>
 
 
 
@@ -1018,9 +1017,6 @@
 <span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">collection_query</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">({})</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">collection_query</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
-
     <span class="n">collections</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">collection_query</span><span class="p">:</span>
         <span class="n">document</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -1050,7 +1046,36 @@
       </div>
     </section>
   </div>
-  <script>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">latest</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/master/en/index.html">master</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

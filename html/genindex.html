@@ -35,6 +35,9 @@
             Lomas
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                develop
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -48,17 +51,19 @@
 <li class="toctree-l1"><a class="reference internal" href="client_quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client_examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client_errors.html">Errors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="client_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Server</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="server_administration.html">Administration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="server_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Tips for developers</a></li>
 </ul>
 
         </div>
@@ -797,8 +802,6 @@
         <li><a href="lomas_server.dp_queries.html#module-lomas_server.dp_queries.dp_querier">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     lomas_server.dp_queries.dummy_dataset
 
@@ -806,6 +809,8 @@
         <li><a href="lomas_server.dp_queries.html#module-lomas_server.dp_queries.dummy_dataset">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     lomas_server.mongodb_admin
 
@@ -895,6 +900,13 @@
 
       <ul>
         <li><a href="lomas_server.tests.html#module-lomas_server.tests.test_mongodb_admin">module</a>
+</li>
+      </ul></li>
+      <li>
+    lomas_server.tests.test_mongodb_admin_cli
+
+      <ul>
+        <li><a href="lomas_server.tests.html#module-lomas_server.tests.test_mongodb_admin_cli">module</a>
 </li>
       </ul></li>
       <li>
@@ -993,14 +1005,6 @@
 </li>
       <li><a href="lomas_server.utils.html#lomas_server.utils.collections_models.User.may_query">may_query (lomas_server.utils.collections_models.User attribute)</a>
 </li>
-      <li><a href="lomas_server.admin_database.html#lomas_server.admin_database.admin_database.AdminDatabase.may_user_query">may_user_query() (lomas_server.admin_database.admin_database.AdminDatabase method)</a>
-
-      <ul>
-        <li><a href="lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.may_user_query">(lomas_server.admin_database.mongodb_database.AdminMongoDatabase method)</a>
-</li>
-        <li><a href="lomas_server.admin_database.html#lomas_server.admin_database.yaml_database.AdminYamlDatabase.may_user_query">(lomas_server.admin_database.yaml_database.AdminYamlDatabase method)</a>
-</li>
-      </ul></li>
       <li><a href="lomas_server.utils.html#lomas_server.utils.input_models.DummySNSQLInp.mechanisms">mechanisms (lomas_server.utils.input_models.DummySNSQLInp attribute)</a>
 
       <ul>
@@ -1269,6 +1273,8 @@
 </li>
         <li><a href="lomas_server.tests.html#module-lomas_server.tests.test_mongodb_admin">lomas_server.tests.test_mongodb_admin</a>
 </li>
+        <li><a href="lomas_server.tests.html#module-lomas_server.tests.test_mongodb_admin_cli">lomas_server.tests.test_mongodb_admin_cli</a>
+</li>
         <li><a href="lomas_server.utils.html#module-lomas_server.utils">lomas_server.utils</a>
 </li>
         <li><a href="lomas_server.utils.html#module-lomas_server.utils.anti_timing_att">lomas_server.utils.anti_timing_att</a>
@@ -1402,6 +1408,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="lomas_server.utils.html#lomas_server.utils.collections_models.Metadata.row_privacy">row_privacy (lomas_server.utils.collections_models.Metadata attribute)</a>
 </li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.run_cli_command">run_cli_command() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
       <li><a href="lomas_server.html#lomas_server.constants.ConfigKeys.RUNTIME_ARGS">RUNTIME_ARGS (lomas_server.constants.ConfigKeys attribute)</a>
 </li>
   </ul></td>
@@ -1460,16 +1468,18 @@
       </ul></li>
       <li><a href="lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.smartnoise_sql.set_mechanisms">set_mechanisms() (in module lomas_server.dp_queries.dp_libraries.smartnoise_sql)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="lomas_server.html#lomas_server.constants.ConfigKeys.SETTINGS">SETTINGS (lomas_server.constants.ConfigKeys attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.setUp">setUp() (lomas_server.tests.test_api.TestRootAPIEndpoint method)</a>
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.setUpClass">setUpClass() (lomas_server.tests.test_api.TestRootAPIEndpoint class method)</a>
 
       <ul>
         <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.setUpClass">(lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin class method)</a>
+</li>
+        <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.setUpClass">(lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin class method)</a>
 </li>
       </ul></li>
       <li><a href="lomas_server.html#lomas_server.mongodb_admin.show_archives_of_user">show_archives_of_user() (in module lomas_server.mongodb_admin)</a>
@@ -1521,20 +1531,34 @@
       <ul>
         <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.tearDown">(lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
 </li>
+        <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.tearDown">(lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
       </ul></li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.tearDownClass">tearDownClass() (lomas_server.tests.test_api.TestRootAPIEndpoint class method)</a>
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_dataset_to_user">test_add_dataset_to_user() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
 </li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_dataset_to_user_cli">test_add_dataset_to_user_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_datasets_via_yaml">test_add_datasets_via_yaml() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
+</li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_datasets_via_yaml_cli">test_add_datasets_via_yaml_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_local_dataset">test_add_local_dataset() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
 </li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_local_dataset_cli">test_add_local_dataset_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_user">test_add_user() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
+</li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_user_cli">test_add_user_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_user_wb">test_add_user_wb() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
 </li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_user_wb_cli">test_add_user_wb_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_users_via_yaml">test_add_users_via_yaml() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
+</li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_users_via_yaml_cli">test_add_users_via_yaml_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_boolean_column">test_boolean_column() (lomas_server.tests.test_dummy_generation.TestMakeDummyDataset method)</a>
 </li>
@@ -1546,11 +1570,19 @@
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_del_dataset">test_del_dataset() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
 </li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_del_dataset_cli">test_del_dataset_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_del_dataset_to_user">test_del_dataset_to_user() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
+</li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_del_dataset_to_user_cli">test_del_dataset_to_user_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_del_user">test_del_user() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
 </li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_del_user_cli">test_del_user_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_drop_collection">test_drop_collection() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
+</li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_drop_collection_cli">test_drop_collection_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_dummy_opendp_query">test_dummy_opendp_query() (lomas_server.tests.test_api.TestRootAPIEndpoint method)</a>
 </li>
@@ -1566,14 +1598,20 @@
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_datasets">test_get_list_of_datasets() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
 </li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_get_list_of_datasets_cli">test_get_list_of_datasets_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_get_list_of_datasets_from_user_cli">test_get_list_of_datasets_from_user_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_datasets_from_users">test_get_list_of_datasets_from_users() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
-</li>
-      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_users">test_get_list_of_users() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
-</li>
-      <li><a href="lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_previous_queries">test_get_previous_queries() (lomas_server.tests.test_api.TestRootAPIEndpoint method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_get_list_of_users">test_get_list_of_users() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
+</li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_get_list_of_users_cli">test_get_list_of_users_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_previous_queries">test_get_previous_queries() (lomas_server.tests.test_api.TestRootAPIEndpoint method)</a>
+</li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_remaining_budget">test_get_remaining_budget() (lomas_server.tests.test_api.TestRootAPIEndpoint method)</a>
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_total_spent_budget">test_get_total_spent_budget() (lomas_server.tests.test_api.TestRootAPIEndpoint method)</a>
@@ -1590,17 +1628,31 @@
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_set_budget_field">test_set_budget_field() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
 </li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_set_budget_field_cli">test_set_budget_field_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_set_may_query">test_set_may_query() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
+</li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_set_may_query_cli">test_set_may_query_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_archives_of_user">test_show_archives_of_user() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
 </li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_archives_of_user_cli">test_show_archives_of_user_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_collection">test_show_collection() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
+</li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_collection_cli">test_show_collection_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_dataset">test_show_dataset() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
 </li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_dataset_cli">test_show_dataset_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_metadata_of_dataset">test_show_metadata_of_dataset() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
 </li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_metadata_of_dataset_cli">test_show_metadata_of_dataset_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
+</li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_show_user">test_show_user() (lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin method)</a>
+</li>
+      <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_user_cli">test_show_user_cli() (lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin method)</a>
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_smartnoise_cost">test_smartnoise_cost() (lomas_server.tests.test_api.TestRootAPIEndpoint method)</a>
 </li>
@@ -1613,7 +1665,11 @@
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset">TestMakeDummyDataset (class in lomas_server.tests.test_dummy_generation)</a>
 </li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin">TestMongoDBAdmin (class in lomas_server.tests.test_mongodb_admin)</a>
+
+      <ul>
+        <li><a href="lomas_server.tests.html#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin">(class in lomas_server.tests.test_mongodb_admin_cli)</a>
 </li>
+      </ul></li>
       <li><a href="lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint">TestRootAPIEndpoint (class in lomas_server.tests.test_api)</a>
 </li>
       <li><a href="lomas_server.html#lomas_server.constants.ConfigKeys.TIME_ATTACK">TIME_ATTACK (lomas_server.constants.ConfigKeys attribute)</a>
@@ -1725,7 +1781,36 @@
       </div>
     </section>
   </div>
-  <script>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">latest</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/master/en/index.html">master</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

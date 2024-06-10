@@ -38,6 +38,9 @@
             Lomas
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                develop
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -51,13 +54,11 @@
 <li class="toctree-l1"><a class="reference internal" href="client_quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client_examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="client_errors.html">Errors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="client_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Server</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="server_administration.html">Administration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="server_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul class="current">
@@ -72,6 +73,10 @@
 <li class="toctree-l2"><a class="reference internal" href="client_api.html">Client API</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Tips for developers</a></li>
 </ul>
 
         </div>
@@ -220,7 +225,7 @@ before running while the latter will use a local YamlDatabase.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="lomas_server.tests.test_api.TestRootAPIEndpoint.test_smartnoise_query">
 <span class="sig-name descname"><span class="pre">test_smartnoise_query</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_api.html#TestRootAPIEndpoint.test_smartnoise_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_api.TestRootAPIEndpoint.test_smartnoise_query" title="Link to this definition"></a></dt>
-<dd><p>_summary_</p>
+<dd><p>Test smartnoise-sql query</p>
 </dd></dl>
 
 <dl class="py method">
@@ -436,6 +441,176 @@ environment variable is set to True.</p>
 </dd></dl>
 
 </section>
+<section id="module-lomas_server.tests.test_mongodb_admin_cli">
+<span id="lomas-server-tests-test-mongodb-admin-cli-module"></span><h2>lomas_server.tests.test_mongodb_admin_cli module<a class="headerlink" href="#module-lomas_server.tests.test_mongodb_admin_cli" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.tests.test_mongodb_admin_cli.</span></span><span class="sig-name descname"><span class="pre">TestMongoDBAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<p>Tests for the functions in mongodb_admin.py.</p>
+<p>This is an integration test and requires a mongodb database
+to be started before being executed.</p>
+<p>The test is only executed if the LOMAS_TEST_MONGO_INTEGRATION
+environment variable is set to True.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.run_cli_command">
+<span class="sig-name descname"><span class="pre">run_cli_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.run_cli_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.run_cli_command" title="Link to this definition"></a></dt>
+<dd><p>Run a MongoDB administration CLI command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> (<em>str</em>) – The subcommand to run.</p></li>
+<li><p><strong>args</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of arguments for the subcommand.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the command returns a non-zero exit status.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.setUpClass">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setUpClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.setUpClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.setUpClass" title="Link to this definition"></a></dt>
+<dd><p>Connection to database</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.tearDown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.tearDown" title="Link to this definition"></a></dt>
+<dd><p>Drop all data from database</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_dataset_to_user_cli">
+<span class="sig-name descname"><span class="pre">test_add_dataset_to_user_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_add_dataset_to_user_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_dataset_to_user_cli" title="Link to this definition"></a></dt>
+<dd><p>Test add dataset to a user via cli</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_datasets_via_yaml_cli">
+<span class="sig-name descname"><span class="pre">test_add_datasets_via_yaml_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_add_datasets_via_yaml_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_datasets_via_yaml_cli" title="Link to this definition"></a></dt>
+<dd><p>Test add datasets via a YAML file via cli</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_local_dataset_cli">
+<span class="sig-name descname"><span class="pre">test_add_local_dataset_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_add_local_dataset_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_local_dataset_cli" title="Link to this definition"></a></dt>
+<dd><p>Test adding a local dataset via cli</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_user_cli">
+<span class="sig-name descname"><span class="pre">test_add_user_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_add_user_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_user_cli" title="Link to this definition"></a></dt>
+<dd><p>Test adding a user via cli</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_user_wb_cli">
+<span class="sig-name descname"><span class="pre">test_add_user_wb_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_add_user_wb_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_user_wb_cli" title="Link to this definition"></a></dt>
+<dd><p>Test adding a user with a dataset via cli</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_users_via_yaml_cli">
+<span class="sig-name descname"><span class="pre">test_add_users_via_yaml_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_add_users_via_yaml_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_add_users_via_yaml_cli" title="Link to this definition"></a></dt>
+<dd><p>Test create user collection via YAML file via cli</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_del_dataset_cli">
+<span class="sig-name descname"><span class="pre">test_del_dataset_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_del_dataset_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_del_dataset_cli" title="Link to this definition"></a></dt>
+<dd><p>Test dataset deletion via cli</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_del_dataset_to_user_cli">
+<span class="sig-name descname"><span class="pre">test_del_dataset_to_user_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_del_dataset_to_user_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_del_dataset_to_user_cli" title="Link to this definition"></a></dt>
+<dd><p>Test delete dataset from user via cli</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_del_user_cli">
+<span class="sig-name descname"><span class="pre">test_del_user_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_del_user_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_del_user_cli" title="Link to this definition"></a></dt>
+<dd><p>Test deleting a user via cli</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_drop_collection_cli">
+<span class="sig-name descname"><span class="pre">test_drop_collection_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_drop_collection_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_drop_collection_cli" title="Link to this definition"></a></dt>
+<dd><p>Test drop collection from db via cli</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_get_list_of_datasets_cli">
+<span class="sig-name descname"><span class="pre">test_get_list_of_datasets_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_get_list_of_datasets_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_get_list_of_datasets_cli" title="Link to this definition"></a></dt>
+<dd><p>Test get list of datasets via CLI
+Does not verify output for not</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_get_list_of_datasets_from_user_cli">
+<span class="sig-name descname"><span class="pre">test_get_list_of_datasets_from_user_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_get_list_of_datasets_from_user_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_get_list_of_datasets_from_user_cli" title="Link to this definition"></a></dt>
+<dd><p>Test get list of users via CLI
+Does not verify output for not</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_get_list_of_users_cli">
+<span class="sig-name descname"><span class="pre">test_get_list_of_users_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_get_list_of_users_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_get_list_of_users_cli" title="Link to this definition"></a></dt>
+<dd><p>Test get list of users via CLI
+Does not verify output for not</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_set_budget_field_cli">
+<span class="sig-name descname"><span class="pre">test_set_budget_field_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_set_budget_field_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_set_budget_field_cli" title="Link to this definition"></a></dt>
+<dd><p>Test setting a budget field via cli</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_set_may_query_cli">
+<span class="sig-name descname"><span class="pre">test_set_may_query_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_set_may_query_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_set_may_query_cli" title="Link to this definition"></a></dt>
+<dd><p>Test set may query via cli</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_archives_of_user_cli">
+<span class="sig-name descname"><span class="pre">test_show_archives_of_user_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_show_archives_of_user_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_archives_of_user_cli" title="Link to this definition"></a></dt>
+<dd><p>Test show archives of user via CLI
+Does not verify output for not</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_collection_cli">
+<span class="sig-name descname"><span class="pre">test_show_collection_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_show_collection_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_collection_cli" title="Link to this definition"></a></dt>
+<dd><p>Test show collection from db via CLI</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_dataset_cli">
+<span class="sig-name descname"><span class="pre">test_show_dataset_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_show_dataset_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_dataset_cli" title="Link to this definition"></a></dt>
+<dd><p>Test show dataset
+Does not verify output for not</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_metadata_of_dataset_cli">
+<span class="sig-name descname"><span class="pre">test_show_metadata_of_dataset_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_show_metadata_of_dataset_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_metadata_of_dataset_cli" title="Link to this definition"></a></dt>
+<dd><p>Test show metadata_of dataset
+Does not verify output for not</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_user_cli">
+<span class="sig-name descname"><span class="pre">test_show_user_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/tests/test_mongodb_admin_cli.html#TestMongoDBAdmin.test_show_user_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.tests.test_mongodb_admin_cli.TestMongoDBAdmin.test_show_user_cli" title="Link to this definition"></a></dt>
+<dd><p>Test show user via CLI
+Does not verify output for not</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-lomas_server.tests">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-lomas_server.tests" title="Link to this heading"></a></h2>
 </section>
@@ -465,7 +640,36 @@ environment variable is set to True.</p>
       </div>
     </section>
   </div>
-  <script>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">latest</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/master/en/index.html">master</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

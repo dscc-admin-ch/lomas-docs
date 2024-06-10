@@ -35,6 +35,9 @@
             Lomas
               <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                develop
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -48,17 +51,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../client_quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../client_examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../client_errors.html">Errors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../client_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Server</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../server_administration.html">Administration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../server_contributing.html">Contributing</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Tips for developers</a></li>
 </ul>
 
         </div>
@@ -299,7 +304,7 @@
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_smartnoise_query">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_smartnoise_query">[docs]</a>
     <span class="k">def</span> <span class="nf">test_smartnoise_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test smartnoise-sql query&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -339,9 +344,9 @@
 
             <span class="c1"># Expect to fail: query does not make sense</span>
             <span class="n">input_smartnoise</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">)</span>
-            <span class="n">input_smartnoise</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;SELECT AVG(bill) FROM df&quot;</span>  <span class="c1"># no &#39;bill&#39; column</span>
-            <span class="p">)</span>
+            <span class="n">input_smartnoise</span><span class="p">[</span>
+                <span class="s2">&quot;query_str&quot;</span>
+            <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;SELECT AVG(bill) FROM df&quot;</span>  <span class="c1"># no &#39;bill&#39; column</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="s2">&quot;/smartnoise_query&quot;</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="n">input_smartnoise</span><span class="p">,</span>
@@ -380,6 +385,21 @@
             <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
                 <span class="s2">&quot;InvalidQueryException&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
                 <span class="o">+</span> <span class="s2">&quot;Dataset I_do_not_exist does not exists. &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Please, verify the client object initialisation.&quot;</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Expect to fail: user does not exist</span>
+            <span class="n">new_headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span>
+            <span class="n">new_headers</span><span class="p">[</span><span class="s2">&quot;user-name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;I_do_not_exist&quot;</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/smartnoise_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">example_smartnoise_sql</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="n">new_headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_403_FORBIDDEN</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+                <span class="s2">&quot;UnauthorizedAccessException&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;User I_do_not_exist does not exist. &quot;</span>
                 <span class="o">+</span> <span class="s2">&quot;Please, verify the client object initialisation.&quot;</span>
             <span class="p">}</span></div>
 
@@ -752,7 +772,36 @@
       </div>
     </section>
   </div>
-  <script>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">latest</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/master/en/index.html">master</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimal OpenDP example on the income dataset &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Lomas
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                develop
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Tips for developers</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Minimal OpenDP example on the income dataset</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/income_minimal.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Minimal-OpenDP-example-on-the-income-dataset">
+<h1>Minimal OpenDP example on the income dataset<a class="headerlink" href="#Minimal-OpenDP-example-on-the-income-dataset" title="Link to this heading"></a></h1>
+<p>(Just to check if it’s working as intended)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lomas_client.client</span> <span class="kn">import</span> <span class="n">Client</span>
+
+<span class="n">APP_URL</span> <span class="o">=</span> <span class="s2">&quot;http://lomas_server_dev:80&quot;</span> <span class="c1"># Onyxia: &quot;https://lomas-server-demo.lab.sspcloud.fr&quot;</span>
+<span class="n">USER_NAME</span> <span class="o">=</span> <span class="s2">&quot;Dr. FSO&quot;</span>
+<span class="n">DATASET_NAME</span> <span class="o">=</span> <span class="s2">&quot;FSO_INCOME_SYNTHETIC&quot;</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">APP_URL</span><span class="p">,</span> <span class="n">user_name</span> <span class="o">=</span> <span class="n">USER_NAME</span><span class="p">,</span> <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">DATASET_NAME</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">income_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
+<span class="n">income_metadata</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;max_ids&#39;: 1,
+ &#39;columns&#39;: {&#39;region&#39;: {&#39;type&#39;: &#39;int&#39;},
+  &#39;eco_branch&#39;: {&#39;type&#39;: &#39;int&#39;},
+  &#39;profession&#39;: {&#39;type&#39;: &#39;int&#39;},
+  &#39;education&#39;: {&#39;type&#39;: &#39;int&#39;},
+  &#39;age&#39;: {&#39;type&#39;: &#39;int&#39;},
+  &#39;sex&#39;: {&#39;type&#39;: &#39;int&#39;},
+  &#39;income&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 1000, &#39;upper&#39;: 100000}}}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NB_ROWS</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">SEED</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">df_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span>
+    <span class="n">nb_rows</span> <span class="o">=</span> <span class="n">NB_ROWS</span><span class="p">,</span>
+    <span class="n">seed</span> <span class="o">=</span> <span class="n">SEED</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df_dummy</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">df_dummy</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(200, 7)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>region</th>
+      <th>eco_branch</th>
+      <th>profession</th>
+      <th>education</th>
+      <th>age</th>
+      <th>sex</th>
+      <th>income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-7268</td>
+      <td>-8759</td>
+      <td>4470</td>
+      <td>-7097</td>
+      <td>2279</td>
+      <td>4470</td>
+      <td>99981.049234</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>799</td>
+      <td>903</td>
+      <td>-4654</td>
+      <td>-6748</td>
+      <td>-2700</td>
+      <td>1345</td>
+      <td>20528.687956</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-155</td>
+      <td>-5597</td>
+      <td>-5224</td>
+      <td>-3552</td>
+      <td>9480</td>
+      <td>8039</td>
+      <td>53955.911640</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>9648</td>
+      <td>7582</td>
+      <td>3729</td>
+      <td>4274</td>
+      <td>-178</td>
+      <td>-7578</td>
+      <td>29734.556213</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3123</td>
+      <td>9381</td>
+      <td>-5878</td>
+      <td>-2574</td>
+      <td>9842</td>
+      <td>8165</td>
+      <td>31113.182182</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">opendp.prelude</span> <span class="k">as</span> <span class="nn">dp</span>
+<span class="kn">import</span> <span class="nn">opendp.transformations</span> <span class="k">as</span> <span class="nn">trans</span>
+<span class="kn">import</span> <span class="nn">opendp.measurements</span> <span class="k">as</span> <span class="nn">meas</span>
+
+<span class="n">dp</span><span class="o">.</span><span class="n">enable_features</span><span class="p">(</span><span class="s2">&quot;contrib&quot;</span><span class="p">)</span>
+
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;region&quot;</span><span class="p">,</span> <span class="s2">&quot;eco_branch&quot;</span><span class="p">,</span> <span class="s2">&quot;profession&quot;</span><span class="p">,</span> <span class="s2">&quot;education&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;income&quot;</span><span class="p">]</span>
+
+<span class="n">income_min</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">income_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s2">&quot;income&quot;</span><span class="p">][</span><span class="s2">&quot;lower&quot;</span><span class="p">])</span>
+<span class="n">income_max</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">income_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s2">&quot;income&quot;</span><span class="p">][</span><span class="s2">&quot;upper&quot;</span><span class="p">])</span>
+
+<span class="n">num_rows_pipeline</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">make_split_dataframe</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">make_select_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;income&quot;</span><span class="p">,</span> <span class="n">TOA</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">then_count</span><span class="p">()</span> <span class="o">&gt;&gt;</span>
+    <span class="n">meas</span><span class="o">.</span><span class="n">then_laplace</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="c1"># scale arbitrary</span>
+<span class="p">)</span>
+
+<span class="n">num_rows</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp_query</span><span class="p">(</span>
+    <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">num_rows_pipeline</span><span class="p">,</span>
+<span class="p">)[</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">income_average_pipeline</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">make_split_dataframe</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">make_select_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;income&quot;</span><span class="p">,</span> <span class="n">TOA</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">then_cast_default</span><span class="p">(</span><span class="n">TOA</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">then_clamp</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="n">income_min</span><span class="p">,</span> <span class="n">income_max</span><span class="p">))</span> <span class="o">&gt;&gt;</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">then_resize</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="c1"># Arbitrary constant</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">then_mean</span><span class="p">()</span> <span class="o">&gt;&gt;</span>
+    <span class="n">meas</span><span class="o">.</span><span class="n">then_laplace</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">income_average</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp_query</span><span class="p">(</span>
+    <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">income_average_pipeline</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">income_average</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;query_response&#39;: 1001.9747347375568}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: master
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/master/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">latest</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/master/en/index.html">master</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
