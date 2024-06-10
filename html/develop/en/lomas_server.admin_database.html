@@ -356,25 +356,6 @@ on a specific dataset (since the initialisation)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.may_user_query">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">may_user_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.may_user_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.may_user_query" title="Link to this definition"></a></dt>
-<dd><p>Checks if a user may query the server.
-Cannot query if already querying.</p>
-<p>Wrapped by <a class="reference internal" href="#lomas_server.admin_database.admin_database.user_must_exist" title="lomas_server.admin_database.admin_database.user_must_exist"><code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_exist()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>user_name</strong> (<em>str</em>) – name of the user</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if the user exists, False otherwise.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.prepare_save_query">
 <span class="sig-name descname"><span class="pre">prepare_save_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.prepare_save_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.prepare_save_query" title="Link to this definition"></a></dt>
 <dd><p>Prepare the query to save in archives</p>
@@ -747,25 +728,6 @@ on a specific dataset</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.may_user_query">
-<span class="sig-name descname"><span class="pre">may_user_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.may_user_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.may_user_query" title="Link to this definition"></a></dt>
-<dd><p>Checks if a user may query the server.
-Cannot query if already querying.</p>
-<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_exist()</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>user_name</strong> (<em>str</em>) – name of the user</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if the user exists, False otherwise.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.save_query">
 <span class="sig-name descname"><span class="pre">save_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.save_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.save_query" title="Link to this definition"></a></dt>
 <dd><p>Save queries of user on datasets in a separate collection (table)
@@ -1068,25 +1030,6 @@ on a specific dataset</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if the user has access, False otherwise.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.may_user_query">
-<span class="sig-name descname"><span class="pre">may_user_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.may_user_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.may_user_query" title="Link to this definition"></a></dt>
-<dd><p>Checks if a user may query the server.
-Cannot query if already querying.</p>
-<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_exist()</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>user_name</strong> (<em>str</em>) – name of the user</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if the user exists, False otherwise.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
