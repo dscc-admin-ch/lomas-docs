@@ -94,9 +94,15 @@
 <span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">status</span>
 <span class="kn">from</span> <span class="nn">fastapi.testclient</span> <span class="kn">import</span> <span class="n">TestClient</span>
+<span class="kn">import</span> <span class="nn">opendp.combinators</span> <span class="k">as</span> <span class="nn">comb</span>
+<span class="kn">import</span> <span class="nn">opendp.measurements</span> <span class="k">as</span> <span class="nn">meas</span>
+<span class="kn">from</span> <span class="nn">opendp.mod</span> <span class="kn">import</span> <span class="n">enable_features</span>
+<span class="kn">import</span> <span class="nn">opendp.prelude</span> <span class="k">as</span> <span class="nn">dp_p</span>
+<span class="kn">import</span> <span class="nn">opendp.transformations</span> <span class="k">as</span> <span class="nn">trans</span>
+<span class="kn">from</span> <span class="nn">opendp_logger</span> <span class="kn">import</span> <span class="n">enable_logging</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pymongo.database</span> <span class="kn">import</span> <span class="n">Database</span>
 
 <span class="kn">from</span> <span class="nn">admin_database.utils</span> <span class="kn">import</span> <span class="n">get_mongodb</span><span class="p">,</span> <span class="n">database_factory</span>
@@ -130,6 +136,9 @@
 
 <span class="n">INITAL_EPSILON</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">INITIAL_DELTA</span> <span class="o">=</span> <span class="mf">0.005</span>
+
+<span class="n">enable_features</span><span class="p">(</span><span class="s2">&quot;floating-point&quot;</span><span class="p">)</span>
+<span class="n">enable_logging</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="TestRootAPIEndpoint">
@@ -555,10 +564,10 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_opendp_query">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_opendp_query">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_opendp_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">test_opendp_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=R0915</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_opendp_query&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-            <span class="c1"># Expect to work</span>
+            <span class="c1"># Basic test based on example with max divergence (Pure DP)</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="n">example_opendp</span><span class="p">,</span>
@@ -571,20 +580,129 @@
             <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_epsilon&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.1</span>
             <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
 
+            <span class="c1"># Tests on different pipeline</span>
+            <span class="n">colnames</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;species&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;island&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;flipper_length_mm&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;body_mass_g&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;sex&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+            <span class="n">transformation_pipeline</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">trans</span><span class="o">.</span><span class="n">make_split_dataframe</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="n">colnames</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">make_select_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="n">TOA</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_cast_default</span><span class="p">(</span><span class="n">TOA</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_clamp</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">))</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_resize</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">346</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="mf">43.61</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_variance</span><span class="p">()</span>
+            <span class="p">)</span>
+
             <span class="c1"># Expect to fail: transormation instead of measurement</span>
-            <span class="n">trans</span> <span class="o">=</span> <span class="s1">&#39;{&quot;version&quot;: &quot;0.8.0&quot;, &quot;ast&quot;: {&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;make_chain_tt&quot;, &quot;module&quot;: &quot;combinators&quot;, &quot;args&quot;: [{&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;make_select_column&quot;, &quot;module&quot;: &quot;transformations&quot;, &quot;kwargs&quot;: {&quot;key&quot;: &quot;bill_length_mm&quot;, &quot;TOA&quot;: &quot;String&quot;}}, {&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;make_split_dataframe&quot;, &quot;module&quot;: &quot;transformations&quot;, &quot;kwargs&quot;: {&quot;separator&quot;: &quot;,&quot;, &quot;col_names&quot;: {&quot;_type&quot;: &quot;list&quot;, &quot;_items&quot;: [&quot;species&quot;, &quot;island&quot;, &quot;bill_length_mm&quot;, &quot;bill_depth_mm&quot;, &quot;flipper_length_mm&quot;, &quot;body_mass_g&quot;, &quot;sex&quot;]}}}]}, &quot;rhs&quot;: {&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;then_cast_default&quot;, &quot;module&quot;: &quot;transformations&quot;, &quot;kwargs&quot;: {&quot;TOA&quot;: &quot;f64&quot;}}}, &quot;rhs&quot;: {&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;then_clamp&quot;, &quot;module&quot;: &quot;transformations&quot;, &quot;kwargs&quot;: {&quot;bounds&quot;: [30.0, 65.0]}}}, &quot;rhs&quot;: {&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;then_resize&quot;, &quot;module&quot;: &quot;transformations&quot;, &quot;kwargs&quot;: {&quot;size&quot;: 346, &quot;constant&quot;: 43.61}}}, &quot;rhs&quot;: {&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;then_variance&quot;, &quot;module&quot;: &quot;transformations&quot;}}}&#39;</span>  <span class="c1"># noqa: E501 # pylint: disable=C0301</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="p">{</span>
                     <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
-                    <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">trans</span><span class="p">,</span>
+                    <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">transformation_pipeline</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span>
                 <span class="p">},</span>
             <span class="p">)</span>
             <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
             <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
                 <span class="s2">&quot;InvalidQueryException&quot;</span><span class="p">:</span> <span class="s2">&quot;The pipeline provided is not a &quot;</span>
                 <span class="o">+</span> <span class="s2">&quot;measurement. It cannot be processed in this server.&quot;</span>
-            <span class="p">}</span></div>
+            <span class="p">}</span>
+
+            <span class="c1"># Test MAX_DIVERGENCE (pure DP)</span>
+            <span class="n">md_pipeline</span> <span class="o">=</span> <span class="n">transformation_pipeline</span> <span class="o">&gt;&gt;</span> <span class="n">meas</span><span class="o">.</span><span class="n">then_laplace</span><span class="p">(</span>
+                <span class="n">scale</span><span class="o">=</span><span class="mf">5.0</span>
+            <span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
+                    <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">md_pipeline</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;requested_by&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_epsilon&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.1</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+
+            <span class="c1"># Test ZERO_CONCENTRATED_DIVERGENCE</span>
+            <span class="n">zcd_pipeline</span> <span class="o">=</span> <span class="n">transformation_pipeline</span> <span class="o">&gt;&gt;</span> <span class="n">meas</span><span class="o">.</span><span class="n">then_gaussian</span><span class="p">(</span>
+                <span class="n">scale</span><span class="o">=</span><span class="mf">5.0</span>
+            <span class="p">)</span>
+            <span class="n">json_obj</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
+                <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">zcd_pipeline</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span>
+            <span class="p">}</span>
+            <span class="c1"># Should error because missing fixed_delta</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json_obj</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+                <span class="s2">&quot;InvalidQueryException&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;fixed_delta must be set for smooth max divergence&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot; and zero concentrated divergence.&quot;</span>
+            <span class="p">}</span>
+            <span class="c1"># Should work because fixed_delta is set</span>
+            <span class="n">json_obj</span><span class="p">[</span><span class="s2">&quot;fixed_delta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-6</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json_obj</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;requested_by&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_epsilon&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.1</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">1e-6</span>
+
+            <span class="c1"># Test SMOOTHED_MAX_DIVERGENCE (approx DP)</span>
+            <span class="n">sm_pipeline</span> <span class="o">=</span> <span class="n">comb</span><span class="o">.</span><span class="n">make_zCDP_to_approxDP</span><span class="p">(</span><span class="n">zcd_pipeline</span><span class="p">)</span>
+            <span class="n">json_obj</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
+                <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">sm_pipeline</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span>
+            <span class="p">}</span>
+            <span class="c1"># Should error because missing fixed_delta</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json_obj</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+                <span class="s2">&quot;InvalidQueryException&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;fixed_delta must be set for smooth max divergence&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot; and zero concentrated divergence.&quot;</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Should work because fixed_delta is set</span>
+            <span class="n">json_obj</span><span class="p">[</span><span class="s2">&quot;fixed_delta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-6</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json_obj</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;requested_by&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_epsilon&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.1</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">1e-6</span>
+
+            <span class="c1"># Test FIXED_SMOOTHED_MAX_DIVERGENCE</span>
+            <span class="n">fms_pipeline</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">trans</span><span class="o">.</span><span class="n">make_split_dataframe</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="n">colnames</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">make_select_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="n">TOA</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_count_by</span><span class="p">(</span><span class="n">MO</span><span class="o">=</span><span class="n">dp_p</span><span class="o">.</span><span class="n">L1Distance</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">TV</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">meas</span><span class="o">.</span><span class="n">then_base_laplace_threshold</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">28.0</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">json_obj</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
+                <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">fms_pipeline</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span>
+            <span class="p">}</span>
+            <span class="c1"># Should error because missing fixed_delta</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json_obj</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;requested_by&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_epsilon&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.1</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
 
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_dummy_opendp_query">
