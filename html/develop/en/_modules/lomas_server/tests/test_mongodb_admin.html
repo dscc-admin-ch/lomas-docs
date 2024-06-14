@@ -94,6 +94,7 @@
 <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 
+<span class="kn">import</span> <span class="nn">boto3</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
 <span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
 
@@ -121,15 +122,21 @@
     <span class="n">show_user</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">PrivateDatabaseType</span>
-<span class="kn">from</span> <span class="nn">tests.constants</span> <span class="kn">import</span> <span class="n">ENV_MONGO_INTEGRATION</span>
+<span class="kn">from</span> <span class="nn">tests.constants</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span>
+    <span class="n">ENV_S3_INTEGRATION</span><span class="p">,</span>
+    <span class="n">TRUE_VALUES</span><span class="p">,</span>
+    <span class="n">FALSE_VALUES</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">CONFIG_LOADER</span><span class="p">,</span> <span class="n">get_config</span>
+<span class="kn">from</span> <span class="nn">utils.utils</span> <span class="kn">import</span> <span class="n">add_demo_data_to_admindb</span>
 
 
 <div class="viewcode-block" id="TestMongoDBAdmin">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin">[docs]</a>
 <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipIf</span><span class="p">(</span>
     <span class="n">ENV_MONGO_INTEGRATION</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
-    <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">),</span>
+    <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">FALSE_VALUES</span><span class="p">,</span>
     <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Not an MongoDB integration test: </span><span class="si">{</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="si">}</span>
 <span class="s2">        environment variable not set to True.&quot;&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span>
@@ -669,6 +676,131 @@
         <span class="n">metadata_found</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">find_one</span><span class="p">(</span>
             <span class="p">{</span><span class="n">dataset</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$exists&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}}</span>
         <span class="p">)[</span><span class="n">dataset</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">metadata_found</span><span class="p">,</span> <span class="n">expected_metadata</span><span class="p">)</span>
+
+        <span class="c1"># Add already present dataset</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">add_dataset</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+                <span class="n">dataset</span><span class="p">,</span>
+                <span class="n">database_type</span><span class="o">=</span><span class="n">database_type</span><span class="p">,</span>
+                <span class="n">metadata_database_type</span><span class="o">=</span><span class="n">metadata_database_type</span><span class="p">,</span>
+                <span class="n">dataset_path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span>
+                <span class="n">metadata_path</span><span class="o">=</span><span class="n">metadata_path</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Add not already present dataset but present metadata</span>
+        <span class="n">drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;datasets&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">add_dataset</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+                <span class="n">dataset</span><span class="p">,</span>
+                <span class="n">database_type</span><span class="o">=</span><span class="n">database_type</span><span class="p">,</span>
+                <span class="n">metadata_database_type</span><span class="o">=</span><span class="n">metadata_database_type</span><span class="p">,</span>
+                <span class="n">dataset_path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span>
+                <span class="n">metadata_path</span><span class="o">=</span><span class="n">metadata_path</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Restart clean</span>
+        <span class="n">drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">)</span>
+        <span class="n">drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;datasets&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Unknown database type for dataset</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">add_dataset</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+                <span class="n">dataset</span><span class="p">,</span>
+                <span class="n">database_type</span><span class="o">=</span><span class="s2">&quot;type_that_does_not_exist&quot;</span><span class="p">,</span>
+                <span class="n">metadata_database_type</span><span class="o">=</span><span class="n">metadata_database_type</span><span class="p">,</span>
+                <span class="n">dataset_path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span>
+                <span class="n">metadata_path</span><span class="o">=</span><span class="n">metadata_path</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Unknown database type for metadata</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">add_dataset</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+                <span class="n">dataset</span><span class="p">,</span>
+                <span class="n">database_type</span><span class="o">=</span><span class="n">database_type</span><span class="p">,</span>
+                <span class="n">metadata_database_type</span><span class="o">=</span><span class="s2">&quot;type_that_does_not_exist&quot;</span><span class="p">,</span>
+                <span class="n">dataset_path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span>
+                <span class="n">metadata_path</span><span class="o">=</span><span class="n">metadata_path</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestMongoDBAdmin.test_add_s3_dataset">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_s3_dataset">[docs]</a>
+    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipIf</span><span class="p">(</span>
+        <span class="n">ENV_S3_INTEGRATION</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
+        <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_S3_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">FALSE_VALUES</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Not an S3 integration test: </span><span class="si">{</span><span class="n">ENV_S3_INTEGRATION</span><span class="si">}</span>
+<span class="s2">            environment variable not set to True.&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_add_s3_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=R0914</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test adding a dataset stored on S3&quot;&quot;&quot;</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="s2">&quot;TINTIN_S3_TEST&quot;</span>
+        <span class="n">database_type</span> <span class="o">=</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span>
+        <span class="n">metadata_database_type</span> <span class="o">=</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span>
+        <span class="n">s3_bucket</span> <span class="o">=</span> <span class="s2">&quot;example&quot;</span>
+        <span class="n">endpoint_url</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:9000&quot;</span>
+        <span class="n">aws_access_key_id</span> <span class="o">=</span> <span class="s2">&quot;admin&quot;</span>
+        <span class="n">aws_secret_access_key</span> <span class="o">=</span> <span class="s2">&quot;admin123&quot;</span>
+        <span class="n">s3_key_file</span> <span class="o">=</span> <span class="s2">&quot;data/test_penguin.csv&quot;</span>
+        <span class="n">s3_key_metadata</span> <span class="o">=</span> <span class="s2">&quot;metadata/penguin_metadata.yaml&quot;</span>
+
+        <span class="n">add_dataset</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">dataset</span><span class="p">,</span>
+            <span class="n">database_type</span><span class="p">,</span>
+            <span class="n">metadata_database_type</span><span class="p">,</span>
+            <span class="n">s3_bucket</span><span class="o">=</span><span class="n">s3_bucket</span><span class="p">,</span>
+            <span class="n">s3_key</span><span class="o">=</span><span class="n">s3_key_file</span><span class="p">,</span>
+            <span class="n">endpoint_url</span><span class="o">=</span><span class="n">endpoint_url</span><span class="p">,</span>
+            <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
+            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+            <span class="n">metadata_s3_bucket</span><span class="o">=</span><span class="n">s3_bucket</span><span class="p">,</span>
+            <span class="n">metadata_s3_key</span><span class="o">=</span><span class="n">s3_key_metadata</span><span class="p">,</span>
+            <span class="n">metadata_endpoint_url</span><span class="o">=</span><span class="n">endpoint_url</span><span class="p">,</span>
+            <span class="n">metadata_aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
+            <span class="n">metadata_aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Check dataset collection</span>
+        <span class="n">expected_dataset</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">,</span>
+            <span class="s2">&quot;database_type&quot;</span><span class="p">:</span> <span class="n">database_type</span><span class="p">,</span>
+            <span class="s2">&quot;s3_bucket&quot;</span><span class="p">:</span> <span class="n">s3_bucket</span><span class="p">,</span>
+            <span class="s2">&quot;s3_key&quot;</span><span class="p">:</span> <span class="n">s3_key_file</span><span class="p">,</span>
+            <span class="s2">&quot;endpoint_url&quot;</span><span class="p">:</span> <span class="n">endpoint_url</span><span class="p">,</span>
+            <span class="s2">&quot;aws_access_key_id&quot;</span><span class="p">:</span> <span class="n">aws_access_key_id</span><span class="p">,</span>
+            <span class="s2">&quot;aws_secret_access_key&quot;</span><span class="p">:</span> <span class="n">aws_secret_access_key</span><span class="p">,</span>
+            <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;database_type&quot;</span><span class="p">:</span> <span class="n">metadata_database_type</span><span class="p">,</span>
+                <span class="s2">&quot;s3_bucket&quot;</span><span class="p">:</span> <span class="n">s3_bucket</span><span class="p">,</span>
+                <span class="s2">&quot;s3_key&quot;</span><span class="p">:</span> <span class="n">s3_key_metadata</span><span class="p">,</span>
+                <span class="s2">&quot;endpoint_url&quot;</span><span class="p">:</span> <span class="n">endpoint_url</span><span class="p">,</span>
+                <span class="s2">&quot;aws_access_key_id&quot;</span><span class="p">:</span> <span class="n">aws_access_key_id</span><span class="p">,</span>
+                <span class="s2">&quot;aws_secret_access_key&quot;</span><span class="p">:</span> <span class="n">aws_secret_access_key</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+        <span class="n">dataset_found</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">})</span>
+        <span class="k">del</span> <span class="n">dataset_found</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">dataset_found</span><span class="p">,</span> <span class="n">expected_dataset</span><span class="p">)</span>
+
+        <span class="c1"># Check metadata collection</span>
+        <span class="n">s3_client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+            <span class="s2">&quot;s3&quot;</span><span class="p">,</span>
+            <span class="n">endpoint_url</span><span class="o">=</span><span class="n">endpoint_url</span><span class="p">,</span>
+            <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
+            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">s3_client</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">s3_bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">s3_key_metadata</span><span class="p">)</span>
+        <span class="n">expected_metadata</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;Body&quot;</span><span class="p">])</span>
+
+        <span class="n">metadata_found</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">find_one</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">dataset</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$exists&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}}</span>
+        <span class="p">)[</span><span class="n">dataset</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">metadata_found</span><span class="p">,</span> <span class="n">expected_metadata</span><span class="p">)</span></div>
 
 
@@ -753,7 +885,66 @@
         <span class="n">add_datasets_via_yaml</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">clean</span><span class="p">,</span> <span class="n">overwrite_datasets</span><span class="p">,</span> <span class="n">overwrite_metadata</span>
         <span class="p">)</span>
+        <span class="n">verify_datasets</span><span class="p">()</span>
+
+        <span class="c1"># Check no clean and overwrite metadata</span>
+        <span class="n">add_datasets_via_yaml</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">path</span><span class="p">,</span>
+            <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">overwrite_datasets</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">overwrite_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">verify_datasets</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="TestMongoDBAdmin.test_add_s3_datasets_via_yaml">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_s3_datasets_via_yaml">[docs]</a>
+    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipIf</span><span class="p">(</span>
+        <span class="n">ENV_S3_INTEGRATION</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
+        <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_S3_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">FALSE_VALUES</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Not an S3 integration test: </span><span class="si">{</span><span class="n">ENV_S3_INTEGRATION</span><span class="si">}</span>
+<span class="s2">            environment variable not set to True.&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_add_s3_datasets_via_yaml</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test add datasets via a YAML file&quot;&quot;&quot;</span>
+        <span class="c1"># Load reference data</span>
+        <span class="n">dataset_path</span> <span class="o">=</span> <span class="s2">&quot;./tests/test_data/test_datasets_with_s3.yaml&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
+            <span class="n">dataset_path</span><span class="p">,</span>
+            <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">datasets</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">tintin</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s2">&quot;datasets&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
+            <span class="s2">&quot;./tests/test_data/metadata/penguin_metadata.yaml&quot;</span><span class="p">,</span>
+            <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">tintin_metadata</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="n">clean</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">overwrite_datasets</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">overwrite_metadata</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">add_datasets_via_yaml</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">dataset_path</span><span class="p">,</span>
+            <span class="n">clean</span><span class="p">,</span>
+            <span class="n">overwrite_datasets</span><span class="p">,</span>
+            <span class="n">overwrite_metadata</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">tintin_found</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">find_one</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="s2">&quot;TINTIN_S3_TEST&quot;</span><span class="p">}</span>
+        <span class="p">)</span>
+        <span class="k">del</span> <span class="n">tintin_found</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">tintin_found</span><span class="p">,</span> <span class="n">tintin</span><span class="p">)</span>
+
+        <span class="n">metadata_found</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">find_one</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;TINTIN_S3_TEST&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$exists&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}}</span>
+        <span class="p">)[</span><span class="s2">&quot;TINTIN_S3_TEST&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">metadata_found</span><span class="p">,</span> <span class="n">tintin_metadata</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TestMongoDBAdmin.test_del_dataset">
@@ -785,7 +976,20 @@
         <span class="n">nb_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">count_documents</span><span class="p">({})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">nb_metadata</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-        <span class="c1"># Delete non-existing dataset should trigger error</span>
+        <span class="c1"># Delete non-existing dataset should trigger decorator error</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">del_dataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
+
+        <span class="c1"># Delete dataset with non-existing metadata should trigger decorator error</span>
+        <span class="n">add_dataset</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">dataset</span><span class="p">,</span>
+            <span class="n">database_type</span><span class="p">,</span>
+            <span class="n">metadata_database_type</span><span class="p">,</span>
+            <span class="n">dataset_path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span>
+            <span class="n">metadata_path</span><span class="o">=</span><span class="n">metadata_path</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">delete_many</span><span class="p">({</span><span class="n">dataset</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$exists&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}})</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
             <span class="n">del_dataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span></div>
 
@@ -918,6 +1122,34 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
             <span class="n">expected_dataset_collection</span><span class="p">[</span><span class="s2">&quot;datasets&quot;</span><span class="p">],</span> <span class="n">dataset_collection</span>
         <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestMongoDBAdmin.test_add_demo_data_to_admindb">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_mongodb_admin.TestMongoDBAdmin.test_add_demo_data_to_admindb">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_add_demo_data_to_admindb</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test add demo data to admin db&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_S3_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TRUE_VALUES</span><span class="p">:</span>
+            <span class="n">dataset_yaml</span> <span class="o">=</span> <span class="s2">&quot;tests/test_data/test_datasets_with_s3.yaml&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dataset_yaml</span> <span class="o">=</span> <span class="s2">&quot;tests/test_data/test_datasets.yaml&quot;</span>
+
+        <span class="n">add_demo_data_to_admindb</span><span class="p">(</span>
+            <span class="n">user_yaml</span><span class="o">=</span><span class="s2">&quot;./tests/test_data/test_user_collection.yaml&quot;</span><span class="p">,</span>
+            <span class="n">dataset_yaml</span><span class="o">=</span><span class="n">dataset_yaml</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">users_list</span> <span class="o">=</span> <span class="n">get_list_of_users</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">users_list</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Dr. Antartica&quot;</span><span class="p">,</span> <span class="s2">&quot;Tintin&quot;</span><span class="p">,</span> <span class="s2">&quot;Milou&quot;</span><span class="p">])</span>
+
+        <span class="n">list_datasets</span> <span class="o">=</span> <span class="n">get_list_of_datasets</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_S3_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TRUE_VALUES</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+                <span class="n">list_datasets</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;PENGUIN&quot;</span><span class="p">,</span> <span class="s2">&quot;IRIS&quot;</span><span class="p">,</span> <span class="s2">&quot;TINTIN_S3_TEST&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">list_datasets</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;PENGUIN&quot;</span><span class="p">,</span> <span class="s2">&quot;IRIS&quot;</span><span class="p">])</span></div>
 </div>
 
 </pre></div>
