@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
@@ -8,16 +10,12 @@
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=d45e8c67"></script>
-        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -36,7 +34,7 @@
               <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                develop
+                master
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -91,7 +89,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.dp_queries.dp_libraries.opendp</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">opendp</span> <span class="k">as</span> <span class="nn">dp</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">opendp</span> <span class="k">as</span> <span class="nn">dp</span>
 <span class="kn">from</span> <span class="nn">opendp.mod</span> <span class="kn">import</span> <span class="n">enable_features</span>
 <span class="kn">from</span> <span class="nn">opendp_logger</span> <span class="kn">import</span> <span class="n">make_load_json</span>
 
@@ -175,7 +175,8 @@
             <span class="k">case</span> <span class="n">OpenDPMeasurement</span><span class="o">.</span><span class="n">SMOOTHED_MAX_DIVERGENCE</span><span class="p">:</span>  <span class="c1"># Approximate DP</span>
                 <span class="k">if</span> <span class="n">query_json</span><span class="o">.</span><span class="n">fixed_delta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span>
-                        <span class="s2">&quot;fixed_delta must be set for smooth max divergence.&quot;</span>
+                        <span class="s2">&quot;fixed_delta must be set for smooth max divergence&quot;</span>
+                        <span class="o">+</span> <span class="s2">&quot; and zero concentrated divergence.&quot;</span>
                     <span class="p">)</span>
                 <span class="n">epsilon</span> <span class="o">=</span> <span class="n">cost</span><span class="o">.</span><span class="n">epsilon</span><span class="p">(</span><span class="n">delta</span><span class="o">=</span><span class="n">query_json</span><span class="o">.</span><span class="n">fixed_delta</span><span class="p">)</span>
                 <span class="n">delta</span> <span class="o">=</span> <span class="n">query_json</span><span class="o">.</span><span class="n">fixed_delta</span>
@@ -189,7 +190,7 @@
 
 <div class="viewcode-block" id="OpenDPQuerier.query">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.opendp.OpenDPQuerier.query">[docs]</a>
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">OpenDPInp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">OpenDPInp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform the query and return the response.</span>
 
 <span class="sd">        Args:</span>
@@ -200,8 +201,7 @@
 <span class="sd">                external to this package.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            TODO Check this, probably float or int.</span>
-<span class="sd">            str: The JSON encoded string representation of the query result.</span>
+<span class="sd">            (Union[List, int, float]) query result</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">opendp_pipe</span> <span class="o">=</span> <span class="n">reconstruct_measurement_pipeline</span><span class="p">(</span><span class="n">query_json</span><span class="o">.</span><span class="n">opendp_json</span><span class="p">)</span>
 
@@ -217,10 +217,6 @@
                 <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">,</span>
                 <span class="s2">&quot;Error executing query:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
             <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-
-        <span class="c1"># Note: leaving this here, support for opendp_polars</span>
-        <span class="c1"># if isinstance(release_data, polars.dataframe.frame.DataFrame):</span>
-        <span class="c1">#     release_data = release_data.write_json(file=None)</span>
 
         <span class="k">return</span> <span class="n">release_data</span></div>
 </div>
@@ -286,6 +282,15 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output_type</span> <span class="o">=</span> <span class="n">opendp_pipe</span><span class="o">.</span><span class="n">output_distance_type</span>
     <span class="n">output_measure</span> <span class="o">=</span> <span class="n">opendp_pipe</span><span class="o">.</span><span class="n">output_measure</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">output_type</span><span class="o">.</span><span class="n">origin</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;SMDCurve&quot;</span><span class="p">,</span> <span class="s2">&quot;Tuple&quot;</span><span class="p">]:</span>
+            <span class="n">output_type</span> <span class="o">=</span> <span class="n">output_type</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Cannot process output measure: </span><span class="si">{</span><span class="n">output_measure</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;with output type </span><span class="si">{</span><span class="n">output_type</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">output_measure</span> <span class="o">==</span> <span class="n">dp</span><span class="o">.</span><span class="n">measures</span><span class="o">.</span><span class="n">fixed_smoothed_max_divergence</span><span class="p">(</span>
         <span class="n">T</span><span class="o">=</span><span class="n">output_type</span>

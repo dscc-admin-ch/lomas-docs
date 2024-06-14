@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
@@ -8,16 +10,12 @@
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
-        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -36,7 +34,7 @@
               <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                develop
+                latest
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -107,32 +105,51 @@
 <div class="viewcode-block" id="TestMakeDummyDataset.test_cardinality_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_cardinality_column">[docs]</a>
     <span class="k">def</span> <span class="nf">test_cardinality_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_cardinality_column&quot;&quot;&quot;</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;col_card&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;col_card_cat&quot;</span><span class="p">:</span> <span class="p">{</span>  <span class="c1"># cardinality + categories</span>
                     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;cardinality&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-                    <span class="s2">&quot;categories&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">],</span>
-                <span class="p">}</span>
+                    <span class="s2">&quot;categories&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">],</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;col_card_no_cat&quot;</span><span class="p">:</span> <span class="p">{</span>  <span class="c1"># cardinality, no categories</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;cardinality&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;col_no_card&quot;</span><span class="p">:</span> <span class="p">{</span>  <span class="c1"># no cardinality</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
             <span class="p">}</span>
         <span class="p">}</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">make_dummy_dataset</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
 
-        <span class="c1"># Test length</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">)</span>
+        <span class="c1"># Test shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 
         <span class="c1"># Test cardinality type and categories</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;col_card&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;col_card&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;col_card&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">})</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;col_card&quot;</span><span class="p">],</span> <span class="nb">object</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;col_card_cat&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;col_card_cat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;col_card_cat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">})</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;col_card_cat&quot;</span><span class="p">],</span> <span class="nb">object</span><span class="p">)</span>
+
+        <span class="c1"># Test cardinality type and no categories</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;col_card_no_cat&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;col_card_no_cat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">})</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;col_card_no_cat&quot;</span><span class="p">],</span> <span class="nb">object</span><span class="p">)</span>
+
+        <span class="c1"># Test cardinality type and no categories</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;col_no_card&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">[</span><span class="s2">&quot;col_no_card&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TestMakeDummyDataset.test_boolean_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_boolean_column">[docs]</a>
     <span class="k">def</span> <span class="nf">test_boolean_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_boolean_column&quot;&quot;&quot;</span>
 
         <span class="c1"># Test a boolean column</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
@@ -151,7 +168,7 @@
 <div class="viewcode-block" id="TestMakeDummyDataset.test_float_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_float_column">[docs]</a>
     <span class="k">def</span> <span class="nf">test_float_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_float_column&quot;&quot;&quot;</span>
         <span class="n">lower_bound</span> <span class="o">=</span> <span class="mf">10.0</span>
         <span class="n">upper_bound</span> <span class="o">=</span> <span class="mf">20.0</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
@@ -176,7 +193,7 @@
 <div class="viewcode-block" id="TestMakeDummyDataset.test_int_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_int_column">[docs]</a>
     <span class="k">def</span> <span class="nf">test_int_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_int_column&quot;&quot;&quot;</span>
         <span class="n">lower_bound</span> <span class="o">=</span> <span class="mi">100</span>
         <span class="n">upper_bound</span> <span class="o">=</span> <span class="mi">120</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
@@ -201,7 +218,7 @@
 <div class="viewcode-block" id="TestMakeDummyDataset.test_datetime_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_datetime_column">[docs]</a>
     <span class="k">def</span> <span class="nf">test_datetime_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_datetime_column&quot;&quot;&quot;</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;col_datetime&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;datetime&quot;</span><span class="p">}}}</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">make_dummy_dataset</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
 
@@ -215,7 +232,7 @@
 <div class="viewcode-block" id="TestMakeDummyDataset.test_nullable_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_nullable_column">[docs]</a>
     <span class="k">def</span> <span class="nf">test_nullable_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_nullable_column&quot;&quot;&quot;</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;col_nullable&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;datetime&quot;</span><span class="p">,</span> <span class="s2">&quot;nullable&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}}</span>
         <span class="p">}</span>
@@ -228,7 +245,7 @@
 <div class="viewcode-block" id="TestMakeDummyDataset.test_seed">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_seed">[docs]</a>
     <span class="k">def</span> <span class="nf">test_seed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_seed&quot;&quot;&quot;</span>
         <span class="c1"># Test the behavior with different seeds</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;col_int&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;nullable&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}}}</span>
         <span class="n">seed1</span> <span class="o">=</span> <span class="n">DUMMY_SEED</span>
@@ -243,6 +260,25 @@
         <span class="c1"># Check if datasets generated with the same seed are identical</span>
         <span class="n">df1_copy</span> <span class="o">=</span> <span class="n">make_dummy_dataset</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">df1</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">df1_copy</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="TestMakeDummyDataset.test_unknown_column">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_unknown_column">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_unknown_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_unknown_column&quot;&quot;&quot;</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;col_bool&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="s2">&quot;nullable&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s2">&quot;col_unknown&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">},</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">make_dummy_dataset</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+
+        <span class="c1"># Test col generated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;col_bool&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+        <span class="c1"># Test col not generated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotIn</span><span class="p">(</span><span class="s2">&quot;col_unknown&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span></div>
 </div>
 
 </pre></div>

@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
@@ -8,16 +10,12 @@
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
-        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -36,7 +34,7 @@
               <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                develop
+                latest
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -96,21 +94,32 @@
 <span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">status</span>
 <span class="kn">from</span> <span class="nn">fastapi.testclient</span> <span class="kn">import</span> <span class="n">TestClient</span>
+<span class="kn">import</span> <span class="nn">opendp.combinators</span> <span class="k">as</span> <span class="nn">comb</span>
+<span class="kn">import</span> <span class="nn">opendp.measurements</span> <span class="k">as</span> <span class="nn">meas</span>
+<span class="kn">from</span> <span class="nn">opendp.mod</span> <span class="kn">import</span> <span class="n">enable_features</span>
+<span class="kn">import</span> <span class="nn">opendp.prelude</span> <span class="k">as</span> <span class="nn">dp_p</span>
+<span class="kn">import</span> <span class="nn">opendp.transformations</span> <span class="k">as</span> <span class="nn">trans</span>
+<span class="kn">from</span> <span class="nn">opendp_logger</span> <span class="kn">import</span> <span class="n">enable_logging</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pymongo.database</span> <span class="kn">import</span> <span class="n">Database</span>
 
-<span class="kn">from</span> <span class="nn">admin_database.utils</span> <span class="kn">import</span> <span class="n">get_mongodb</span>
+<span class="kn">from</span> <span class="nn">admin_database.utils</span> <span class="kn">import</span> <span class="n">get_mongodb</span><span class="p">,</span> <span class="n">database_factory</span>
 <span class="kn">from</span> <span class="nn">mongodb_admin</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">add_datasets_via_yaml</span><span class="p">,</span>
     <span class="n">add_users_via_yaml</span><span class="p">,</span>
     <span class="n">drop_collection</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">app</span>
-<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">EPSILON_LIMIT</span><span class="p">,</span> <span class="n">DPLibraries</span>
-<span class="kn">from</span> <span class="nn">tests.constants</span> <span class="kn">import</span> <span class="n">ENV_MONGO_INTEGRATION</span>
+<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">DatasetStoreType</span><span class="p">,</span> <span class="n">EPSILON_LIMIT</span><span class="p">,</span> <span class="n">DPLibraries</span>
+<span class="kn">from</span> <span class="nn">tests.constants</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span>
+    <span class="n">ENV_S3_INTEGRATION</span><span class="p">,</span>
+    <span class="n">TRUE_VALUES</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">CONFIG_LOADER</span>
+<span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
 <span class="kn">from</span> <span class="nn">utils.example_inputs</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span>
     <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
@@ -128,10 +137,13 @@
 <span class="n">INITAL_EPSILON</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">INITIAL_DELTA</span> <span class="o">=</span> <span class="mf">0.005</span>
 
+<span class="n">enable_features</span><span class="p">(</span><span class="s2">&quot;floating-point&quot;</span><span class="p">)</span>
+<span class="n">enable_logging</span><span class="p">()</span>
+
 
 <div class="viewcode-block" id="TestRootAPIEndpoint">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint">[docs]</a>
-<span class="k">class</span> <span class="nc">TestRootAPIEndpoint</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">TestRootAPIEndpoint</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>  <span class="c1"># pylint: disable=R0904</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    End-to-end tests of the api endpoints.</span>
 
@@ -146,7 +158,7 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Read correct config depending on the database we test against</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TRUE_VALUES</span><span class="p">:</span>
             <span class="n">CONFIG_LOADER</span><span class="o">.</span><span class="n">load_config</span><span class="p">(</span>
                 <span class="n">config_path</span><span class="o">=</span><span class="s2">&quot;tests/test_configs/test_config_mongo.yaml&quot;</span><span class="p">,</span>
                 <span class="n">secrets_path</span><span class="o">=</span><span class="s2">&quot;tests/test_configs/test_secrets.yaml&quot;</span><span class="p">,</span>
@@ -178,7 +190,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;user-name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
 
         <span class="c1"># Fill up database if needed</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TRUE_VALUES</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span> <span class="o">=</span> <span class="n">get_mongodb</span><span class="p">()</span>
 
             <span class="n">add_users_via_yaml</span><span class="p">(</span>
@@ -187,9 +199,15 @@
                 <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_S3_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TRUE_VALUES</span><span class="p">:</span>
+                <span class="n">yaml_file</span> <span class="o">=</span> <span class="s2">&quot;tests/test_data/test_datasets_with_s3.yaml&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">yaml_file</span> <span class="o">=</span> <span class="s2">&quot;tests/test_data/test_datasets.yaml&quot;</span>
+
             <span class="n">add_datasets_via_yaml</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span>
-                <span class="n">yaml_file</span><span class="o">=</span><span class="s2">&quot;tests/test_data/test_datasets.yaml&quot;</span><span class="p">,</span>
+                <span class="n">yaml_file</span><span class="o">=</span><span class="n">yaml_file</span><span class="p">,</span>
                 <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">overwrite_datasets</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">overwrite_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -200,17 +218,48 @@
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.tearDown">[docs]</a>
     <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Clean up database if needed</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TRUE_VALUES</span><span class="p">:</span>
             <span class="n">drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">)</span>
             <span class="n">drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;datasets&quot;</span><span class="p">)</span>
             <span class="n">drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;users&quot;</span><span class="p">)</span>
             <span class="n">drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;queries_archives&quot;</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="TestRootAPIEndpoint.test_config_and_internal_server_exception">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_config_and_internal_server_exception">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_config_and_internal_server_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test set wrong configuration&quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">CONFIG_LOADER</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+
+        <span class="c1"># Put unknown admin database</span>
+        <span class="n">previous_admin_db</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">db_type</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">db_type</span> <span class="o">=</span> <span class="s2">&quot;wrong_db&quot;</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">InternalServerException</span><span class="p">)</span> <span class="k">as</span> <span class="n">context</span><span class="p">:</span>
+            <span class="n">database_factory</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">exception</span><span class="p">),</span> <span class="s2">&quot;Database type wrong_db not supported.&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># Put original state back</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">db_type</span> <span class="o">=</span> <span class="n">previous_admin_db</span></div>
+
+
+<div class="viewcode-block" id="TestRootAPIEndpoint.test_root">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_root">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_root</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test root endpoint redirection to state endpoint&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="n">response_root</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+            <span class="n">response_state</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/state&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response_root</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">response_state</span><span class="o">.</span><span class="n">status_code</span>
+            <span class="k">assert</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                <span class="n">response_root</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+            <span class="p">)</span> <span class="o">==</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response_state</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span></div>
+
+
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_state">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_state">[docs]</a>
     <span class="k">def</span> <span class="nf">test_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test state endpoint&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/state&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
@@ -220,10 +269,43 @@
             <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">][</span><span class="s2">&quot;LIVE&quot;</span><span class="p">]</span></div>
 
 
+<div class="viewcode-block" id="TestRootAPIEndpoint.test_memory_usage">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_memory_usage">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_memory_usage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test memory usage endpoint&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">CONFIG_LOADER</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dataset_store</span><span class="o">.</span><span class="n">ds_store_type</span> <span class="o">==</span> <span class="n">DatasetStoreType</span><span class="o">.</span><span class="n">LRU</span><span class="p">:</span>
+                <span class="c1"># Test before adding data</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="s2">&quot;/get_memory_usage&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span>
+                <span class="p">)</span>
+                <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+                <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+                <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;memory_usage&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+
+                <span class="c1"># Test after adding data</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                    <span class="s2">&quot;/smartnoise_query&quot;</span><span class="p">,</span>
+                    <span class="n">json</span><span class="o">=</span><span class="n">example_smartnoise_sql</span><span class="p">,</span>
+                    <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+                <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="s2">&quot;/get_memory_usage&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span>
+                <span class="p">)</span>
+                <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+                <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+                <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;memory_usage&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_dataset_metadata">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_dataset_metadata">[docs]</a>
     <span class="k">def</span> <span class="nf">test_get_dataset_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_get_dataset_metadata&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -342,6 +424,24 @@
             <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;missing&quot;</span>
             <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;loc&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;mechanisms&quot;</span><span class="p">]</span>
 
+            <span class="c1"># Expect to fail: not enough budget</span>
+            <span class="n">input_smartnoise</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">)</span>
+            <span class="n">input_smartnoise</span><span class="p">[</span><span class="s2">&quot;epsilon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.000000001</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/smartnoise_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">input_smartnoise</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_422_UNPROCESSABLE_ENTITY</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+                <span class="s2">&quot;ExternalLibraryException&quot;</span><span class="p">:</span> <span class="s2">&quot;Error obtaining cost: &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Noise scale is too large using epsilon=1e-09 &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;and bounds (0, 1) with Mechanism.gaussian.  &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Try preprocessing to reduce senstivity, &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;or try different privacy parameters.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;library&quot;</span><span class="p">:</span> <span class="s2">&quot;smartnoise_sql&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+
             <span class="c1"># Expect to fail: query does not make sense</span>
             <span class="n">input_smartnoise</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">)</span>
             <span class="n">input_smartnoise</span><span class="p">[</span>
@@ -404,10 +504,35 @@
             <span class="p">}</span></div>
 
 
+<div class="viewcode-block" id="TestRootAPIEndpoint.test_smartnoise_query_on_s3_dataset">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_smartnoise_query_on_s3_dataset">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_smartnoise_query_on_s3_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test smartnoise-sql on s3 dataset&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_S3_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TRUE_VALUES</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+                <span class="c1"># Expect to work</span>
+                <span class="n">input_smartnoise</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">)</span>
+                <span class="n">input_smartnoise</span><span class="p">[</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;TINTIN_S3_TEST&quot;</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                    <span class="s2">&quot;/smartnoise_query&quot;</span><span class="p">,</span>
+                    <span class="n">json</span><span class="o">=</span><span class="n">input_smartnoise</span><span class="p">,</span>
+                    <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+                <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+                <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;requested_by&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
+                <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;NB_ROW&quot;</span><span class="p">]</span>
+                <span class="k">assert</span> <span class="p">(</span>
+                    <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_epsilon&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">SMARTNOISE_QUERY_EPSILON</span>
+                <span class="p">)</span>
+                <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">SMARTNOISE_QUERY_DELTA</span></div>
+
+
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_dummy_smartnoise_query">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_dummy_smartnoise_query">[docs]</a>
     <span class="k">def</span> <span class="nf">test_dummy_smartnoise_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_dummy_smartnoise_query&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -424,7 +549,7 @@
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_smartnoise_cost">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_smartnoise_cost">[docs]</a>
     <span class="k">def</span> <span class="nf">test_smartnoise_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_smartnoise_cost&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -439,10 +564,10 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_opendp_query">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_opendp_query">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_opendp_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">test_opendp_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=R0915</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_opendp_query&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-            <span class="c1"># Expect to work</span>
+            <span class="c1"># Basic test based on example with max divergence (Pure DP)</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="n">example_opendp</span><span class="p">,</span>
@@ -455,26 +580,135 @@
             <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_epsilon&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.1</span>
             <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
 
+            <span class="c1"># Tests on different pipeline</span>
+            <span class="n">colnames</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;species&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;island&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;flipper_length_mm&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;body_mass_g&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;sex&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+            <span class="n">transformation_pipeline</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">trans</span><span class="o">.</span><span class="n">make_split_dataframe</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="n">colnames</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">make_select_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="n">TOA</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_cast_default</span><span class="p">(</span><span class="n">TOA</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_clamp</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">))</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_resize</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">346</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="mf">43.61</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_variance</span><span class="p">()</span>
+            <span class="p">)</span>
+
             <span class="c1"># Expect to fail: transormation instead of measurement</span>
-            <span class="n">trans</span> <span class="o">=</span> <span class="s1">&#39;{&quot;version&quot;: &quot;0.8.0&quot;, &quot;ast&quot;: {&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;make_chain_tt&quot;, &quot;module&quot;: &quot;combinators&quot;, &quot;args&quot;: [{&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;make_select_column&quot;, &quot;module&quot;: &quot;transformations&quot;, &quot;kwargs&quot;: {&quot;key&quot;: &quot;bill_length_mm&quot;, &quot;TOA&quot;: &quot;String&quot;}}, {&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;make_split_dataframe&quot;, &quot;module&quot;: &quot;transformations&quot;, &quot;kwargs&quot;: {&quot;separator&quot;: &quot;,&quot;, &quot;col_names&quot;: {&quot;_type&quot;: &quot;list&quot;, &quot;_items&quot;: [&quot;species&quot;, &quot;island&quot;, &quot;bill_length_mm&quot;, &quot;bill_depth_mm&quot;, &quot;flipper_length_mm&quot;, &quot;body_mass_g&quot;, &quot;sex&quot;]}}}]}, &quot;rhs&quot;: {&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;then_cast_default&quot;, &quot;module&quot;: &quot;transformations&quot;, &quot;kwargs&quot;: {&quot;TOA&quot;: &quot;f64&quot;}}}, &quot;rhs&quot;: {&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;then_clamp&quot;, &quot;module&quot;: &quot;transformations&quot;, &quot;kwargs&quot;: {&quot;bounds&quot;: [30.0, 65.0]}}}, &quot;rhs&quot;: {&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;then_resize&quot;, &quot;module&quot;: &quot;transformations&quot;, &quot;kwargs&quot;: {&quot;size&quot;: 346, &quot;constant&quot;: 43.61}}}, &quot;rhs&quot;: {&quot;_type&quot;: &quot;constructor&quot;, &quot;func&quot;: &quot;then_variance&quot;, &quot;module&quot;: &quot;transformations&quot;}}}&#39;</span>  <span class="c1"># noqa: E501 # pylint: disable=C0301</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="p">{</span>
                     <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
-                    <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">trans</span><span class="p">,</span>
+                    <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">transformation_pipeline</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span>
                 <span class="p">},</span>
             <span class="p">)</span>
             <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
             <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
                 <span class="s2">&quot;InvalidQueryException&quot;</span><span class="p">:</span> <span class="s2">&quot;The pipeline provided is not a &quot;</span>
                 <span class="o">+</span> <span class="s2">&quot;measurement. It cannot be processed in this server.&quot;</span>
-            <span class="p">}</span></div>
+            <span class="p">}</span>
+
+            <span class="c1"># Test MAX_DIVERGENCE (pure DP)</span>
+            <span class="n">md_pipeline</span> <span class="o">=</span> <span class="n">transformation_pipeline</span> <span class="o">&gt;&gt;</span> <span class="n">meas</span><span class="o">.</span><span class="n">then_laplace</span><span class="p">(</span>
+                <span class="n">scale</span><span class="o">=</span><span class="mf">5.0</span>
+            <span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
+                    <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">md_pipeline</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;requested_by&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_epsilon&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.1</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+
+            <span class="c1"># Test ZERO_CONCENTRATED_DIVERGENCE</span>
+            <span class="n">zcd_pipeline</span> <span class="o">=</span> <span class="n">transformation_pipeline</span> <span class="o">&gt;&gt;</span> <span class="n">meas</span><span class="o">.</span><span class="n">then_gaussian</span><span class="p">(</span>
+                <span class="n">scale</span><span class="o">=</span><span class="mf">5.0</span>
+            <span class="p">)</span>
+            <span class="n">json_obj</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
+                <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">zcd_pipeline</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span>
+            <span class="p">}</span>
+            <span class="c1"># Should error because missing fixed_delta</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json_obj</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+                <span class="s2">&quot;InvalidQueryException&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;fixed_delta must be set for smooth max divergence&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot; and zero concentrated divergence.&quot;</span>
+            <span class="p">}</span>
+            <span class="c1"># Should work because fixed_delta is set</span>
+            <span class="n">json_obj</span><span class="p">[</span><span class="s2">&quot;fixed_delta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-6</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json_obj</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;requested_by&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_epsilon&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.1</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">1e-6</span>
+
+            <span class="c1"># Test SMOOTHED_MAX_DIVERGENCE (approx DP)</span>
+            <span class="n">sm_pipeline</span> <span class="o">=</span> <span class="n">comb</span><span class="o">.</span><span class="n">make_zCDP_to_approxDP</span><span class="p">(</span><span class="n">zcd_pipeline</span><span class="p">)</span>
+            <span class="n">json_obj</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
+                <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">sm_pipeline</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span>
+            <span class="p">}</span>
+            <span class="c1"># Should error because missing fixed_delta</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json_obj</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+                <span class="s2">&quot;InvalidQueryException&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;fixed_delta must be set for smooth max divergence&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot; and zero concentrated divergence.&quot;</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Should work because fixed_delta is set</span>
+            <span class="n">json_obj</span><span class="p">[</span><span class="s2">&quot;fixed_delta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-6</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json_obj</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;requested_by&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_epsilon&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.1</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">1e-6</span>
+
+            <span class="c1"># Test FIXED_SMOOTHED_MAX_DIVERGENCE</span>
+            <span class="n">fms_pipeline</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">trans</span><span class="o">.</span><span class="n">make_split_dataframe</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="n">colnames</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">make_select_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="n">TOA</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_count_by</span><span class="p">(</span><span class="n">MO</span><span class="o">=</span><span class="n">dp_p</span><span class="o">.</span><span class="n">L1Distance</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">TV</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">meas</span><span class="o">.</span><span class="n">then_base_laplace_threshold</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">28.0</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">json_obj</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
+                <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">fms_pipeline</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span>
+            <span class="p">}</span>
+            <span class="c1"># Should error because missing fixed_delta</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">json_obj</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;requested_by&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_epsilon&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.1</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
 
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_dummy_opendp_query">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_dummy_opendp_query">[docs]</a>
     <span class="k">def</span> <span class="nf">test_dummy_opendp_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_dummy_opendp_query&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -488,7 +722,7 @@
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_opendp_cost">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_opendp_cost">[docs]</a>
     <span class="k">def</span> <span class="nf">test_opendp_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_opendp_cost&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -504,7 +738,7 @@
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_initial_budget">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_initial_budget">[docs]</a>
     <span class="k">def</span> <span class="nf">test_get_initial_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_get_initial_budget&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -535,7 +769,7 @@
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_total_spent_budget">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_total_spent_budget">[docs]</a>
     <span class="k">def</span> <span class="nf">test_get_total_spent_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_get_total_spent_budget&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -574,7 +808,7 @@
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_remaining_budget">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_remaining_budget">[docs]</a>
     <span class="k">def</span> <span class="nf">test_get_remaining_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_get_remaining_budget&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -614,7 +848,7 @@
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_previous_queries">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_previous_queries">[docs]</a>
     <span class="k">def</span> <span class="nf">test_get_previous_queries</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_get_previous_queries&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -688,7 +922,7 @@
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_budget_over_limit">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_budget_over_limit">[docs]</a>
     <span class="k">def</span> <span class="nf">test_budget_over_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_budget_over_limit&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Should fail: too much budget on one go</span>
             <span class="n">smartnoise_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">)</span>
@@ -710,7 +944,7 @@
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_subsequent_budget_limit_logic">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_subsequent_budget_limit_logic">[docs]</a>
     <span class="k">def</span> <span class="nf">test_subsequent_budget_limit_logic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_subsequent_budget_limit_logic&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Should fail: too much budget after three queries</span>
             <span class="n">smartnoise_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">)</span>
@@ -736,7 +970,7 @@
             <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
             <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;requested_by&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
 
-            <span class="c1"># spend 3*4.0 (total_spent = 12.0 &gt; INTIAL_BUDGET = 10.0)</span>
+            <span class="c1"># spend 3*4.0 (total_spent = 12.0 &gt; INITIAL_BUDGET = 10.0)</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="s2">&quot;/smartnoise_query&quot;</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="n">smartnoise_body</span><span class="p">,</span>

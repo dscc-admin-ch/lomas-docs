@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
@@ -8,16 +10,12 @@
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
-        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -36,7 +34,7 @@
               <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                develop
+                master
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -162,12 +160,17 @@
 
 <div class="viewcode-block" id="add_demo_data_to_admindb">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.utils.add_demo_data_to_admindb">[docs]</a>
-<span class="k">def</span> <span class="nf">add_demo_data_to_admindb</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">add_demo_data_to_admindb</span><span class="p">(</span>
+    <span class="n">user_yaml</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/data/collections/user_collection.yaml&quot;</span><span class="p">,</span>
+    <span class="n">dataset_yaml</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/data/collections/dataset_collection.yaml&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds the demo data to the mongodb admindb.</span>
-
-<span class="sd">    Uses hardcoded paths to user and dataset collections.</span>
 <span class="sd">    Meant to be used in the develop mode of the service.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        user_yaml (str): path to user collection yaml file</span>
+<span class="sd">        dataset_yaml (str): path to dataset collection yaml file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating example user collection&quot;</span><span class="p">)</span>
     <span class="n">mongo_db</span><span class="p">:</span> <span class="n">Database</span> <span class="o">=</span> <span class="n">get_mongodb</span><span class="p">()</span>
@@ -177,7 +180,7 @@
         <span class="n">mongo_db</span><span class="p">,</span>
         <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">yaml_file</span><span class="o">=</span><span class="s2">&quot;/data/collections/user_collection.yaml&quot;</span><span class="p">,</span>
+        <span class="n">yaml_file</span><span class="o">=</span><span class="n">user_yaml</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating datasets and metadata collection&quot;</span><span class="p">)</span>
@@ -186,7 +189,7 @@
         <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">overwrite_datasets</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">overwrite_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">yaml_file</span><span class="o">=</span><span class="s2">&quot;/data/collections/dataset_collection.yaml&quot;</span><span class="p">,</span>
+        <span class="n">yaml_file</span><span class="o">=</span><span class="n">dataset_yaml</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Empty archives&quot;</span><span class="p">)</span>
