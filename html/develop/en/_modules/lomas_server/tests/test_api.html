@@ -234,6 +234,19 @@
         <span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">db_type</span> <span class="o">=</span> <span class="n">previous_admin_db</span></div>
 
 
+<div class="viewcode-block" id="TestRootAPIEndpoint.test_root">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_root">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_root</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test root endpoint redirection to state endpoint&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="n">response_root</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+            <span class="n">response_state</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/state&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response_root</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">response_state</span><span class="o">.</span><span class="n">status_code</span>
+            <span class="k">assert</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                <span class="n">response_root</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+            <span class="p">)</span> <span class="o">==</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response_state</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span></div>
+
+
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_state">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_state">[docs]</a>
     <span class="k">def</span> <span class="nf">test_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
