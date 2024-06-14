@@ -106,6 +106,7 @@
     <span class="n">DPLibraries</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">dataset_store.utils</span> <span class="kn">import</span> <span class="n">dataset_store_factory</span>
+<span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.opendp</span> <span class="kn">import</span> <span class="n">set_opendp_features_config</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.utils</span> <span class="kn">import</span> <span class="n">querier_factory</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_logic</span> <span class="kn">import</span> <span class="n">QueryHandler</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dummy_dataset</span> <span class="kn">import</span> <span class="p">(</span>
@@ -241,6 +242,9 @@
             <span class="p">)</span>
             <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;LIVE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">status_ok</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Set DP Libraries config</span>
+    <span class="n">set_opendp_features_config</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">dp_libraries</span><span class="o">.</span><span class="n">opendp</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">status_ok</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Server start condition OK&quot;</span><span class="p">)</span>

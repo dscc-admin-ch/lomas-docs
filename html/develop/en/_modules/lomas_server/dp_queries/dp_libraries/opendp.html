@@ -97,6 +97,7 @@
 
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">DPLibraries</span><span class="p">,</span> <span class="n">OpenDPMeasurement</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_querier</span> <span class="kn">import</span> <span class="n">DPQuerier</span>
+<span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">OpenDPConfig</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ExternalLibraryException</span><span class="p">,</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
@@ -104,8 +105,6 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">utils.input_models</span> <span class="kn">import</span> <span class="n">OpenDPInp</span>
 <span class="kn">from</span> <span class="nn">utils.loggr</span> <span class="kn">import</span> <span class="n">LOG</span>
-
-<span class="n">enable_features</span><span class="p">(</span><span class="s2">&quot;contrib&quot;</span><span class="p">)</span>
 
 <span class="n">PT_TYPE</span> <span class="o">=</span> <span class="s2">&quot;^py_type:*&quot;</span>
 
@@ -309,6 +308,26 @@
             <span class="sa">f</span><span class="s2">&quot;Unknown type of output measure divergence: </span><span class="si">{</span><span class="n">output_measure</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">measurement</span></div>
+
+
+
+<div class="viewcode-block" id="set_opendp_features_config">
+<a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.opendp.set_opendp_features_config">[docs]</a>
+<span class="k">def</span> <span class="nf">set_opendp_features_config</span><span class="p">(</span><span class="n">opendp_config</span><span class="p">:</span> <span class="n">OpenDPConfig</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enable opendp features based on config</span>
+<span class="sd">    See https://github.com/opendp/opendp/discussions/304</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        opendp_config (OpenDPConfig): OpenDP configurations</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">opendp_config</span><span class="o">.</span><span class="n">contrib</span><span class="p">:</span>
+        <span class="n">enable_features</span><span class="p">(</span><span class="s2">&quot;contrib&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">opendp_config</span><span class="o">.</span><span class="n">floating_point</span><span class="p">:</span>
+        <span class="n">enable_features</span><span class="p">(</span><span class="s2">&quot;floating-point&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">opendp_config</span><span class="o">.</span><span class="n">honest_but_curious</span><span class="p">:</span>
+        <span class="n">enable_features</span><span class="p">(</span><span class="s2">&quot;honest-but-curious&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 

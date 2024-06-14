@@ -137,9 +137,6 @@
 <span class="n">INITAL_EPSILON</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">INITIAL_DELTA</span> <span class="o">=</span> <span class="mf">0.005</span>
 
-<span class="n">enable_features</span><span class="p">(</span><span class="s2">&quot;floating-point&quot;</span><span class="p">)</span>
-<span class="n">enable_logging</span><span class="p">()</span>
-
 
 <div class="viewcode-block" id="TestRootAPIEndpoint">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint">[docs]</a>
@@ -566,6 +563,9 @@
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_opendp_query">[docs]</a>
     <span class="k">def</span> <span class="nf">test_opendp_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=R0915</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_opendp_query&quot;&quot;&quot;</span>
+        <span class="n">enable_features</span><span class="p">(</span><span class="s2">&quot;floating-point&quot;</span><span class="p">)</span>
+        <span class="n">enable_logging</span><span class="p">()</span>
+
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Basic test based on example with max divergence (Pure DP)</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
