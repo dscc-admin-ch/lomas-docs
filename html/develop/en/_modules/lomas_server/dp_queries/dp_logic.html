@@ -96,7 +96,7 @@
 <span class="kn">from</span> <span class="nn">dataset_store.dataset_store</span> <span class="kn">import</span> <span class="n">DatasetStore</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_querier</span> <span class="kn">import</span> <span class="n">DPQuerier</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">CUSTOM_EXCEPTIONS</span><span class="p">,</span>
+    <span class="n">KNOWN_EXCEPTIONS</span><span class="p">,</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
     <span class="n">InvalidQueryException</span><span class="p">,</span>
     <span class="n">UnauthorizedAccessException</span><span class="p">,</span>
@@ -272,7 +272,7 @@
             <span class="c1"># Query</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">query_response</span> <span class="o">=</span> <span class="n">dp_querier</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query_json</span><span class="p">)</span>
-            <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">e</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
