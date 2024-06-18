@@ -76,7 +76,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 
 <span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">Body</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
-<span class="kn">from</span> <span class="nn">fastapi.responses</span> <span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">StreamingResponse</span>
+<span class="kn">from</span> <span class="nn">fastapi.responses</span> <span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">StreamingResponse</span><span class="p">,</span> <span class="n">RedirectResponse</span>
 
 <span class="kn">from</span> <span class="nn">admin_database.utils</span> <span class="kn">import</span> <span class="n">database_factory</span>
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="p">(</span>
@@ -88,6 +88,7 @@
     <span class="n">DPLibraries</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">dataset_store.utils</span> <span class="kn">import</span> <span class="n">dataset_store_factory</span>
+<span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.opendp</span> <span class="kn">import</span> <span class="n">set_opendp_features_config</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.utils</span> <span class="kn">import</span> <span class="n">querier_factory</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_logic</span> <span class="kn">import</span> <span class="n">QueryHandler</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dummy_dataset</span> <span class="kn">import</span> <span class="p">(</span>
@@ -97,7 +98,7 @@
 <span class="kn">from</span> <span class="nn">utils.anti_timing_att</span> <span class="kn">import</span> <span class="n">anti_timing_att</span>
 <span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">get_config</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">CUSTOM_EXCEPTIONS</span><span class="p">,</span>
+    <span class="n">KNOWN_EXCEPTIONS</span><span class="p">,</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
     <span class="n">add_exception_handlers</span><span class="p">,</span>
 <span class="p">)</span>
@@ -224,6 +225,9 @@
             <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;LIVE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">status_ok</span> <span class="o">=</span> <span class="kc">False</span>
 
+    <span class="c1"># Set DP Libraries config</span>
+    <span class="n">set_opendp_features_config</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">dp_libraries</span><span class="o">.</span><span class="n">opendp</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">status_ok</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Server start condition OK&quot;</span><span class="p">)</span>
         <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SERVER_LIVE</span><span class="p">)</span>
@@ -263,6 +267,18 @@
 
 <span class="c1"># API Endpoints</span>
 <span class="c1"># -----------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="root">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.app.root">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">root</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Redirect root endpoint to the state endpoint</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        JSONResponse: The state of the server instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">RedirectResponse</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;/state&quot;</span><span class="p">)</span></div>
+
 
 
 <span class="c1"># Get server state</span>
@@ -347,7 +363,7 @@
             <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
         <span class="p">)</span>
 
-    <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
@@ -397,7 +413,7 @@
         <span class="n">dummy_df</span> <span class="o">=</span> <span class="n">make_dummy_dataset</span><span class="p">(</span>
             <span class="n">ds_metadata</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dummy_nb_rows</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dummy_seed</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
@@ -465,7 +481,7 @@
         <span class="n">response</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">query_handler</span><span class="o">.</span><span class="n">handle_query</span><span class="p">(</span>
             <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span><span class="p">,</span> <span class="n">query_json</span><span class="p">,</span> <span class="n">user_name</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
@@ -534,7 +550,7 @@
         <span class="n">_</span> <span class="o">=</span> <span class="n">dummy_querier</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query_json</span><span class="p">)</span>  <span class="c1"># verify cost works</span>
         <span class="n">response_df</span> <span class="o">=</span> <span class="n">dummy_querier</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query_json</span><span class="p">)</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">JSONResponse</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;query_response&quot;</span><span class="p">:</span> <span class="n">response_df</span><span class="p">})</span>
-    <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
@@ -588,7 +604,7 @@
             <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span><span class="p">,</span>
             <span class="n">query_json</span><span class="p">,</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
@@ -649,7 +665,7 @@
         <span class="n">response</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">query_handler</span><span class="o">.</span><span class="n">handle_query</span><span class="p">(</span>
             <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">,</span> <span class="n">query_json</span><span class="p">,</span> <span class="n">user_name</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
@@ -716,7 +732,7 @@
         <span class="n">response_df</span> <span class="o">=</span> <span class="n">dummy_querier</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query_json</span><span class="p">)</span>
         <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;query_response&quot;</span><span class="p">:</span> <span class="n">response_df</span><span class="p">}</span>
 
-    <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
@@ -764,7 +780,7 @@
             <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">,</span>
             <span class="n">query_json</span><span class="p">,</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
@@ -818,7 +834,7 @@
         <span class="p">)</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_initial_budget</span><span class="p">(</span>
             <span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
@@ -877,7 +893,7 @@
         <span class="p">)</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">(</span>
             <span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
@@ -933,7 +949,7 @@
         <span class="n">rem_epsilon</span><span class="p">,</span> <span class="n">rem_delta</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">(</span>
             <span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
@@ -990,7 +1006,7 @@
         <span class="n">previous_queries</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_user_previous_queries</span><span class="p">(</span>
             <span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="n">CUSTOM_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
