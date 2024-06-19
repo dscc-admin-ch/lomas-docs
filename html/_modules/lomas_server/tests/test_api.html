@@ -34,7 +34,7 @@
               <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                develop
+                stable
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -97,8 +97,11 @@
 
 <span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">status</span>
 <span class="kn">from</span> <span class="nn">fastapi.testclient</span> <span class="kn">import</span> <span class="n">TestClient</span>
+<span class="kn">import</span> <span class="nn">opendp.combinators</span> <span class="k">as</span> <span class="nn">comb</span>
+<span class="kn">import</span> <span class="nn">opendp.measurements</span> <span class="k">as</span> <span class="nn">meas</span>
 <span class="kn">from</span> <span class="nn">opendp.mod</span> <span class="kn">import</span> <span class="n">enable_features</span>
 <span class="kn">import</span> <span class="nn">opendp.prelude</span> <span class="k">as</span> <span class="nn">dp_p</span>
+<span class="kn">import</span> <span class="nn">opendp.transformations</span> <span class="k">as</span> <span class="nn">trans</span>
 <span class="kn">from</span> <span class="nn">opendp_logger</span> <span class="kn">import</span> <span class="n">enable_logging</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pymongo.database</span> <span class="kn">import</span> <span class="n">Database</span>
@@ -134,8 +137,6 @@
 
 <span class="n">INITAL_EPSILON</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">INITIAL_DELTA</span> <span class="o">=</span> <span class="mf">0.005</span>
-
-<span class="n">enable_features</span><span class="p">(</span><span class="s2">&quot;floating-point&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="TestRootAPIEndpoint">
@@ -335,7 +336,7 @@
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_dummy_dataset">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_dummy_dataset">[docs]</a>
     <span class="k">def</span> <span class="nf">test_get_dummy_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_get_dummy_dataset&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -441,9 +442,9 @@
 
             <span class="c1"># Expect to fail: query does not make sense</span>
             <span class="n">input_smartnoise</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">)</span>
-            <span class="n">input_smartnoise</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;SELECT AVG(bill) FROM df&quot;</span>  <span class="c1"># no &#39;bill&#39; column</span>
-            <span class="p">)</span>
+            <span class="n">input_smartnoise</span><span class="p">[</span>
+                <span class="s2">&quot;query_str&quot;</span>
+            <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;SELECT AVG(bill) FROM df&quot;</span>  <span class="c1"># no &#39;bill&#39; column</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="s2">&quot;/smartnoise_query&quot;</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="n">input_smartnoise</span><span class="p">,</span>
@@ -563,6 +564,7 @@
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_opendp_query">[docs]</a>
     <span class="k">def</span> <span class="nf">test_opendp_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=R0915</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_opendp_query&quot;&quot;&quot;</span>
+        <span class="n">enable_features</span><span class="p">(</span><span class="s2">&quot;floating-point&quot;</span><span class="p">)</span>
         <span class="n">enable_logging</span><span class="p">()</span>
 
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
@@ -590,12 +592,12 @@
                 <span class="s2">&quot;sex&quot;</span><span class="p">,</span>
             <span class="p">]</span>
             <span class="n">transformation_pipeline</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">dp_p</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">make_split_dataframe</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="n">colnames</span><span class="p">)</span>
-                <span class="o">&gt;&gt;</span> <span class="n">dp_p</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">make_select_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="n">TOA</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-                <span class="o">&gt;&gt;</span> <span class="n">dp_p</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">then_cast_default</span><span class="p">(</span><span class="n">TOA</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
-                <span class="o">&gt;&gt;</span> <span class="n">dp_p</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">then_clamp</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">))</span>
-                <span class="o">&gt;&gt;</span> <span class="n">dp_p</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">then_resize</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">346</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="mf">43.61</span><span class="p">)</span>
-                <span class="o">&gt;&gt;</span> <span class="n">dp_p</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">then_variance</span><span class="p">()</span>
+                <span class="n">trans</span><span class="o">.</span><span class="n">make_split_dataframe</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="n">colnames</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">make_select_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="n">TOA</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_cast_default</span><span class="p">(</span><span class="n">TOA</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_clamp</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">))</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_resize</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">346</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="mf">43.61</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_variance</span><span class="p">()</span>
             <span class="p">)</span>
 
             <span class="c1"># Expect to fail: transormation instead of measurement</span>
@@ -613,7 +615,7 @@
             <span class="p">}</span>
 
             <span class="c1"># Test MAX_DIVERGENCE (pure DP)</span>
-            <span class="n">md_pipeline</span> <span class="o">=</span> <span class="n">transformation_pipeline</span> <span class="o">&gt;&gt;</span> <span class="n">dp_p</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">then_laplace</span><span class="p">(</span>
+            <span class="n">md_pipeline</span> <span class="o">=</span> <span class="n">transformation_pipeline</span> <span class="o">&gt;&gt;</span> <span class="n">meas</span><span class="o">.</span><span class="n">then_laplace</span><span class="p">(</span>
                 <span class="n">scale</span><span class="o">=</span><span class="mf">5.0</span>
             <span class="p">)</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -632,7 +634,7 @@
             <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
 
             <span class="c1"># Test ZERO_CONCENTRATED_DIVERGENCE</span>
-            <span class="n">zcd_pipeline</span> <span class="o">=</span> <span class="n">transformation_pipeline</span> <span class="o">&gt;&gt;</span> <span class="n">dp_p</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">then_gaussian</span><span class="p">(</span>
+            <span class="n">zcd_pipeline</span> <span class="o">=</span> <span class="n">transformation_pipeline</span> <span class="o">&gt;&gt;</span> <span class="n">meas</span><span class="o">.</span><span class="n">then_gaussian</span><span class="p">(</span>
                 <span class="n">scale</span><span class="o">=</span><span class="mf">5.0</span>
             <span class="p">)</span>
             <span class="n">json_obj</span> <span class="o">=</span> <span class="p">{</span>
@@ -659,7 +661,7 @@
             <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">1e-6</span>
 
             <span class="c1"># Test SMOOTHED_MAX_DIVERGENCE (approx DP)</span>
-            <span class="n">sm_pipeline</span> <span class="o">=</span> <span class="n">dp_p</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">make_zCDP_to_approxDP</span><span class="p">(</span><span class="n">zcd_pipeline</span><span class="p">)</span>
+            <span class="n">sm_pipeline</span> <span class="o">=</span> <span class="n">comb</span><span class="o">.</span><span class="n">make_zCDP_to_approxDP</span><span class="p">(</span><span class="n">zcd_pipeline</span><span class="p">)</span>
             <span class="n">json_obj</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
                 <span class="s2">&quot;opendp_json&quot;</span><span class="p">:</span> <span class="n">sm_pipeline</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span>
@@ -685,12 +687,10 @@
 
             <span class="c1"># Test FIXED_SMOOTHED_MAX_DIVERGENCE</span>
             <span class="n">fms_pipeline</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">dp_p</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">make_split_dataframe</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="n">colnames</span><span class="p">)</span>
-                <span class="o">&gt;&gt;</span> <span class="n">dp_p</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">make_select_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="n">TOA</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-                <span class="o">&gt;&gt;</span> <span class="n">dp_p</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">then_count_by</span><span class="p">(</span><span class="n">MO</span><span class="o">=</span><span class="n">dp_p</span><span class="o">.</span><span class="n">L1Distance</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">TV</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
-                <span class="o">&gt;&gt;</span> <span class="n">dp_p</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">then_base_laplace_threshold</span><span class="p">(</span>
-                    <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">28.0</span>
-                <span class="p">)</span>
+                <span class="n">trans</span><span class="o">.</span><span class="n">make_split_dataframe</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="n">colnames</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">make_select_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="n">TOA</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">trans</span><span class="o">.</span><span class="n">then_count_by</span><span class="p">(</span><span class="n">MO</span><span class="o">=</span><span class="n">dp_p</span><span class="o">.</span><span class="n">L1Distance</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">TV</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+                <span class="o">&gt;&gt;</span> <span class="n">meas</span><span class="o">.</span><span class="n">then_base_laplace_threshold</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">28.0</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="n">json_obj</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
@@ -1009,7 +1009,7 @@
   </div>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
-      Version: develop
+      Version: stable
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1025,7 +1025,9 @@
       <dl>
         <dt>Versions</dt>
         
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">develop</a></dd>
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.0.2/en/index.html">v0.0.2</a></dd>
         
