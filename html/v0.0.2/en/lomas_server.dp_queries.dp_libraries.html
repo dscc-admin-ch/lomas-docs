@@ -191,18 +191,30 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.is_measurement">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">is_measurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Measurement</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#is_measurement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.is_measurement" title="Link to this definition"></a></dt>
-<dd><p>Check if the value is a measurement.</p>
+<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.has_dataset_input_metric">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">has_dataset_input_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Measurement</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#has_dataset_input_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.has_dataset_input_metric" title="Link to this definition"></a></dt>
+<dd><p>Check that the input metric of the pipeline is a dataset metric</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> (<em>dp.Measurement</em>) – The measurement to check.</p>
+<dd class="field-odd"><p><strong>pipeline</strong> (<em>dp.Measurement</em>) – The pipeline to check.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if the value is a measurement, False otherwise.</p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.error_handler.InvalidQueryException" title="lomas_server.utils.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If the pipeline input metric is not
+    a dataset input metric.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.is_measurement">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">is_measurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Measurement</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#is_measurement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.is_measurement" title="Link to this definition"></a></dt>
+<dd><p>Check if the pipeline is a measurement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pipeline</strong> (<em>dp.Measurement</em>) – The measurement to check.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.error_handler.InvalidQueryException" title="lomas_server.utils.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If the pipeline is not a measurement.</p>
 </dd>
 </dl>
 </dd></dl>
