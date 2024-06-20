@@ -34,7 +34,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                stable
+                develop
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -202,12 +202,32 @@
 <div class="viewcode-block" id="OpenDPMeasurement">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.constants.OpenDPMeasurement">[docs]</a>
 <span class="k">class</span> <span class="nc">OpenDPMeasurement</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Type of divergence for opendp measurement&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Type of divergence for opendp measurement</span>
+<span class="sd">    see https://docs.opendp.org/en/stable/api/python/opendp.measurements.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">FIXED_SMOOTHED_MAX_DIVERGENCE</span> <span class="o">=</span> <span class="s2">&quot;fixed_smoothed_max_divergence&quot;</span>
     <span class="n">MAX_DIVERGENCE</span> <span class="o">=</span> <span class="s2">&quot;max_divergence&quot;</span>
     <span class="n">SMOOTHED_MAX_DIVERGENCE</span> <span class="o">=</span> <span class="s2">&quot;smoothed_max_divergence&quot;</span>
     <span class="n">ZERO_CONCENTRATED_DIVERGENCE</span> <span class="o">=</span> <span class="s2">&quot;zero_concentrated_divergence&quot;</span></div>
+
+
+
+<span class="c1"># OpenDP Dataset Input Metric Type</span>
+<div class="viewcode-block" id="OpenDPDatasetInputMetric">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.constants.OpenDPDatasetInputMetric">[docs]</a>
+<span class="k">class</span> <span class="nc">OpenDPDatasetInputMetric</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Type of opendp input metric for datasets</span>
+<span class="sd">    see https://docs.opendp.org/en/stable/api/python/opendp.metrics.html</span>
+<span class="sd">    see https://github.com/opendp/opendp/blob/main/rust/src/metrics/mod.rs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SYMMETRIC_DISTANCE</span> <span class="o">=</span> <span class="s2">&quot;SymmetricDistance&quot;</span>
+    <span class="n">INSERT_DELETE_DISTANCE</span> <span class="o">=</span> <span class="s2">&quot;InsertDeleteDistance&quot;</span>
+    <span class="n">CHANGE_ONE_DISTANCE</span> <span class="o">=</span> <span class="s2">&quot;ChangeOneDistance&quot;</span>
+    <span class="n">HAMMING_DISTANCE</span> <span class="o">=</span> <span class="s2">&quot;HammingDistance&quot;</span>
+
+    <span class="n">INT_DISTANCE</span> <span class="o">=</span> <span class="s2">&quot;u32&quot;</span>  <span class="c1"># opendp type for distance between datasets</span></div>
 
 
 
@@ -250,7 +270,7 @@
   </div>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
-      Version: stable
+      Version: develop
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -266,9 +286,7 @@
       <dl>
         <dt>Versions</dt>
         
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
-        
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">develop</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.0.2/en/index.html">v0.0.2</a></dd>
         
