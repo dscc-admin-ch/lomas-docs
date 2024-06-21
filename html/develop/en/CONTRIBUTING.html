@@ -72,7 +72,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
 </ul>
 
         </div>
@@ -192,7 +192,7 @@ The table below gives an overview of which workflows are triggered by what event
 <td><p>Yes (for latest)</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
-<td><p>Yes (must manually add version)</p></td>
+<td><p>Yes (for stable, must manually add version)</p></td>
 </tr>
 <tr class="row-odd"><td><p>Security with CodeQL*</p></td>
 <td><p>Yes</p></td>
@@ -207,8 +207,8 @@ The table below gives an overview of which workflows are triggered by what event
 <p>Of these workflows, three of them need manual intervention to adjust the version number:</p>
 <ul class="simple">
 <li><p><strong>Client library push</strong>: The version must be set in <code class="docutils literal notranslate"><span class="pre">client/setup.py</span></code></p></li>
-<li><p><strong>Helm chart push</strong>: The app version and chart version must be updated in <code class="docutils literal notranslate"><span class="pre">server/deploy/helm/charts/lomas_server/Chart.yml</span></code></p></li>
-<li><p><strong>Documentation push</strong>: If a new version is released, it must be added to the <code class="docutils literal notranslate"><span class="pre">docs/versions.yaml</span></code> file. For more details on the genration of the documentation, please refer to <code class="docutils literal notranslate"><span class="pre">docs</span></code> and the <code class="docutils literal notranslate"><span class="pre">docs/build_docs.py</span></code> script.</p></li>
+<li><p><strong>Helm chart push</strong>: The chart version (<code class="docutils literal notranslate"><span class="pre">version</span></code>) and app version (<code class="docutils literal notranslate"><span class="pre">AppVersion</span></code>) of the server and the client must be updated in <code class="docutils literal notranslate"><span class="pre">server/deploy/helm/charts/lomas_server/Chart.yml</span></code>and <code class="docutils literal notranslate"><span class="pre">client/deploy/helm/charts/lomas_client/Chart.yaml</span></code>.</p></li>
+<li><p><strong>Documentation push</strong>: If a new version is released, it must be added to the <code class="docutils literal notranslate"><span class="pre">docs/versions.yaml</span></code> file. For more details on the generation of the documentation, please refer to <code class="docutils literal notranslate"><span class="pre">docs</span></code> and the <code class="docutils literal notranslate"><span class="pre">docs/build_docs.py</span></code> script.</p></li>
 </ul>
 <p>*The Security with CodeQL workflow is also triggered every Monday at 9am.</p>
 </section>
@@ -223,6 +223,7 @@ The table below gives an overview of which workflows are triggered by what event
 <li><p>Once merged, manually create a release on GitHub with the tag <code class="docutils literal notranslate"><span class="pre">vx.y.z</span></code>.</p></li>
 </ol>
 <p>The workflows listed in the previous section will take care of building and publishing the different items (docker images, pip packages, etc.).</p>
+<p>Note: Helm charts are updated when there is a push on the <code class="docutils literal notranslate"><span class="pre">release/vx.y.z</span></code> branch. If you have a specific deployment that rely on the Chart, you can test it before finishing the release. Then, do not forget to update the chart and app versions of your specific deployment.</p>
 </section>
 </section>
 
@@ -272,7 +273,7 @@ The table below gives an overview of which workflows are triggered by what event
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
         
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.0.4/en/index.html">v0.0.4</a></dd>
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
         
       </dl>
       
