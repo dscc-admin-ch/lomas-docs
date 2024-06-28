@@ -66,15 +66,6 @@
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Notes for Server Contributors</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#starting-the-service">Starting the Service</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#on-local-machine">On local machine</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#additional-services">Additional services</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#on-a-kubernetes-cluster">On a kubernetes cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#on-onyxia">On Onyxia</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#tests">Tests</a></li>
 </ul>
 </li>
@@ -106,36 +97,6 @@
              
   <section id="notes-for-server-contributors">
 <h1>Notes for Server Contributors<a class="headerlink" href="#notes-for-server-contributors" title="Link to this heading"></a></h1>
-<p>It is recommended to run the project with python 3.11.</p>
-<section id="starting-the-service">
-<h2>Starting the Service<a class="headerlink" href="#starting-the-service" title="Link to this heading"></a></h2>
-<p>The different notebooks in <code class="docutils literal notranslate"><span class="pre">./notebooks</span></code> provide more complete documentation regarding the set up and administration of the server.</p>
-<section id="on-local-machine">
-<h3>On local machine<a class="headerlink" href="#on-local-machine" title="Link to this heading"></a></h3>
-<p>To start the container on a local machine, first create a mondodb volume
-with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">volume</span> <span class="pre">create</span> <span class="pre">mongodata</span></code>, then go to <code class="docutils literal notranslate"><span class="pre">lomas/server/</span></code> and run <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">up</span></code>.
-If you encounter any issue, you might want to run <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">down</span></code> first.</p>
-<section id="additional-services">
-<h4>Additional services<a class="headerlink" href="#additional-services" title="Link to this heading"></a></h4>
-<p>Running <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">up</span></code> will also start two additional services automatically:</p>
-<ul class="simple">
-<li><p>a jupyter notebook environment that will be available at the address http://127.0.0.1:8888/ to interact as a user with the server</p></li>
-<li><p>a streamlit application that will be available at the address http://localhost:8501/ to interact with the server and the administration database as an administrator.</p></li>
-</ul>
-</section>
-</section>
-<section id="on-a-kubernetes-cluster">
-<h3>On a kubernetes cluster<a class="headerlink" href="#on-a-kubernetes-cluster" title="Link to this heading"></a></h3>
-<p>To start the server on a kubernetes cluster, first add the repo with:
-<code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">repo</span> <span class="pre">add</span> <span class="pre">lomas</span> <span class="pre">https://dscc-admin-ch.github.io/helm-charts</span></code>
-and then install the chart with:
-<code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">install</span> <span class="pre">lomas-sever</span> <span class="pre">lomas/lomas-server</span></code></p>
-</section>
-<section id="on-onyxia">
-<h3>On Onyxia<a class="headerlink" href="#on-onyxia" title="Link to this heading"></a></h3>
-<p>To start the server on Onyxia, select the <code class="docutils literal notranslate"><span class="pre">lomas</span> </code>service, (optionnally adapt the administration and runtime parameters) and click on ‘Lancer’.</p>
-</section>
-</section>
 <section id="tests">
 <h2>Tests<a class="headerlink" href="#tests" title="Link to this heading"></a></h2>
 <p>It is possible to test the server without an mongodb administration database. One can do so by executing the <code class="docutils literal notranslate"><span class="pre">run_basic_tests.sh</span></code> script. Make sure to have an activated python venv in a linux environment with the server requirements installed for it to work.</p>
@@ -192,6 +153,8 @@ The <code class="docutils literal notranslate"><span class="pre">run_tests_and_c
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
         
       </dl>
       
