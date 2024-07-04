@@ -66,7 +66,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Notes for Contributors</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#git-branches">Git Branches</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#linting-and-other-checks">Linting and other checks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linting-and-other-checks">Linting and Other Checks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#github-workflows">GitHub Workflows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#release-workflow">Release Workflow</a></li>
 </ul>
@@ -121,22 +121,42 @@ Once the release process is complete (see below), the release branch is merged t
 </ul>
 </section>
 <section id="linting-and-other-checks">
-<h2>Linting and other checks<a class="headerlink" href="#linting-and-other-checks" title="Link to this heading"></a></h2>
-<p>Here is a list of the checks that should be performed:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- Use black to automatically format the code: `black .`
-- Use flake to verify formating and performing a static code analysis: `flake8 .`
-- Use mypy for static type checking: `mypy .`
-- Use pylint for further static analysis: `pylint --disable=E0401 --disable=C0114 --disable=R0903 --disable=E0611 --disable=W0511 --disable=duplicate-code tests/ .`
-
-    - `--disable=E0401` to ignore import-error
-    - `--disable=C0114` to ignore missing-module-docstring
-    - `--disable=R0903` to ignore too-few-public-methods
-    - `--disable=E0611` to ignore no-name-in-module
-    - `--disable=W0511` to ignore fixme (TODOs)
-    - `--disable=duplicate-code tests/` to ignore duplicate-code statements related to the tests
+<h2>Linting and Other Checks<a class="headerlink" href="#linting-and-other-checks" title="Link to this heading"></a></h2>
+<p>To ensure code quality and consistency, we perform several checks using various tools. Below is a list of the checks that should be performed:</p>
+<ul>
+<li><p><strong>Code Formatting:</strong> Use <code class="docutils literal notranslate"><span class="pre">black</span></code> to automatically format the code. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>black<span class="w"> </span>.
 </pre></div>
 </div>
-<p>As detailed below, we rely on GitHub workflows to automatically run the checks on pull requests.</p>
+</li>
+<li><p><strong>Code Style and Static Analysis</strong>: Use flake8 to verify formatting and perform static code analysis. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code>:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>flake8<span class="w"> </span>.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Static Type Checking</strong>: Use mypy for static type checking. Note that both the server and the client have their own mypi.ini files to ignore specific warnings. In <code class="docutils literal notranslate"><span class="pre">lomas/server</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client</span></code>:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>mypy<span class="w"> </span>.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Additional Static Analysis</strong>: Use pylint for further static analysis. Note that both the server and the client have their own .pylintrc files to ignore specific warnings. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code>:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>pylint<span class="w"> </span>.
+</pre></div>
+</div>
+<p>To streamline the process, you can use the <code class="docutils literal notranslate"><span class="pre">run_linter.sh</span></code> script in ``lomas`. The first time you run this script, use the following command to install dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>run_linter.sh
+./run_linter.sh<span class="w">  </span>--install-deps
+</pre></div>
+</div>
+<p>For subsequent runs, simply execute:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./run_linter.sh
+</pre></div>
+</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">run_linter.sh</span></code> you can ignore the ‘Fixing …’ of isert followed by ‘reformatted …’.</p>
+<p>As detailed below, we rely on GitHub workflows to automatically run these checks on pull requests, ensuring consistency and quality across all contributions.</p>
 </section>
 <section id="github-workflows">
 <h2>GitHub Workflows<a class="headerlink" href="#github-workflows" title="Link to this heading"></a></h2>
