@@ -184,8 +184,17 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of DP Library used in the query&quot;&quot;&quot;</span>
 
     <span class="n">SMARTNOISE_SQL</span> <span class="o">=</span> <span class="s2">&quot;smartnoise_sql&quot;</span>
-    <span class="n">OPENDP</span> <span class="o">=</span> <span class="s2">&quot;opendp&quot;</span></div>
+    <span class="n">OPENDP</span> <span class="o">=</span> <span class="s2">&quot;opendp&quot;</span>
+    <span class="n">DIFFPRIVLIB</span> <span class="o">=</span> <span class="s2">&quot;diffprivlib&quot;</span></div>
 
+
+
+<span class="c1"># Query model input to DP librairy</span>
+<span class="n">MODEL_INPUT_TO_LIB</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;SNSQLInp&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span><span class="p">,</span>
+    <span class="s2">&quot;OpenDPInp&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">,</span>
+    <span class="s2">&quot;DiffPrivLibInp&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">,</span>
+<span class="p">}</span>
 
 
 <span class="c1"># Private Databases</span>
@@ -247,6 +256,10 @@
 <span class="c1"># Smartnoise sql</span>
 <span class="n">STATS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="s2">&quot;sum_int&quot;</span><span class="p">,</span> <span class="s2">&quot;sum_large_int&quot;</span><span class="p">,</span> <span class="s2">&quot;sum_float&quot;</span><span class="p">,</span> <span class="s2">&quot;threshold&quot;</span><span class="p">]</span>
 <span class="n">MAX_NAN_ITERATION</span> <span class="o">=</span> <span class="mi">5</span>
+
+
+<span class="c1"># Data preprocessing</span>
+<span class="n">NUMERICAL_DTYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;int16&quot;</span><span class="p">,</span> <span class="s2">&quot;int32&quot;</span><span class="p">,</span> <span class="s2">&quot;int64&quot;</span><span class="p">,</span> <span class="s2">&quot;float16&quot;</span><span class="p">,</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="s2">&quot;float64&quot;</span><span class="p">]</span>
 </pre></div>
 
            </div>
