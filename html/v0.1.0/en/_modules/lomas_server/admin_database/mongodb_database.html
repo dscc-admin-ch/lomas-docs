@@ -104,6 +104,7 @@
     <span class="n">user_must_exist</span><span class="p">,</span>
     <span class="n">user_must_have_access_to_dataset</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InvalidQueryException</span>
 
 
 <div class="viewcode-block" id="AdminMongoDatabase">
@@ -246,6 +247,11 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: True if the user has access, False otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">does_dataset_exist</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2"> does not exist. &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Please, verify the client object initialisation.&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="n">doc_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">count_documents</span><span class="p">(</span>
             <span class="p">{</span>
                 <span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
