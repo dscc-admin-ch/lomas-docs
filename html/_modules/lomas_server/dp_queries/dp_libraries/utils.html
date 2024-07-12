@@ -92,6 +92,7 @@
              
   <h1>Source code for lomas_server.dp_queries.dp_libraries.utils</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">DPLibraries</span>
+<span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.diffprivlib</span> <span class="kn">import</span> <span class="n">DiffPrivLibQuerier</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.opendp</span> <span class="kn">import</span> <span class="n">OpenDPQuerier</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.smartnoise_sql</span> <span class="kn">import</span> <span class="n">SmartnoiseSQLQuerier</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_querier</span> <span class="kn">import</span> <span class="n">DPQuerier</span>
@@ -121,6 +122,9 @@
 
         <span class="k">case</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">:</span>
             <span class="n">querier</span> <span class="o">=</span> <span class="n">OpenDPQuerier</span><span class="p">(</span><span class="n">private_dataset</span><span class="p">)</span>
+
+        <span class="k">case</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">:</span>
+            <span class="n">querier</span> <span class="o">=</span> <span class="n">DiffPrivLibQuerier</span><span class="p">(</span><span class="n">private_dataset</span><span class="p">)</span>
 
         <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown library: </span><span class="si">{</span><span class="n">lib</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -175,6 +179,8 @@
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
         
       </dl>
       
