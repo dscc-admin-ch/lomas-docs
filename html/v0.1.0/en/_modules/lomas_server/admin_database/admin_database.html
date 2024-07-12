@@ -92,13 +92,14 @@
              
   <h1>Source code for lomas_server.admin_database.admin_database</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 
-<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">MODEL_INPUT_TO_LIB</span>
+<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">DPLibraries</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">InternalServerException</span><span class="p">,</span>
     <span class="n">InvalidQueryException</span><span class="p">,</span>
     <span class="n">UnauthorizedAccessException</span><span class="p">,</span>
 <span class="p">)</span>
@@ -123,7 +124,7 @@
 <span class="sd">            before calling func.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrapper_decorator</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -158,14 +159,14 @@
 <span class="sd">            before calling the wrapped function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrapper_decorator</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">does_dataset_exist</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2"> does not exist. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2"> does not exists. &quot;</span>
                 <span class="o">+</span> <span class="s2">&quot;Please, verify the client object initialisation.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -197,7 +198,7 @@
 <span class="sd">            to the dataset before calling the wrapped function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrapper_decorator</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -595,16 +596,22 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: The query archive dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">model_input</span> <span class="o">=</span> <span class="n">query_json</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="n">to_archive</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;user_name&quot;</span><span class="p">:</span> <span class="n">user_name</span><span class="p">,</span>
             <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
-            <span class="s2">&quot;dp_librairy&quot;</span><span class="p">:</span> <span class="n">MODEL_INPUT_TO_LIB</span><span class="p">[</span><span class="n">model_input</span><span class="p">],</span>
             <span class="s2">&quot;client_input&quot;</span><span class="p">:</span> <span class="n">query_json</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span>
             <span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="n">response</span><span class="p">,</span>
             <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
         <span class="p">}</span>
-
+        <span class="k">match</span> <span class="n">query_json</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+            <span class="k">case</span> <span class="s2">&quot;SNSQLInp&quot;</span><span class="p">:</span>
+                <span class="n">to_archive</span><span class="p">[</span><span class="s2">&quot;dp_librairy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span>
+            <span class="k">case</span> <span class="s2">&quot;OpenDPInp&quot;</span><span class="p">:</span>
+                <span class="n">to_archive</span><span class="p">[</span><span class="s2">&quot;dp_librairy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Unknown query input: </span><span class="si">{</span><span class="n">query_json</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
         <span class="k">return</span> <span class="n">to_archive</span></div>
 
 

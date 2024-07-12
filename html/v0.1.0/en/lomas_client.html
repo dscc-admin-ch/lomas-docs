@@ -120,90 +120,6 @@
 <p>Client class to send requests to the server
 Handle all serialisation and deserialisation steps</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="lomas_client.client.Client.diffprivlib_query">
-<span class="sig-name descname"><span class="pre">diffprivlib_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Pipeline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_train_split_seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imputer_strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'drop'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dummy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Pipeline</span></span></span><a class="reference internal" href="_modules/lomas_client/client.html#Client.diffprivlib_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_client.client.Client.diffprivlib_query" title="Link to this definition"></a></dt>
-<dd><p>This function trains a DiffPrivLib pipeline on the sensitive data
-and return a trained Pipeline.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pipeline</strong> (<em>sklearn.pipeline</em>) – <p>DiffPrivLib pipeline with three conditions:
-- The pipeline MUST start with a <cite>models.StandardScaler</cite>.</p>
-<blockquote>
-<div><p>Otherwise a PrivacyLeakWarning is raised by DiffPrivLib library and
-is treated as an error in lomas server.</p>
-</div></blockquote>
-<ul>
-<li><p><cite>random_state</cite> fields can only be int (<cite>RandomState</cite> will not work).</p></li>
-<li><p><cite>accountant</cite> fields must be None.</p></li>
-</ul>
-<p>Note: as in DiffPrivLib, avoid any DiffprivlibCompatibilityWarning
-to ensure that the pipeline does what is intended.</p>
-</p></li>
-<li><p><strong>feature_columns</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – the list of feature column to train</p></li>
-<li><p><strong>target_columns</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – the list of target column to predict                 May be None for certain models.</p></li>
-<li><p><strong>test_size</strong> (<em>float</em><em>, </em><em>optional</em>) – proportion of the test set                 Defaults to 0.2.</p></li>
-<li><p><strong>test_train_split_seed</strong> (<em>int</em><em>, </em><em>optional</em>) – seed for random train test split                 Defaults to 1.</p></li>
-<li><p><strong>imputer_strategy</strong> (<em>str</em><em>, </em><em>optional</em>) – imputation strategy. Defaults to “drop”.
-“drop”: will drop all rows with missing values
-“mean”: will replace values by the mean of the column values
-“median”: will replace values by the median of the column values
-“most_frequent”: : will replace values by the most frequent values</p></li>
-<li><p><strong>dummy</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to use a dummy dataset. Defaults to False.</p></li>
-<li><p><strong>nb_rows</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of rows in the dummy dataset.                Defaults to DUMMY_NB_ROWS.</p></li>
-<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – The random seed for generating the dummy dataset.                Defaults to DUMMY_SEED.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A trained DiffPrivLip pipeline</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Optional[Pipeline]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_client.client.Client.estimate_diffprivlib_cost">
-<span class="sig-name descname"><span class="pre">estimate_diffprivlib_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Pipeline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_train_split_seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imputer_strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'drop'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/lomas_client/client.html#Client.estimate_diffprivlib_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_client.client.Client.estimate_diffprivlib_cost" title="Link to this definition"></a></dt>
-<dd><p>This function estimates the cost of executing a DiffPrivLib query.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pipeline</strong> (<em>sklearn.pipeline</em>) – <p>DiffPrivLib pipeline with three conditions:
-- The pipeline MUST start with a <cite>models.StandardScaler</cite>.</p>
-<blockquote>
-<div><p>Otherwise a PrivacyLeakWarning is raised by DiffPrivLib library and
-is treated as an error in lomas server.</p>
-</div></blockquote>
-<ul>
-<li><p><cite>random_state</cite> fields can only be int (<cite>RandomState</cite> will not work).</p></li>
-<li><p><cite>accountant</cite> fields must be None.</p></li>
-</ul>
-<p>Note: as in DiffPrivLib, avoid any DiffprivlibCompatibilityWarning
-to ensure that the pipeline does what is intended.</p>
-</p></li>
-<li><p><strong>feature_columns</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – the list of feature column to train</p></li>
-<li><p><strong>target_columns</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – the list of target column to predict                 May be None for certain models.</p></li>
-<li><p><strong>test_size</strong> (<em>float</em><em>, </em><em>optional</em>) – proportion of the test set                 Defaults to 0.2.</p></li>
-<li><p><strong>test_train_split_seed</strong> (<em>int</em><em>, </em><em>optional</em>) – seed for random train test split                 Defaults to 1.</p></li>
-<li><p><strong>imputer_strategy</strong> (<em>str</em><em>, </em><em>optional</em>) – imputation strategy. Defaults to “drop”.
-“drop”: will drop all rows with missing values
-“mean”: will replace values by the mean of the column values
-“median”: will replace values by the median of the column values
-“most_frequent”: : will replace values by the most frequent values</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary containing the estimated cost.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Optional[dict[str, float]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="lomas_client.client.Client.estimate_opendp_cost">
 <span class="sig-name descname"><span class="pre">estimate_opendp_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opendp_pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Measurement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_client/client.html#Client.estimate_opendp_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_client.client.Client.estimate_opendp_cost" title="Link to this definition"></a></dt>
 <dd><p>This function estimates the cost of executing an OpenDP query.</p>
@@ -417,11 +333,6 @@ NOTE: the table name is df, the query must end with “FROM df”.</p></li>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
 <p>Enum of the DP librairies used in the server
 WARNING: MUST match those of lomas_server</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="lomas_client.client.DPLibraries.DIFFPRIVLIB">
-<span class="sig-name descname"><span class="pre">DIFFPRIVLIB</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'diffprivlib'</span></em><a class="headerlink" href="#lomas_client.client.DPLibraries.DIFFPRIVLIB" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="lomas_client.client.DPLibraries.OPENDP">
 <span class="sig-name descname"><span class="pre">OPENDP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'opendp'</span></em><a class="headerlink" href="#lomas_client.client.DPLibraries.OPENDP" title="Link to this definition"></a></dt>
