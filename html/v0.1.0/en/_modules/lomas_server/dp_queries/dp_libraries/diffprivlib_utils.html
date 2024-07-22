@@ -98,7 +98,7 @@
 
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">NUMERICAL_DTYPES</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InvalidQueryException</span>
-<span class="kn">from</span> <span class="nn">utils.input_models</span> <span class="kn">import</span> <span class="n">DiffPrivLibInp</span>
+<span class="kn">from</span> <span class="nn">utils.input_models</span> <span class="kn">import</span> <span class="n">DiffPrivLibModel</span>
 
 
 <div class="viewcode-block" id="handle_missing_data">
@@ -172,12 +172,12 @@
 <div class="viewcode-block" id="split_train_test_data">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib_utils.split_train_test_data">[docs]</a>
 <span class="k">def</span> <span class="nf">split_train_test_data</span><span class="p">(</span>
-    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibInp</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibModel</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Split the data between train and test set</span>
 <span class="sd">    Args:</span>
 <span class="sd">        df (pd.DataFrame): dataframe with the data</span>
-<span class="sd">        query_json (DiffPrivLibInp): user input query indication</span>
+<span class="sd">        query_json (DiffPrivLibModel): user input query indication</span>
 <span class="sd">            feature_columns (list[str]): columns from data to use as features</span>
 <span class="sd">            target_columns (list[str]): columns from data to use as target (to predict)</span>
 <span class="sd">            test_size (float): proportion of data in the test set</span>

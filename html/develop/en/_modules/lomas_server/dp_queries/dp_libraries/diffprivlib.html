@@ -108,7 +108,7 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_querier</span> <span class="kn">import</span> <span class="n">DPQuerier</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">ExternalLibraryException</span>
-<span class="kn">from</span> <span class="nn">utils.input_models</span> <span class="kn">import</span> <span class="n">DiffPrivLibInp</span>
+<span class="kn">from</span> <span class="nn">utils.input_models</span> <span class="kn">import</span> <span class="n">DiffPrivLibModel</span>
 
 
 <div class="viewcode-block" id="DiffPrivLibQuerier">
@@ -121,7 +121,7 @@
 <div class="viewcode-block" id="DiffPrivLibQuerier.fit_model_on_data">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.fit_model_on_data">[docs]</a>
     <span class="k">def</span> <span class="nf">fit_model_on_data</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibInp</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibModel</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Pipeline</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform necessary steps to fit the model on the data</span>
 
@@ -171,7 +171,7 @@
 
 <div class="viewcode-block" id="DiffPrivLibQuerier.cost">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.cost">[docs]</a>
-    <span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibInp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate cost of query</span>
 
 <span class="sd">        Args:</span>
@@ -198,7 +198,7 @@
 
 <div class="viewcode-block" id="DiffPrivLibQuerier.query">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.query">[docs]</a>
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibInp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform the query and return the response.</span>
 
 <span class="sd">        Args:</span>

@@ -112,13 +112,13 @@
     <span class="n">example_smartnoise_sql_cost</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">utils.input_models</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DiffPrivLibInp</span><span class="p">,</span>
-    <span class="n">DummyDiffPrivLibInp</span><span class="p">,</span>
-    <span class="n">DummyOpenDPInp</span><span class="p">,</span>
-    <span class="n">DummySNSQLInp</span><span class="p">,</span>
-    <span class="n">OpenDPInp</span><span class="p">,</span>
-    <span class="n">SNSQLInp</span><span class="p">,</span>
-    <span class="n">SNSQLInpCost</span><span class="p">,</span>
+    <span class="n">DiffPrivLibModel</span><span class="p">,</span>
+    <span class="n">DummyDiffPrivLibModel</span><span class="p">,</span>
+    <span class="n">DummyOpenDPModel</span><span class="p">,</span>
+    <span class="n">DummySmartnoiseSQLModel</span><span class="p">,</span>
+    <span class="n">OpenDPModel</span><span class="p">,</span>
+    <span class="n">SmartnoiseSQLModel</span><span class="p">,</span>
+    <span class="n">SmartnoiseSQLModelCost</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">utils.utils</span> <span class="kn">import</span> <span class="n">server_live</span>
 
@@ -134,7 +134,7 @@
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">smartnoise_sql_handler</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">SNSQLInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">SmartnoiseSQLModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -142,7 +142,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): Raw request object</span>
-<span class="sd">        query_json (SNSQLInp): A JSON object containing:</span>
+<span class="sd">        query_json (SmartnoiseSQLModel): A JSON object containing:</span>
 <span class="sd">            - query: The SQL query to execute. NOTE: the table name is &quot;df&quot;,</span>
 <span class="sd">              the query must end with &quot;FROM df&quot;.</span>
 <span class="sd">            - epsilon (float): Privacy parameter (e.g., 0.1).</span>
@@ -204,7 +204,7 @@
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">dummy_smartnoise_sql_handler</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">DummySNSQLInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_dummy_smartnoise_sql</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">DummySmartnoiseSQLModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_dummy_smartnoise_sql</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -212,7 +212,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): Raw request object</span>
-<span class="sd">        query_json (DummySNSQLInp, optional): A JSON object containing:</span>
+<span class="sd">        query_json (DummySmartnoiseSQLModel, optional): A JSON object containing:</span>
 <span class="sd">            - query: The SQL query to execute. NOTE: the table name is &quot;df&quot;,</span>
 <span class="sd">              the query must end with &quot;FROM df&quot;.</span>
 <span class="sd">            - epsilon (float): Privacy parameter (e.g., 0.1).</span>
@@ -283,7 +283,7 @@
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">estimate_smartnoise_cost</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">SNSQLInpCost</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_smartnoise_sql_cost</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">SmartnoiseSQLModelCost</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_smartnoise_sql_cost</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -291,7 +291,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): Raw request object</span>
-<span class="sd">        query_json (SNSQLInpCost, optional):</span>
+<span class="sd">        query_json (SmartnoiseSQLModelCost, optional):</span>
 <span class="sd">            A JSON object containing the following:</span>
 <span class="sd">            - query: The SQL query to estimate the cost for.</span>
 <span class="sd">              NOTE: the table name is &quot;df&quot;, the query must end with &quot;FROM df&quot;.</span>
@@ -346,7 +346,7 @@
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">opendp_query_handler</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">OpenDPInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_opendp</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">OpenDPModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_opendp</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -354,7 +354,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): Raw request object.</span>
-<span class="sd">        query_json (OpenDPInp, optional): A JSON object containing the following:</span>
+<span class="sd">        query_json (OpenDPModel, optional): A JSON object containing the following:</span>
 <span class="sd">            - opendp_pipeline: The OpenDP pipeline for the query.</span>
 <span class="sd">            - fixed_delta: If the pipeline measurement is of type</span>
 <span class="sd">                &quot;ZeroConcentratedDivergence&quot; (e.g. with &quot;make_gaussian&quot;) then it is</span>
@@ -411,7 +411,7 @@
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">dummy_opendp_query_handler</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">DummyOpenDPInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_dummy_opendp</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">DummyOpenDPModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_dummy_opendp</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -419,7 +419,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): Raw request object.</span>
-<span class="sd">        query_json (DummyOpenDPInp, optional):</span>
+<span class="sd">        query_json (DummyOpenDPModel, optional):</span>
 <span class="sd">            A JSON object containing the following:</span>
 <span class="sd">            - opendp_pipeline: The OpenDP pipeline for the query.</span>
 <span class="sd">            - fixed_delta: If the pipeline measurement is of type\</span>
@@ -489,7 +489,7 @@
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">estimate_opendp_cost</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">OpenDPInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_opendp</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">OpenDPModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_opendp</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -497,7 +497,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): Raw request object</span>
-<span class="sd">        query_json (OpenDPInp, optional):</span>
+<span class="sd">        query_json (OpenDPModel, optional):</span>
 <span class="sd">            A JSON object containing the following:</span>
 <span class="sd">            - &quot;opendp_pipeline&quot;: The OpenDP pipeline for the query.</span>
 
@@ -548,7 +548,7 @@
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">diffprivlib_query_handler</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -556,7 +556,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): Raw request object.</span>
-<span class="sd">        query_json (OpenDPInp, optional): A JSON object containing the following:</span>
+<span class="sd">        query_json (OpenDPModel, optional): A JSON object containing the following:</span>
 <span class="sd">            - pipeline: The DiffPrivLib pipeline for the query.</span>
 <span class="sd">            - feature_columns: the list of feature column to train</span>
 <span class="sd">            - target_columns: the list of target column to predict</span>
@@ -612,7 +612,7 @@
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">dummy_diffprivlib_query_handler</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">DummyDiffPrivLibInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_dummy_diffprivlib</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">DummyDiffPrivLibModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_dummy_diffprivlib</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -620,7 +620,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): Raw request object.</span>
-<span class="sd">        query_json (DiffPrivLibInp, optional): A JSON object containing the following:</span>
+<span class="sd">        query_json (DiffPrivLibModel, optional): A JSON object containing the following:</span>
 <span class="sd">            - pipeline: The DiffPrivLib pipeline for the query.</span>
 <span class="sd">            - feature_columns: the list of feature column to train</span>
 <span class="sd">            - target_columns: the list of target column to predict</span>
@@ -683,7 +683,7 @@
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">estimate_diffprivlib_cost</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -691,7 +691,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): Raw request object</span>
-<span class="sd">        query_json (DiffPrivLibInp, optional):</span>
+<span class="sd">        query_json (DiffPrivLibModel, optional):</span>
 <span class="sd">        A JSON object containing the following:</span>
 <span class="sd">            - pipeline: The DiffPrivLib pipeline for the query.</span>
 <span class="sd">            - feature_columns: the list of feature column to train</span>

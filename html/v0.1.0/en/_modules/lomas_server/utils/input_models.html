@@ -113,14 +113,14 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Model input to get a dummy dataset&quot;&quot;&quot;</span>
 
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">dummy_nb_rows</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">dummy_nb_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">dummy_seed</span><span class="p">:</span> <span class="nb">int</span></div>
 
 
 
-<div class="viewcode-block" id="SNSQLInp">
-<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.SNSQLInp">[docs]</a>
-<span class="k">class</span> <span class="nc">SNSQLInp</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="SmartnoiseSQLModel">
+<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.SmartnoiseSQLModel">[docs]</a>
+<span class="k">class</span> <span class="nc">SmartnoiseSQLModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Model input for a smarnoise-sql query&quot;&quot;&quot;</span>
 
     <span class="n">query_str</span><span class="p">:</span> <span class="nb">str</span>
@@ -140,38 +140,38 @@
 
 
 
-<div class="viewcode-block" id="DummySNSQLInp">
-<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.DummySNSQLInp">[docs]</a>
-<span class="k">class</span> <span class="nc">DummySNSQLInp</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="DummySmartnoiseSQLModel">
+<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.DummySmartnoiseSQLModel">[docs]</a>
+<span class="k">class</span> <span class="nc">DummySmartnoiseSQLModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Model input for a smarnoise-sql dummy query&quot;&quot;&quot;</span>
 
     <span class="n">query_str</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">dummy_nb_rows</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">dummy_nb_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">dummy_seed</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">mechanisms</span><span class="p">:</span> <span class="nb">dict</span>
     <span class="n">postprocess</span><span class="p">:</span> <span class="nb">bool</span></div>
 
 
 
-<div class="viewcode-block" id="SNSQLInpCost">
-<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.SNSQLInpCost">[docs]</a>
-<span class="k">class</span> <span class="nc">SNSQLInpCost</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="SmartnoiseSQLModelCost">
+<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.SmartnoiseSQLModelCost">[docs]</a>
+<span class="k">class</span> <span class="nc">SmartnoiseSQLModelCost</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Model input for a smarnoise-sql cost query&quot;&quot;&quot;</span>
 
     <span class="n">query_str</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">mechanisms</span><span class="p">:</span> <span class="nb">dict</span></div>
 
 
 
-<div class="viewcode-block" id="OpenDPInp">
-<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.OpenDPInp">[docs]</a>
-<span class="k">class</span> <span class="nc">OpenDPInp</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenDPModel">
+<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.OpenDPModel">[docs]</a>
+<span class="k">class</span> <span class="nc">OpenDPModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Model input for an opendp query&quot;&quot;&quot;</span>
 
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span>
@@ -180,47 +180,47 @@
 
 
 
-<div class="viewcode-block" id="DummyOpenDPInp">
-<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.DummyOpenDPInp">[docs]</a>
-<span class="k">class</span> <span class="nc">DummyOpenDPInp</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="DummyOpenDPModel">
+<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.DummyOpenDPModel">[docs]</a>
+<span class="k">class</span> <span class="nc">DummyOpenDPModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Model input for a dummy opendp query&quot;&quot;&quot;</span>
 
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">opendp_json</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">dummy_nb_rows</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">dummy_nb_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">dummy_seed</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">fixed_delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
-<div class="viewcode-block" id="DiffPrivLibInp">
-<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.DiffPrivLibInp">[docs]</a>
-<span class="k">class</span> <span class="nc">DiffPrivLibInp</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="DiffPrivLibModel">
+<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.DiffPrivLibModel">[docs]</a>
+<span class="k">class</span> <span class="nc">DiffPrivLibModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Model input for a diffprivlib query&quot;&quot;&quot;</span>
 
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">diffprivlib_json</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">feature_columns</span><span class="p">:</span> <span class="nb">list</span>
     <span class="n">target_columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span>
-    <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
     <span class="n">test_train_split_seed</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">imputer_strategy</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
 
-<div class="viewcode-block" id="DummyDiffPrivLibInp">
-<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.DummyDiffPrivLibInp">[docs]</a>
-<span class="k">class</span> <span class="nc">DummyDiffPrivLibInp</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="DummyDiffPrivLibModel">
+<a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.input_models.DummyDiffPrivLibModel">[docs]</a>
+<span class="k">class</span> <span class="nc">DummyDiffPrivLibModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Model input for a dummy diffprivlib query&quot;&quot;&quot;</span>
 
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">diffprivlib_json</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">feature_columns</span><span class="p">:</span> <span class="nb">list</span>
     <span class="n">target_columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span>
-    <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
     <span class="n">test_train_split_seed</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">imputer_strategy</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">dummy_nb_rows</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">dummy_nb_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">dummy_seed</span><span class="p">:</span> <span class="nb">int</span></div>
 
 </pre></div>
