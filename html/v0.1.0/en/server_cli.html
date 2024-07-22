@@ -188,7 +188,7 @@ line. It provides functionalities for managing users, datasets, metatada and que
 <li><p><code class="docutils literal notranslate"><span class="pre">-v,</span> <span class="pre">--value</span></code>: Value to set for “may query” (choices: “False” or “True”) (required).</p></li>
 </ul>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">show_user</span></code>: Show all information about a user in the users collection.</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_user</span></code>: Show all information about a user in the users collection.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">-u,</span> <span class="pre">--user</span></code>: Username of the user to be shown (required).</p></li>
 </ul>
@@ -200,7 +200,7 @@ line. It provides functionalities for managing users, datasets, metatada and que
 <li><p><code class="docutils literal notranslate"><span class="pre">-o,</span> <span class="pre">--overwrite</span></code>: Overwrite the existing users collection (optional, default: False).</p></li>
 </ul>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">show_archives</span></code>: Show all previous queries from a user.</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_archives</span></code>: Show all previous queries from a user.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">-u,</span> <span class="pre">--user</span></code>: Username of the user to show archives (required).</p></li>
 </ul>
@@ -248,12 +248,12 @@ line. It provides functionalities for managing users, datasets, metatada and que
 <li><p><code class="docutils literal notranslate"><span class="pre">-d,</span> <span class="pre">--dataset</span></code>: Name of the dataset to be deleted (required).</p></li>
 </ul>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">show_dataset</span></code>: Show a dataset from the dataset collection.</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_dataset</span></code>: Show a dataset from the dataset collection.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">-d,</span> <span class="pre">--dataset</span></code>: Name of the dataset to show (required).</p></li>
 </ul>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">show_metadata</span></code>: Show metadata from the metadata collection.</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_metadata</span></code>: Show metadata from the metadata collection.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">-d,</span> <span class="pre">--dataset</span></code>: Name of the dataset of the metadata to show (required).</p></li>
 </ul>
@@ -269,7 +269,7 @@ line. It provides functionalities for managing users, datasets, metatada and que
 <li><p><code class="docutils literal notranslate"><span class="pre">-c,</span> <span class="pre">--collection</span></code>: Name of the collection to be deleted. Choices: “users”, “datasets”, “metadata”, “queries_archives” (required).</p></li>
 </ul>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">show_collection</span></code>: Print a collection.</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_collection</span></code>: Print a collection.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">-c,</span> <span class="pre">--collection</span></code>: Name of the collection to be shown. Choices: “users”, “datasets”, “metadata”, “queries_archives” (required).</p></li>
 </ul>
@@ -301,13 +301,13 @@ line. It provides functionalities for managing users, datasets, metatada and que
 <span class="go">python mongodb_admin_cli.py set_may_query -u username -v True</span>
 
 <span class="gp"># </span>Show<span class="w"> </span>user<span class="w"> </span>metadata
-<span class="go">python mongodb_admin_cli.py show_user -u username</span>
+<span class="go">python mongodb_admin_cli.py get_user -u username</span>
 
 <span class="gp"># </span>Create<span class="w"> </span>users<span class="w"> </span>collection<span class="w"> </span>from<span class="w"> </span>a<span class="w"> </span>YAML<span class="w"> </span>file
 <span class="go">python mongodb_admin_cli.py add_users_via_yaml -yf users.yaml -c</span>
 
 <span class="gp"># </span>Show<span class="w"> </span>all<span class="w"> </span>previous<span class="w"> </span>queries<span class="w"> </span>from<span class="w"> </span>user<span class="w"> </span><span class="s2">&quot;username&quot;</span>
-<span class="go">python mongodb_admin_cli.py show_archives -u username</span>
+<span class="go">python mongodb_admin_cli.py get_archives -u username</span>
 
 <span class="gp"># </span>Get<span class="w"> </span>the<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>all<span class="w"> </span>users
 <span class="go">python mongodb_admin_cli.py get_users</span>
@@ -325,16 +325,16 @@ line. It provides functionalities for managing users, datasets, metatada and que
 <span class="go">python mongodb_admin_cli.py del_dataset -d dataset_name</span>
 
 <span class="gp"># </span>Show<span class="w"> </span>dataset<span class="w"> </span><span class="s2">&quot;dataset_name&quot;</span>
-<span class="go">python mongodb_admin_cli.py show_dataset -d dataset_name</span>
+<span class="go">python mongodb_admin_cli.py get_dataset -d dataset_name</span>
 
 <span class="gp"># </span>Show<span class="w"> </span>metadata<span class="w"> </span><span class="k">for</span><span class="w"> </span>dataset<span class="w"> </span><span class="s2">&quot;dataset_name&quot;</span>
-<span class="go">python mongodb_admin_cli.py show_metadata -d dataset_name</span>
+<span class="go">python mongodb_admin_cli.py get_metadata -d dataset_name</span>
 
 <span class="gp"># </span>Drop<span class="w"> </span>a<span class="w"> </span>collection
 <span class="go">python mongodb_admin_cli.py drop_collection -c users</span>
 
 <span class="gp"># </span>Show<span class="w"> </span>a<span class="w"> </span>collection
-<span class="go">python mongodb_admin_cli.py show_collection -c datasets</span>
+<span class="go">python mongodb_admin_cli.py get_collection -c datasets</span>
 </pre></div>
 </div>
 <div class="toctree-wrapper compound">
