@@ -150,6 +150,8 @@
         <span class="c1"># Fit the pipeline on the training set</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">PrivacyLeakWarning</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">y_train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
             <span class="n">fitted_dpl_pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">PrivacyLeakWarning</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
