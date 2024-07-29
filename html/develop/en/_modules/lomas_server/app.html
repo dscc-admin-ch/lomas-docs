@@ -97,7 +97,8 @@
 
 <span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 
-<span class="kn">from</span> <span class="nn">admin_database.utils</span> <span class="kn">import</span> <span class="n">database_factory</span>
+<span class="kn">from</span> <span class="nn">admin_database.factory</span> <span class="kn">import</span> <span class="n">admin_database_factory</span>
+<span class="kn">from</span> <span class="nn">admin_database.utils</span> <span class="kn">import</span> <span class="n">add_demo_data_to_mongodb_admin</span>
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">CONFIG_NOT_LOADED</span><span class="p">,</span>
     <span class="n">DB_NOT_LOADED</span><span class="p">,</span>
@@ -105,15 +106,14 @@
     <span class="n">SERVER_LIVE</span><span class="p">,</span>
     <span class="n">AdminDBType</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">dataset_store.utils</span> <span class="kn">import</span> <span class="n">dataset_store_factory</span>
+<span class="kn">from</span> <span class="nn">dataset_store.factory</span> <span class="kn">import</span> <span class="n">dataset_store_factory</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.opendp</span> <span class="kn">import</span> <span class="n">set_opendp_features_config</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dp_logic</span> <span class="kn">import</span> <span class="n">QueryHandler</span>
 <span class="kn">from</span> <span class="nn">routes</span> <span class="kn">import</span> <span class="n">routes_admin</span><span class="p">,</span> <span class="n">routes_dp</span>
 <span class="kn">from</span> <span class="nn">utils.anti_timing_att</span> <span class="kn">import</span> <span class="n">anti_timing_att</span>
 <span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">get_config</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span><span class="p">,</span> <span class="n">add_exception_handlers</span>
-<span class="kn">from</span> <span class="nn">utils.loggr</span> <span class="kn">import</span> <span class="n">LOG</span>
-<span class="kn">from</span> <span class="nn">utils.utils</span> <span class="kn">import</span> <span class="n">add_demo_data_to_admindb</span>
+<span class="kn">from</span> <span class="nn">utils.logger</span> <span class="kn">import</span> <span class="n">LOG</span>
 
 
 <div class="viewcode-block" id="lifespan">
@@ -175,14 +175,16 @@
             <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="s2">&quot;Adding demo data to MongoDB Admin&quot;</span>
             <span class="p">)</span>
-            <span class="n">add_demo_data_to_admindb</span><span class="p">()</span>
+            <span class="n">add_demo_data_to_mongodb_admin</span><span class="p">()</span>
 
     <span class="c1"># Load admin database</span>
     <span class="k">if</span> <span class="n">status_ok</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading admin database&quot;</span><span class="p">)</span>
             <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Loading admin database&quot;</span><span class="p">)</span>
-            <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span> <span class="o">=</span> <span class="n">database_factory</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="p">)</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span> <span class="o">=</span> <span class="n">admin_database_factory</span><span class="p">(</span>
+                <span class="n">config</span><span class="o">.</span><span class="n">admin_database</span>
+            <span class="p">)</span>
         <span class="k">except</span> <span class="n">InternalServerException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Failed at startup:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
             <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DB_NOT_LOADED</span><span class="p">)</span>

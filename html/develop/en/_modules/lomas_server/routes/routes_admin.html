@@ -95,17 +95,17 @@
 <span class="kn">from</span> <span class="nn">fastapi.responses</span> <span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">RedirectResponse</span><span class="p">,</span> <span class="n">StreamingResponse</span>
 
 <span class="kn">from</span> <span class="nn">dp_queries.dummy_dataset</span> <span class="kn">import</span> <span class="n">make_dummy_dataset</span>
+<span class="kn">from</span> <span class="nn">routes.utils</span> <span class="kn">import</span> <span class="n">server_live</span><span class="p">,</span> <span class="n">stream_dataframe</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">KNOWN_EXCEPTIONS</span><span class="p">,</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
     <span class="n">UnauthorizedAccessException</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">utils.example_inputs</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">utils.query_examples</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">example_get_admin_db_data</span><span class="p">,</span>
     <span class="n">example_get_dummy_dataset</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">utils.input_models</span> <span class="kn">import</span> <span class="n">GetDbData</span><span class="p">,</span> <span class="n">GetDummyDataset</span>
-<span class="kn">from</span> <span class="nn">utils.utils</span> <span class="kn">import</span> <span class="n">server_live</span><span class="p">,</span> <span class="n">stream_dataframe</span>
+<span class="kn">from</span> <span class="nn">utils.query_models</span> <span class="kn">import</span> <span class="n">GetDbData</span><span class="p">,</span> <span class="n">GetDummyDataset</span>
 
 <span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">()</span>
 

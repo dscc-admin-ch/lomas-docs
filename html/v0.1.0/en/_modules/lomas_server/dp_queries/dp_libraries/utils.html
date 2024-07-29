@@ -91,44 +91,79 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.dp_queries.dp_libraries.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">DPLibraries</span>
-<span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.diffprivlib</span> <span class="kn">import</span> <span class="n">DiffPrivLibQuerier</span>
-<span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.opendp</span> <span class="kn">import</span> <span class="n">OpenDPQuerier</span>
-<span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.smartnoise_sql</span> <span class="kn">import</span> <span class="n">SmartnoiseSQLQuerier</span>
-<span class="kn">from</span> <span class="nn">dp_queries.dp_querier</span> <span class="kn">import</span> <span class="n">DPQuerier</span>
-<span class="kn">from</span> <span class="nn">private_dataset.private_dataset</span> <span class="kn">import</span> <span class="n">PrivateDataset</span>
-<span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">NUMERICAL_DTYPES</span>
+<span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InvalidQueryException</span>
 
 
-<div class="viewcode-block" id="querier_factory">
-<a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.utils.querier_factory">[docs]</a>
-<span class="k">def</span> <span class="nf">querier_factory</span><span class="p">(</span><span class="n">lib</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">private_dataset</span><span class="p">:</span> <span class="n">PrivateDataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DPQuerier</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds the correct DPQuerier instance.</span>
-
+<div class="viewcode-block" id="handle_missing_data">
+<a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.utils.handle_missing_data">[docs]</a>
+<span class="k">def</span> <span class="nf">handle_missing_data</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">imputer_strategy</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Impute missing data based on given imputation strategy for NaNs</span>
 <span class="sd">    Args:</span>
-<span class="sd">        lib (str): The library to build the querier for.</span>
-<span class="sd">            One of :py:class:`DPLibraries`.</span>
-<span class="sd">        private_dataset (PrivateDataset): The dataset to query.</span>
+<span class="sd">        df (pd.DataFrame): dataframe with the data</span>
+<span class="sd">        imputer_strategy (str): string to indicate imputatation for NaNs</span>
+<span class="sd">            &quot;drop&quot;: will drop all rows with missing values</span>
+<span class="sd">            &quot;mean&quot;: will replace values by the mean of the column values</span>
+<span class="sd">            &quot;median&quot;: will replace values by the median of the column values</span>
+<span class="sd">            &quot;most_frequent&quot;: : will replace values by the most frequent values</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        InternalServerException: If the library is unknown.</span>
+<span class="sd">        InvalidQueryException: If the &quot;imputer_strategy&quot; does not exist</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        DPQuerier: The built DPQuerier.</span>
+<span class="sd">        df (pd.DataFrame): dataframe with the imputed data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">match</span> <span class="n">lib</span><span class="p">:</span>
-        <span class="k">case</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span><span class="p">:</span>
-            <span class="n">querier</span> <span class="o">=</span> <span class="n">SmartnoiseSQLQuerier</span><span class="p">(</span><span class="n">private_dataset</span><span class="p">)</span>
+    <span class="n">dtypes</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
 
-        <span class="k">case</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">:</span>
-            <span class="n">querier</span> <span class="o">=</span> <span class="n">OpenDPQuerier</span><span class="p">(</span><span class="n">private_dataset</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">imputer_strategy</span> <span class="o">==</span> <span class="s2">&quot;drop&quot;</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">imputer_strategy</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;median&quot;</span><span class="p">]:</span>
+        <span class="n">numerical_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span>
+            <span class="n">include</span><span class="o">=</span><span class="n">NUMERICAL_DTYPES</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">categorical_cols</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">numerical_cols</span>
+        <span class="p">]</span>
 
-        <span class="k">case</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">:</span>
-            <span class="n">querier</span> <span class="o">=</span> <span class="n">DiffPrivLibQuerier</span><span class="p">(</span><span class="n">private_dataset</span><span class="p">)</span>
+        <span class="c1"># Impute numerical features using given strategy</span>
+        <span class="n">imp_mean</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="n">imputer_strategy</span><span class="p">)</span>
+        <span class="n">df_num_imputed</span> <span class="o">=</span> <span class="n">imp_mean</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">numerical_cols</span><span class="p">])</span>
 
-        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown library: </span><span class="si">{</span><span class="n">lib</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">querier</span></div>
+        <span class="c1"># Impute categorical features with most frequent value</span>
+        <span class="n">imp_most_frequent</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;most_frequent&quot;</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">})</span>
+        <span class="n">df_cat_imputed</span> <span class="o">=</span> <span class="n">imp_most_frequent</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">])</span>
+
+        <span class="c1"># Combine imputed dataframes</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df_num_imputed</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">numerical_cols</span><span class="p">),</span>
+                <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df_cat_imputed</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">categorical_cols</span><span class="p">),</span>
+            <span class="p">],</span>
+            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">imputer_strategy</span> <span class="o">==</span> <span class="s2">&quot;most_frequent&quot;</span><span class="p">:</span>
+        <span class="c1"># Impute all features with most frequent value</span>
+        <span class="n">imp_most_frequent</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="n">imputer_strategy</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">})</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="n">imp_most_frequent</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Imputation strategy </span><span class="si">{</span><span class="n">imputer_strategy</span><span class="si">}</span><span class="s2"> not supported.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
 
 </pre></div>
 

@@ -91,18 +91,73 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.routes.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">Request</span>
-<span class="kn">from</span> <span class="nn">fastapi.responses</span> <span class="kn">import</span> <span class="n">JSONResponse</span>
+<span></span><span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">AsyncGenerator</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">Request</span>
+<span class="kn">from</span> <span class="nn">fastapi.responses</span> <span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">StreamingResponse</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">DPLibraries</span>
-<span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.utils</span> <span class="kn">import</span> <span class="n">querier_factory</span>
+<span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.factory</span> <span class="kn">import</span> <span class="n">querier_factory</span>
 <span class="kn">from</span> <span class="nn">dp_queries.dummy_dataset</span> <span class="kn">import</span> <span class="n">get_dummy_dataset_for_query</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">KNOWN_EXCEPTIONS</span><span class="p">,</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
     <span class="n">UnauthorizedAccessException</span><span class="p">,</span>
 <span class="p">)</span>
+
+
+<div class="viewcode-block" id="server_live">
+<a class="viewcode-back" href="../../../lomas_server.routes.html#lomas_server.routes.utils.server_live">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">server_live</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncGenerator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks the server is live and throws an exception otherwise.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (Request): Raw request</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        InternalServerException: If the server is not live.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        AsyncGenerator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;LIVE&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
+            <span class="s2">&quot;Woops, the server did not start correctly.&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot;Contact the administrator of this service.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">yield</span></div>
+
+
+
+<div class="viewcode-block" id="stream_dataframe">
+<a class="viewcode-back" href="../../../lomas_server.routes.html#lomas_server.routes.utils.stream_dataframe">[docs]</a>
+<span class="k">def</span> <span class="nf">stream_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StreamingResponse</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a streaming response for a given pandas dataframe.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (pd.DataFrame): The dataframe to stream.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        StreamingResponse: The resulting streaming response.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+
+    <span class="c1"># CSV creation</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">StreamingResponse</span><span class="p">(</span>
+        <span class="nb">iter</span><span class="p">([</span><span class="n">stream</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()]),</span> <span class="n">media_type</span><span class="o">=</span><span class="s2">&quot;text/csv&quot;</span>
+    <span class="p">)</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Content-Disposition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;attachment; filename=synthetic_data.csv&quot;</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span></div>
+
 
 
 <div class="viewcode-block" id="handle_query_on_private_dataset">

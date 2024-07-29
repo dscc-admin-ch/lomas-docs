@@ -805,25 +805,16 @@ with the last spent budget.</p>
 <section id="module-lomas_server.admin_database.utils">
 <span id="lomas-server-admin-database-utils-module"></span><h2>lomas_server.admin_database.utils module<a class="headerlink" href="#module-lomas_server.admin_database.utils" title="Link to this heading"></a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.admin_database.utils.database_factory">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.utils.</span></span><span class="sig-name descname"><span class="pre">database_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.config.DBConfig" title="lomas_server.utils.config.DBConfig"><span class="pre">DBConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#lomas_server.admin_database.admin_database.AdminDatabase" title="lomas_server.admin_database.admin_database.AdminDatabase"><span class="pre">AdminDatabase</span></a></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/utils.html#database_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.utils.database_factory" title="Link to this definition"></a></dt>
-<dd><p>Instantiates and returns the correct database type described in the
-provided config.</p>
+<dt class="sig sig-object py" id="lomas_server.admin_database.utils.add_demo_data_to_mongodb_admin">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.utils.</span></span><span class="sig-name descname"><span class="pre">add_demo_data_to_mongodb_admin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_yaml</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/data/collections/user_collection.yaml'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_yaml</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/data/collections/dataset_collection.yaml'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/utils.html#add_demo_data_to_mongodb_admin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.utils.add_demo_data_to_mongodb_admin" title="Link to this definition"></a></dt>
+<dd><p>Adds the demo data to the mongodb admindb.
+Meant to be used in the develop mode of the service.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> (<a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.config.DBConfig" title="lomas_server.utils.config.DBConfig"><em>DBConfig</em></a>) – An instance of DBconfig.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.error_handler.InternalServerException" title="lomas_server.utils.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – If the specified database type</p></li>
-<li><p><strong>is not supported.</strong> – </p></li>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_yaml</strong> (<em>str</em>) – path to user collection yaml file</p></li>
+<li><p><strong>dataset_yaml</strong> (<em>str</em>) – path to dataset collection yaml file</p></li>
 </ul>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A instance of the correct type of AdminDatabase.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#lomas_server.admin_database.admin_database.AdminDatabase" title="lomas_server.admin_database.admin_database.AdminDatabase">AdminDatabase</a></p>
 </dd>
 </dl>
 </dd></dl>
