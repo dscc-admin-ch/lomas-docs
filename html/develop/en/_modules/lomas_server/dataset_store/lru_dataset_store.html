@@ -92,6 +92,7 @@
              
   <h1>Source code for lomas_server.dataset_store.lru_dataset_store</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
 <span class="kn">from</span> <span class="nn">admin_database.admin_database</span> <span class="kn">import</span> <span class="n">AdminDatabase</span>
 <span class="kn">from</span> <span class="nn">dataset_store.dataset_store</span> <span class="kn">import</span> <span class="n">DatasetStore</span>
@@ -100,6 +101,7 @@
 <span class="kn">from</span> <span class="nn">dp_queries.dp_querier</span> <span class="kn">import</span> <span class="n">DPQuerier</span>
 <span class="kn">from</span> <span class="nn">private_dataset.factory</span> <span class="kn">import</span> <span class="n">private_dataset_factory</span>
 <span class="kn">from</span> <span class="nn">private_dataset.private_dataset</span> <span class="kn">import</span> <span class="n">PrivateDataset</span>
+<span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">PrivateDBCredentials</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
 <span class="kn">from</span> <span class="nn">utils.logger</span> <span class="kn">import</span> <span class="n">LOG</span>
 
@@ -118,17 +120,21 @@
     <span class="n">dataset_cache</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PrivateDataset</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span> <span class="n">max_memory_usage</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span>
+        <span class="n">private_db_credentials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PrivateDBCredentials</span><span class="p">],</span>
+        <span class="n">max_memory_usage</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializer.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            admin_database (AdminDatabase): An initialized AdminDatabase.</span>
-<span class="sd">            max_memory_usage (int, optional): Maximum memory usage limit</span>
+<span class="sd">            max_memory_usage (int, optional): Maximum memory usage limit\</span>
 <span class="sd">                for the manager.. Defaults to 1024.</span>
+<span class="sd">            private_db_credentials (List[PrivateDBCredentials]):\</span>
+<span class="sd">                The private database credentials from the server config.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">admin_database</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">admin_database</span> <span class="o">=</span> <span class="n">admin_database</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">admin_database</span><span class="p">,</span> <span class="n">private_db_credentials</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_memory_usage</span> <span class="o">=</span> <span class="n">max_memory_usage</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">dataset_cache</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
@@ -150,7 +156,7 @@
 
         <span class="c1"># Make private dataset</span>
         <span class="n">private_dataset</span> <span class="o">=</span> <span class="n">private_dataset_factory</span><span class="p">(</span>
-            <span class="n">dataset_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">admin_database</span>
+            <span class="n">dataset_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">admin_database</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">private_db_credentials</span>
         <span class="p">)</span>
         <span class="n">private_dataset</span><span class="o">.</span><span class="n">subscribe_for_memory_usage_updates</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 

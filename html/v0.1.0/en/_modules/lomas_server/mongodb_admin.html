@@ -668,16 +668,16 @@
     <span class="n">metadata_database_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">dataset_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">metadata_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">s3_bucket</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">s3_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">bucket</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">endpoint_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">aws_access_key_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">aws_secret_access_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">metadata_s3_bucket</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">metadata_s3_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">credentials_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">metadata_bucket</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">metadata_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">metadata_endpoint_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">metadata_aws_access_key_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">metadata_aws_secret_access_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">metadata_access_key_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">metadata_secret_access_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">metadata_credentials_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a database type to a dataset in dataset collection.</span>
 
@@ -690,16 +690,18 @@
 <span class="sd">        dataset_path (str): Path to the dataset (for local db type)</span>
 <span class="sd">        metadata_path (str): Path to metadata (for local db type)</span>
 
-<span class="sd">        s3_bucket (str): S3 bucket name</span>
-<span class="sd">        s3_key (str): S3 key</span>
+<span class="sd">        bucket (str): S3 bucket name</span>
+<span class="sd">        key (str): S3 key</span>
 <span class="sd">        endpoint_url (str): S3 endpoint URL</span>
-<span class="sd">        aws_access_key_id (str): AWS access key ID</span>
-<span class="sd">        aws_secret_access_key (str): AWS secret access key</span>
-<span class="sd">        metadata_s3_bucket (str): Metadata S3 bucket name</span>
-<span class="sd">        metadata_s3_key (str): Metadata S3 key</span>
+<span class="sd">        credentials_name (str): The name of the credentials in the\</span>
+<span class="sd">            server config to retrieve the dataset from S3 storage.</span>
+<span class="sd">        metadata_bucket (str): Metadata S3 bucket name</span>
+<span class="sd">        metadata_key (str): Metadata S3 key</span>
 <span class="sd">        metadata_endpoint_url (str): Metadata S3 endpoint URL</span>
-<span class="sd">        metadata_aws_access_key_id (str): Metadata AWS access key ID</span>
-<span class="sd">        metadata_aws_secret_access_key (str): Metadata AWS secret access key</span>
+<span class="sd">        metadata_access_key_id (str): Metadata AWS access key ID</span>
+<span class="sd">        metadata_secret_access_key (str): Metadata AWS secret access key</span>
+<span class="sd">        metadata_credentials_name (str): The name of the credentials in the\</span>
+<span class="sd">            server config for retrieving the metadata.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If the dataset already exists</span>
@@ -718,11 +720,10 @@
     <span class="k">if</span> <span class="n">database_type</span> <span class="o">==</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">:</span>
         <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;dataset_path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_path</span>
     <span class="k">elif</span> <span class="n">database_type</span> <span class="o">==</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">:</span>
-        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;s3_bucket&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s3_bucket</span>
-        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;s3_key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s3_key</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;bucket&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bucket</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
         <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;endpoint_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">endpoint_url</span>
-        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;aws_access_key_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">aws_access_key_id</span>
-        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;aws_secret_access_key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">aws_secret_access_key</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;credentials_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credentials_name</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown database type </span><span class="si">{</span><span class="n">database_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -739,24 +740,19 @@
         <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
             <span class="s2">&quot;s3&quot;</span><span class="p">,</span>
             <span class="n">endpoint_url</span><span class="o">=</span><span class="n">metadata_endpoint_url</span><span class="p">,</span>
-            <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">metadata_aws_access_key_id</span><span class="p">,</span>
-            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">metadata_aws_secret_access_key</span><span class="p">,</span>
+            <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">metadata_access_key_id</span><span class="p">,</span>
+            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">metadata_secret_access_key</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span>
-            <span class="n">Bucket</span><span class="o">=</span><span class="n">metadata_s3_bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">metadata_s3_key</span>
-        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">metadata_bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">metadata_key</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;Body&quot;</span><span class="p">])</span>
         <span class="k">except</span> <span class="n">yaml</span><span class="o">.</span><span class="n">YAMLError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">e</span>
 
-        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;s3_bucket&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_s3_bucket</span>
-        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;s3_key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_s3_key</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;bucket&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_bucket</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_key</span>
         <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;endpoint_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_endpoint_url</span>
-        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;aws_access_key_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_aws_access_key_id</span>
-        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span>
-            <span class="s2">&quot;aws_secret_access_key&quot;</span>
-        <span class="p">]</span> <span class="o">=</span> <span class="n">metadata_aws_secret_access_key</span>
+        <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;credentials_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_credentials_name</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown database type </span><span class="si">{</span><span class="n">metadata_database_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -860,12 +856,12 @@
                 <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
                     <span class="s2">&quot;s3&quot;</span><span class="p">,</span>
                     <span class="n">endpoint_url</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">endpoint_url</span><span class="p">,</span>
-                    <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">aws_access_key_id</span><span class="p">,</span>
-                    <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+                    <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">access_key_id</span><span class="p">,</span>
+                    <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">secret_access_key</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span>
-                    <span class="n">Bucket</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">s3_bucket</span><span class="p">,</span>
-                    <span class="n">Key</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">s3_key</span><span class="p">,</span>
+                    <span class="n">Bucket</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span>
+                    <span class="n">Key</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;Body&quot;</span><span class="p">])</span>

@@ -199,7 +199,9 @@
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading query handler&quot;</span><span class="p">)</span>
         <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Loading dataset store&quot;</span><span class="p">)</span>
         <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">dataset_store</span> <span class="o">=</span> <span class="n">dataset_store_factory</span><span class="p">(</span>
-            <span class="n">config</span><span class="o">.</span><span class="n">dataset_store</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">dataset_store</span><span class="p">,</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="p">,</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">private_db_credentials</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Loading query handler&quot;</span><span class="p">)</span>
