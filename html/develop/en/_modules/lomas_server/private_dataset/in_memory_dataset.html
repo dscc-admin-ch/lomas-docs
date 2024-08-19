@@ -91,11 +91,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.private_dataset.in_memory_dataset</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
-
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">private_dataset.private_dataset</span> <span class="kn">import</span> <span class="n">PrivateDataset</span>
+<span class="kn">from</span> <span class="nn">utils.collection_models</span> <span class="kn">import</span> <span class="n">Metadata</span>
 
 
 <div class="viewcode-block" id="InMemoryDataset">
@@ -107,14 +106,13 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]],</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span><span class="p">,</span>
         <span class="n">dataset_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializer.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            metadata (Dict[str, Union[int, bool, Dict[str, Union[str, int]]]]):</span>
-<span class="sd">                Metadata dictionary.</span>
+<span class="sd">            metadata (Metadata): Metadata dictionary.</span>
 <span class="sd">            dataset_df (pd.DataFrame): Dataframe of the dataset</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>

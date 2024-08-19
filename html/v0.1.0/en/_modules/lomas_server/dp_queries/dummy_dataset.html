@@ -115,7 +115,7 @@
 
 <div class="viewcode-block" id="make_dummy_dataset">
 <a class="viewcode-back" href="../../../lomas_server.dp_queries.html#lomas_server.dp_queries.dummy_dataset.make_dummy_dataset">[docs]</a>
-<span class="k">def</span> <span class="nf">make_dummy_dataset</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">make_dummy_dataset</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-locals</span>
     <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">nb_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DUMMY_SEED</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -186,17 +186,28 @@
                     <span class="p">)</span>
             <span class="k">case</span> <span class="s2">&quot;datetime&quot;</span><span class="p">:</span>
                 <span class="c1"># From start date and random on a range above</span>
-                <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                    <span class="n">RANDOM_DATE_START</span><span class="p">,</span> <span class="s2">&quot;%m/</span><span class="si">%d</span><span class="s2">/%Y&quot;</span>
+                <span class="n">start_date</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="s2">&quot;lower&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+                    <span class="k">else</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+                        <span class="n">RANDOM_DATE_START</span><span class="p">,</span> <span class="s2">&quot;%m/</span><span class="si">%d</span><span class="s2">/%Y&quot;</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">end_date</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="s2">&quot;upper&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+                    <span class="k">else</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+                        <span class="n">RANDOM_DATE_START</span><span class="p">,</span> <span class="s2">&quot;%m/</span><span class="si">%d</span><span class="s2">/%Y&quot;</span>
+                    <span class="p">)</span>
+                    <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span>
+                        <span class="n">seconds</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">RANDOM_DATE_RANGE</span><span class="p">)</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
                 <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
-                    <span class="p">[</span>
-                        <span class="n">start</span>
-                        <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span>
-                            <span class="n">seconds</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">RANDOM_DATE_RANGE</span><span class="p">)</span>
-                        <span class="p">)</span>
-                        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_rows</span><span class="p">)</span>
-                    <span class="p">]</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                        <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end_date</span><span class="p">),</span>
+                        <span class="n">size</span><span class="o">=</span><span class="n">nb_rows</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
             <span class="k">case</span> <span class="s2">&quot;unknown&quot;</span><span class="p">:</span>
                 <span class="c1"># Unknown column are ignored by smartnoise sql</span>

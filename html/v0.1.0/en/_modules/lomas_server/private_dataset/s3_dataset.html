@@ -97,6 +97,7 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">private_dataset.private_dataset</span> <span class="kn">import</span> <span class="n">PrivateDataset</span>
+<span class="kn">from</span> <span class="nn">utils.collection_models</span> <span class="kn">import</span> <span class="n">Metadata</span>
 <span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">S3CredentialsConfig</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
 
@@ -110,13 +111,13 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span><span class="p">,</span>
         <span class="n">credentials</span><span class="p">:</span> <span class="n">S3CredentialsConfig</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializer. Does not load the dataset yet.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            metadata (dict): The metadata dictionary.</span>
+<span class="sd">            metadata (Metadata): The metadata dictionary.</span>
 <span class="sd">            s3_parameters (dict): informations to access metadata</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
