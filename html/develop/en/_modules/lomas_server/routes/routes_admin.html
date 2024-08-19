@@ -92,10 +92,11 @@
              
   <h1>Source code for lomas_server.routes.routes_admin</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Body</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">Request</span>
-<span class="kn">from</span> <span class="nn">fastapi.responses</span> <span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">RedirectResponse</span><span class="p">,</span> <span class="n">StreamingResponse</span>
+<span class="kn">from</span> <span class="nn">fastapi.responses</span> <span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">RedirectResponse</span>
 
 <span class="kn">from</span> <span class="nn">dp_queries.dummy_dataset</span> <span class="kn">import</span> <span class="n">make_dummy_dataset</span>
-<span class="kn">from</span> <span class="nn">routes.utils</span> <span class="kn">import</span> <span class="n">server_live</span><span class="p">,</span> <span class="n">stream_dataframe</span>
+<span class="kn">from</span> <span class="nn">private_dataset.private_dataset</span> <span class="kn">import</span> <span class="n">get_column_dtypes</span>
+<span class="kn">from</span> <span class="nn">routes.utils</span> <span class="kn">import</span> <span class="n">server_live</span>
 <span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">KNOWN_EXCEPTIONS</span><span class="p">,</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
@@ -243,7 +244,7 @@
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">GetDummyDataset</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_dummy_dataset</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StreamingResponse</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates and returns a dummy dataset.</span>
 
@@ -263,7 +264,8 @@
 <span class="sd">        InternalServerException: For any other unforseen exceptions.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        StreamingResponse: a pd.DataFrame representing the dummy dataset.</span>
+<span class="sd">        JSONResponse: a dict with the dataframe as a dict, the column types</span>
+<span class="sd">            and the list of datetime columns.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span>
 
@@ -279,16 +281,27 @@
         <span class="n">ds_metadata</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">(</span>
             <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
         <span class="p">)</span>
+        <span class="n">dtypes</span><span class="p">,</span> <span class="n">datetime_columns</span> <span class="o">=</span> <span class="n">get_column_dtypes</span><span class="p">(</span><span class="n">ds_metadata</span><span class="p">)</span>
 
         <span class="n">dummy_df</span> <span class="o">=</span> <span class="n">make_dummy_dataset</span><span class="p">(</span>
             <span class="n">ds_metadata</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dummy_nb_rows</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dummy_seed</span>
         <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">datetime_columns</span><span class="p">:</span>
+            <span class="n">dummy_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">dummy_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S&quot;</span><span class="p">)</span>
+
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
-    <span class="k">return</span> <span class="n">stream_dataframe</span><span class="p">(</span><span class="n">dummy_df</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span>
+        <span class="n">content</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;dummy_dict&quot;</span><span class="p">:</span> <span class="n">dummy_df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;dtypes&quot;</span><span class="p">:</span> <span class="n">dtypes</span><span class="p">,</span>
+            <span class="s2">&quot;datetime_columns&quot;</span><span class="p">:</span> <span class="n">datetime_columns</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span></div>
 
 
 
