@@ -64,6 +64,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../poster.html">Poster</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../poster.html">Poster</a></li>
 </ul>
 
         </div>
@@ -93,8 +98,8 @@
   <h1>Source code for lomas_client.client</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">base64</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">StrEnum</span>
-<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">opendp</span> <span class="k">as</span> <span class="nn">dp</span>
@@ -104,6 +109,9 @@
 <span class="kn">from</span> <span class="nn">opendp.mod</span> <span class="kn">import</span> <span class="n">enable_features</span>
 <span class="kn">from</span> <span class="nn">opendp_logger</span> <span class="kn">import</span> <span class="n">enable_logging</span><span class="p">,</span> <span class="n">make_load_json</span>
 <span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">smartnoise_synth_logger</span> <span class="kn">import</span> <span class="n">serialise_constraints</span>
+
+<span class="kn">from</span> <span class="nn">lomas_client.utils</span> <span class="kn">import</span> <span class="n">validate_synthesizer</span>
 
 <span class="c1"># Opendp_logger</span>
 <span class="n">enable_logging</span><span class="p">()</span>
@@ -113,6 +121,12 @@
 <span class="n">DUMMY_NB_ROWS</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">DUMMY_SEED</span> <span class="o">=</span> <span class="mi">42</span>
 <span class="n">HTTP_200_OK</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">CONNECT_TIMEOUT</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">DEFAULT_READ_TIMEOUT</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">DIFFPRIVLIB_READ_TIMEOUT</span> <span class="o">=</span> <span class="n">DEFAULT_READ_TIMEOUT</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="n">SMARTNOISE_SYNTH_READ_TIMEOUT</span> <span class="o">=</span> <span class="n">DEFAULT_READ_TIMEOUT</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="n">SNSYNTH_DEFAULT_SYMPLES_NB</span> <span class="o">=</span> <span class="mi">200</span>
 
 
 <div class="viewcode-block" id="DPLibraries">
@@ -123,6 +137,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">SMARTNOISE_SQL</span> <span class="o">=</span> <span class="s2">&quot;smartnoise_sql&quot;</span>
+    <span class="n">SMARTNOISE_SYNTH</span> <span class="o">=</span> <span class="s2">&quot;smartnoise_synth&quot;</span>
     <span class="n">OPENDP</span> <span class="o">=</span> <span class="s2">&quot;opendp&quot;</span>
     <span class="n">DIFFPRIVLIB</span> <span class="o">=</span> <span class="s2">&quot;diffprivlib&quot;</span></div>
 
@@ -219,15 +234,20 @@
 
         <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTP_200_OK</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">df</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">dummy_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;dummy_dict&quot;</span><span class="p">])</span>
+            <span class="n">dummy_df</span> <span class="o">=</span> <span class="n">dummy_df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;dtypes&quot;</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;datetime_columns&quot;</span><span class="p">]:</span>
+                <span class="n">dummy_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dummy_df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">dummy_df</span>
+
         <span class="nb">print</span><span class="p">(</span><span class="n">error_message</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="Client.smartnoise_query">
-<a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.smartnoise_query">[docs]</a>
-    <span class="k">def</span> <span class="nf">smartnoise_query</span><span class="p">(</span>
+<div class="viewcode-block" id="Client.smartnoise_sql_query">
+<a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.smartnoise_sql_query">[docs]</a>
+    <span class="k">def</span> <span class="nf">smartnoise_sql_query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -238,7 +258,7 @@
         <span class="n">nb_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span>
         <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DUMMY_SEED</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function executes a SmartNoise query.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function executes a SmartNoise SQL query.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            query (str): The SQL query to execute.</span>
@@ -277,11 +297,11 @@
             <span class="s2">&quot;postprocess&quot;</span><span class="p">:</span> <span class="n">postprocess</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="n">dummy</span><span class="p">:</span>
-            <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;dummy_smartnoise_query&quot;</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;dummy_smartnoise_sql_query&quot;</span>
             <span class="n">body_json</span><span class="p">[</span><span class="s2">&quot;dummy_nb_rows&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nb_rows</span>
             <span class="n">body_json</span><span class="p">[</span><span class="s2">&quot;dummy_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seed</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;smartnoise_query&quot;</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;smartnoise_sql_query&quot;</span>
 
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">body_json</span><span class="p">)</span>
 
@@ -297,9 +317,9 @@
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="Client.estimate_smartnoise_cost">
-<a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.estimate_smartnoise_cost">[docs]</a>
-    <span class="k">def</span> <span class="nf">estimate_smartnoise_cost</span><span class="p">(</span>
+<div class="viewcode-block" id="Client.estimate_smartnoise_sql_cost">
+<a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.estimate_smartnoise_sql_cost">[docs]</a>
+    <span class="k">def</span> <span class="nf">estimate_smartnoise_sql_cost</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -328,7 +348,197 @@
             <span class="s2">&quot;delta&quot;</span><span class="p">:</span> <span class="n">delta</span><span class="p">,</span>
             <span class="s2">&quot;mechanisms&quot;</span><span class="p">:</span> <span class="n">mechanisms</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span><span class="s2">&quot;estimate_smartnoise_cost&quot;</span><span class="p">,</span> <span class="n">body_json</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span><span class="s2">&quot;estimate_smartnoise_sql_cost&quot;</span><span class="p">,</span> <span class="n">body_json</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTP_200_OK</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">error_message</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="Client.smartnoise_synth_query">
+<a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.smartnoise_synth_query">[docs]</a>
+    <span class="k">def</span> <span class="nf">smartnoise_synth_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">synth_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">select_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">synth_params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">nullable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">constraints</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">dummy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">return_model</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">condition</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">nb_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">SNSYNTH_DEFAULT_SYMPLES_NB</span><span class="p">,</span>
+        <span class="n">nb_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span>
+        <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DUMMY_SEED</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function executes a SmartNoise Synthetic query.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            synth_name (str): name of the Synthesizer model to use.</span>
+<span class="sd">                Available synthesizer are</span>
+<span class="sd">                    - &quot;aim&quot;,</span>
+<span class="sd">                    - &quot;mwem&quot;,</span>
+<span class="sd">                    - &quot;dpctgan&quot; with `disabled_dp` always forced to False and a</span>
+<span class="sd">                    warning due to not cryptographically secure random generator</span>
+<span class="sd">                    - &quot;patectgan&quot;</span>
+<span class="sd">                    - &quot;dpgan&quot; with a warning due to not cryptographically secure</span>
+<span class="sd">                    random generator</span>
+<span class="sd">                Available under certain conditions:</span>
+<span class="sd">                    - &quot;mst&quot; if `return_model=False`</span>
+<span class="sd">                    - &quot;pategan&quot; if the dataset has enough rows</span>
+<span class="sd">                Not available:</span>
+<span class="sd">                    - &quot;pacsynth&quot; due to Rust panic error</span>
+<span class="sd">                    - &quot;quail&quot; currently unavailable in Smartnoise Synth</span>
+<span class="sd">                For further documentation on models, please see here:</span>
+<span class="sd">                https://docs.smartnoise.org/synth/index.html#synthesizers-reference</span>
+<span class="sd">            epsilon (float): Privacy parameter (e.g., 0.1).</span>
+<span class="sd">            delta (float): Privacy parameter (e.g., 1e-5).</span>
+<span class="sd">            select_cols (List[str]): List of columns to select.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            synth_params (dict): Keyword arguments to pass to the synthesizer</span>
+<span class="sd">                constructor.</span>
+<span class="sd">                See https://docs.smartnoise.org/synth/synthesizers/index.html#, provide</span>
+<span class="sd">                all parameters of the model except `epsilon` and `delta`.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            nullable (bool): True if some data cells may be null</span>
+<span class="sd">                Defaults to True.</span>
+<span class="sd">            constraints: Dictionnary for custom table transformer constraints.</span>
+<span class="sd">                Column that are not specified will be inferred based on metadata.</span>
+<span class="sd">                Defaults to {}.</span>
+<span class="sd">                For further documentation on constraints, please see here:</span>
+<span class="sd">                https://docs.smartnoise.org/synth/transforms/index.html.</span>
+<span class="sd">                Note: lambda function in `AnonimizationTransformer` are not supported.</span>
+<span class="sd">            return_model (bool): True to get Synthesizer model, False to get samples</span>
+<span class="sd">                Defaults to False</span>
+<span class="sd">            condition (Optional[str]): sampling condition in `model.sample`</span>
+<span class="sd">                (only relevant if return_model is False)</span>
+<span class="sd">                Defaults to &quot;&quot;.</span>
+<span class="sd">            nb_samples (Optional[int]): number of samples to generate.</span>
+<span class="sd">                (only relevant if return_model is False)</span>
+<span class="sd">                Defaults to SNSYNTH_DEFAULT_SYMPLES_NB</span>
+<span class="sd">            dummy (bool, optional): Whether to use a dummy dataset.</span>
+<span class="sd">                Defaults to False.</span>
+<span class="sd">            nb_rows (int, optional): The number of rows in the dummy dataset.</span>
+<span class="sd">                Defaults to DUMMY_NB_ROWS.</span>
+<span class="sd">            seed (int, optional): The random seed for generating the dummy dataset.</span>
+<span class="sd">                Defaults to DUMMY_SEED.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[dict]: A Pandas DataFrame containing the query results.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">validate_synthesizer</span><span class="p">(</span><span class="n">synth_name</span><span class="p">,</span> <span class="n">return_model</span><span class="p">)</span>
+        <span class="n">constraints</span> <span class="o">=</span> <span class="n">serialise_constraints</span><span class="p">(</span><span class="n">constraints</span><span class="p">)</span> <span class="k">if</span> <span class="n">constraints</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">body_json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
+            <span class="s2">&quot;synth_name&quot;</span><span class="p">:</span> <span class="n">synth_name</span><span class="p">,</span>
+            <span class="s2">&quot;epsilon&quot;</span><span class="p">:</span> <span class="n">epsilon</span><span class="p">,</span>
+            <span class="s2">&quot;delta&quot;</span><span class="p">:</span> <span class="n">delta</span><span class="p">,</span>
+            <span class="s2">&quot;select_cols&quot;</span><span class="p">:</span> <span class="n">select_cols</span><span class="p">,</span>
+            <span class="s2">&quot;synth_params&quot;</span><span class="p">:</span> <span class="n">synth_params</span><span class="p">,</span>
+            <span class="s2">&quot;nullable&quot;</span><span class="p">:</span> <span class="n">nullable</span><span class="p">,</span>
+            <span class="s2">&quot;constraints&quot;</span><span class="p">:</span> <span class="n">constraints</span><span class="p">,</span>
+            <span class="s2">&quot;return_model&quot;</span><span class="p">:</span> <span class="n">return_model</span><span class="p">,</span>
+            <span class="s2">&quot;condition&quot;</span><span class="p">:</span> <span class="n">condition</span><span class="p">,</span>
+            <span class="s2">&quot;nb_samples&quot;</span><span class="p">:</span> <span class="n">nb_samples</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">dummy</span><span class="p">:</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;dummy_smartnoise_synth_query&quot;</span>
+            <span class="n">body_json</span><span class="p">[</span><span class="s2">&quot;dummy_nb_rows&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nb_rows</span>
+            <span class="n">body_json</span><span class="p">[</span><span class="s2">&quot;dummy_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seed</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;smartnoise_synth_query&quot;</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="p">,</span> <span class="n">body_json</span><span class="p">,</span> <span class="n">read_timeout</span><span class="o">=</span><span class="n">SMARTNOISE_SYNTH_READ_TIMEOUT</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTP_200_OK</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">query_response</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">return_model</span><span class="p">:</span>
+                <span class="n">model</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">query_response</span><span class="p">)</span>
+                <span class="n">response</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">query_response</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">response</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">error_message</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="Client.estimate_smartnoise_synth_cost">
+<a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.estimate_smartnoise_synth_cost">[docs]</a>
+    <span class="k">def</span> <span class="nf">estimate_smartnoise_synth_cost</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">synth_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">select_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">synth_params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">nullable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">constraints</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function estimates the cost of executing a SmartNoise query.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            synth_name (str): name of the Synthesizer model to use.</span>
+<span class="sd">                Available synthesizer are</span>
+<span class="sd">                    - &quot;aim&quot;,</span>
+<span class="sd">                    - &quot;mwem&quot;,</span>
+<span class="sd">                    - &quot;dpctgan&quot; with `disabled_dp` always forced to False and a</span>
+<span class="sd">                    warning due to not cryptographically secure random generator</span>
+<span class="sd">                    - &quot;patectgan&quot;</span>
+<span class="sd">                    - &quot;dpgan&quot; with a warning due to not cryptographically secure</span>
+<span class="sd">                    random generator</span>
+<span class="sd">                Available under certain conditions:</span>
+<span class="sd">                    - &quot;mst&quot; if `return_model=False`</span>
+<span class="sd">                    - &quot;pategan&quot; if the dataset has enough rows</span>
+<span class="sd">                Not available:</span>
+<span class="sd">                    - &quot;pacsynth&quot; due to Rust panic error</span>
+<span class="sd">                    - &quot;quail&quot; currently unavailable in Smartnoise Synth</span>
+<span class="sd">                For further documentation on models, please see here:</span>
+<span class="sd">                https://docs.smartnoise.org/synth/index.html#synthesizers-reference</span>
+<span class="sd">            epsilon (float): Privacy parameter (e.g., 0.1).</span>
+<span class="sd">            delta (float): Privacy parameter (e.g., 1e-5).</span>
+<span class="sd">            select_cols (List[str]): List of columns to select.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            synth_params (dict): Keyword arguments to pass to the synthesizer</span>
+<span class="sd">                constructor.</span>
+<span class="sd">                See https://docs.smartnoise.org/synth/synthesizers/index.html#, provide</span>
+<span class="sd">                all parameters of the model except `epsilon` and `delta`.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            nullable (bool): True if some data cells may be null</span>
+<span class="sd">                Defaults to True.</span>
+<span class="sd">            constraints (dict): Dictionnary for custom table transformer constraints.</span>
+<span class="sd">                Column that are not specified will be inferred based on metadata.</span>
+<span class="sd">                Defaults to {}.</span>
+<span class="sd">                For further documentation on constraints, please see here:</span>
+<span class="sd">                https://docs.smartnoise.org/synth/transforms/index.html.</span>
+<span class="sd">                Note: lambda function in `AnonimizationTransformer` are not supported.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[dict[str, float]]: A dictionary containing the estimated cost.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">validate_synthesizer</span><span class="p">(</span><span class="n">synth_name</span><span class="p">)</span>
+        <span class="n">constraints</span> <span class="o">=</span> <span class="n">serialise_constraints</span><span class="p">(</span><span class="n">constraints</span><span class="p">)</span> <span class="k">if</span> <span class="n">constraints</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">body_json</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
+            <span class="s2">&quot;synth_name&quot;</span><span class="p">:</span> <span class="n">synth_name</span><span class="p">,</span>
+            <span class="s2">&quot;epsilon&quot;</span><span class="p">:</span> <span class="n">epsilon</span><span class="p">,</span>
+            <span class="s2">&quot;delta&quot;</span><span class="p">:</span> <span class="n">delta</span><span class="p">,</span>
+            <span class="s2">&quot;select_cols&quot;</span><span class="p">:</span> <span class="n">select_cols</span><span class="p">,</span>
+            <span class="s2">&quot;synth_params&quot;</span><span class="p">:</span> <span class="n">synth_params</span><span class="p">,</span>
+            <span class="s2">&quot;nullable&quot;</span><span class="p">:</span> <span class="n">nullable</span><span class="p">,</span>
+            <span class="s2">&quot;constraints&quot;</span><span class="p">:</span> <span class="n">constraints</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span>
+            <span class="s2">&quot;estimate_smartnoise_synth_cost&quot;</span><span class="p">,</span>
+            <span class="n">body_json</span><span class="p">,</span>
+            <span class="n">read_timeout</span><span class="o">=</span><span class="n">SMARTNOISE_SYNTH_READ_TIMEOUT</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTP_200_OK</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
@@ -477,10 +687,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Optional[Pipeline]: A trained DiffPrivLip pipeline</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dpl_json</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
         <span class="n">body_json</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
-            <span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">:</span> <span class="n">dpl_json</span><span class="p">,</span>
+            <span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">:</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">),</span>
             <span class="s2">&quot;feature_columns&quot;</span><span class="p">:</span> <span class="n">feature_columns</span><span class="p">,</span>
             <span class="s2">&quot;target_columns&quot;</span><span class="p">:</span> <span class="n">target_columns</span><span class="p">,</span>
             <span class="s2">&quot;test_size&quot;</span><span class="p">:</span> <span class="n">test_size</span><span class="p">,</span>
@@ -494,11 +703,13 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">endpoint</span> <span class="o">=</span> <span class="s2">&quot;diffprivlib_query&quot;</span>
 
-        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">body_json</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="p">,</span> <span class="n">body_json</span><span class="p">,</span> <span class="n">read_timeout</span><span class="o">=</span><span class="n">DIFFPRIVLIB_READ_TIMEOUT</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTP_200_OK</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
             <span class="n">model</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">])</span>
-            <span class="n">response</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+            <span class="n">response</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">response</span>
         <span class="nb">print</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Error while processing DiffPrivLib request in server </span><span class="se">\</span>
@@ -545,17 +756,20 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Optional[dict[str, float]]: A dictionary containing the estimated cost.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dpl_json</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
         <span class="n">body_json</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
-            <span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">:</span> <span class="n">dpl_json</span><span class="p">,</span>
+            <span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">:</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">),</span>
             <span class="s2">&quot;feature_columns&quot;</span><span class="p">:</span> <span class="n">feature_columns</span><span class="p">,</span>
             <span class="s2">&quot;target_columns&quot;</span><span class="p">:</span> <span class="n">target_columns</span><span class="p">,</span>
             <span class="s2">&quot;test_size&quot;</span><span class="p">:</span> <span class="n">test_size</span><span class="p">,</span>
             <span class="s2">&quot;test_train_split_seed&quot;</span><span class="p">:</span> <span class="n">test_train_split_seed</span><span class="p">,</span>
             <span class="s2">&quot;imputer_strategy&quot;</span><span class="p">:</span> <span class="n">imputer_strategy</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span><span class="s2">&quot;estimate_diffprivlib_cost&quot;</span><span class="p">,</span> <span class="n">body_json</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec</span><span class="p">(</span>
+            <span class="s2">&quot;estimate_diffprivlib_cost&quot;</span><span class="p">,</span>
+            <span class="n">body_json</span><span class="p">,</span>
+            <span class="n">read_timeout</span><span class="o">=</span><span class="n">DIFFPRIVLIB_READ_TIMEOUT</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTP_200_OK</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
@@ -656,6 +870,17 @@
                 <span class="k">match</span> <span class="n">query</span><span class="p">[</span><span class="s2">&quot;dp_librairy&quot;</span><span class="p">]:</span>
                     <span class="k">case</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span><span class="p">:</span>
                         <span class="k">pass</span>
+                    <span class="k">case</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">:</span>
+                        <span class="n">return_model</span> <span class="o">=</span> <span class="n">query</span><span class="p">[</span><span class="s2">&quot;client_input&quot;</span><span class="p">][</span><span class="s2">&quot;return_model&quot;</span><span class="p">]</span>
+                        <span class="n">res</span> <span class="o">=</span> <span class="n">query</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">return_model</span><span class="p">:</span>
+                            <span class="n">query</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                                <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+                            <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">query</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                                <span class="n">res</span>
+                            <span class="p">)</span>
                     <span class="k">case</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">:</span>
                         <span class="n">opdp_query</span> <span class="o">=</span> <span class="n">make_load_json</span><span class="p">(</span>
                             <span class="n">query</span><span class="p">[</span><span class="s2">&quot;client_input&quot;</span><span class="p">][</span><span class="s2">&quot;opendp_json&quot;</span><span class="p">]</span>
@@ -666,7 +891,7 @@
                             <span class="n">query</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
                         <span class="p">)</span>
                         <span class="n">query</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                            <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+                            <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
                         <span class="p">)</span>
                     <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -682,14 +907,22 @@
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">body_json</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_exec</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">body_json</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">read_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_READ_TIMEOUT</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Executes a POST request to the specified endpoint with the provided</span>
 <span class="sd">        JSON body.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            endpoint (str): The API endpoint to which the request will be sent.</span>
 <span class="sd">            body_json (dict, optional): The JSON body to include in the POST request.\</span>
-<span class="sd">            Defaults to {}.</span>
+<span class="sd">                Defaults to {}.</span>
+<span class="sd">            read_timeout (int): number of seconds that client wait for the server</span>
+<span class="sd">                to send a response.</span>
+<span class="sd">                Defaults to DEFAULT_READ_TIMEOUT.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            requests.Response: The response object resulting from the POST request.</span>
@@ -698,7 +931,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">,</span>
             <span class="n">json</span><span class="o">=</span><span class="n">body_json</span><span class="p">,</span>
             <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
-            <span class="n">timeout</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="p">(</span><span class="n">CONNECT_TIMEOUT</span><span class="p">,</span> <span class="n">read_timeout</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
@@ -753,6 +986,8 @@
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
         
       </dl>
       

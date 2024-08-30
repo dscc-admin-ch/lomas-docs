@@ -64,6 +64,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../poster.html">Poster</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../poster.html">Poster</a></li>
 </ul>
 
         </div>
@@ -172,6 +177,11 @@
     <span class="s2">&quot;Internal server error. Please contact the administrator of this service.&quot;</span>
 <span class="p">)</span>
 
+<span class="c1"># General values</span>
+<span class="n">DEFAULT_DATE_FORMAT</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span>
+<span class="n">SECONDS_IN_A_DAY</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span>
+
+
 <span class="c1"># DP constants</span>
 <span class="n">EPSILON_LIMIT</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span>
 <span class="n">DELTA_LIMIT</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0004</span>
@@ -184,6 +194,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of DP Library used in the query&quot;&quot;&quot;</span>
 
     <span class="n">SMARTNOISE_SQL</span> <span class="o">=</span> <span class="s2">&quot;smartnoise_sql&quot;</span>
+    <span class="n">SMARTNOISE_SYNTH</span> <span class="o">=</span> <span class="s2">&quot;smartnoise_synth&quot;</span>
     <span class="n">OPENDP</span> <span class="o">=</span> <span class="s2">&quot;opendp&quot;</span>
     <span class="n">DIFFPRIVLIB</span> <span class="o">=</span> <span class="s2">&quot;diffprivlib&quot;</span></div>
 
@@ -191,9 +202,10 @@
 
 <span class="c1"># Query model input to DP librairy</span>
 <span class="n">MODEL_INPUT_TO_LIB</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;SNSQLInp&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span><span class="p">,</span>
-    <span class="s2">&quot;OpenDPInp&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">,</span>
-    <span class="s2">&quot;DiffPrivLibInp&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">,</span>
+    <span class="s2">&quot;SmartnoiseSQLModel&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span><span class="p">,</span>
+    <span class="s2">&quot;SmartnoiseSynthQueryModel&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">,</span>
+    <span class="s2">&quot;OpenDPModel&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">,</span>
+    <span class="s2">&quot;DiffPrivLibModel&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">,</span>
 <span class="p">}</span>
 
 
@@ -208,7 +220,64 @@
 
 
 
-<span class="c1"># OpenDP Measurement Divergence Type</span>
+<span class="c1"># Smartnoise sql</span>
+<span class="n">SSQL_STATS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="s2">&quot;sum_int&quot;</span><span class="p">,</span> <span class="s2">&quot;sum_large_int&quot;</span><span class="p">,</span> <span class="s2">&quot;sum_float&quot;</span><span class="p">,</span> <span class="s2">&quot;threshold&quot;</span><span class="p">]</span>
+<span class="n">SSQL_MAX_ITERATION</span> <span class="o">=</span> <span class="mi">5</span>
+
+
+<span class="c1"># Smartnoise synth</span>
+<div class="viewcode-block" id="SSynthMarginalSynthesizer">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.constants.SSynthMarginalSynthesizer">[docs]</a>
+<span class="k">class</span> <span class="nc">SSynthMarginalSynthesizer</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Marginal Synthesizer models for smartnoise synth&quot;&quot;&quot;</span>
+
+    <span class="n">AIM</span> <span class="o">=</span> <span class="s2">&quot;aim&quot;</span>
+    <span class="n">MWEM</span> <span class="o">=</span> <span class="s2">&quot;mwem&quot;</span>
+    <span class="n">MST</span> <span class="o">=</span> <span class="s2">&quot;mst&quot;</span>
+    <span class="n">PAC_SYNTH</span> <span class="o">=</span> <span class="s2">&quot;pacsynth&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="SSynthGanSynthesizer">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.constants.SSynthGanSynthesizer">[docs]</a>
+<span class="k">class</span> <span class="nc">SSynthGanSynthesizer</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;GAN Synthesizer models for smartnoise synth&quot;&quot;&quot;</span>
+
+    <span class="n">DP_CTGAN</span> <span class="o">=</span> <span class="s2">&quot;dpctgan&quot;</span>
+    <span class="n">PATE_CTGAN</span> <span class="o">=</span> <span class="s2">&quot;patectgan&quot;</span>
+    <span class="n">PATE_GAN</span> <span class="o">=</span> <span class="s2">&quot;pategan&quot;</span>
+    <span class="n">DP_GAN</span> <span class="o">=</span> <span class="s2">&quot;dpgan&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="SSynthTableTransStyle">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.constants.SSynthTableTransStyle">[docs]</a>
+<span class="k">class</span> <span class="nc">SSynthTableTransStyle</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transformer style for smartnoise synth&quot;&quot;&quot;</span>
+
+    <span class="n">GAN</span> <span class="o">=</span> <span class="s2">&quot;gan&quot;</span>  <span class="c1"># for SSynthGanSynthesizer</span>
+    <span class="n">CUBE</span> <span class="o">=</span> <span class="s2">&quot;cube&quot;</span>  <span class="c1"># for SSynthMarginalSynthesizer</span></div>
+
+
+
+<div class="viewcode-block" id="SSynthColumnType">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.constants.SSynthColumnType">[docs]</a>
+<span class="k">class</span> <span class="nc">SSynthColumnType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Type of columns for SmartnoiseSynth transformer pre-processing&quot;&quot;&quot;</span>
+
+    <span class="n">PRIVATE_ID</span> <span class="o">=</span> <span class="s2">&quot;private_id&quot;</span>
+    <span class="n">CATEGORICAL</span> <span class="o">=</span> <span class="s2">&quot;categorical&quot;</span>
+    <span class="n">CONTINUOUS</span> <span class="o">=</span> <span class="s2">&quot;continuous&quot;</span>
+    <span class="n">DATETIME</span> <span class="o">=</span> <span class="s2">&quot;datetime&quot;</span></div>
+
+
+
+<span class="n">SSYNTH_PRIVATE_COLUMN</span> <span class="o">=</span> <span class="s2">&quot;uuid4&quot;</span>
+<span class="n">SSYNTH_DEFAULT_BINS</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">SSYNTH_MIN_ROWS_PATE_GAN</span> <span class="o">=</span> <span class="mi">1000</span>
+
+
+<span class="c1"># OpenDP</span>
 <div class="viewcode-block" id="OpenDPMeasurement">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.constants.OpenDPMeasurement">[docs]</a>
 <span class="k">class</span> <span class="nc">OpenDPMeasurement</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
@@ -223,7 +292,6 @@
 
 
 
-<span class="c1"># OpenDP Dataset Input Metric Type</span>
 <div class="viewcode-block" id="OpenDPDatasetInputMetric">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.constants.OpenDPDatasetInputMetric">[docs]</a>
 <span class="k">class</span> <span class="nc">OpenDPDatasetInputMetric</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
@@ -253,13 +321,108 @@
 <span class="n">RANDOM_DATE_RANGE</span> <span class="o">=</span> <span class="mi">50</span> <span class="o">*</span> <span class="mi">365</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># 50 years</span>
 <span class="n">NB_RANDOM_NONE</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># if nullable, how many random none to add</span>
 
-<span class="c1"># Smartnoise sql</span>
-<span class="n">STATS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="s2">&quot;sum_int&quot;</span><span class="p">,</span> <span class="s2">&quot;sum_large_int&quot;</span><span class="p">,</span> <span class="s2">&quot;sum_float&quot;</span><span class="p">,</span> <span class="s2">&quot;threshold&quot;</span><span class="p">]</span>
-<span class="n">MAX_NAN_ITERATION</span> <span class="o">=</span> <span class="mi">5</span>
-
 
 <span class="c1"># Data preprocessing</span>
 <span class="n">NUMERICAL_DTYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;int16&quot;</span><span class="p">,</span> <span class="s2">&quot;int32&quot;</span><span class="p">,</span> <span class="s2">&quot;int64&quot;</span><span class="p">,</span> <span class="s2">&quot;float16&quot;</span><span class="p">,</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="s2">&quot;float64&quot;</span><span class="p">]</span>
+
+<span class="c1"># Example pipeline inputs</span>
+<span class="n">OPENDP_PIPELINE</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;{&quot;version&quot;: &quot;0.10.0&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;ast&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;constructor&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;func&quot;: &quot;make_chain_tt&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;module&quot;: &quot;combinators&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;args&quot;: [&#39;</span>
+    <span class="s2">&quot;{&quot;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;constructor&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;func&quot;: &quot;make_select_column&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;module&quot;: &quot;transformations&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;kwargs&quot;: {&quot;key&quot;: &quot;bill_length_mm&quot;, &quot;TOA&quot;: &quot;String&quot;}&#39;</span>
+    <span class="s2">&quot;}, {&quot;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;constructor&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;func&quot;: &quot;make_split_dataframe&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;module&quot;: &quot;transformations&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;kwargs&quot;: {&quot;separator&quot;: &quot;,&quot;, &quot;col_names&quot;: {&quot;_type&quot;: &#39;</span>
+    <span class="s1">&#39;&quot;list&quot;, &quot;_items&quot;: [&quot;species&quot;, &quot;island&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;bill_length_mm&quot;, &quot;bill_depth_mm&quot;, &quot;flipper_length_&#39;</span>
+    <span class="s1">&#39;mm&quot;, &quot;body_mass_g&quot;, &quot;sex&quot;]}}&#39;</span>
+    <span class="s2">&quot;}]}, &quot;</span>
+    <span class="s1">&#39;&quot;rhs&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;constructor&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;func&quot;: &quot;then_cast_default&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;module&quot;: &quot;transformations&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;kwargs&quot;: {&quot;TOA&quot;: &quot;f64&quot;}&#39;</span>
+    <span class="s2">&quot;}}, &quot;</span>
+    <span class="s1">&#39;&quot;rhs&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;constructor&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;func&quot;: &quot;then_clamp&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;module&quot;: &quot;transformations&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;kwargs&quot;: {&quot;bounds&quot;: [30.0, 65.0]}&#39;</span>
+    <span class="s2">&quot;}}, &quot;</span>
+    <span class="s1">&#39;&quot;rhs&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;constructor&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;func&quot;: &quot;then_resize&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;module&quot;: &quot;transformations&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;kwargs&quot;: {&quot;size&quot;: 346, &quot;constant&quot;: 43.61}&#39;</span>
+    <span class="s2">&quot;}}, &quot;</span>
+    <span class="s1">&#39;&quot;rhs&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;constructor&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;func&quot;: &quot;then_variance&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;module&quot;: &quot;transformations&quot;&#39;</span>
+    <span class="s2">&quot;}}, &quot;</span>
+    <span class="s1">&#39;&quot;rhs&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;_type&quot;: &quot;constructor&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;func&quot;: &quot;then_laplace&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;module&quot;: &quot;measurements&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;kwargs&quot;: {&quot;scale&quot;: 5.0}&#39;</span>
+    <span class="s2">&quot;}}}&quot;</span>
+<span class="p">)</span>
+
+<span class="n">DIFFPRIVLIB_PIPELINE</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;{&quot;module&quot;: &quot;diffprivlib&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;version&quot;: &quot;0.6.4&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;pipeline&quot;: [&#39;</span>
+    <span class="s2">&quot;{&quot;</span>
+    <span class="s1">&#39;&quot;type&quot;: &quot;_dpl_type:StandardScaler&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;name&quot;: &quot;scaler&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;params&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;with_mean&quot;: true, &#39;</span>
+    <span class="s1">&#39;&quot;with_std&quot;: true, &#39;</span>
+    <span class="s1">&#39;&quot;copy&quot;: true, &#39;</span>
+    <span class="s1">&#39;&quot;epsilon&quot;: 0.5, &#39;</span>
+    <span class="s1">&#39;&quot;bounds&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;_tuple&quot;: true, &#39;</span>
+    <span class="s1">&#39;&quot;_items&quot;: [[30.0, 13.0, 150.0, 2000.0], [65.0, 23.0, 250.0, 7000.0]]&#39;</span>
+    <span class="s2">&quot;}, &quot;</span>
+    <span class="s1">&#39;&quot;random_state&quot;: null, &#39;</span>
+    <span class="s1">&#39;&quot;accountant&quot;: &quot;_dpl_instance:BudgetAccountant&quot;&#39;</span>
+    <span class="s2">&quot;}&quot;</span>
+    <span class="s2">&quot;}, &quot;</span>
+    <span class="s2">&quot;{&quot;</span>
+    <span class="s1">&#39;&quot;type&quot;: &quot;_dpl_type:LogisticRegression&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;name&quot;: &quot;classifier&quot;, &#39;</span>
+    <span class="s1">&#39;&quot;params&quot;: {&#39;</span>
+    <span class="s1">&#39;&quot;tol&quot;: 0.0001, &#39;</span>
+    <span class="s1">&#39;&quot;C&quot;: 1.0, &#39;</span>
+    <span class="s1">&#39;&quot;fit_intercept&quot;: true, &#39;</span>
+    <span class="s1">&#39;&quot;random_state&quot;: null, &#39;</span>
+    <span class="s1">&#39;&quot;max_iter&quot;: 100, &#39;</span>
+    <span class="s1">&#39;&quot;verbose&quot;: 0, &#39;</span>
+    <span class="s1">&#39;&quot;warm_start&quot;: false, &#39;</span>
+    <span class="s1">&#39;&quot;n_jobs&quot;: null, &#39;</span>
+    <span class="s1">&#39;&quot;epsilon&quot;: 1.0, &#39;</span>
+    <span class="s1">&#39;&quot;data_norm&quot;: 83.69469642643347, &#39;</span>
+    <span class="s1">&#39;&quot;accountant&quot;: &quot;_dpl_instance:BudgetAccountant&quot;&#39;</span>
+    <span class="s2">&quot;}&quot;</span>
+    <span class="s2">&quot;}&quot;</span>
+    <span class="s2">&quot;]&quot;</span>
+    <span class="s2">&quot;}&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
            </div>
@@ -311,6 +474,8 @@
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
         
       </dl>
       

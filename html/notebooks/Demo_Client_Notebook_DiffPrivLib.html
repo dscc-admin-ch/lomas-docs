@@ -22,7 +22,9 @@
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Secure Data Disclosure: Client Side Smartnoise-Synth" href="Demo_Client_Notebook_Smartnoise-Synth.html" />
+    <link rel="prev" title="Secure Data Disclosure: Client side" href="Demo_Client_Notebook_Smartnoise-SQL.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,9 +51,39 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Client</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../client_quickstart.html">Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../client_examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../client_examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook.html">Lomas: Client demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_Smartnoise-SQL.html">Secure Data Disclosure: Client side</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Secure Data Disclosure: Client side</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Step-1:-Install-the-library">Step 1: Install the library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-2:-Initialise-the-client">Step 2: Initialise the client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-3:-Metadata-and-dummy-dataset">Step 3: Metadata and dummy dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Getting-dataset-metadata">Getting dataset metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Get-a-dummy-dataset">Get a dummy dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-4:-Train-Logistic-Regression-model-with-DiffPrivLib">Step 4: Train Logistic Regression model with DiffPrivLib</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classification:-Logistic-Regression">Classification: Logistic Regression</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-5:-Train-other-models-with-DiffPrivLib">Step 5: Train other models with DiffPrivLib</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classification:-Gaussian-Naive-Bayes">Classification: Gaussian Naive Bayes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Random-Forest">Random Forest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Decision-Tree-Classifier">Decision Tree Classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Regression:-Linear-Regression">Regression: Linear Regression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Clustering:-K-Means">Clustering: K-Means</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Dimensionality-Reduction:-PCA">Dimensionality Reduction: PCA</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-6:-See-archives-of-queries">Step 6: See archives of queries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_Smartnoise-Synth.html">Secure Data Disclosure: Client Side Smartnoise-Synth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="s3_example_notebook.html">S3 example</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../client_errors.html">Errors</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Server</span></p>
@@ -68,6 +100,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../poster.html">Poster</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../poster.html">Poster</a></li>
 </ul>
 
         </div>
@@ -84,6 +121,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../client_examples.html">Examples</a></li>
       <li class="breadcrumb-item active">Secure Data Disclosure: Client side</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/notebooks/Demo_Client_Notebook_DiffPrivLib.ipynb.txt" rel="nofollow"> View page source</a>
@@ -2905,7 +2943,10 @@ array([1, 2], dtype=int32)
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Demo_Client_Notebook_Smartnoise-SQL.html" class="btn btn-neutral float-left" title="Secure Data Disclosure: Client side" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Demo_Client_Notebook_Smartnoise-Synth.html" class="btn btn-neutral float-right" title="Secure Data Disclosure: Client Side Smartnoise-Synth" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
@@ -2952,6 +2993,8 @@ array([1, 2], dtype=int32)
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
         
       </dl>
       
