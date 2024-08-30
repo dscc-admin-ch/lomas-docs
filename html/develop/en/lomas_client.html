@@ -229,8 +229,8 @@ to ensure that the pipeline does what is intended.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="lomas_client.client.Client.estimate_smartnoise_cost">
-<span class="sig-name descname"><span class="pre">estimate_smartnoise_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mechanisms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_client/client.html#Client.estimate_smartnoise_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_client.client.Client.estimate_smartnoise_cost" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="lomas_client.client.Client.estimate_smartnoise_sql_cost">
+<span class="sig-name descname"><span class="pre">estimate_smartnoise_sql_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mechanisms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_client/client.html#Client.estimate_smartnoise_sql_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_client.client.Client.estimate_smartnoise_sql_cost" title="Link to this definition"></a></dt>
 <dd><p>This function estimates the cost of executing a SmartNoise query.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -240,6 +240,69 @@ to ensure that the pipeline does what is intended.</p>
 <li><p><strong>delta</strong> (<em>float</em>) – Privacy parameter (e.g., 1e-5).
 mechanisms (dict[str, str], optional): Dictionary of mechanisms for the                query <a class="reference external" href="https://docs.smartnoise.org/sql/advanced.html#postprocess">See Smartnoise-SQL postprocessing documentation.</a>
 Defaults to {}.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the estimated cost.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[dict[str, float]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_client.client.Client.estimate_smartnoise_synth_cost">
+<span class="sig-name descname"><span class="pre">estimate_smartnoise_synth_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">synth_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synth_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nullable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_client/client.html#Client.estimate_smartnoise_synth_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_client.client.Client.estimate_smartnoise_synth_cost" title="Link to this definition"></a></dt>
+<dd><p>This function estimates the cost of executing a SmartNoise query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>synth_name</strong> (<em>str</em>) – <p>name of the Synthesizer model to use.
+Available synthesizer are</p>
+<blockquote>
+<div><ul>
+<li><p>”aim”,</p></li>
+<li><p>”mwem”,</p></li>
+<li><p>”dpctgan” with <cite>disabled_dp</cite> always forced to False and a</p></li>
+</ul>
+<p>warning due to not cryptographically secure random generator
+- “patectgan”
+- “dpgan” with a warning due to not cryptographically secure
+random generator</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Available under certain conditions:</dt><dd><ul>
+<li><p>”mst” if <cite>return_model=False</cite></p></li>
+<li><p>”pategan” if the dataset has enough rows</p></li>
+</ul>
+</dd>
+<dt>Not available:</dt><dd><ul>
+<li><p>”pacsynth” due to Rust panic error</p></li>
+<li><p>”quail” currently unavailable in Smartnoise Synth</p></li>
+</ul>
+</dd>
+</dl>
+<p>For further documentation on models, please see here:
+<a class="reference external" href="https://docs.smartnoise.org/synth/index.html#synthesizers-reference">https://docs.smartnoise.org/synth/index.html#synthesizers-reference</a></p>
+</p></li>
+<li><p><strong>epsilon</strong> (<em>float</em>) – Privacy parameter (e.g., 0.1).</p></li>
+<li><p><strong>delta</strong> (<em>float</em>) – Privacy parameter (e.g., 1e-5).</p></li>
+<li><p><strong>select_cols</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of columns to select.
+Defaults to None.</p></li>
+<li><p><strong>synth_params</strong> (<em>dict</em>) – Keyword arguments to pass to the synthesizer
+constructor.
+See <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/index">https://docs.smartnoise.org/synth/synthesizers/index</a>.html#, provide
+all parameters of the model except <cite>epsilon</cite> and <cite>delta</cite>.
+Defaults to None.</p></li>
+<li><p><strong>nullable</strong> (<em>bool</em>) – True if some data cells may be null
+Defaults to True.</p></li>
+<li><p><strong>constraints</strong> (<em>dict</em>) – Dictionnary for custom table transformer constraints.
+Column that are not specified will be inferred based on metadata.
+Defaults to {}.
+For further documentation on constraints, please see here:
+<a class="reference external" href="https://docs.smartnoise.org/synth/transforms/index.html">https://docs.smartnoise.org/synth/transforms/index.html</a>.
+Note: lambda function in <cite>AnonimizationTransformer</cite> are not supported.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -378,9 +441,9 @@ Defaults to None.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="lomas_client.client.Client.smartnoise_query">
-<span class="sig-name descname"><span class="pre">smartnoise_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mechanisms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocess</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dummy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_client/client.html#Client.smartnoise_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_client.client.Client.smartnoise_query" title="Link to this definition"></a></dt>
-<dd><p>This function executes a SmartNoise query.</p>
+<dt class="sig sig-object py" id="lomas_client.client.Client.smartnoise_sql_query">
+<span class="sig-name descname"><span class="pre">smartnoise_sql_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mechanisms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocess</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dummy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_client/client.html#Client.smartnoise_sql_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_client.client.Client.smartnoise_sql_query" title="Link to this definition"></a></dt>
+<dd><p>This function executes a SmartNoise SQL query.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -414,6 +477,83 @@ NOTE: the table name is df, the query must end with “FROM df”.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_client.client.Client.smartnoise_synth_query">
+<span class="sig-name descname"><span class="pre">smartnoise_synth_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">synth_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synth_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nullable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dummy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_client/client.html#Client.smartnoise_synth_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_client.client.Client.smartnoise_synth_query" title="Link to this definition"></a></dt>
+<dd><p>This function executes a SmartNoise Synthetic query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>synth_name</strong> (<em>str</em>) – <p>name of the Synthesizer model to use.
+Available synthesizer are</p>
+<blockquote>
+<div><ul>
+<li><p>”aim”,</p></li>
+<li><p>”mwem”,</p></li>
+<li><p>”dpctgan” with <cite>disabled_dp</cite> always forced to False and a</p></li>
+</ul>
+<p>warning due to not cryptographically secure random generator
+- “patectgan”
+- “dpgan” with a warning due to not cryptographically secure
+random generator</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Available under certain conditions:</dt><dd><ul>
+<li><p>”mst” if <cite>return_model=False</cite></p></li>
+<li><p>”pategan” if the dataset has enough rows</p></li>
+</ul>
+</dd>
+<dt>Not available:</dt><dd><ul>
+<li><p>”pacsynth” due to Rust panic error</p></li>
+<li><p>”quail” currently unavailable in Smartnoise Synth</p></li>
+</ul>
+</dd>
+</dl>
+<p>For further documentation on models, please see here:
+<a class="reference external" href="https://docs.smartnoise.org/synth/index.html#synthesizers-reference">https://docs.smartnoise.org/synth/index.html#synthesizers-reference</a></p>
+</p></li>
+<li><p><strong>epsilon</strong> (<em>float</em>) – Privacy parameter (e.g., 0.1).</p></li>
+<li><p><strong>delta</strong> (<em>float</em>) – Privacy parameter (e.g., 1e-5).</p></li>
+<li><p><strong>select_cols</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of columns to select.
+Defaults to None.</p></li>
+<li><p><strong>synth_params</strong> (<em>dict</em>) – Keyword arguments to pass to the synthesizer
+constructor.
+See <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/index">https://docs.smartnoise.org/synth/synthesizers/index</a>.html#, provide
+all parameters of the model except <cite>epsilon</cite> and <cite>delta</cite>.
+Defaults to None.</p></li>
+<li><p><strong>nullable</strong> (<em>bool</em>) – True if some data cells may be null
+Defaults to True.</p></li>
+<li><p><strong>constraints</strong> – Dictionnary for custom table transformer constraints.
+Column that are not specified will be inferred based on metadata.
+Defaults to {}.
+For further documentation on constraints, please see here:
+<a class="reference external" href="https://docs.smartnoise.org/synth/transforms/index.html">https://docs.smartnoise.org/synth/transforms/index.html</a>.
+Note: lambda function in <cite>AnonimizationTransformer</cite> are not supported.</p></li>
+<li><p><strong>return_model</strong> (<em>bool</em>) – True to get Synthesizer model, False to get samples
+Defaults to False</p></li>
+<li><p><strong>condition</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – sampling condition in <cite>model.sample</cite>
+(only relevant if return_model is False)
+Defaults to “”.</p></li>
+<li><p><strong>nb_samples</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – number of samples to generate.
+(only relevant if return_model is False)
+Defaults to SNSYNTH_DEFAULT_SYMPLES_NB</p></li>
+<li><p><strong>dummy</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to use a dummy dataset.
+Defaults to False.</p></li>
+<li><p><strong>nb_rows</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of rows in the dummy dataset.
+Defaults to DUMMY_NB_ROWS.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – The random seed for generating the dummy dataset.
+Defaults to DUMMY_SEED.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Pandas DataFrame containing the query results.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -435,6 +575,11 @@ WARNING: MUST match those of lomas_server</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="lomas_client.client.DPLibraries.SMARTNOISE_SQL">
 <span class="sig-name descname"><span class="pre">SMARTNOISE_SQL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'smartnoise_sql'</span></em><a class="headerlink" href="#lomas_client.client.DPLibraries.SMARTNOISE_SQL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_client.client.DPLibraries.SMARTNOISE_SYNTH">
+<span class="sig-name descname"><span class="pre">SMARTNOISE_SYNTH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'smartnoise_synth'</span></em><a class="headerlink" href="#lomas_client.client.DPLibraries.SMARTNOISE_SYNTH" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

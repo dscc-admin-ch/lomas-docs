@@ -23,7 +23,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="S3 example" href="s3_example_notebook.html" />
+    <link rel="next" title="Secure Data Disclosure: Client side" href="Demo_Client_Notebook_Smartnoise-SQL.html" />
     <link rel="prev" title="Examples" href="../client_examples.html" /> 
 </head>
 
@@ -74,6 +74,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#Step-5:-See-archives-of-queries">Step 5: See archives of queries</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_Smartnoise-SQL.html">Secure Data Disclosure: Client side</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_DiffPrivLib.html">Secure Data Disclosure: Client side</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_Smartnoise-Synth.html">Secure Data Disclosure: Client Side Smartnoise-Synth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="s3_example_notebook.html">S3 example</a></li>
 </ul>
 </li>
@@ -199,7 +202,7 @@ Successfully installed lomas-client-0.1.0
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lomas_client</span> <span class="kn">import</span> <span class="n">Client</span>
@@ -214,7 +217,7 @@ Successfully installed lomas-client-0.1.0
 <p>To create the client, Dr. Antartica needs to give it a few parameters: - a url: the root application endpoint to the remote secure server. - user_name: her name as registered in the database (Dr. Alice Antartica) - dataset_name: the name of the dataset that she wants to query (PENGUIN)</p>
 <p>She will only be able to query on the real dataset if the queen Icergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit (as is done in the Admin Notebook for Users and Datasets management).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">APP_URL</span> <span class="o">=</span> <span class="s2">&quot;http://lomas_server&quot;</span>
@@ -233,7 +236,7 @@ Successfully installed lomas-client-0.1.0
 <p>Dr. Antartica has never seen the data and as a first step to understand what is available to her, she would like to check the metadata of the dataset. Therefore, she just needs to call the <code class="docutils literal notranslate"><span class="pre">get_dataset_metadata()</span></code> function of the client. As this is public information, this does not cost any budget.</p>
 <p>This function returns metadata information in a format based on <a class="reference external" href="https://docs.smartnoise.org/sql/metadata.html#dictionary-format">SmartnoiseSQL dictionary format</a>, where among other, there is information about all the available columns, their type, bound values (see Smartnoise page for more details). Any metadata is required for Smartnoise-SQL is also required here and additional information such that the different categories in a string type column column can be added.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguin_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
@@ -242,7 +245,7 @@ Successfully installed lomas-client-0.1.0
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -262,7 +265,8 @@ Successfully installed lomas-client-0.1.0
   &#39;body_mass_g&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 2000.0, &#39;upper&#39;: 7000.0},
   &#39;sex&#39;: {&#39;type&#39;: &#39;string&#39;,
    &#39;cardinality&#39;: 2,
-   &#39;categories&#39;: [&#39;MALE&#39;, &#39;FEMALE&#39;]}}}
+   &#39;categories&#39;: [&#39;MALE&#39;, &#39;FEMALE&#39;]}},
+ &#39;rows&#39;: 344}
 </pre></div></div>
 </div>
 <p>Based on this Dr. Antartica knows that there are 7 columns, 3 of string type (species, island, sex) with their associated categories (i.e. the species column has 3 possibilities: ‘Adelie’, ‘Chinstrap’, ‘Gentoo’) and 4 of float type (bill length, bill depth, flipper length and body mass) with their associated bounds (i.e. the body mass of penguin ranges from 2000 to 7000 gramms). She also knows based on the field <code class="docutils literal notranslate"><span class="pre">max_ids:</span> <span class="pre">1</span></code> that each penguin can only be once in the dataset and on the field
@@ -275,7 +279,7 @@ Successfully installed lomas-client-0.1.0
 metadata).</p>
 <p>Dr. Antartica first create a dummy dataset with 200 rows and chooses a seed of 0.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NB_ROWS</span> <span class="o">=</span> <span class="mi">200</span>
@@ -284,7 +288,7 @@ metadata).</p>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span>
@@ -306,7 +310,7 @@ metadata).</p>
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -405,7 +409,7 @@ worry this won’t cost any real budget) - compare and verify that the local and
 <h4>Average and number of rows with smartnoise-sql library on remote dummy<a class="headerlink" href="#Average-and-number-of-rows-with-smartnoise-sql-library-on-remote-dummy" title="Link to this heading"></a></h4>
 <p>Dr. Antartica will now try a query to get the number of penguin and their average bill length (in mm) on the dummy dataset. She does not forget to - set the <code class="docutils literal notranslate"><span class="pre">dummy</span></code> flag to True - set very high budget values to be able to compare results with a similar local dummy (with the same seed and number of rows) if she wants to verify that the function do what is expected. Here she will just check that the number of rows is close to what she sets as parameter.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Number of penguin and average bill length in mm</span>
@@ -416,11 +420,11 @@ worry this won’t cost any real budget) - compare and verify that the local and
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On the remote server dummy dataframe</span>
-<span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_query</span><span class="p">(</span>
+<span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">100.0</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="mf">0.99</span><span class="p">,</span>
@@ -432,7 +436,7 @@ worry this won’t cost any real budget) - compare and verify that the local and
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average bill length in remote dummy: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">][</span><span class="s1">&#39;avg_bill_length_mm&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">mm.&quot;</span><span class="p">)</span>
@@ -445,8 +449,8 @@ worry this won’t cost any real budget) - compare and verify that the local and
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average bill length in remote dummy: 47.51mm.
-Number of rows in remote dummy: 199.
+Average bill length in remote dummy: 47.52mm.
+Number of rows in remote dummy: 200.
 </pre></div></div>
 </div>
 <p>No functionnal errors happened and the estimated number of rows is very close (if not equal) to the number of rows that she set for the dummy dataframe. She is now even more confident in using her query on the server.</p>
@@ -529,7 +533,7 @@ Number of rows in remote dummy: 199.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_cost</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_sql_cost</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span>
@@ -573,7 +577,7 @@ Number of rows in remote dummy: 199.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
@@ -599,8 +603,8 @@ Number of rows in remote dummy: 199.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Number of penguins in real data: 344.
-Average bill length of penguins in real data: 43.79mm.
+Number of penguins in real data: 343.
+Average bill length of penguins in real data: 43.27mm.
 </pre></div></div>
 </div>
 <p>After each query on the real dataset, the budget informations are also returned to the researcher. It is possible possible to check the remaining budget again afterwards:</p>
@@ -620,7 +624,7 @@ Average bill length of penguins in real data: 43.79mm.
 <div class="highlight"><pre>
 {&#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
  &#39;query_response&#39;:    nb_penguins  avg_bill_length_mm
- 0          344           43.789627,
+ 0          343           43.267492,
  &#39;spent_epsilon&#39;: 1.5,
  &#39;spent_delta&#39;: 0.00014999500000001387}
 </pre></div></div>
@@ -708,7 +712,8 @@ Average bill length of penguins in real data: 43.79mm.
   &#39;body_mass_g&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 2000.0, &#39;upper&#39;: 7000.0},
   &#39;sex&#39;: {&#39;type&#39;: &#39;string&#39;,
    &#39;cardinality&#39;: 2,
-   &#39;categories&#39;: [&#39;MALE&#39;, &#39;FEMALE&#39;]}}}
+   &#39;categories&#39;: [&#39;MALE&#39;, &#39;FEMALE&#39;]}},
+ &#39;rows&#39;: 344}
 </pre></div></div>
 </div>
 <p>She can define the columns names and the bounds of the relevant column.</p>
@@ -773,7 +778,7 @@ Average bill length of penguins in real data: 43.79mm.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Server error status 400: {&#34;InvalidQueryException&#34;:&#34;The pipeline provided is not a measurement. It cannot be processed in this server.&#34;}
+Server error status 500: {&#34;InternalServerException&#34;:&#34;Internal server error. Please contact the administrator of this service.&#34;}
 </pre></div></div>
 </div>
 <p>This is because the server will only allow measurement pipeline with differentially private results. She adds Laplacian noise to the pipeline and should be able to instantiate the pipeline.</p>
@@ -790,7 +795,7 @@ Server error status 400: {&#34;InvalidQueryException&#34;:&#34;The pipeline prov
 </div>
 <p>Now that there is a measurement, she is able to apply the pipeline on the dummy dataset of the server.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_var_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp_query</span><span class="p">(</span>
@@ -806,12 +811,12 @@ Server error status 400: {&#34;InvalidQueryException&#34;:&#34;The pipeline prov
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Dummy result for variance: 34.95
+Dummy result for variance: 28.68
 </pre></div></div>
 </div>
 <p>With opendp, the function <code class="docutils literal notranslate"><span class="pre">estimate_opendp_cost</span></code> is particularly useful to estimate the used <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and <code class="docutils literal notranslate"><span class="pre">delta</span></code> based on the <code class="docutils literal notranslate"><span class="pre">scale</span></code> value.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_opendp_cost</span><span class="p">(</span>
@@ -822,17 +827,17 @@ Dummy result for variance: 34.95
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;epsilon_cost&#39;: 0.7122093023265229, &#39;delta_cost&#39;: 0}
+{&#39;epsilon_cost&#39;: 0.7142857142866551, &#39;delta_cost&#39;: 0}
 </pre></div></div>
 </div>
 <p>She can now execute the query on the real dataset.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp_query</span><span class="p">(</span>
@@ -842,7 +847,7 @@ Dummy result for variance: 34.95
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of penguins: </span><span class="si">{</span><span class="n">nb_penguins</span><span class="si">}</span><span class="s2"> (from previous smartnoise-sql query).&quot;</span><span class="p">)</span>
@@ -859,14 +864,14 @@ Dummy result for variance: 34.95
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Number of penguins: 344 (from previous smartnoise-sql query).
-Average bill length: 43.79 (from previous smartnoise-sql query).
-Variance of bill length: 38.731 (from opendp query).
+Number of penguins: 343 (from previous smartnoise-sql query).
+Average bill length: 43.27 (from previous smartnoise-sql query).
+Variance of bill length: 33.457 (from opendp query).
 </pre></div></div>
 </div>
 <p>She can now do all the postprocessing that she wants with the returned data without adding any privacy risk.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get standard error</span>
@@ -880,11 +885,11 @@ Variance of bill length: 38.731 (from opendp query).
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Standard error of bill length: 0.34.
+Standard error of bill length: 0.31.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Compute the 95% confidence interval</span>
@@ -900,7 +905,7 @@ Standard error of bill length: 0.34.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The 95% confidence interval of the bill length of all penguins is [43.13, 44.45].
+The 95% confidence interval of the bill length of all penguins is [42.66, 43.88].
 </pre></div></div>
 </div>
 </section>
@@ -909,7 +914,7 @@ The 95% confidence interval of the bill length of all penguins is [43.13, 44.45]
 <p>She can also creates an histogram of the number of penguin per species.</p>
 <p>She first extract the categories from the metadata:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">categories</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s1">&#39;species&#39;</span><span class="p">][</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span>
@@ -918,7 +923,7 @@ The 95% confidence interval of the bill length of all penguins is [43.13, 44.45]
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -928,7 +933,7 @@ The 95% confidence interval of the bill length of all penguins is [43.13, 44.45]
 </div>
 <p>Then, writes the pipeline:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">species_count_pipeline</span> <span class="o">=</span> <span class="p">(</span>
@@ -942,7 +947,7 @@ The 95% confidence interval of the bill length of all penguins is [43.13, 44.45]
 </div>
 <p>Verify it works on the dummy:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp_query</span><span class="p">(</span>
@@ -958,12 +963,12 @@ The 95% confidence interval of the bill length of all penguins is [43.13, 44.45]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Dummy result for histogram: [39, 33, 29, 0]
+Dummy result for histogram: [38, 33, 29, 0]
 </pre></div></div>
 </div>
 <p>Checks the required cost:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_opendp_cost</span><span class="p">(</span>
@@ -974,7 +979,7 @@ Dummy result for histogram: [39, 33, 29, 0]
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -984,7 +989,7 @@ Dummy result for histogram: [39, 33, 29, 0]
 </div>
 <p>And finally apply the pipeline on the real dataset:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">species_counts_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp_query</span><span class="p">(</span>
@@ -994,7 +999,7 @@ Dummy result for histogram: [39, 33, 29, 0]
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">species_counts_res</span>
@@ -1002,19 +1007,19 @@ Dummy result for histogram: [39, 33, 29, 0]
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 {&#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
- &#39;query_response&#39;: [153, 68, 123, 0],
+ &#39;query_response&#39;: [152, 68, 124, 0],
  &#39;spent_epsilon&#39;: 2.0,
  &#39;spent_delta&#39;: 0}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">species_counts_res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]):</span>
@@ -1030,9 +1035,9 @@ Dummy result for histogram: [39, 33, 29, 0]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Species Adelie has 153 penguins.
+Species Adelie has 152 penguins.
 Species Chinstrap has 68 penguins.
-Species Gentoo has 123 penguins.
+Species Gentoo has 124 penguins.
 Species Unknown has 0 penguins.
 </pre></div></div>
 </div>
@@ -1042,7 +1047,7 @@ Species Unknown has 0 penguins.
 <h2>Step 5: See archives of queries<a class="headerlink" href="#Step-5:-See-archives-of-queries" title="Link to this heading"></a></h2>
 <p>She now wants to verify all the queries that she did on the real data. It is possible because an archive of all queries is kept in a secure database. With a function call she can see her queries, budget and associated responses.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">previous_queries</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_previous_queries</span><span class="p">()</span>
@@ -1051,52 +1056,50 @@ Species Unknown has 0 penguins.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 [{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
   &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
-  &#39;client_input&#39;: {&#39;query_str&#39;: &#39;SELECT COUNT(*) AS nb_penguins,         AVG(bill_length_mm) AS avg_bill_length_mm         FROM df&#39;,
-   &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
-   &#39;epsilon&#39;: 0.5,
-   &#39;delta&#39;: 0.0001,
-   &#39;mechanisms&#39;: {},
-   &#39;postprocess&#39;: True},
-  &#39;response&#39;: {&#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
-   &#39;query_response&#39;: {&#39;index&#39;: [0],
-    &#39;columns&#39;: [&#39;nb_penguins&#39;, &#39;avg_bill_length_mm&#39;],
-    &#39;data&#39;: [[344, 43.78962738762428]],
-    &#39;index_names&#39;: [None],
-    &#39;column_names&#39;: [None]},
-   &#39;spent_epsilon&#39;: 1.5,
-   &#39;spent_delta&#39;: 0.00014999500000001387},
-  &#39;timestamp&#39;: 1718639441.4947808,
-  &#39;dp_librairy&#39;: &#39;smartnoise_sql&#39;},
- {&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
-  &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+  &#39;dp_librairy&#39;: &#39;opendp&#39;,
   &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
-   &#39;opendp_json&#39;: &lt;opendp.mod.Measurement at 0x7f55e33e7ec0&gt;,
+   &#39;opendp_json&#39;: &lt;opendp.mod.Measurement at 0x79089aa227b0&gt;,
    &#39;fixed_delta&#39;: None},
   &#39;response&#39;: {&#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
-   &#39;query_response&#39;: 38.73111553579249,
-   &#39;spent_epsilon&#39;: 0.7122093023265229,
+   &#39;query_response&#39;: 33.45739909117274,
+   &#39;spent_epsilon&#39;: 0.7142857142866551,
    &#39;spent_delta&#39;: 0},
-  &#39;timestamp&#39;: 1718639449.4530268,
-  &#39;dp_librairy&#39;: &#39;opendp&#39;},
+  &#39;timestamp&#39;: 1725006741.9967923},
  {&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
   &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+  &#39;dp_librairy&#39;: &#39;opendp&#39;,
   &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
-   &#39;opendp_json&#39;: &lt;opendp.mod.Measurement at 0x7f55e33e7f50&gt;,
+   &#39;opendp_json&#39;: &lt;opendp.mod.Measurement at 0x79089aa20ef0&gt;,
    &#39;fixed_delta&#39;: None},
   &#39;response&#39;: {&#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
-   &#39;query_response&#39;: [153, 68, 123, 0],
+   &#39;query_response&#39;: [152, 68, 124, 0],
    &#39;spent_epsilon&#39;: 2.0,
    &#39;spent_delta&#39;: 0},
-  &#39;timestamp&#39;: 1718639455.3108685,
-  &#39;dp_librairy&#39;: &#39;opendp&#39;}]
+  &#39;timestamp&#39;: 1725006753.331767}]
 </pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -1114,7 +1117,7 @@ Species Unknown has 0 penguins.
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../client_examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="s3_example_notebook.html" class="btn btn-neutral float-right" title="S3 example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Demo_Client_Notebook_Smartnoise-SQL.html" class="btn btn-neutral float-right" title="Secure Data Disclosure: Client side" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
