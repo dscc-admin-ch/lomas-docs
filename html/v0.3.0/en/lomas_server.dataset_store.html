@@ -77,6 +77,11 @@
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poster.html">Poster</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="poster.html">Poster</a></li>
 </ul>
 
         </div>
@@ -118,14 +123,30 @@
 <section id="lomas-server-dataset-store-dataset-store-module">
 <h2>lomas_server.dataset_store.dataset_store module<a class="headerlink" href="#lomas-server-dataset-store-dataset-store-module" title="Link to this heading"></a></h2>
 </section>
+<section id="lomas-server-dataset-store-factory-module">
+<h2>lomas_server.dataset_store.factory module<a class="headerlink" href="#lomas-server-dataset-store-factory-module" title="Link to this heading"></a></h2>
+</section>
 <section id="lomas-server-dataset-store-lru-dataset-store-module">
 <h2>lomas_server.dataset_store.lru_dataset_store module<a class="headerlink" href="#lomas-server-dataset-store-lru-dataset-store-module" title="Link to this heading"></a></h2>
 </section>
-<section id="lomas-server-dataset-store-private-dataset-observer-module">
-<h2>lomas_server.dataset_store.private_dataset_observer module<a class="headerlink" href="#lomas-server-dataset-store-private-dataset-observer-module" title="Link to this heading"></a></h2>
-</section>
-<section id="lomas-server-dataset-store-utils-module">
-<h2>lomas_server.dataset_store.utils module<a class="headerlink" href="#lomas-server-dataset-store-utils-module" title="Link to this heading"></a></h2>
+<section id="module-lomas_server.dataset_store.private_dataset_observer">
+<span id="lomas-server-dataset-store-private-dataset-observer-module"></span><h2>lomas_server.dataset_store.private_dataset_observer module<a class="headerlink" href="#module-lomas_server.dataset_store.private_dataset_observer" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="lomas_server.dataset_store.private_dataset_observer.PrivateDatasetObserver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.dataset_store.private_dataset_observer.</span></span><span class="sig-name descname"><span class="pre">PrivateDatasetObserver</span></span><a class="reference internal" href="_modules/lomas_server/dataset_store/private_dataset_observer.html#PrivateDatasetObserver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dataset_store.private_dataset_observer.PrivateDatasetObserver" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>We use this abstract class to “subscribe” to object instances
+(PrivateDataset) so that they can notify instances of this
+abstract class (LRUDatasetStore or other DatasetStore implementing
+caching) when their memory usage changes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.dataset_store.private_dataset_observer.PrivateDatasetObserver.update_memory_usage">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_memory_usage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/dataset_store/private_dataset_observer.html#PrivateDatasetObserver.update_memory_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dataset_store.private_dataset_observer.PrivateDatasetObserver.update_memory_usage" title="Link to this definition"></a></dt>
+<dd><p>Abstract method to update total memory used by datasets</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-lomas_server.dataset_store">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-lomas_server.dataset_store" title="Link to this heading"></a></h2>

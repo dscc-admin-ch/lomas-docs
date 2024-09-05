@@ -85,11 +85,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../poster.html">Poster</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">poster</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../poster.html">Poster</a></li>
 </ul>
 
         </div>
@@ -182,7 +177,7 @@ dataset_store
 dp_queries
 mongodb_admin.py
 mongodb_admin_cli.py
-data_connector
+private_dataset
 tests
 utils
 uvicorn_serve.py
@@ -231,7 +226,7 @@ uvicorn_serve.py
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 usage: mongodb_admin_cli.py [-h]
-                            {add_user,add_user_with_budget,del_user,add_dataset_to_user,del_dataset_to_user,set_budget_field,set_may_query,get_user,add_users_via_yaml,get_archives,get_users,get_user_datasets,add_dataset,add_datasets_via_yaml,del_dataset,get_dataset,get_metadata,get_datasets,drop_collection,get_collection}
+                            {add_user,add_user_with_budget,del_user,add_dataset_to_user,del_dataset_to_user,set_budget_field,set_may_query,show_user,add_users_via_yaml,show_archives,get_users,get_user_datasets,add_dataset,add_datasets_via_yaml,del_dataset,show_dataset,show_metadata,get_datasets,drop_collection,show_collection}
                             ...
 
 MongoDB administration script for the database
@@ -240,7 +235,7 @@ options:
   -h, --help            show this help message and exit
 
 subcommands:
-  {add_user,add_user_with_budget,del_user,add_dataset_to_user,del_dataset_to_user,set_budget_field,set_may_query,get_user,add_users_via_yaml,get_archives,get_users,get_user_datasets,add_dataset,add_datasets_via_yaml,del_dataset,get_dataset,get_metadata,get_datasets,drop_collection,get_collection}
+  {add_user,add_user_with_budget,del_user,add_dataset_to_user,del_dataset_to_user,set_budget_field,set_may_query,show_user,add_users_via_yaml,show_archives,get_users,get_user_datasets,add_dataset,add_datasets_via_yaml,del_dataset,show_dataset,show_metadata,get_datasets,drop_collection,show_collection}
                         user database administration operations
     add_user            add user to users collection
     add_user_with_budget
@@ -253,9 +248,9 @@ subcommands:
     set_budget_field    set budget field to given value for given user and
                         dataset
     set_may_query       set may query field to given value for given user
-    get_user           show all metadata of user
+    show_user           show all metadata of user
     add_users_via_yaml  create users collection from yaml file
-    get_archives       show all previous queries from a user
+    show_archives       show all previous queries from a user
     get_users           get the list of all users in &#34;users&#34; collection
     get_user_datasets   get the list of all datasets from a user
     add_dataset         set in which database the dataset is stored
@@ -263,11 +258,11 @@ subcommands:
                         create dataset to database type collection
     del_dataset         delete dataset and metadata from datasets and metadata
                         collection
-    get_dataset        show a dataset from the dataset collection
-    get_metadata       show metadata from the metadata collection
+    show_dataset        show a dataset from the dataset collection
+    show_metadata       show metadata from the metadata collection
     get_datasets        get the list of all datasets in &#34;datasets&#34; collection
     drop_collection     delete collection from database
-    get_collection     print a collection
+    show_collection     print a collection
 
 </pre></div></div>
 </div>
@@ -303,7 +298,7 @@ Deleted collection users.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_collection --collection datasets&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_collection --collection datasets&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -319,7 +314,7 @@ Deleted collection users.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_collection --collection metadata&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_collection --collection metadata&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -353,7 +348,7 @@ Added dataset IRIS with database PATH_DB and associated metadata.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_collection --collection datasets&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_collection --collection datasets&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -374,7 +369,7 @@ Added dataset IRIS with database PATH_DB and associated metadata.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_collection --collection metadata&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_collection --collection metadata&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -495,7 +490,7 @@ Existing datasets updated with new collection
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_collection --collection datasets&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_collection --collection datasets&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -518,13 +513,13 @@ Existing datasets updated with new collection
  {&#39;dataset_name&#39;: &#39;TITANIC&#39;,
   &#39;database_type&#39;: &#39;S3_DB&#39;,
   &#39;metadata&#39;: {&#39;database_type&#39;: &#39;S3_DB&#39;,
-   &#39;bucket&#39;: &#39;example&#39;,
-   &#39;key&#39;: &#39;metadata/titanic_metadata.yaml&#39;,
+   &#39;s3_bucket&#39;: &#39;example&#39;,
+   &#39;s3_key&#39;: &#39;metadata/titanic_metadata.yaml&#39;,
    &#39;endpoint_url&#39;: &#39;https://api-lomas-minio.lab.sspcloud.fr&#39;,
    &#39;aws_access_key_id&#39;: &#39;admin&#39;,
    &#39;aws_secret_access_key&#39;: &#39;admin123&#39;},
-  &#39;bucket&#39;: &#39;example&#39;,
-  &#39;key&#39;: &#39;data/titanic.csv&#39;,
+  &#39;s3_bucket&#39;: &#39;example&#39;,
+  &#39;s3_key&#39;: &#39;data/titanic.csv&#39;,
   &#39;endpoint_url&#39;: &#39;https://api-lomas-minio.lab.sspcloud.fr&#39;,
   &#39;aws_access_key_id&#39;: &#39;admin&#39;,
   &#39;aws_secret_access_key&#39;: &#39;admin123&#39;},
@@ -540,7 +535,7 @@ Existing datasets updated with new collection
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_collection --collection metadata&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_collection --collection metadata&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -609,7 +604,7 @@ Existing datasets updated with new collection
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_dataset --dataset IRIS&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_dataset --dataset IRIS&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -631,7 +626,7 @@ Existing datasets updated with new collection
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_metadata --dataset IRIS&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_metadata --dataset IRIS&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -680,7 +675,7 @@ Existing datasets updated with new collection
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_collection --collection users&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_collection --collection users&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -806,7 +801,7 @@ Added user Madame Frostina.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_user --user &#39;Madame Frostina&#39;&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_user --user &#39;Madame Frostina&#39;&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -857,7 +852,7 @@ Added access to dataset PENGUIN to user Madame Frostina with budget epsilon 5.0 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_user --user &#39;Madame Frostina&#39;&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_user --user &#39;Madame Frostina&#39;&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -919,7 +914,7 @@ Set budget of Dr. Antartica for dataset PENGUIN of initial_epsilon to 20.0.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_collection --collection users&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_collection --collection users&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1037,7 +1032,7 @@ Deleted user Mr. Coldheart.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_collection --collection users&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_collection --collection users&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1128,7 +1123,7 @@ Set budget of Lord McFreeze for dataset PENGUIN of initial_delta to 0.005.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_collection --collection users&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_collection --collection users&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1203,7 +1198,7 @@ Deleted collection users.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_collection --collection users&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_collection --collection users&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1291,7 +1286,7 @@ Existing users updated.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_collection --collection users&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_collection --collection users&quot;</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1385,7 +1380,7 @@ Existing users updated.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py get_archives --user Alice&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;python mongodb_admin_cli.py show_archives --user Alice&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

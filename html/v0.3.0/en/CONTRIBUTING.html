@@ -69,10 +69,21 @@
 <li class="toctree-l2"><a class="reference internal" href="#linting-and-other-checks">Linting and Other Checks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#github-workflows">GitHub Workflows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#release-workflow">Release Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-dp-library">Adding a DP Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#external-loggers">External Loggers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-dataset-store">Adding a Dataset Store</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-data-connector-for-private-dataset-in-various-databases">Adding a Data Connector (for private dataset in various databases)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poster.html">Poster</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="poster.html">Poster</a></li>
 </ul>
 
         </div>
@@ -244,6 +255,58 @@ The table below gives an overview of which workflows are triggered by what event
 </ol>
 <p>The workflows listed in the previous section will take care of building and publishing the different items (docker images, pip packages, etc.).</p>
 <p>Note: Helm charts are updated when there is a push on the <code class="docutils literal notranslate"><span class="pre">release/vx.y.z</span></code> branch. If you have a specific deployment that rely on the Chart, you can test it before finishing the release. Then, do not forget to update the chart and app versions of your specific deployment.</p>
+</section>
+<section id="adding-a-dp-library">
+<h2>Adding a DP Library<a class="headerlink" href="#adding-a-dp-library" title="Link to this heading"></a></h2>
+<p>It is possible to add DP libraries quite seamlessly. Let’s say the new library is named ‘NewLibrary’
+Steps:
+0. Add the necessary requirements in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/requirements.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/lomas_client/requirements.txt</span></code></p>
+<ol class="arabic simple">
+<li><p>Add the library the the <code class="docutils literal notranslate"><span class="pre">DPLibraries</span></code> StrEnum class in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/constants.py</span></code> (<code class="docutils literal notranslate"><span class="pre">DPLibraries.NEW_LIBRARY</span> <span class="pre">=</span> <span class="pre">&quot;new_library&quot;</span></code>) and add the <code class="docutils literal notranslate"><span class="pre">NewLibraryQuerier</span></code> option in the <code class="docutils literal notranslate"><span class="pre">querier_factory</span></code> (in  <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dp_queries/dp_libraries/factory.py</span></code>).</p></li>
+<li><p>Create a file for your querier in the folder <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dp_queries/dp_libraries/new_library.py</span></code>. Inside, create a class <code class="docutils literal notranslate"><span class="pre">NewLibraryQuerier</span></code> that inherits from <code class="docutils literal notranslate"><span class="pre">DPQuerier</span></code> (<code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dp_queries/dp_querier.py</span></code>), your class must contain a <code class="docutils literal notranslate"><span class="pre">cost</span></code> method that return the cost of a query and a <code class="docutils literal notranslate"><span class="pre">query</span></code> method that return a result of a DP query.</p></li>
+<li><p>Add the three associated API endpoints .</p></li>
+</ol>
+<ul class="simple">
+<li><p>a. Add the endpoint handlers in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/routes/routes_dp.py</span></code>: <code class="docutils literal notranslate"><span class="pre">/new_library_query</span></code> (for queries on the real dataset), <code class="docutils literal notranslate"><span class="pre">/dummy_new_library_query</span></code> (for queries on the dummy dataset) and <code class="docutils literal notranslate"><span class="pre">/estimate_new_library_cost</span></code> (for estimating the privacy budget cost of a query).</p></li>
+<li><p>b. The endpoints should have predefined pydantic BaselModel types. Aadd BaseModel classes of expected input <code class="docutils literal notranslate"><span class="pre">NewLibraryModel</span></code>, <code class="docutils literal notranslate"><span class="pre">DummyNewLibraryModel</span></code>, <code class="docutils literal notranslate"><span class="pre">NewLibraryCostModel</span></code> in  <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/utils/query_models.py</span></code> and add the link for the archives in the constant dict <code class="docutils literal notranslate"><span class="pre">MODEL_INPUT_TO_LIB</span></code>: <code class="docutils literal notranslate"><span class="pre">{&quot;NewLibraryModel&quot;:</span> <span class="pre">DPLibraries.NEW_LIBRARY}</span></code>.</p></li>
+<li><p>c. The endpoints should have predefined default values <code class="docutils literal notranslate"><span class="pre">example_new_library</span></code>, <code class="docutils literal notranslate"><span class="pre">example_dummy_new_library</span></code> in  <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/utils/query_examples.py</span></code>.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p>Add tests in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/tests/test_new_library.py</span></code> to test all functionnalities and options of the new library.</p></li>
+<li><p>Add the associated method in <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> library in <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client/client.py</span></code>. In this case there should be <code class="docutils literal notranslate"><span class="pre">new_library_query</span></code> for queries on the private and on the dummy datasets and <code class="docutils literal notranslate"><span class="pre">estimate_new_library_cost</span></code> to estimate the cost of a query.</p></li>
+<li><p>Add a notebook <code class="docutils literal notranslate"><span class="pre">Demo_Client_Notebook_NewLibrary.ipynb</span></code> in <code class="docutils literal notranslate"><span class="pre">lomas/client/notebook/</span></code> to give example of the use of the library.</p></li>
+</ol>
+<section id="external-loggers">
+<h3>External Loggers<a class="headerlink" href="#external-loggers" title="Link to this heading"></a></h3>
+<p>Some libraries have ‘custom object’ parameters which are not readily serialisable.
+In those cases, a <code class="docutils literal notranslate"><span class="pre">logger</span></code> library can be made to serialise the object in the client (before sending them to the server via FastAPI) and then deserialise them in their <code class="docutils literal notranslate"><span class="pre">DPQuerier</span></code> class in the server.</p>
+<p>Some examples are avalaible here:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">opendp_logger</span></code> for opendp pipelines: https://github.com/opendp/opendp-logger</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diffprivlib_logger</span></code> for diffprivlib pipelines: https://github.com/dscc-admin-ch/diffprivlib-logger</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">smartnoise_synth_logger</span></code> for smartnoise_synth table transformer constraints: https://github.com/dscc-admin-ch/smartnoise-synth-logger</p></li>
+</ul>
+<p>Do not forget to add these libraries in the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> files.</p>
+</section>
+</section>
+<section id="adding-a-dataset-store">
+<h2>Adding a Dataset Store<a class="headerlink" href="#adding-a-dataset-store" title="Link to this heading"></a></h2>
+<p>Here is the explanation of how to add a new dataset store named <code class="docutils literal notranslate"><span class="pre">NewDatasetStore</span></code> for the example.</p>
+<ol class="arabic simple">
+<li><p>Add the new dataset store the the <code class="docutils literal notranslate"><span class="pre">DatasetStoreType</span></code> StrEnum class in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/constants.py</span></code> and add the <code class="docutils literal notranslate"><span class="pre">NewDatasetStore</span></code> option in the <code class="docutils literal notranslate"><span class="pre">dataset_store_factory</span></code> function (in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dataset_store/factory.py</span></code>).</p></li>
+<li><p>Create a file for your dataset store in the folder <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dataset_store/new_dataset_store.py</span></code>. Inside, create a class <code class="docutils literal notranslate"><span class="pre">NewDatasetStore</span></code> that inherits from <code class="docutils literal notranslate"><span class="pre">DatasetStore</span></code> (<code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dataset_store/dataset_store.py</span></code>), your class must contain a <code class="docutils literal notranslate"><span class="pre">_add_dataset</span></code> method that handle adding a dataset in memory and a <code class="docutils literal notranslate"><span class="pre">get_querier</span></code> method that the querier for the given dataset and library.</p></li>
+<li><p>Add tests in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/tests/</span></code> to test all functionnalities of the new dataset store.</p></li>
+</ol>
+</section>
+<section id="adding-a-data-connector-for-private-dataset-in-various-databases">
+<h2>Adding a Data Connector (for private dataset in various databases)<a class="headerlink" href="#adding-a-data-connector-for-private-dataset-in-various-databases" title="Link to this heading"></a></h2>
+<p>Here is the explanation of how to add a new data connector named <code class="docutils literal notranslate"><span class="pre">NewDataConnector</span></code> for the example.</p>
+<ol class="arabic simple">
+<li><p>Add the new dataset store to the <code class="docutils literal notranslate"><span class="pre">NewDataConnector</span></code> StrEnum class in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/constants.py</span></code>.</p></li>
+<li><p>Add the <code class="docutils literal notranslate"><span class="pre">NewDataConnector</span></code> option in the <code class="docutils literal notranslate"><span class="pre">private_dataset_factory</span></code> function (in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/private_dataset/factory.py</span></code>).</p></li>
+<li><p>Create a file for your dataset store in the folder <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/private_dataset/new_data_connector.py</span></code>. Inside, create a class <code class="docutils literal notranslate"><span class="pre">NewDataConnector</span></code> that inherits from <code class="docutils literal notranslate"><span class="pre">PrivateDataset</span></code> (<code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/private_dataset/private_dataset.py</span></code>), your class must contain a <code class="docutils literal notranslate"><span class="pre">get_pandas_df</span></code> method that return a dataframe of the dataset.</p></li>
+<li><p>Add tests in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/tests/</span></code> to test all functionnalities of the new data connector.</p></li>
+</ol>
 </section>
 </section>
 

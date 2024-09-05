@@ -1,0 +1,2187 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure Data Disclosure: Client Side Smartnoise-Synth &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Lomas
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                v0.1.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Secure Data Disclosure: Client Side Smartnoise-Synth</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/Demo_Client_Notebook_Smartnoise-Synth.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Secure-Data-Disclosure:-Client-Side-Smartnoise-Synth">
+<h1>Secure Data Disclosure: Client Side Smartnoise-Synth<a class="headerlink" href="#Secure-Data-Disclosure:-Client-Side-Smartnoise-Synth" title="Link to this heading"></a></h1>
+<p>This notebook showcases how researcher could use the Secure Data Disclosure system. It explains the different functionnalities provided by the <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> client library to interact with the secure server.</p>
+<p>The secure data are never visible by researchers. They can only access to differentially private responses via queries to the server.</p>
+<p>Each user has access to one or multiple projects and for each dataset has a limited budget with <span class="math notranslate nohighlight">\(\epsilon\)</span> and <span class="math notranslate nohighlight">\(\delta\)</span> values.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;images/image_demo_client.png&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Demo_Client_Notebook_Smartnoise-Synth_2_0.png" class="no-scaled-link" src="../_images/notebooks_Demo_Client_Notebook_Smartnoise-Synth_2_0.png" style="width: 800px;" />
+</div>
+</div>
+<p>🐧🐧🐧 In this notebook the researcher is a penguin researcher named Dr. Antarctica. She aims to do a grounbdbreaking research on various penguins dimensions.</p>
+<p>Therefore, the powerful queen Icerbegina 👑 had the data collected. But in order to get the penguins to agree to participate she promised them that no one would be able to look at the data and that no one would be able to guess the bill width of any specific penguin (which is very sensitive information) from the data. Nobody! Not even the researchers. The queen hence stored the data on the Secure Data Disclosure Server and only gave a small budget to Dr. Antarctica.</p>
+<p>This is not a problem for Dr. Antarctica as she does not need to see the data to make statistics thanks to the Secure Data Disclosure Client library <code class="docutils literal notranslate"><span class="pre">fso-sdd-demo</span></code>. 🐧🐧🐧</p>
+<section id="Step-1:-Install-the-library">
+<h2>Step 1: Install the library<a class="headerlink" href="#Step-1:-Install-the-library" title="Link to this heading"></a></h2>
+<p>To interact with the secure server on which the data is stored, Dr.Antartica first needs to install the library <code class="docutils literal notranslate"><span class="pre">fso-sdd-demo</span></code> on her local developping environment.</p>
+<p>It can be installed via the pip command:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)))</span>
+<span class="c1"># !pip install lomas_client</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lomas_client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Step-2:-Initialise-the-client">
+<h2>Step 2: Initialise the client<a class="headerlink" href="#Step-2:-Initialise-the-client" title="Link to this heading"></a></h2>
+<p>Once the library is installed, a Client object must be created. It is responsible for sending sending requests to the server and processing responses in the local environment. It enables a seamless interaction with the server.</p>
+<p>To create the client, Dr. Antartica needs to give it a few parameters: - a url: the root application endpoint to the remote secure server. - user_name: her name as registered in the database (Dr. Alice Antartica) - dataset_name: the name of the dataset that she wants to query (PENGUIN)</p>
+<p>She will only be able to query on the real dataset if the queen Icergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit (as is done in the Admin Notebook for Users and Datasets management).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">APP_URL</span> <span class="o">=</span> <span class="s2">&quot;http://lomas_server&quot;</span>
+<span class="n">USER_NAME</span> <span class="o">=</span> <span class="s2">&quot;Dr. Antartica&quot;</span>
+<span class="n">DATASET_NAME</span> <span class="o">=</span> <span class="s2">&quot;PENGUIN&quot;</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">APP_URL</span><span class="p">,</span> <span class="n">user_name</span> <span class="o">=</span> <span class="n">USER_NAME</span><span class="p">,</span> <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">DATASET_NAME</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>And that’s it for the preparation. She is now ready to use the various functionnalities offered by <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code>.</p>
+</section>
+<section id="Step-3:-Metadata-and-dummy-dataset">
+<h2>Step 3: Metadata and dummy dataset<a class="headerlink" href="#Step-3:-Metadata-and-dummy-dataset" title="Link to this heading"></a></h2>
+<section id="Getting-dataset-metadata">
+<h3>Getting dataset metadata<a class="headerlink" href="#Getting-dataset-metadata" title="Link to this heading"></a></h3>
+<p>Dr. Antartica has never seen the data and as a first step to understand what is available to her, she would like to check the metadata of the dataset. Therefore, she just needs to call the <code class="docutils literal notranslate"><span class="pre">get_dataset_metadata()</span></code> function of the client. As this is public information, this does not cost any budget.</p>
+<p>This function returns metadata information in a format based on <a class="reference external" href="https://docs.smartnoise.org/sql/metadata.html#dictionary-format">SmartnoiseSQL dictionary format</a>, where among other, there is information about all the available columns, their type, bound values (see Smartnoise page for more details). Any metadata is required for Smartnoise-SQL is also required here and additional information such that the different categories in a string type column column can be added.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguin_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
+<span class="n">penguin_metadata</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;max_ids&#39;: 1,
+ &#39;row_privacy&#39;: True,
+ &#39;censor_dims&#39;: False,
+ &#39;columns&#39;: {&#39;species&#39;: {&#39;type&#39;: &#39;string&#39;,
+   &#39;cardinality&#39;: 3,
+   &#39;categories&#39;: [&#39;Adelie&#39;, &#39;Chinstrap&#39;, &#39;Gentoo&#39;]},
+  &#39;island&#39;: {&#39;type&#39;: &#39;string&#39;,
+   &#39;cardinality&#39;: 3,
+   &#39;categories&#39;: [&#39;Torgersen&#39;, &#39;Biscoe&#39;, &#39;Dream&#39;]},
+  &#39;bill_length_mm&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 30.0, &#39;upper&#39;: 65.0},
+  &#39;bill_depth_mm&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 13.0, &#39;upper&#39;: 23.0},
+  &#39;flipper_length_mm&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 150.0, &#39;upper&#39;: 250.0},
+  &#39;body_mass_g&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 2000.0, &#39;upper&#39;: 7000.0},
+  &#39;sex&#39;: {&#39;type&#39;: &#39;string&#39;,
+   &#39;cardinality&#39;: 2,
+   &#39;categories&#39;: [&#39;MALE&#39;, &#39;FEMALE&#39;]}},
+ &#39;rows&#39;: 344}
+</pre></div></div>
+</div>
+<p>Based on this Dr. Antartica knows that there are 7 columns, 3 of string type (species, island, sex) with their associated categories (i.e. the species column has 3 possibilities: ‘Adelie’, ‘Chinstrap’, ‘Gentoo’) and 4 of float type (bill length, bill depth, flipper length and body mass) with their associated bounds (i.e. the body mass of penguin ranges from 2000 to 7000 gramms). She also knows based on the field <code class="docutils literal notranslate"><span class="pre">max_ids:</span> <span class="pre">1</span></code> that each penguin can only be once in the dataset and on the field
+<code class="docutils literal notranslate"><span class="pre">row_privacy:</span> <span class="pre">True</span></code> that each row represents a single penguin.</p>
+</section>
+<section id="Get-a-dummy-dataset">
+<h3>Get a dummy dataset<a class="headerlink" href="#Get-a-dummy-dataset" title="Link to this heading"></a></h3>
+<p>Now, that she has seen and understood the metadata, she wants to get an even better understanding of the dataset (but is still not able to see it). A solution to have an idea of what the dataset looks like it to create a dummy dataset.</p>
+<p>Based on the public metadata of the dataset, a random dataframe can be created created. By default, there will be 100 rows and the seed is set to 42 to ensure reproducibility, but these 2 variables can be changed to obtain different dummy datasets. Getting a dummy dataset does not affect the budget as there is no differential privacy here. It is not a synthetic dataset and all that could be learn here is already present in the public metadata (it is created randomly on the fly based on the
+metadata).</p>
+<p>Dr. Antartica first create a dummy dataset with 200 rows and chooses a seed of 0.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NB_ROWS</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">SEED</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span>
+    <span class="n">nb_rows</span> <span class="o">=</span> <span class="n">NB_ROWS</span><span class="p">,</span>
+    <span class="n">seed</span> <span class="o">=</span> <span class="n">SEED</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df_dummy</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">df_dummy</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(200, 7)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>49.208473</td>
+      <td>16.117959</td>
+      <td>190.125950</td>
+      <td>2873.291927</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>55.031628</td>
+      <td>19.963435</td>
+      <td>242.929142</td>
+      <td>3639.940005</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Chinstrap</td>
+      <td>Torgersen</td>
+      <td>51.096718</td>
+      <td>16.777518</td>
+      <td>159.961493</td>
+      <td>5401.743330</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Biscoe</td>
+      <td>49.070911</td>
+      <td>14.796037</td>
+      <td>244.530153</td>
+      <td>2316.038092</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>44.827918</td>
+      <td>13.246787</td>
+      <td>236.948853</td>
+      <td>5036.246870</td>
+      <td>FEMALE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+<section id="Step-3:-Create-a-Synthetic-Dataset-keeping-all-default-parameters">
+<h2>Step 3: Create a Synthetic Dataset keeping all default parameters<a class="headerlink" href="#Step-3:-Create-a-Synthetic-Dataset-keeping-all-default-parameters" title="Link to this heading"></a></h2>
+<p>We want to get a synthetic model to represent the private data.</p>
+<p>Therefore, we use a Smartnoise Synth Synthesizers.</p>
+<p>Let’s list the potential options. There respective paramaters are then available in Smarntoise Synth documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/index.html">here</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">snsynth</span> <span class="kn">import</span> <span class="n">Synthesizer</span>
+<span class="n">Synthesizer</span><span class="o">.</span><span class="n">list_synthesizers</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;mwem&#39;, &#39;dpctgan&#39;, &#39;patectgan&#39;, &#39;mst&#39;, &#39;pacsynth&#39;, &#39;dpgan&#39;, &#39;pategan&#39;, &#39;aim&#39;]
+</pre></div></div>
+</div>
+<section id="AIM:-Adaptive-Iterative-Mechanism">
+<h3>AIM: Adaptive Iterative Mechanism<a class="headerlink" href="#AIM:-Adaptive-Iterative-Mechanism" title="Link to this heading"></a></h3>
+<p>We start by executing a query on the dummy dataset without specifying any special parameters for AIM (all optional kept as default). Also only works on categorical columns so we select “species” and “island” columns to create a synthetic dataset of these two columns.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>The algorithm works and returned a synthetic dataset. We now estimate the cost of running this command:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_synth_cost</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">res_cost</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;epsilon_cost&#39;: 1.0, &#39;delta_cost&#39;: 0.0001}
+</pre></div></div>
+</div>
+<p>Executing such a query on the private dataset would cost 1.0 epsilon and 0.0001 delta. Dr. Antartica decides to do it with now the flag <code class="docutils literal notranslate"><span class="pre">dummmy</span></code> to False and specifiying that the wants the aim synthesizer model in return (with <code class="docutils literal notranslate"><span class="pre">return_model</span> <span class="pre">=</span> <span class="pre">True</span></code>).</p>
+<p>NOTE: if she does not set the parameter <code class="docutils literal notranslate"><span class="pre">return_model</span> <span class="pre">=</span> <span class="pre">True</span></code>, then it is False by default and she will get a synthetic dataframe as response directly.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">return_model</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/usr/local/lib/python3.11/site-packages/mbi/__init__.py:15: UserWarning: MixtureInference disabled, please install jax and jaxlib
+  warnings.warn(&#39;MixtureInference disabled, please install jax and jaxlib&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;snsynth.aim.aim.AIMSynthesizer at 0x75edc6e1ffd0&gt;
+</pre></div></div>
+</div>
+<p>She can now get the model and sample results with it. She choose to sample 10 samples.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<span class="n">synth</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Gentoo</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Gentoo</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Chinstrap</td>
+      <td>Torgersen</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Chinstrap</td>
+      <td>Torgersen</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>She now wants to specify some specific parameters to the AIM model. Therefore, she needs to set some parameters in <code class="docutils literal notranslate"><span class="pre">synth_params</span></code> based on the Smartnoise-Synth documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/aim.html#parameters">here</a>. She decides that she wants to modify the <code class="docutils literal notranslate"><span class="pre">max_model_size</span></code> to 50 (the default was 80) and tries on the dummy.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">return_model</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;max_model_size&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;snsynth.aim.aim.AIMSynthesizer at 0x75edc6883650&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth</span> <span class="o">=</span> <span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<span class="n">synth</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Gentoo</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Biscoe</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Chinstrap</td>
+      <td>Torgersen</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Now that the workflow is understood for AIM, she wants to experiment with various synthesizer on the dummy.</p>
+</section>
+<section id="MWEM:-Multiplicative-Weights-Exponential-Mechanism">
+<h3>MWEM: Multiplicative Weights Exponential Mechanism<a class="headerlink" href="#MWEM:-Multiplicative-Weights-Exponential-Mechanism" title="Link to this heading"></a></h3>
+<p>She tries MWEM on all columns with all default parameters. As <code class="docutils literal notranslate"><span class="pre">return_model</span></code> is not specified she will directly receive a synthetic dataframe back.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>42.25</td>
+      <td>22.5</td>
+      <td>155.0</td>
+      <td>2250.0</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>63.25</td>
+      <td>13.5</td>
+      <td>235.0</td>
+      <td>5250.0</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>42.25</td>
+      <td>22.5</td>
+      <td>155.0</td>
+      <td>2750.0</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Chinstrap</td>
+      <td>Torgersen</td>
+      <td>63.25</td>
+      <td>13.5</td>
+      <td>235.0</td>
+      <td>5250.0</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>63.25</td>
+      <td>13.5</td>
+      <td>235.0</td>
+      <td>5250.0</td>
+      <td>FEMALE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>She now specifies 3 columns and some parameters explained <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/mwem.html#snsynth.mwem.MWEMSynthesizer">here</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
+    <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;measure_only&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;max_retries_exp_mechanism&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Chinstrap</td>
+      <td>Torgersen</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>FEMALE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Finally it MWEM, she wants to go more in depth and create her own data preparation pipeline. Therefore, she can use Smartnoise-Synth “Data Transformers” explained <a class="reference external" href="https://docs.smartnoise.org/synth/transforms/index.html">here</a> and send her own constraints dictionnary for specific steps. This is more for advanced user.</p>
+<p>By default, if no constraints are specified, the server creates its automatically a data transformer based on selected columns, synthesizer and metadata.</p>
+<p>Here she wants to add a clamping transformation on the continuous columns before training the synthesizer. She add the bounds based on metadata.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bl_bounds</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">]</span>
+<span class="n">bd_bounds</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">]</span>
+<span class="n">bl_bounds</span><span class="p">,</span> <span class="n">bd_bounds</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+({&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 30.0, &#39;upper&#39;: 65.0},
+ {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 13.0, &#39;upper&#39;: 23.0})
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">snsynth.transform</span> <span class="kn">import</span> <span class="n">BinTransformer</span><span class="p">,</span> <span class="n">ClampTransformer</span><span class="p">,</span> <span class="n">ChainTransformer</span><span class="p">,</span> <span class="n">LabelTransformer</span>
+
+<span class="n">my_own_constraints</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">:</span> <span class="n">ChainTransformer</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">ClampTransformer</span><span class="p">(</span><span class="n">lower</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
+            <span class="n">BinTransformer</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">:</span> <span class="n">ChainTransformer</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">ClampTransformer</span><span class="p">(</span><span class="n">lower</span> <span class="o">=</span> <span class="n">bd_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bd_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">BinTransformer</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">bd_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bd_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="n">LabelTransformer</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">],</span>
+    <span class="n">constraints</span> <span class="o">=</span> <span class="n">my_own_constraints</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>species</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>48.625</td>
+      <td>16.05</td>
+      <td>Chinstrap</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>51.625</td>
+      <td>18.75</td>
+      <td>Gentoo</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>51.625</td>
+      <td>18.75</td>
+      <td>Gentoo</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>51.625</td>
+      <td>18.75</td>
+      <td>Gentoo</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>44.875</td>
+      <td>15.15</td>
+      <td>Adelie</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Also a subset of constraints can be specified for certain columns and the server will automatically generate those for the missing columns.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_own_constraints</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">:</span> <span class="n">ChainTransformer</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">ClampTransformer</span><span class="p">(</span><span class="n">lower</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
+            <span class="n">BinTransformer</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>In this case, only the bill_length will be clamped.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">],</span>
+    <span class="n">constraints</span> <span class="o">=</span> <span class="n">my_own_constraints</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>species</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>41.125</td>
+      <td>20.5</td>
+      <td>Chinstrap</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>53.875</td>
+      <td>20.5</td>
+      <td>Adelie</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>49.375</td>
+      <td>21.5</td>
+      <td>Chinstrap</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>53.875</td>
+      <td>20.5</td>
+      <td>Adelie</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>41.125</td>
+      <td>22.5</td>
+      <td>Chinstrap</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="MST:-Maximum-Spanning-Tree">
+<h3>MST: Maximum Spanning Tree<a class="headerlink" href="#MST:-Maximum-Spanning-Tree" title="Link to this heading"></a></h3>
+<p>She now experiments with MST. As the synthesizer is very needy in terms of computation, she selects a subset of column for it. See MST <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/mst.html">here</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mst&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td></td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Gentoo</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Gentoo</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>She can also specify a specific number of samples to get (if return_model is not True):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mst&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
+    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Chinstrap</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>FEMALE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>And a condition on these samples. For instance, here, she only wants female samples.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mst&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">],</span>
+    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;sex = FEMALE&quot;</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex</th>
+      <th>species</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td></td>
+      <td>Gentoo</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td></td>
+      <td>Gentoo</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td></td>
+      <td>Chinstrap</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td></td>
+      <td>Gentoo</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+<section id="DPCTGAN:-Differentially-Private-Conditional-Tabular-GAN">
+<h2>DPCTGAN: Differentially Private Conditional Tabular GAN<a class="headerlink" href="#DPCTGAN:-Differentially-Private-Conditional-Tabular-GAN" title="Link to this heading"></a></h2>
+<p>She now tries DPCTGAN. A first warning let her know that the random noise generation for this model is not cryptographically secure and if it is not ok for her, she can decode to stop using this synthesizer. Then she does not get a response but an error 422 with an explanation.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpctgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/code/lomas_client/utils.py:37: UserWarning: Warning:dpctgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
+  warnings.warn(
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;Error fitting model: sample_rate=5.0 is not a valid value. Please provide a float between 0 and 1. Try decreasing batch_size in synth_params (default batch_size=500).&#34;,&#34;library&#34;:&#34;smartnoise_synth&#34;}
+</pre></div></div>
+</div>
+<p>The default parameters of DPCTGAN do not work for PENGUIN dataset. Hence, as advised in the error message, she decreases the batch_size (also she chekcks the documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/dpctgan.html">here</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpctgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>47.809876</td>
+      <td>17.548668</td>
+      <td>188.346262</td>
+      <td>5152.039871</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>45.505892</td>
+      <td>15.785036</td>
+      <td>215.527822</td>
+      <td>4079.444863</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>39.293022</td>
+      <td>19.115118</td>
+      <td>176.019657</td>
+      <td>3719.095856</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>47.029771</td>
+      <td>17.322245</td>
+      <td>202.441730</td>
+      <td>4394.811036</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Gentoo</td>
+      <td>Dream</td>
+      <td>44.393938</td>
+      <td>17.215382</td>
+      <td>200.788893</td>
+      <td>4653.589007</td>
+      <td>FEMALE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="PATEGAN:-Private-Aggregation-of-Teacher-Ensembles">
+<h2>PATEGAN: Private Aggregation of Teacher Ensembles<a class="headerlink" href="#PATEGAN:-Private-Aggregation-of-Teacher-Ensembles" title="Link to this heading"></a></h2>
+<p>Unfortunatelly, she is not able to train the pategan synthetizer on the PENGUIN dataset. Hence, she must try another one.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;pategan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not reliable with this dataset.&#34;,&#34;library&#34;:&#34;smartnoise_synth&#34;}
+</pre></div></div>
+</div>
+</section>
+<section id="PATECTGAN:-Conditional-tabular-GAN-using-Private-Aggregation-of-Teacher-Ensembles">
+<h2>PATECTGAN: Conditional tabular GAN using Private Aggregation of Teacher Ensembles<a class="headerlink" href="#PATECTGAN:-Conditional-tabular-GAN-using-Private-Aggregation-of-Teacher-Ensembles" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;patectgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>44.929629</td>
+      <td>17.136712</td>
+      <td>206.450379</td>
+      <td>3677.639037</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>41.911177</td>
+      <td>15.958753</td>
+      <td>219.224480</td>
+      <td>3503.649727</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>39.371106</td>
+      <td>18.538643</td>
+      <td>215.860750</td>
+      <td>6183.452576</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Gentoo</td>
+      <td>Dream</td>
+      <td>39.778699</td>
+      <td>19.392393</td>
+      <td>220.403337</td>
+      <td>6291.852415</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>41.940040</td>
+      <td>18.712894</td>
+      <td>209.865149</td>
+      <td>3379.273981</td>
+      <td>FEMALE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;patectgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;body_mass_g&quot;</span><span class="p">],</span>
+    <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;embedding_dim&quot;</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
+        <span class="s2">&quot;generator_dim&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+        <span class="s2">&quot;discriminator_dim&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
+        <span class="s2">&quot;generator_lr&quot;</span><span class="p">:</span> <span class="mf">0.0003</span><span class="p">,</span>
+        <span class="s2">&quot;generator_decay&quot;</span><span class="p">:</span> <span class="mf">1e-05</span><span class="p">,</span>
+        <span class="s2">&quot;discriminator_lr&quot;</span><span class="p">:</span> <span class="mf">0.0003</span><span class="p">,</span>
+        <span class="s2">&quot;discriminator_decay&quot;</span><span class="p">:</span> <span class="mf">1e-05</span><span class="p">,</span>
+        <span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">500</span>
+    <span class="p">},</span>
+    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>body_mass_g</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Torgersen</td>
+      <td>48.482846</td>
+      <td>4627.040502</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Biscoe</td>
+      <td>36.627252</td>
+      <td>4458.971380</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Biscoe</td>
+      <td>50.437214</td>
+      <td>4419.834249</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Torgersen</td>
+      <td>57.515079</td>
+      <td>4114.015296</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Dream</td>
+      <td>37.914762</td>
+      <td>3729.208380</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="DPGAN:-DIfferentially-Private-GAN">
+<h2>DPGAN: DIfferentially Private GAN<a class="headerlink" href="#DPGAN:-DIfferentially-Private-GAN" title="Link to this heading"></a></h2>
+<p>For DPGAN, there is the same warning as for DPCTGAN with the cryptographically secure random noise generation.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/code/lomas_client/utils.py:37: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
+  warnings.warn(
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Chinstrap</td>
+      <td>Torgersen</td>
+      <td>47.418710</td>
+      <td>23.000000</td>
+      <td>192.233215</td>
+      <td>4478.892826</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>Biscoe</td>
+      <td>45.057986</td>
+      <td>17.836150</td>
+      <td>195.967093</td>
+      <td>5085.548207</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>46.495445</td>
+      <td>17.600734</td>
+      <td>195.489978</td>
+      <td>3655.695215</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>58.334219</td>
+      <td>19.706083</td>
+      <td>250.000000</td>
+      <td>7000.000000</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Biscoe</td>
+      <td>65.000000</td>
+      <td>16.195120</td>
+      <td>206.065695</td>
+      <td>4478.947320</td>
+      <td>FEMALE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>One final time she samples with conditions:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;body_mass_g &gt; 5000&quot;</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/code/lomas_client/utils.py:37: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
+  warnings.warn(
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>43.485997</td>
+      <td>19.496153</td>
+      <td>180.303064</td>
+      <td>6134.536535</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>63.116608</td>
+      <td>21.453384</td>
+      <td>189.907485</td>
+      <td>7000.000000</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>65.000000</td>
+      <td>20.504224</td>
+      <td>189.021906</td>
+      <td>5361.825123</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>65.000000</td>
+      <td>20.310123</td>
+      <td>193.809981</td>
+      <td>5012.155779</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>64.386925</td>
+      <td>16.037792</td>
+      <td>188.511754</td>
+      <td>6332.941920</td>
+      <td>MALE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>And now on the real dataset</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;body_mass_g &gt; 5000&quot;</span><span class="p">,</span>
+    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/code/lomas_client/utils.py:37: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
+  warnings.warn(
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>43.332719</td>
+      <td>16.996525</td>
+      <td>197.196980</td>
+      <td>6542.874247</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>53.666000</td>
+      <td>19.943369</td>
+      <td>184.627506</td>
+      <td>5256.182522</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>47.092630</td>
+      <td>21.298139</td>
+      <td>193.409859</td>
+      <td>5405.979574</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>54.154047</td>
+      <td>15.847898</td>
+      <td>192.380197</td>
+      <td>6358.633310</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Biscoe</td>
+      <td>44.494324</td>
+      <td>16.248922</td>
+      <td>188.783114</td>
+      <td>5486.318067</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>45.828992</td>
+      <td>16.119691</td>
+      <td>209.792230</td>
+      <td>6048.840851</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>45.586326</td>
+      <td>17.164572</td>
+      <td>196.064838</td>
+      <td>6345.135689</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>52.858690</td>
+      <td>18.386937</td>
+      <td>190.213206</td>
+      <td>5387.799114</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>65.000000</td>
+      <td>17.667682</td>
+      <td>203.667950</td>
+      <td>7000.000000</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>65.000000</td>
+      <td>19.445511</td>
+      <td>195.644815</td>
+      <td>5514.548540</td>
+      <td>FEMALE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Step-6:-See-archives-of-queries">
+<h2>Step 6: See archives of queries<a class="headerlink" href="#Step-6:-See-archives-of-queries" title="Link to this heading"></a></h2>
+<p>She now wants to verify all the queries that she did on the real data. It is possible because an archive of all queries is kept in a secure database. With a function call she can see her queries, budget and associated responses.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">previous_queries</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_previous_queries</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s check the last query</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_query</span> <span class="o">=</span> <span class="n">previous_queries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">last_query</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
+ &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+ &#39;dp_librairy&#39;: &#39;smartnoise_synth&#39;,
+ &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+  &#39;synth_name&#39;: &#39;dpgan&#39;,
+  &#39;epsilon&#39;: 1.0,
+  &#39;delta&#39;: None,
+  &#39;select_cols&#39;: [],
+  &#39;synth_params&#39;: {},
+  &#39;nullable&#39;: True,
+  &#39;constraints&#39;: &#39;&#39;,
+  &#39;return_model&#39;: False,
+  &#39;condition&#39;: &#39;body_mass_g &gt; 5000&#39;,
+  &#39;nb_samples&#39;: 10},
+ &#39;response&#39;: {&#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
+  &#39;query_response&#39;:      species     island  bill_length_mm  bill_depth_mm  flipper_length_mm  \
+  0     Adelie  Torgersen       43.332719      16.996525         197.196980
+  1     Gentoo     Biscoe       53.666000      19.943369         184.627506
+  2     Adelie  Torgersen       47.092630      21.298139         193.409859
+  3  Chinstrap     Biscoe       54.154047      15.847898         192.380197
+  4     Adelie     Biscoe       44.494324      16.248922         188.783114
+  5     Gentoo     Biscoe       45.828992      16.119691         209.792230
+  6  Chinstrap     Biscoe       45.586326      17.164572         196.064838
+  7     Gentoo     Biscoe       52.858690      18.386937         190.213206
+  8  Chinstrap     Biscoe       65.000000      17.667682         203.667950
+  9  Chinstrap     Biscoe       65.000000      19.445511         195.644815
+
+     body_mass_g     sex
+  0  6542.874247  FEMALE
+  1  5256.182522  FEMALE
+  2  5405.979574  FEMALE
+  3  6358.633310    MALE
+  4  5486.318067  FEMALE
+  5  6048.840851  FEMALE
+  6  6345.135689  FEMALE
+  7  5387.799114    MALE
+  8  7000.000000  FEMALE
+  9  5514.548540  FEMALE  ,
+  &#39;spent_epsilon&#39;: 1.0,
+  &#39;spent_delta&#39;: 0.00015673368198174188},
+ &#39;timestamp&#39;: 1724943669.4523578}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: v0.1.2
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
