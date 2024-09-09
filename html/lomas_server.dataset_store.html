@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="lomas_server.dp_queries package" href="lomas_server.dp_queries.html" />
-    <link rel="prev" title="lomas_server.administration package" href="lomas_server.administration.html" /> 
+    <link rel="prev" title="lomas_server.data_connector package" href="lomas_server.data_connector.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -120,6 +120,25 @@
 <section id="lomas-server-dataset-store-basic-dataset-store-module">
 <h2>lomas_server.dataset_store.basic_dataset_store module<a class="headerlink" href="#lomas-server-dataset-store-basic-dataset-store-module" title="Link to this heading"></a></h2>
 </section>
+<section id="module-lomas_server.dataset_store.data_connector_observer">
+<span id="lomas-server-dataset-store-data-connector-observer-module"></span><h2>lomas_server.dataset_store.data_connector_observer module<a class="headerlink" href="#module-lomas_server.dataset_store.data_connector_observer" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="lomas_server.dataset_store.data_connector_observer.DataConnectorObserver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.dataset_store.data_connector_observer.</span></span><span class="sig-name descname"><span class="pre">DataConnectorObserver</span></span><a class="reference internal" href="_modules/lomas_server/dataset_store/data_connector_observer.html#DataConnectorObserver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dataset_store.data_connector_observer.DataConnectorObserver" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>We use this abstract class to “subscribe” to object instances
+(DataConnector) so that they can notify instances of this
+abstract class (LRUDatasetStore or other DatasetStore implementing
+caching) when their memory usage changes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.dataset_store.data_connector_observer.DataConnectorObserver.update_memory_usage">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_memory_usage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/dataset_store/data_connector_observer.html#DataConnectorObserver.update_memory_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dataset_store.data_connector_observer.DataConnectorObserver.update_memory_usage" title="Link to this definition"></a></dt>
+<dd><p>Abstract method to update total memory used by datasets</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="lomas-server-dataset-store-dataset-store-module">
 <h2>lomas_server.dataset_store.dataset_store module<a class="headerlink" href="#lomas-server-dataset-store-dataset-store-module" title="Link to this heading"></a></h2>
 </section>
@@ -128,25 +147,6 @@
 </section>
 <section id="lomas-server-dataset-store-lru-dataset-store-module">
 <h2>lomas_server.dataset_store.lru_dataset_store module<a class="headerlink" href="#lomas-server-dataset-store-lru-dataset-store-module" title="Link to this heading"></a></h2>
-</section>
-<section id="module-lomas_server.dataset_store.private_dataset_observer">
-<span id="lomas-server-dataset-store-private-dataset-observer-module"></span><h2>lomas_server.dataset_store.private_dataset_observer module<a class="headerlink" href="#module-lomas_server.dataset_store.private_dataset_observer" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="lomas_server.dataset_store.private_dataset_observer.PrivateDatasetObserver">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.dataset_store.private_dataset_observer.</span></span><span class="sig-name descname"><span class="pre">PrivateDatasetObserver</span></span><a class="reference internal" href="_modules/lomas_server/dataset_store/private_dataset_observer.html#PrivateDatasetObserver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dataset_store.private_dataset_observer.PrivateDatasetObserver" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<p>We use this abstract class to “subscribe” to object instances
-(PrivateDataset) so that they can notify instances of this
-abstract class (LRUDatasetStore or other DatasetStore implementing
-caching) when their memory usage changes.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.dataset_store.private_dataset_observer.PrivateDatasetObserver.update_memory_usage">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_memory_usage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/dataset_store/private_dataset_observer.html#PrivateDatasetObserver.update_memory_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dataset_store.private_dataset_observer.PrivateDatasetObserver.update_memory_usage" title="Link to this definition"></a></dt>
-<dd><p>Abstract method to update total memory used by datasets</p>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 <section id="module-lomas_server.dataset_store">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-lomas_server.dataset_store" title="Link to this heading"></a></h2>
@@ -157,7 +157,7 @@ caching) when their memory usage changes.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="lomas_server.administration.html" class="btn btn-neutral float-left" title="lomas_server.administration package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lomas_server.data_connector.html" class="btn btn-neutral float-left" title="lomas_server.data_connector package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="lomas_server.dp_queries.html" class="btn btn-neutral float-right" title="lomas_server.dp_queries package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
@@ -208,6 +208,8 @@ caching) when their memory usage changes.</p>
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.1/en/index.html">v0.3.1</a></dd>
         
       </dl>
       
