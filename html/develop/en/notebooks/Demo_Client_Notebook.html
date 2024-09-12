@@ -568,7 +568,7 @@ worry this won’t cost any real budget) - compare and verify that the local and
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average bill length in remote dummy: 46.54mm.
+Average bill length in remote dummy: 46.59mm.
 </pre></div></div>
 </div>
 <p>No functionnal errors happened and the average bill length is within reasonable bounds. She is now even more confident in using her query on the server.</p>
@@ -621,7 +621,7 @@ Average bill length in remote dummy: 46.54mm.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average bill length of penguins in real data: 43.83mm.
+Average bill length of penguins in real data: 45.02mm.
 </pre></div></div>
 </div>
 <p>After each query on the real dataset, the budget informations are also returned to the researcher. It is possible possible to check the remaining budget again afterwards:</p>
@@ -801,7 +801,7 @@ Server error status 400: {&#34;InvalidQueryException&#34;:&#34;The pipeline prov
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Dummy result for variance: 35.5
+Dummy result for variance: 30.28
 </pre></div></div>
 </div>
 </section>
@@ -856,12 +856,12 @@ Dummy result for variance: 35.5
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Variance of bill length: 34.77 (from opendp query).
+Variance of bill length: 34.29 (from opendp query).
 </pre></div></div>
 </div>
 </section>
-<section id="Postprocessing:-no-additional-provacy-risk-with-DP">
-<h4>Postprocessing: no additional provacy risk with DP<a class="headerlink" href="#Postprocessing:-no-additional-provacy-risk-with-DP" title="Link to this heading"></a></h4>
+<section id="Postprocessing:-no-additional-privacy-risk-with-DP">
+<h4>Postprocessing: no additional privacy risk with DP<a class="headerlink" href="#Postprocessing:-no-additional-privacy-risk-with-DP" title="Link to this heading"></a></h4>
 <p>She can now do all the postprocessing that she wants with the returned data without adding any privacy risk.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
@@ -898,7 +898,7 @@ Standard error of bill length: 0.32.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The 95% confidence interval of the bill length of all penguins is [43.21, 44.45].
+The 95% confidence interval of the bill length of all penguins is [44.4, 45.64].
 </pre></div></div>
 </div>
 </section>
@@ -1949,7 +1949,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="Train-patectgan-synthesizer-on-dummy-data-with-Smartnoise-Synth">
 <h4>Train patectgan synthesizer on dummy data with Smartnoise-Synth<a class="headerlink" href="#Train-patectgan-synthesizer-on-dummy-data-with-Smartnoise-Synth" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
@@ -1963,7 +1963,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_synth_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -1971,7 +1971,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -2002,32 +2002,32 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
     <tr>
       <th>0</th>
       <td>Dream</td>
-      <td>48.511585</td>
-      <td>14.830853</td>
+      <td>41.394843</td>
+      <td>15.025560</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Dream</td>
-      <td>46.058849</td>
-      <td>21.126229</td>
+      <td>40.640350</td>
+      <td>18.723828</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Dream</td>
-      <td>43.442156</td>
-      <td>19.632390</td>
+      <td>52.355482</td>
+      <td>14.951575</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Dream</td>
-      <td>37.877035</td>
-      <td>21.214375</td>
+      <td>44.657039</td>
+      <td>18.139905</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Dream</td>
-      <td>52.552031</td>
-      <td>19.885068</td>
+      <td>43.308159</td>
+      <td>15.976547</td>
     </tr>
   </tbody>
 </table>
@@ -2037,7 +2037,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="Estimate-cost-of-training-patectgan-synthesizer-with-Smartnoise-Synth">
 <h4>Estimate cost of training patectgan synthesizer with Smartnoise-Synth<a class="headerlink" href="#Estimate-cost-of-training-patectgan-synthesizer-with-Smartnoise-Synth" title="Link to this heading"></a></h4>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_synth_cost</span><span class="p">(</span>
@@ -2050,7 +2050,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2062,7 +2062,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="Train-patectgan-synthesizer-on-private-data-with-Smartnoise-Synth">
 <h4>Train patectgan synthesizer on private data with Smartnoise-Synth<a class="headerlink" href="#Train-patectgan-synthesizer-on-private-data-with-Smartnoise-Synth" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
@@ -2076,7 +2076,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -2084,7 +2084,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -2115,32 +2115,32 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
     <tr>
       <th>0</th>
       <td>Dream</td>
-      <td>52.040945</td>
-      <td>15.677968</td>
+      <td>52.040896</td>
+      <td>15.677953</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Dream</td>
-      <td>47.597868</td>
-      <td>17.673375</td>
+      <td>47.597791</td>
+      <td>17.673353</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Torgersen</td>
-      <td>57.004345</td>
-      <td>15.573335</td>
+      <td>57.004282</td>
+      <td>15.573296</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Biscoe</td>
-      <td>37.559502</td>
-      <td>19.513633</td>
+      <td>37.559513</td>
+      <td>19.513630</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Dream</td>
-      <td>46.813858</td>
-      <td>15.565315</td>
+      <td>46.813786</td>
+      <td>15.565273</td>
     </tr>
   </tbody>
 </table>
@@ -2148,7 +2148,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 <p>Out of curiosity, she checks the average bill length and variance of bill length on this dataset.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">synth_df</span><span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
@@ -2157,7 +2157,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
@@ -2172,12 +2172,12 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The average with Smartnoise-SQL on private data was 43.83.
+The average with Smartnoise-SQL on private data was 45.02.
 The average with Smartnoise-Synth on synthetic data is 44.65.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
@@ -2192,7 +2192,7 @@ The average with Smartnoise-Synth on synthetic data is 44.65.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The variance with opendp on private data was 34.77.
+The variance with opendp on private data was 34.29.
 The variance with Smartnoise-Synth on synthetic data is 36.15.
 </pre></div></div>
 </div>
@@ -2203,7 +2203,7 @@ The variance with Smartnoise-Synth on synthetic data is 36.15.
 <h2>Step 4: See archives of queries<a class="headerlink" href="#Step-4:-See-archives-of-queries" title="Link to this heading"></a></h2>
 <p>She now wants to verify all the queries that she did on the real data. It is possible because an archive of all queries is kept in a secure database. With a function call she can see her queries, budget and associated responses.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">previous_queries</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_previous_queries</span><span class="p">()</span>
@@ -2212,7 +2212,7 @@ The variance with Smartnoise-Synth on synthetic data is 36.15.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2221,7 +2221,7 @@ The variance with Smartnoise-Synth on synthetic data is 36.15.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Smartnoise-SQL</span>
@@ -2231,7 +2231,7 @@ The variance with Smartnoise-Synth on synthetic data is 36.15.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2248,16 +2248,16 @@ The variance with Smartnoise-Synth on synthetic data is 36.15.
  &#39;response&#39;: {&#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
   &#39;query_response&#39;: {&#39;index&#39;: [0],
    &#39;columns&#39;: [&#39;avg_bill_length_mm&#39;],
-   &#39;data&#39;: [[43.825255002419716]],
+   &#39;data&#39;: [[45.01787281553949]],
    &#39;index_names&#39;: [None],
    &#39;column_names&#39;: [None]},
   &#39;spent_epsilon&#39;: 1.0,
   &#39;spent_delta&#39;: 4.999999999999449e-05},
- &#39;timestamp&#39;: 1725364882.6916816}
+ &#39;timestamp&#39;: 1726136962.7276385}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># OpenDP</span>
@@ -2267,7 +2267,7 @@ The variance with Smartnoise-Synth on synthetic data is 36.15.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2282,14 +2282,14 @@ The variance with Smartnoise-Synth on synthetic data is 36.15.
       output_measure = MaxDivergence(f64)),
   &#39;fixed_delta&#39;: None},
  &#39;response&#39;: {&#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
-  &#39;query_response&#39;: 34.769447201112094,
+  &#39;query_response&#39;: 34.28606138801999,
   &#39;spent_epsilon&#39;: 0.7122093023265228,
   &#39;spent_delta&#39;: 0},
- &#39;timestamp&#39;: 1725364890.340155}
+ &#39;timestamp&#39;: 1726136975.3640535}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># DiffPrivLib</span>
@@ -2299,7 +2299,7 @@ The variance with Smartnoise-Synth on synthetic data is 36.15.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2328,11 +2328,11 @@ The variance with Smartnoise-Synth on synthetic data is 36.15.
                                            epsilon=2.0))])},
   &#39;spent_epsilon&#39;: 2.0,
   &#39;spent_delta&#39;: 0.0},
- &#39;timestamp&#39;: 1725364897.0776813}
+ &#39;timestamp&#39;: 1726136985.1675484}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Smartnoise-Synth</span>
@@ -2342,7 +2342,7 @@ The variance with Smartnoise-Synth on synthetic data is 36.15.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2363,22 +2363,22 @@ The variance with Smartnoise-Synth on synthetic data is 36.15.
   &#39;nb_samples&#39;: 200},
  &#39;response&#39;: {&#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
   &#39;query_response&#39;:         island  bill_length_mm  bill_depth_mm
-  0        Dream       52.040945      15.677968
-  1        Dream       47.597868      17.673375
-  2    Torgersen       57.004345      15.573335
-  3       Biscoe       37.559502      19.513633
-  4        Dream       46.813858      15.565315
+  0        Dream       52.040896      15.677953
+  1        Dream       47.597791      17.673353
+  2    Torgersen       57.004282      15.573296
+  3       Biscoe       37.559513      19.513630
+  4        Dream       46.813786      15.565273
   ..         ...             ...            ...
-  195      Dream       41.009962      18.210038
-  196      Dream       50.174224      18.534705
-  197     Biscoe       42.890809      15.596290
-  198  Torgersen       47.442859      15.934119
-  199     Biscoe       45.300011      18.687155
+  195      Dream       41.010001      18.210018
+  196      Dream       50.174267      18.534693
+  197     Biscoe       42.890791      15.596277
+  198  Torgersen       47.442753      15.934110
+  199     Biscoe       45.299875      18.687149
 
   [200 rows x 3 columns],
   &#39;spent_epsilon&#39;: 1.0,
   &#39;spent_delta&#39;: 0.00015673368198174188},
- &#39;timestamp&#39;: 1725364925.3299136}
+ &#39;timestamp&#39;: 1726137013.8748171}
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">

@@ -73,7 +73,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#external-loggers">External Loggers</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#adding-a-dataset-store">Adding a Dataset Store</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-data-connector-for-private-dataset-in-various-databases">Adding a Data Connector (for private dataset in various databases)</a></li>
 </ul>
 </li>
@@ -288,15 +287,6 @@ In those cases, a <code class="docutils literal notranslate"><span class="pre">l
 </ul>
 <p>Do not forget to add these libraries in the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> files.</p>
 </section>
-</section>
-<section id="adding-a-dataset-store">
-<h2>Adding a Dataset Store<a class="headerlink" href="#adding-a-dataset-store" title="Link to this heading"></a></h2>
-<p>Here is the explanation of how to add a new dataset store named <code class="docutils literal notranslate"><span class="pre">NewDatasetStore</span></code> for the example.</p>
-<ol class="arabic simple">
-<li><p>Add the new dataset store the the <code class="docutils literal notranslate"><span class="pre">DatasetStoreType</span></code> StrEnum class in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/constants.py</span></code> and add the <code class="docutils literal notranslate"><span class="pre">NewDatasetStore</span></code> option in the <code class="docutils literal notranslate"><span class="pre">dataset_store_factory</span></code> function (in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dataset_store/factory.py</span></code>).</p></li>
-<li><p>Create a file for your dataset store in the folder <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dataset_store/new_dataset_store.py</span></code>. Inside, create a class <code class="docutils literal notranslate"><span class="pre">NewDatasetStore</span></code> that inherits from <code class="docutils literal notranslate"><span class="pre">DatasetStore</span></code> (<code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dataset_store/dataset_store.py</span></code>), your class must contain a <code class="docutils literal notranslate"><span class="pre">_add_dataset</span></code> method that handle adding a dataset in memory and a <code class="docutils literal notranslate"><span class="pre">get_querier</span></code> method that the querier for the given dataset and library.</p></li>
-<li><p>Add tests in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/tests/</span></code> to test all functionnalities of the new dataset store.</p></li>
-</ol>
 </section>
 <section id="adding-a-data-connector-for-private-dataset-in-various-databases">
 <h2>Adding a Data Connector (for private dataset in various databases)<a class="headerlink" href="#adding-a-data-connector-for-private-dataset-in-various-databases" title="Link to this heading"></a></h2>
