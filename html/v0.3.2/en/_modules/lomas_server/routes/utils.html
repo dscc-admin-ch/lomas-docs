@@ -247,9 +247,15 @@
     <span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">_</span> <span class="o">=</span> <span class="n">dummy_querier</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query_json</span><span class="p">)</span>  <span class="c1"># verify cost works</span>
+        <span class="n">eps_cost</span><span class="p">,</span> <span class="n">delta_cost</span> <span class="o">=</span> <span class="n">dummy_querier</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query_json</span><span class="p">)</span>
         <span class="n">response_df</span> <span class="o">=</span> <span class="n">dummy_querier</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query_json</span><span class="p">)</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">JSONResponse</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;query_response&quot;</span><span class="p">:</span> <span class="n">response_df</span><span class="p">})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">JSONResponse</span><span class="p">(</span>
+            <span class="n">content</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;query_response&quot;</span><span class="p">:</span> <span class="n">response_df</span><span class="p">,</span>
+                <span class="s2">&quot;epsilon&quot;</span><span class="p">:</span> <span class="n">eps_cost</span><span class="p">,</span>
+                <span class="s2">&quot;delta&quot;</span><span class="p">:</span> <span class="n">delta_cost</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
