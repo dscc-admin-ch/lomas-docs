@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Secure Data Disclosure: Client Side Smartnoise-Synth &mdash; Lomas 0.0.1 documentation</title>
+  <title>Lomas Client Side: Using Smartnoise-Synth &mdash; Lomas 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -24,7 +24,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="S3 example" href="s3_example_notebook.html" />
-    <link rel="prev" title="Secure Data Disclosure: Client side" href="Demo_Client_Notebook_DiffPrivLib.html" /> 
+    <link rel="prev" title="Lomas Client Side: Using DiffPrivlib" href="Demo_Client_Notebook_DiffPrivLib.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -55,14 +55,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../client_quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../client_examples.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook.html">Lomas: Client demo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_Smartnoise-SQL.html">Secure Data Disclosure: Client side</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_DiffPrivLib.html">Secure Data Disclosure: Client side</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Secure Data Disclosure: Client Side Smartnoise-Synth</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_Smartnoise-SQL.html">Lomas Client Side: Using Smartnoise-SQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_DiffPrivLib.html">Lomas Client Side: Using DiffPrivlib</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Lomas Client Side: Using Smartnoise-Synth</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Step-1:-Install-the-library">Step 1: Install the library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Step-2:-Initialise-the-client">Step 2: Initialise the client</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Step-3:-Metadata-and-dummy-dataset">Step 3: Metadata and dummy dataset</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Getting-dataset-metadata">Getting dataset metadata</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Get-a-dummy-dataset">Get a dummy dataset</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#Step-3:-Create-a-Synthetic-Dataset-keeping-all-default-parameters">Step 3: Create a Synthetic Dataset keeping all default parameters</a><ul>
@@ -119,7 +118,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../client_examples.html">Examples</a></li>
-      <li class="breadcrumb-item active">Secure Data Disclosure: Client Side Smartnoise-Synth</li>
+      <li class="breadcrumb-item active">Lomas Client Side: Using Smartnoise-Synth</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/notebooks/Demo_Client_Notebook_Smartnoise-Synth.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -129,35 +128,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="Secure-Data-Disclosure:-Client-Side-Smartnoise-Synth">
-<h1>Secure Data Disclosure: Client Side Smartnoise-Synth<a class="headerlink" href="#Secure-Data-Disclosure:-Client-Side-Smartnoise-Synth" title="Link to this heading"></a></h1>
+  <section id="Lomas-Client-Side:-Using-Smartnoise-Synth">
+<h1>Lomas Client Side: Using Smartnoise-Synth<a class="headerlink" href="#Lomas-Client-Side:-Using-Smartnoise-Synth" title="Link to this heading"></a></h1>
 <p>This notebook showcases how researcher could use the Secure Data Disclosure system. It explains the different functionnalities provided by the <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> client library to interact with the secure server.</p>
 <p>The secure data are never visible by researchers. They can only access to differentially private responses via queries to the server.</p>
 <p>Each user has access to one or multiple projects and for each dataset has a limited budget with <span class="math notranslate nohighlight">\(\epsilon\)</span> and <span class="math notranslate nohighlight">\(\delta\)</span> values.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;images/image_demo_client.png&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_Demo_Client_Notebook_Smartnoise-Synth_2_0.png" class="no-scaled-link" src="../_images/notebooks_Demo_Client_Notebook_Smartnoise-Synth_2_0.png" style="width: 800px;" />
-</div>
-</div>
-<p>🐧🐧🐧 In this notebook the researcher is a penguin researcher named Dr. Antarctica. She aims to do a grounbdbreaking research on various penguins dimensions.</p>
-<p>Therefore, the powerful queen Icerbegina 👑 had the data collected. But in order to get the penguins to agree to participate she promised them that no one would be able to look at the data and that no one would be able to guess the bill width of any specific penguin (which is very sensitive information) from the data. Nobody! Not even the researchers. The queen hence stored the data on the Secure Data Disclosure Server and only gave a small budget to Dr. Antarctica.</p>
-<p>This is not a problem for Dr. Antarctica as she does not need to see the data to make statistics thanks to the Secure Data Disclosure Client library <code class="docutils literal notranslate"><span class="pre">fso-sdd-demo</span></code>. 🐧🐧🐧</p>
 <section id="Step-1:-Install-the-library">
 <h2>Step 1: Install the library<a class="headerlink" href="#Step-1:-Install-the-library" title="Link to this heading"></a></h2>
-<p>To interact with the secure server on which the data is stored, Dr.Antartica first needs to install the library <code class="docutils literal notranslate"><span class="pre">fso-sdd-demo</span></code> on her local developping environment.</p>
+<p>To interact with the secure server on which the data is stored, Dr.Antartica first needs to install the library <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> on her local developping environment.</p>
 <p>It can be installed via the pip command:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install lomas_client</span>
+</pre></div>
+</div>
+</div>
+<p>Or using a local version of the client</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -165,7 +153,6 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)))</span>
-<span class="c1"># !pip install lomas_client</span>
 </pre></div>
 </div>
 </div>
@@ -236,133 +223,6 @@
    &#39;categories&#39;: [&#39;MALE&#39;, &#39;FEMALE&#39;]}},
  &#39;rows&#39;: 344}
 </pre></div></div>
-</div>
-<p>Based on this Dr. Antartica knows that there are 7 columns, 3 of string type (species, island, sex) with their associated categories (i.e. the species column has 3 possibilities: ‘Adelie’, ‘Chinstrap’, ‘Gentoo’) and 4 of float type (bill length, bill depth, flipper length and body mass) with their associated bounds (i.e. the body mass of penguin ranges from 2000 to 7000 gramms). She also knows based on the field <code class="docutils literal notranslate"><span class="pre">max_ids:</span> <span class="pre">1</span></code> that each penguin can only be once in the dataset and on the field
-<code class="docutils literal notranslate"><span class="pre">row_privacy:</span> <span class="pre">True</span></code> that each row represents a single penguin.</p>
-</section>
-<section id="Get-a-dummy-dataset">
-<h3>Get a dummy dataset<a class="headerlink" href="#Get-a-dummy-dataset" title="Link to this heading"></a></h3>
-<p>Now, that she has seen and understood the metadata, she wants to get an even better understanding of the dataset (but is still not able to see it). A solution to have an idea of what the dataset looks like it to create a dummy dataset.</p>
-<p>Based on the public metadata of the dataset, a random dataframe can be created created. By default, there will be 100 rows and the seed is set to 42 to ensure reproducibility, but these 2 variables can be changed to obtain different dummy datasets. Getting a dummy dataset does not affect the budget as there is no differential privacy here. It is not a synthetic dataset and all that could be learn here is already present in the public metadata (it is created randomly on the fly based on the
-metadata).</p>
-<p>Dr. Antartica first create a dummy dataset with 200 rows and chooses a seed of 0.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NB_ROWS</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="n">SEED</span> <span class="o">=</span> <span class="mi">0</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span>
-    <span class="n">nb_rows</span> <span class="o">=</span> <span class="n">NB_ROWS</span><span class="p">,</span>
-    <span class="n">seed</span> <span class="o">=</span> <span class="n">SEED</span>
-<span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">df_dummy</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">df_dummy</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-(200, 7)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>species</th>
-      <th>island</th>
-      <th>bill_length_mm</th>
-      <th>bill_depth_mm</th>
-      <th>flipper_length_mm</th>
-      <th>body_mass_g</th>
-      <th>sex</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Gentoo</td>
-      <td>Biscoe</td>
-      <td>49.208473</td>
-      <td>16.117959</td>
-      <td>190.125950</td>
-      <td>2873.291927</td>
-      <td>FEMALE</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Gentoo</td>
-      <td>Torgersen</td>
-      <td>55.031628</td>
-      <td>19.963435</td>
-      <td>242.929142</td>
-      <td>3639.940005</td>
-      <td>FEMALE</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Chinstrap</td>
-      <td>Torgersen</td>
-      <td>51.096718</td>
-      <td>16.777518</td>
-      <td>159.961493</td>
-      <td>5401.743330</td>
-      <td>MALE</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Adelie</td>
-      <td>Biscoe</td>
-      <td>49.070911</td>
-      <td>14.796037</td>
-      <td>244.530153</td>
-      <td>2316.038092</td>
-      <td>MALE</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Chinstrap</td>
-      <td>Biscoe</td>
-      <td>44.827918</td>
-      <td>13.246787</td>
-      <td>236.948853</td>
-      <td>5036.246870</td>
-      <td>FEMALE</td>
-    </tr>
-  </tbody>
-</table>
-</div></div>
 </div>
 </section>
 </section>
@@ -2158,7 +2018,7 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Demo_Client_Notebook_DiffPrivLib.html" class="btn btn-neutral float-left" title="Secure Data Disclosure: Client side" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Demo_Client_Notebook_DiffPrivLib.html" class="btn btn-neutral float-left" title="Lomas Client Side: Using DiffPrivlib" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="s3_example_notebook.html" class="btn btn-neutral float-right" title="S3 example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
