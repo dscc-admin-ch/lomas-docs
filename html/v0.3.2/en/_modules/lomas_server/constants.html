@@ -100,6 +100,8 @@
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">StrEnum</span>
 
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+
 <span class="c1"># Get config and secrets from correct location</span>
 <span class="k">if</span> <span class="s2">&quot;LOMAS_CONFIG_PATH&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
     <span class="n">CONFIG_PATH</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;LOMAS_CONFIG_PATH&quot;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
@@ -184,15 +186,6 @@
     <span class="n">OPENDP</span> <span class="o">=</span> <span class="s2">&quot;opendp&quot;</span>
     <span class="n">DIFFPRIVLIB</span> <span class="o">=</span> <span class="s2">&quot;diffprivlib&quot;</span></div>
 
-
-
-<span class="c1"># Query model input to DP librairy</span>
-<span class="n">MODEL_INPUT_TO_LIB</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;SmartnoiseSQLModel&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span><span class="p">,</span>
-    <span class="s2">&quot;SmartnoiseSynthQueryModel&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">,</span>
-    <span class="s2">&quot;OpenDPModel&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">,</span>
-    <span class="s2">&quot;DiffPrivLibModel&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">,</span>
-<span class="p">}</span>
 
 
 <span class="c1"># Private Databases</span>
@@ -312,8 +305,9 @@
 <span class="n">NUMERICAL_DTYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;int16&quot;</span><span class="p">,</span> <span class="s2">&quot;int32&quot;</span><span class="p">,</span> <span class="s2">&quot;int64&quot;</span><span class="p">,</span> <span class="s2">&quot;float16&quot;</span><span class="p">,</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="s2">&quot;float64&quot;</span><span class="p">]</span>
 
 <span class="c1"># Example pipeline inputs</span>
+<span class="n">OPENDP_VERSION</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">get_distribution</span><span class="p">(</span><span class="s2">&quot;opendp&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">version</span>
 <span class="n">OPENDP_PIPELINE</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s1">&#39;{&quot;version&quot;: &quot;0.10.0&quot;, &#39;</span>
+    <span class="sa">f</span><span class="s1">&#39;</span><span class="se">{{</span><span class="s1">&quot;version&quot;: &quot;</span><span class="si">{</span><span class="n">OPENDP_VERSION</span><span class="si">}</span><span class="s1">&quot;, &#39;</span>
     <span class="s1">&#39;&quot;ast&quot;: {&#39;</span>
     <span class="s1">&#39;&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&#39;</span>
     <span class="s1">&#39;&quot;_type&quot;: &quot;partial_chain&quot;, &quot;lhs&quot;: {&#39;</span>

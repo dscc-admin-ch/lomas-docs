@@ -1,0 +1,588 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lomas_server.tests.test_api_diffprivlib &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Lomas
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                v0.3.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lomas_server.tests.test_api_diffprivlib</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lomas_server.tests.test_api_diffprivlib</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">diffprivlib</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">diffprivlib.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DiffprivlibCompatibilityWarning</span><span class="p">,</span>
+    <span class="n">PrivacyLeakWarning</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">diffprivlib_logger</span> <span class="kn">import</span> <span class="n">serialise_pipeline</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">status</span>
+<span class="kn">from</span> <span class="nn">fastapi.testclient</span> <span class="kn">import</span> <span class="n">TestClient</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="kn">from</span> <span class="nn">lomas_server.app</span> <span class="kn">import</span> <span class="n">app</span>
+<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="n">DPLibraries</span>
+<span class="kn">from</span> <span class="nn">lomas_server.tests.test_api</span> <span class="kn">import</span> <span class="n">TestRootAPIEndpoint</span>
+<span class="kn">from</span> <span class="nn">lomas_server.utils.logger</span> <span class="kn">import</span> <span class="n">LOG</span>
+<span class="kn">from</span> <span class="nn">lomas_server.utils.query_examples</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">example_diffprivlib</span><span class="p">,</span>
+    <span class="n">example_dummy_diffprivlib</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="validate_pipeline">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.validate_pipeline">[docs]</a>
+<span class="k">def</span> <span class="nf">validate_pipeline</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that the pipeline ran successfully</span>
+<span class="sd">    Returns a model and a score.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+    <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;score&quot;</span><span class="p">]:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot; ************** DIFFPRIVLIB ERROR ************** &quot;</span><span class="p">)</span>
+        <span class="c1"># Temporary LOGs to help understand why tests sometimes fail</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">response_dict</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">])</span>
+
+    <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;score&quot;</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="TestDiffPrivLibEndpoint">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.TestDiffPrivLibEndpoint">[docs]</a>
+<span class="k">class</span> <span class="nc">TestDiffPrivLibEndpoint</span><span class="p">(</span><span class="n">TestRootAPIEndpoint</span><span class="p">):</span>  <span class="c1"># pylint: disable=R0904</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test DiffPrivLib Endpoint with different models</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TestDiffPrivLibEndpoint.test_diffprivlib_query">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.TestDiffPrivLibEndpoint.test_diffprivlib_query">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_diffprivlib_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test diffprivlib query&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="c1"># Expect to work</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">example_diffprivlib</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;requested_by&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;score&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_epsilon&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;spent_delta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+
+            <span class="c1"># # Should work for different imputation strategy (but does not yet #255)</span>
+            <span class="k">def</span> <span class="nf">test_imputation</span><span class="p">(</span><span class="n">diffprivlib_body</span><span class="p">,</span> <span class="n">imputer_strategy</span><span class="p">):</span>
+                <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">diffprivlib_body</span><span class="p">)</span>
+                <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;imputer_strategy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">imputer_strategy</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                    <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                    <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                    <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">response</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">test_imputation</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">test_imputation</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">,</span> <span class="s2">&quot;median&quot;</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">test_imputation</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">,</span> <span class="s2">&quot;most_frequent&quot;</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+            <span class="c1"># Should not work unknow imputation strategy</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">test_imputation</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">,</span> <span class="s2">&quot;i_do_not_exist&quot;</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+                <span class="s2">&quot;InvalidQueryException&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Imputation strategy i_do_not_exist not supported.&quot;</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Should not work: Privacy Leak Warning</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">PrivacyLeakWarning</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
+            <span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span><span class="s2">&quot;scaler&quot;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s2">&quot;classifier&quot;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">dpl_string</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">dpl_pipeline</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dpl_string</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_422_UNPROCESSABLE_ENTITY</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+                <span class="s2">&quot;ExternalLibraryException&quot;</span><span class="p">:</span> <span class="s2">&quot;PrivacyLeakWarning: &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Bounds parameter hasn&#39;t been specified, so falling back to &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;determining bounds from the data.</span><span class="se">\n</span><span class="s2"> &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;This will result in additional privacy leakage.  &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;To ensure differential privacy with no additional privacy &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;loss, specify `bounds` for each valued returned by &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;np.mean().. &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Lomas server cannot fit pipeline on data, &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;PrivacyLeakWarning is a blocker.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;library&quot;</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">,</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Should not work: Compatibility Warning</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">DiffprivlibCompatibilityWarning</span><span class="p">)</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">DiffprivlibCompatibilityWarning</span><span class="p">):</span>
+                <span class="n">Pipeline</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="p">(</span><span class="s2">&quot;scaler&quot;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)),</span>
+                        <span class="p">(</span>
+                            <span class="s2">&quot;classifier&quot;</span><span class="p">,</span>
+                            <span class="n">models</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span>
+                                <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">svd_solver</span><span class="o">=</span><span class="s2">&quot;full&quot;</span>
+                            <span class="p">),</span>
+                        <span class="p">),</span>
+                    <span class="p">]</span>
+                <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestDiffPrivLibEndpoint.test_logistic_regression_models">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.TestDiffPrivLibEndpoint.test_logistic_regression_models">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_logistic_regression_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test diffprivlib query: Logistic Regression&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="n">bounds</span> <span class="o">=</span> <span class="p">([</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">2000.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">65.0</span><span class="p">,</span> <span class="mf">23.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">,</span> <span class="mf">7000.0</span><span class="p">])</span>
+
+            <span class="c1"># Test Logistic Regression</span>
+            <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;scaler&quot;</span><span class="p">,</span>
+                        <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">),</span>
+                    <span class="p">),</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;classifier&quot;</span><span class="p">,</span>
+                        <span class="n">models</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span>
+                            <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">data_norm</span><span class="o">=</span><span class="mf">83.69</span>
+                        <span class="p">),</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">validate_pipeline</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestDiffPrivLibEndpoint.test_linear_regression_models">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.TestDiffPrivLibEndpoint.test_linear_regression_models">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_linear_regression_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test diffprivlib query: Linear Regression&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="c1"># Test Linear Regression</span>
+            <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;lr&quot;</span><span class="p">,</span>
+                        <span class="n">models</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">(</span>
+                            <span class="n">epsilon</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+                            <span class="n">bounds_X</span><span class="o">=</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">),</span>
+                            <span class="n">bounds_y</span><span class="o">=</span><span class="p">(</span><span class="mf">13.0</span><span class="p">,</span> <span class="mf">23.0</span><span class="p">),</span>
+                        <span class="p">),</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;feature_columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">]</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;target_columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">]</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">validate_pipeline</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestDiffPrivLibEndpoint.test_naives_bayes_model">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.TestDiffPrivLibEndpoint.test_naives_bayes_model">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_naives_bayes_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test diffprivlib query: Gaussian Naives Bayes&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="n">bounds</span> <span class="o">=</span> <span class="p">([</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">2000.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">65.0</span><span class="p">,</span> <span class="mf">23.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">,</span> <span class="mf">7000.0</span><span class="p">])</span>
+            <span class="c1"># Test Gaussian Naives Bayes</span>
+            <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;scaler&quot;</span><span class="p">,</span>
+                        <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">),</span>
+                    <span class="p">),</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;gaussian&quot;</span><span class="p">,</span>
+                        <span class="n">models</span><span class="o">.</span><span class="n">GaussianNB</span><span class="p">(</span>
+                            <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">priors</span><span class="o">=</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)</span>
+                        <span class="p">),</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">validate_pipeline</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestDiffPrivLibEndpoint.test_trees_models">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.TestDiffPrivLibEndpoint.test_trees_models">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_trees_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test diffprivlib query: Random Forest, Decision Tree&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="n">bounds</span> <span class="o">=</span> <span class="p">([</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">2000.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">65.0</span><span class="p">,</span> <span class="mf">23.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">,</span> <span class="mf">7000.0</span><span class="p">])</span>
+
+            <span class="c1"># Test Random Forest</span>
+            <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;rf&quot;</span><span class="p">,</span>
+                        <span class="n">models</span><span class="o">.</span><span class="n">RandomForestClassifier</span><span class="p">(</span>
+                            <span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                            <span class="n">epsilon</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+                            <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+                            <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Adelie&quot;</span><span class="p">,</span> <span class="s2">&quot;Chinstrap&quot;</span><span class="p">,</span> <span class="s2">&quot;Gentoo&quot;</span><span class="p">],</span>
+                        <span class="p">),</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">validate_pipeline</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+            <span class="c1"># Test Decision Tree Classifier</span>
+            <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;dtc&quot;</span><span class="p">,</span>
+                        <span class="n">models</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span>
+                            <span class="n">epsilon</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+                            <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+                            <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Adelie&quot;</span><span class="p">,</span> <span class="s2">&quot;Chinstrap&quot;</span><span class="p">,</span> <span class="s2">&quot;Gentoo&quot;</span><span class="p">],</span>
+                        <span class="p">),</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">validate_pipeline</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestDiffPrivLibEndpoint.test_clustering_models">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.TestDiffPrivLibEndpoint.test_clustering_models">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_clustering_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test diffprivlib query: K-Means&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="n">bounds</span> <span class="o">=</span> <span class="p">([</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">2000.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">65.0</span><span class="p">,</span> <span class="mf">23.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">,</span> <span class="mf">7000.0</span><span class="p">])</span>
+
+            <span class="c1"># Test K-MEANS</span>
+            <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;kmeans&quot;</span><span class="p">,</span>
+                        <span class="n">models</span><span class="o">.</span><span class="n">KMeans</span><span class="p">(</span>
+                            <span class="n">n_clusters</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span>
+                        <span class="p">),</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">validate_pipeline</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;target_columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">validate_pipeline</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestDiffPrivLibEndpoint.test_dimension_reduction_models">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.TestDiffPrivLibEndpoint.test_dimension_reduction_models">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_dimension_reduction_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test diffprivlib query: PCA&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="n">bounds</span> <span class="o">=</span> <span class="p">([</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">2000.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">65.0</span><span class="p">,</span> <span class="mf">23.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">,</span> <span class="mf">7000.0</span><span class="p">])</span>
+            <span class="c1"># Test PCA</span>
+            <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;pca&quot;</span><span class="p">,</span>
+                        <span class="n">models</span><span class="o">.</span><span class="n">PCA</span><span class="p">(</span>
+                            <span class="n">n_components</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                            <span class="n">epsilon</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+                            <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+                            <span class="n">data_norm</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                        <span class="p">),</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">validate_pipeline</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestDiffPrivLibEndpoint.test_dummy_diffprivlib_query">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.TestDiffPrivLibEndpoint.test_dummy_diffprivlib_query">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_dummy_diffprivlib_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_dummy_diffprivlib_query&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="c1"># Expect to work</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/dummy_diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">example_dummy_diffprivlib</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;score&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Expect to fail: user does have access to dataset</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_dummy_diffprivlib</span><span class="p">)</span>
+            <span class="n">body</span><span class="p">[</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;IRIS&quot;</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/dummy_diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_403_FORBIDDEN</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+                <span class="s2">&quot;UnauthorizedAccessException&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> does not have access to IRIS.&quot;</span>
+            <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="TestDiffPrivLibEndpoint.test_diffprivlib_cost">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.TestDiffPrivLibEndpoint.test_diffprivlib_cost">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_diffprivlib_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_diffprivlib_cost&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+            <span class="c1"># Expect to work</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/estimate_diffprivlib_cost&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">example_diffprivlib</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
+
+            <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;epsilon_cost&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">1.5</span>
+            <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;delta_cost&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+
+            <span class="c1"># Expect to fail: user does have access to dataset</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
+            <span class="n">body</span><span class="p">[</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;IRIS&quot;</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/estimate_diffprivlib_cost&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_403_FORBIDDEN</span>
+            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+                <span class="s2">&quot;UnauthorizedAccessException&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> does not have access to IRIS.&quot;</span>
+            <span class="p">}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: v0.3.2
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.2/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.2/en/index.html">v0.3.2</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
