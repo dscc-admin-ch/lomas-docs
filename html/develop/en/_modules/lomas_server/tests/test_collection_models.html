@@ -127,14 +127,10 @@
             <span class="s2">&quot;categories&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">],</span>
         <span class="p">}</span>
 
-        <span class="n">str_categorical_metadata</span> <span class="o">=</span> <span class="n">StrCategoricalMetadata</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
-            <span class="n">input_str</span>
-        <span class="p">)</span>
+        <span class="n">str_categorical_metadata</span> <span class="o">=</span> <span class="n">StrCategoricalMetadata</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">input_str</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">str_categorical_metadata</span><span class="p">,</span> <span class="n">StrCategoricalMetadata</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span>
-            <span class="n">str_categorical_metadata</span><span class="p">,</span> <span class="n">CategoricalColumnMetadata</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">str_categorical_metadata</span><span class="p">,</span> <span class="n">CategoricalColumnMetadata</span><span class="p">)</span>
 
         <span class="n">input_int</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span>
@@ -143,14 +139,10 @@
             <span class="s2">&quot;categories&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
         <span class="p">}</span>
 
-        <span class="n">int_categorical_metadata</span> <span class="o">=</span> <span class="n">IntCategoricalMetadata</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
-            <span class="n">input_int</span>
-        <span class="p">)</span>
+        <span class="n">int_categorical_metadata</span> <span class="o">=</span> <span class="n">IntCategoricalMetadata</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">input_int</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">int_categorical_metadata</span><span class="p">,</span> <span class="n">IntCategoricalMetadata</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span>
-            <span class="n">int_categorical_metadata</span><span class="p">,</span> <span class="n">CategoricalColumnMetadata</span>
-        <span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">int_categorical_metadata</span><span class="p">,</span> <span class="n">CategoricalColumnMetadata</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TestMetadataModel.test_categories_required">
@@ -347,13 +339,9 @@
         <span class="n">metadata</span> <span class="o">=</span> <span class="n">Metadata</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">input_metadata</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="s2">&quot;str&quot;</span><span class="p">],</span> <span class="n">StrMetadata</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span>
-            <span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="s2">&quot;str_cat&quot;</span><span class="p">],</span> <span class="n">StrCategoricalMetadata</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="s2">&quot;str_cat&quot;</span><span class="p">],</span> <span class="n">StrCategoricalMetadata</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="s2">&quot;int&quot;</span><span class="p">],</span> <span class="n">IntMetadata</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span>
-            <span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="s2">&quot;int_cat&quot;</span><span class="p">],</span> <span class="n">IntCategoricalMetadata</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="s2">&quot;int_cat&quot;</span><span class="p">],</span> <span class="n">IntCategoricalMetadata</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="s2">&quot;float&quot;</span><span class="p">],</span> <span class="n">FloatMetadata</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="s2">&quot;boolean&quot;</span><span class="p">],</span> <span class="n">BooleanMetadata</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">],</span> <span class="n">DatetimeMetadata</span><span class="p">)</span>

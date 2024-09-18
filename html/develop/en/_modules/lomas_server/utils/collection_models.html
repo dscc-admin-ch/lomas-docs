@@ -251,9 +251,7 @@
     <span class="k">def</span> <span class="nf">validate_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Makes sure number of categories matches cardinality.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cardinality</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Number of categories should be equal to cardinality.&quot;</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of categories should be equal to cardinality.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 </div>
 
@@ -378,8 +376,7 @@
         <span class="n">col_type</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="n">col_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;int&quot;</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span>
-        <span class="p">((</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span> <span class="ow">and</span> <span class="s2">&quot;cardinality&quot;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">)</span>
-        <span class="ow">or</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">))</span>
+        <span class="p">((</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span> <span class="ow">and</span> <span class="s2">&quot;cardinality&quot;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">))</span>
     <span class="p">):</span>
         <span class="n">col_type</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;categorical_</span><span class="si">{</span><span class="n">col_type</span><span class="si">}</span><span class="s2">&quot;</span>
 
