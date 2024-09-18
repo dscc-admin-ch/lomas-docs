@@ -260,15 +260,12 @@
         <span class="n">ds_metadata</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">(</span>
             <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
         <span class="p">)</span>
-        <span class="c1"># TODO change metadata once model is complete</span>
-        <span class="n">dtypes</span><span class="p">,</span> <span class="n">datetime_columns</span> <span class="o">=</span> <span class="n">get_column_dtypes</span><span class="p">(</span><span class="n">ds_metadata</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
+        <span class="n">dtypes</span><span class="p">,</span> <span class="n">datetime_columns</span> <span class="o">=</span> <span class="n">get_column_dtypes</span><span class="p">(</span><span class="n">ds_metadata</span><span class="p">)</span>
 
-        <span class="n">dummy_df</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">make_dummy_dataset</span><span class="p">(</span>  <span class="c1"># TODO change metadata once model is complete.</span>
-                <span class="n">ds_metadata</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span>
-                <span class="n">query_json</span><span class="o">.</span><span class="n">dummy_nb_rows</span><span class="p">,</span>
-                <span class="n">query_json</span><span class="o">.</span><span class="n">dummy_seed</span><span class="p">,</span>
-            <span class="p">)</span>
+        <span class="n">dummy_df</span> <span class="o">=</span> <span class="n">make_dummy_dataset</span><span class="p">(</span>
+            <span class="n">ds_metadata</span><span class="p">,</span>
+            <span class="n">query_json</span><span class="o">.</span><span class="n">dummy_nb_rows</span><span class="p">,</span>
+            <span class="n">query_json</span><span class="o">.</span><span class="n">dummy_seed</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">datetime_columns</span><span class="p">:</span>
@@ -575,7 +572,7 @@
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
         
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.2/en/index.html">v0.3.2</a></dd>
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
       </dl>
       

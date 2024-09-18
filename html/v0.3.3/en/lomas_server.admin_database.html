@@ -1,0 +1,1198 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lomas_server.admin_database package &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="lomas_server.administration package" href="lomas_server.administration.html" />
+    <link rel="prev" title="lomas_server package" href="lomas_server.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Lomas
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                v0.3.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="server_api.html">Server API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="server_modules.html">lomas_server</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="lomas_server.html">lomas_server package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="client_api.html">Client API</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poster.html">Poster</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="poster.html">Poster</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">API Documentation</a></li>
+          <li class="breadcrumb-item"><a href="server_api.html">Server API</a></li>
+          <li class="breadcrumb-item"><a href="server_modules.html">lomas_server</a></li>
+          <li class="breadcrumb-item"><a href="lomas_server.html">lomas_server package</a></li>
+      <li class="breadcrumb-item active">lomas_server.admin_database package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/lomas_server.admin_database.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lomas-server-admin-database-package">
+<h1>lomas_server.admin_database package<a class="headerlink" href="#lomas-server-admin-database-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-lomas_server.admin_database.admin_database">
+<span id="lomas-server-admin-database-admin-database-module"></span><h2>lomas_server.admin_database.admin_database module<a class="headerlink" href="#module-lomas_server.admin_database.admin_database" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.admin_database.</span></span><span class="sig-name descname"><span class="pre">AdminDatabase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">connection_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Overall database management for server state.</p>
+<p>This is an abstract class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.does_dataset_exist">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">does_dataset_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.does_dataset_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.does_dataset_exist" title="Link to this definition"></a></dt>
+<dd><p>Checks if dataset exist in the database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the dataset exists, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.does_user_exist">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">does_user_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.does_user_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.does_user_exist" title="Link to this definition"></a></dt>
+<dd><p>Checks if user exist in the database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user_name</strong> (<em>str</em>) – name of the user to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the user exists, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.get_and_set_may_user_query">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_and_set_may_user_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">may_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.get_and_set_may_user_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.get_and_set_may_user_query" title="Link to this definition"></a></dt>
+<dd><p>Atomic operation to check and set if the user may query the server.</p>
+<p>(Set False before querying and True after updating budget)</p>
+<p>Wrapped by <a class="reference internal" href="#lomas_server.admin_database.admin_database.user_must_exist" title="lomas_server.admin_database.admin_database.user_must_exist"><code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_exist()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>may_query</strong> (<em>bool</em>) – flag give or remove access to user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The may_query status of the user before the update.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.get_dataset_field">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_dataset_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.get_dataset_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.get_dataset_field" title="Link to this definition"></a></dt>
+<dd><p>Get dataset field type based on dataset name and key</p>
+<p>Wrapped by <a class="reference internal" href="#lomas_server.admin_database.admin_database.dataset_must_exist" title="lomas_server.admin_database.admin_database.dataset_must_exist"><code class="xref py py-func docutils literal notranslate"><span class="pre">dataset_must_exist()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_name</strong> (<em>str</em>) – Name of the dataset.</p></li>
+<li><p><strong>key</strong> (<em>str</em>) – Key for the value to get in the dataset dict.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The requested value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.get_dataset_metadata">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_dataset_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collection_models.Metadata" title="lomas_server.utils.collection_models.Metadata"><span class="pre">Metadata</span></a></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.get_dataset_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.get_dataset_metadata" title="Link to this definition"></a></dt>
+<dd><p>Returns the metadata dictionnary of the dataset.</p>
+<p>Wrapped by <a class="reference internal" href="#lomas_server.admin_database.admin_database.dataset_must_exist" title="lomas_server.admin_database.admin_database.dataset_must_exist"><code class="xref py py-func docutils literal notranslate"><span class="pre">dataset_must_exist()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset to get the metadata</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The metadata object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collection_models.Metadata" title="lomas_server.utils.collection_models.Metadata">Metadata</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.get_epsilon_or_delta">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_epsilon_or_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.get_epsilon_or_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.get_epsilon_or_delta" title="Link to this definition"></a></dt>
+<dd><p>Get the total spent epsilon or delta  by a specific user
+on a specific dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+<li><p><strong>parameter</strong> (<em>str</em>) – total_spent_epsilon or total_spent_delta</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The requested budget value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.get_initial_budget">
+<span class="sig-name descname"><span class="pre">get_initial_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.get_initial_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.get_initial_budget" title="Link to this definition"></a></dt>
+<dd><p>Get the initial epsilon and delta budget</p>
+<p>Wrapped by <a class="reference internal" href="#lomas_server.admin_database.admin_database.user_must_have_access_to_dataset" title="lomas_server.admin_database.admin_database.user_must_have_access_to_dataset"><code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_have_access_to_dataset()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The first value of the list is the epsilon value,</dt><dd><p>the second value is the delta value.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.get_remaining_budget">
+<span class="sig-name descname"><span class="pre">get_remaining_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.get_remaining_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.get_remaining_budget" title="Link to this definition"></a></dt>
+<dd><p>Get the remaining epsilon and delta budget (initial - total spent)</p>
+<p>Wrapped by <a class="reference internal" href="#lomas_server.admin_database.admin_database.user_must_have_access_to_dataset" title="lomas_server.admin_database.admin_database.user_must_have_access_to_dataset"><code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_have_access_to_dataset()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The first value of the list is the epsilon value,</dt><dd><p>the second value is the delta value.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.get_total_spent_budget">
+<span class="sig-name descname"><span class="pre">get_total_spent_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.get_total_spent_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.get_total_spent_budget" title="Link to this definition"></a></dt>
+<dd><p>Get the total spent epsilon and delta spent by a specific user
+on a specific dataset (since the initialisation)</p>
+<p>Wrapped by <a class="reference internal" href="#lomas_server.admin_database.admin_database.user_must_have_access_to_dataset" title="lomas_server.admin_database.admin_database.user_must_have_access_to_dataset"><code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_have_access_to_dataset()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The first value of the list is the epsilon value,</dt><dd><p>the second value is the delta value.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.get_user_previous_queries">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_user_previous_queries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.get_user_previous_queries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.get_user_previous_queries" title="Link to this definition"></a></dt>
+<dd><p>Retrieves and return the queries already done by a user</p>
+<p>Wrapped by <a class="reference internal" href="#lomas_server.admin_database.admin_database.user_must_have_access_to_dataset" title="lomas_server.admin_database.admin_database.user_must_have_access_to_dataset"><code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_have_access_to_dataset()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of previous queries.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.has_user_access_to_dataset">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_user_access_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.has_user_access_to_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.has_user_access_to_dataset" title="Link to this definition"></a></dt>
+<dd><p>Checks if a user may access a particular dataset</p>
+<p>Wrapped by <a class="reference internal" href="#lomas_server.admin_database.admin_database.user_must_exist" title="lomas_server.admin_database.admin_database.user_must_exist"><code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_exist()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the user has access, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.prepare_save_query">
+<span class="sig-name descname"><span class="pre">prepare_save_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.query_models.RequestModel" title="lomas_server.utils.query_models.RequestModel"><span class="pre">RequestModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.prepare_save_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.prepare_save_query" title="Link to this definition"></a></dt>
+<dd><p>Prepare the query to save in archives</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.query_models.RequestModel" title="lomas_server.utils.query_models.RequestModel"><em>RequestModel</em></a>) – request received from client</p></li>
+<li><p><strong>response</strong> (<em>dict</em>) – response sent to the client</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.error_handler.InternalServerException" title="lomas_server.utils.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – If the type of query is unknown.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The query archive dictionary.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.save_query">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.query_models.RequestModel" title="lomas_server.utils.query_models.RequestModel"><span class="pre">RequestModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.save_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.save_query" title="Link to this definition"></a></dt>
+<dd><p>Save queries of user on datasets in a separate collection (table)
+named “queries_archives” in the DB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>query_json</strong> (<em>dict</em>) – json received from client</p></li>
+<li><p><strong>response</strong> (<em>dict</em>) – response sent to the client</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.set_may_user_query">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_may_user_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">may_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.set_may_user_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.set_may_user_query" title="Link to this definition"></a></dt>
+<dd><p>Sets if a user may query the server..</p>
+<p>(Set False before querying and True after updating budget)</p>
+<p>Wrapped by <a class="reference internal" href="#lomas_server.admin_database.admin_database.user_must_exist" title="lomas_server.admin_database.admin_database.user_must_exist"><code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_exist()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>may_query</strong> (<em>bool</em>) – flag give or remove access to user</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.update_budget">
+<span class="sig-name descname"><span class="pre">update_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spent_epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spent_delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.update_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.update_budget" title="Link to this definition"></a></dt>
+<dd><p>Update the current epsilon and delta spent by a specific user
+with the last spent delta</p>
+<p>Wrapped by <a class="reference internal" href="#lomas_server.admin_database.admin_database.user_must_have_access_to_dataset" title="lomas_server.admin_database.admin_database.user_must_have_access_to_dataset"><code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_have_access_to_dataset()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+<li><p><strong>spent_epsilon</strong> (<em>float</em>) – value of epsilon spent on last query</p></li>
+<li><p><strong>spent_delta</strong> (<em>float</em>) – value of delta spent on last query</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.update_delta">
+<span class="sig-name descname"><span class="pre">update_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spent_delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.update_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.update_delta" title="Link to this definition"></a></dt>
+<dd><p>Update the spent delta spent by a specific user
+with the total spent delta of the user</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+<li><p><strong>spent_delta</strong> (<em>float</em>) – value of delta spent on last query</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.update_epsilon">
+<span class="sig-name descname"><span class="pre">update_epsilon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spent_epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.update_epsilon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.update_epsilon" title="Link to this definition"></a></dt>
+<dd><p>Update the spent epsilon by a specific user
+with the total spent epsilon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+<li><p><strong>spent_epsilon</strong> (<em>float</em>) – value of epsilon spent on last query</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.AdminDatabase.update_epsilon_or_delta">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_epsilon_or_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spent_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#AdminDatabase.update_epsilon_or_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.AdminDatabase.update_epsilon_or_delta" title="Link to this definition"></a></dt>
+<dd><p>Update the current budget spent by a specific user
+with the last spent budget.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+<li><p><strong>parameter</strong> (<em>str</em>) – “current_epsilon” or “current_delta”</p></li>
+<li><p><strong>spent_value</strong> (<em>float</em>) – spending of epsilon or delta on last query</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.dataset_must_exist">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.admin_database.</span></span><span class="sig-name descname"><span class="pre">dataset_must_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#dataset_must_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.dataset_must_exist" title="Link to this definition"></a></dt>
+<dd><p>Decorator function to verify that a dataset exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>func</strong> (<em>Callable</em>) – Function to be decorated.
+Wrapped function arguments must include:
+- args[0] (str): dataset name</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.error_handler.InvalidQueryException" title="lomas_server.utils.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If the dataset does not exist.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>Wrapper function that checks if the dataset exists</dt><dd><p>before calling the wrapped function.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.user_must_exist">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.admin_database.</span></span><span class="sig-name descname"><span class="pre">user_must_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#user_must_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.user_must_exist" title="Link to this definition"></a></dt>
+<dd><p>Decorator function to verify that a user exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>func</strong> (<em>Callable</em>) – Function to be decorated.
+Wrapped function arguments must include:
+- args[0] (str): username</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.error_handler.UnauthorizedAccessException" title="lomas_server.utils.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – If the user does not exist.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>Wrapper function that verifies the user exists</dt><dd><p>before calling func.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.admin_database.admin_database.user_must_have_access_to_dataset">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.admin_database.</span></span><span class="sig-name descname"><span class="pre">user_must_have_access_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/admin_database.html#user_must_have_access_to_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.admin_database.user_must_have_access_to_dataset" title="Link to this definition"></a></dt>
+<dd><p>Decorator function to enforce a user has access to a dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>func</strong> (<em>Callable</em>) – Function to be decorated.
+Wrapped function arguments must include:
+- args[0] (str): user name
+- args[1] (str): dataset name</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.error_handler.UnauthorizedAccessException" title="lomas_server.utils.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – If the user does not have
+    access to the dataset.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>Wrapper function that checks if the user has access</dt><dd><p>to the dataset before calling the wrapped function.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-lomas_server.admin_database.factory">
+<span id="lomas-server-admin-database-factory-module"></span><h2>lomas_server.admin_database.factory module<a class="headerlink" href="#module-lomas_server.admin_database.factory" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.admin_database.factory.admin_database_factory">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.factory.</span></span><span class="sig-name descname"><span class="pre">admin_database_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.config.DBConfig" title="lomas_server.utils.config.DBConfig"><span class="pre">DBConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#lomas_server.admin_database.admin_database.AdminDatabase" title="lomas_server.admin_database.admin_database.AdminDatabase"><span class="pre">AdminDatabase</span></a></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/factory.html#admin_database_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.factory.admin_database_factory" title="Link to this definition"></a></dt>
+<dd><p>Instantiates and returns the correct database type described in the
+provided config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.config.DBConfig" title="lomas_server.utils.config.DBConfig"><em>DBConfig</em></a>) – An instance of DBconfig.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.error_handler.InternalServerException" title="lomas_server.utils.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – If the specified database type</p></li>
+<li><p><strong>is not supported.</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A instance of the correct type of AdminDatabase.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#lomas_server.admin_database.admin_database.AdminDatabase" title="lomas_server.admin_database.admin_database.AdminDatabase">AdminDatabase</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-lomas_server.admin_database.mongodb_database">
+<span id="lomas-server-admin-database-mongodb-database-module"></span><h2>lomas_server.admin_database.mongodb_database module<a class="headerlink" href="#module-lomas_server.admin_database.mongodb_database" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.mongodb_database.</span></span><span class="sig-name descname"><span class="pre">AdminMongoDatabase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#lomas_server.admin_database.admin_database.AdminDatabase" title="lomas_server.admin_database.admin_database.AdminDatabase"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdminDatabase</span></code></a></p>
+<p>Overall MongoDB database management for server state.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.does_dataset_exist">
+<span class="sig-name descname"><span class="pre">does_dataset_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.does_dataset_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.does_dataset_exist" title="Link to this definition"></a></dt>
+<dd><p>Checks if dataset exist in the database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the dataset exists, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.does_user_exist">
+<span class="sig-name descname"><span class="pre">does_user_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.does_user_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.does_user_exist" title="Link to this definition"></a></dt>
+<dd><p>Checks if user exist in the database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user_name</strong> (<em>str</em>) – name of the user to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the user exists, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_and_set_may_user_query">
+<span class="sig-name descname"><span class="pre">get_and_set_may_user_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">may_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.get_and_set_may_user_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_and_set_may_user_query" title="Link to this definition"></a></dt>
+<dd><p>Atomic operation to check and set if the user may query the server.</p>
+<p>(Set False before querying and True after updating budget)</p>
+<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_exist()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>may_query</strong> (<em>bool</em>) – flag give or remove access to user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The may_query status of the user before the update.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_dataset_field">
+<span class="sig-name descname"><span class="pre">get_dataset_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.get_dataset_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_dataset_field" title="Link to this definition"></a></dt>
+<dd><p>Get dataset field type based on dataset name and key</p>
+<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">dataset_must_exist()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_name</strong> (<em>str</em>) – Name of the dataset.</p></li>
+<li><p><strong>key</strong> (<em>str</em>) – Key for the value to get in the dataset dict.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The requested value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_dataset_metadata">
+<span class="sig-name descname"><span class="pre">get_dataset_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collection_models.Metadata" title="lomas_server.utils.collection_models.Metadata"><span class="pre">Metadata</span></a></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.get_dataset_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_dataset_metadata" title="Link to this definition"></a></dt>
+<dd><p>Returns the metadata dictionnary of the dataset.</p>
+<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">dataset_must_exist()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset to get the metadata</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The metadata model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collection_models.Metadata" title="lomas_server.utils.collection_models.Metadata">Metadata</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_epsilon_or_delta">
+<span class="sig-name descname"><span class="pre">get_epsilon_or_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.get_epsilon_or_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_epsilon_or_delta" title="Link to this definition"></a></dt>
+<dd><p>Get the total spent epsilon or delta  by a specific user
+on a specific dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+<li><p><strong>parameter</strong> (<em>str</em>) – total_spent_epsilon or total_spent_delta</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The requested budget value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_user_previous_queries">
+<span class="sig-name descname"><span class="pre">get_user_previous_queries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.get_user_previous_queries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_user_previous_queries" title="Link to this definition"></a></dt>
+<dd><p>Retrieves and return the queries already done by a user</p>
+<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_have_access_to_dataset()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of previous queries.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.has_user_access_to_dataset">
+<span class="sig-name descname"><span class="pre">has_user_access_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.has_user_access_to_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.has_user_access_to_dataset" title="Link to this definition"></a></dt>
+<dd><p>Checks if a user may access a particular dataset</p>
+<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_exist()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the user has access, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.save_query">
+<span class="sig-name descname"><span class="pre">save_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.query_models.RequestModel" title="lomas_server.utils.query_models.RequestModel"><span class="pre">RequestModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.save_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.save_query" title="Link to this definition"></a></dt>
+<dd><p>Save queries of user on datasets in a separate collection (table)
+named “queries_archives” in the DB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.query_models.RequestModel" title="lomas_server.utils.query_models.RequestModel"><em>RequestModel</em></a>) – json received from client</p></li>
+<li><p><strong>response</strong> (<em>dict</em>) – response sent to the client</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>WriteConcernError</strong> – If the result is not acknowledged.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.set_may_user_query">
+<span class="sig-name descname"><span class="pre">set_may_user_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">may_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.set_may_user_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.set_may_user_query" title="Link to this definition"></a></dt>
+<dd><p>Sets if a user may query the server.</p>
+<p>(Set False before querying and True after updating budget)</p>
+<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_exist()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>may_query</strong> (<em>bool</em>) – flag give or remove access to user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>WriteConcernError</strong> – If the result is not acknowledged.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.AdminMongoDatabase.update_epsilon_or_delta">
+<span class="sig-name descname"><span class="pre">update_epsilon_or_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spent_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#AdminMongoDatabase.update_epsilon_or_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.update_epsilon_or_delta" title="Link to this definition"></a></dt>
+<dd><p>Update the current budget spent by a specific user
+with the last spent budget.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+<li><p><strong>parameter</strong> (<em>str</em>) – “current_epsilon” or “current_delta”</p></li>
+<li><p><strong>spent_value</strong> (<em>float</em>) – spending of epsilon or delta on last query</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>WriteConcernError</strong> – If the result is not acknowledged.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.admin_database.mongodb_database.check_result_acknowledged">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.mongodb_database.</span></span><span class="sig-name descname"><span class="pre">check_result_acknowledged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_WriteResult</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/mongodb_database.html#check_result_acknowledged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.mongodb_database.check_result_acknowledged" title="Link to this definition"></a></dt>
+<dd><p>Raises an exception if the result is not acknowledged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>res</strong> (<em>_WriteResult</em>) – The PyMongo WriteResult to check.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>WriteConcernError</strong> – If the result is not acknowledged.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-lomas_server.admin_database.utils">
+<span id="lomas-server-admin-database-utils-module"></span><h2>lomas_server.admin_database.utils module<a class="headerlink" href="#module-lomas_server.admin_database.utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.admin_database.utils.add_demo_data_to_mongodb_admin">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.utils.</span></span><span class="sig-name descname"><span class="pre">add_demo_data_to_mongodb_admin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_yaml</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/data/collections/user_collection.yaml'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_yaml</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/data/collections/dataset_collection.yaml'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/utils.html#add_demo_data_to_mongodb_admin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.utils.add_demo_data_to_mongodb_admin" title="Link to this definition"></a></dt>
+<dd><p>Adds the demo data to the mongodb admindb.
+Meant to be used in the develop mode of the service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_yaml</strong> (<em>str</em>) – path to user collection yaml file</p></li>
+<li><p><strong>dataset_yaml</strong> (<em>str</em>) – path to dataset collection yaml file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.admin_database.utils.get_mongodb">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.utils.</span></span><span class="sig-name descname"><span class="pre">get_mongodb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Database</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/utils.html#get_mongodb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.utils.get_mongodb" title="Link to this definition"></a></dt>
+<dd><p>Get URL of the administration MongoDB.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.config.DBConfig" title="lomas_server.utils.config.DBConfig"><em>DBConfig</em></a>) – An instance of DBConfig.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A correctly formatted url for connecting to the</dt><dd><p>MongoDB database.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.admin_database.utils.get_mongodb_url">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.utils.</span></span><span class="sig-name descname"><span class="pre">get_mongodb_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.config.MongoDBConfig" title="lomas_server.utils.config.MongoDBConfig"><span class="pre">MongoDBConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/utils.html#get_mongodb_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.utils.get_mongodb_url" title="Link to this definition"></a></dt>
+<dd><p>Get URL of the administration MongoDB.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.config.MongoDBConfig" title="lomas_server.utils.config.MongoDBConfig"><em>MongoDBConfig</em></a>) – An instance of DBConfig.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A correctly formatted url for connecting to the</dt><dd><p>MongoDB database.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-lomas_server.admin_database.yaml_database">
+<span id="lomas-server-admin-database-yaml-database-module"></span><h2>lomas_server.admin_database.yaml_database module<a class="headerlink" href="#module-lomas_server.admin_database.yaml_database" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.admin_database.yaml_database.</span></span><span class="sig-name descname"><span class="pre">AdminYamlDatabase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaml_db_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#lomas_server.admin_database.admin_database.AdminDatabase" title="lomas_server.admin_database.admin_database.AdminDatabase"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdminDatabase</span></code></a></p>
+<p>Overall Yaml database management for server state</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.does_dataset_exist">
+<span class="sig-name descname"><span class="pre">does_dataset_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.does_dataset_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.does_dataset_exist" title="Link to this definition"></a></dt>
+<dd><p>Checks if dataset exist in the database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the dataset exists, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.does_user_exist">
+<span class="sig-name descname"><span class="pre">does_user_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.does_user_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.does_user_exist" title="Link to this definition"></a></dt>
+<dd><p>Checks if user exist in the database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user_name</strong> (<em>str</em>) – name of the user to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the user exists, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.get_and_set_may_user_query">
+<span class="sig-name descname"><span class="pre">get_and_set_may_user_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">may_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.get_and_set_may_user_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.get_and_set_may_user_query" title="Link to this definition"></a></dt>
+<dd><p>Atomic operation to check and set if the user may query the server.</p>
+<p>(Set False before querying and True after updating budget)</p>
+<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_exist()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>may_query</strong> (<em>bool</em>) – flag give or remove access to user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The may_query status of the user before the update.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.get_dataset_field">
+<span class="sig-name descname"><span class="pre">get_dataset_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.get_dataset_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.get_dataset_field" title="Link to this definition"></a></dt>
+<dd><p>Get dataset field type based on dataset name and key</p>
+<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">dataset_must_exist()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_name</strong> (<em>str</em>) – Name of the dataset.</p></li>
+<li><p><strong>key</strong> (<em>str</em>) – Key for the value to get in the dataset dict.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The requested value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.get_dataset_metadata">
+<span class="sig-name descname"><span class="pre">get_dataset_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collection_models.Metadata" title="lomas_server.utils.collection_models.Metadata"><span class="pre">Metadata</span></a></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.get_dataset_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.get_dataset_metadata" title="Link to this definition"></a></dt>
+<dd><p>Returns the metadata dictionnary of the dataset.</p>
+<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">dataset_must_exist()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset to get the metadata</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The metadata model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.collection_models.Metadata" title="lomas_server.utils.collection_models.Metadata">Metadata</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.get_epsilon_or_delta">
+<span class="sig-name descname"><span class="pre">get_epsilon_or_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.get_epsilon_or_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.get_epsilon_or_delta" title="Link to this definition"></a></dt>
+<dd><p>Get the total spent epsilon or delta  by a specific user
+on a specific dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+<li><p><strong>parameter</strong> (<em>str</em>) – total_spent_epsilon or total_spent_delta</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The requested budget value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.get_user_previous_queries">
+<span class="sig-name descname"><span class="pre">get_user_previous_queries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.get_user_previous_queries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.get_user_previous_queries" title="Link to this definition"></a></dt>
+<dd><p>Retrieves and return the queries already done by a user</p>
+<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_have_access_to_dataset()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of previous queries.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.has_user_access_to_dataset">
+<span class="sig-name descname"><span class="pre">has_user_access_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.has_user_access_to_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.has_user_access_to_dataset" title="Link to this definition"></a></dt>
+<dd><p>Checks if a user may access a particular dataset</p>
+<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_exist()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the user has access, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.save_current_database">
+<span class="sig-name descname"><span class="pre">save_current_database</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.save_current_database"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.save_current_database" title="Link to this definition"></a></dt>
+<dd><p>Saves the current database with updated parameters in new yaml
+with the date and hour in the path
+Might be useful to verify state of DB during development</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.save_query">
+<span class="sig-name descname"><span class="pre">save_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.query_models.RequestModel" title="lomas_server.utils.query_models.RequestModel"><span class="pre">RequestModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.save_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.save_query" title="Link to this definition"></a></dt>
+<dd><p>Save queries of user on datasets in a separate collection (table)
+named “queries_archives” in the DB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_server.utils.html#lomas_server.utils.query_models.RequestModel" title="lomas_server.utils.query_models.RequestModel"><em>RequestModel</em></a>) – request received from client</p></li>
+<li><p><strong>response</strong> (<em>dict</em>) – response sent to the client</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.set_may_user_query">
+<span class="sig-name descname"><span class="pre">set_may_user_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">may_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.set_may_user_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.set_may_user_query" title="Link to this definition"></a></dt>
+<dd><p>Sets if a user may query the server.</p>
+<p>(Set False before querying and True after updating budget)</p>
+<p>Wrapped by <code class="xref py py-func docutils literal notranslate"><span class="pre">user_must_exist()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>may_query</strong> (<em>bool</em>) – flag give or remove access to user</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.admin_database.yaml_database.AdminYamlDatabase.update_epsilon_or_delta">
+<span class="sig-name descname"><span class="pre">update_epsilon_or_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spent_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/admin_database/yaml_database.html#AdminYamlDatabase.update_epsilon_or_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.admin_database.yaml_database.AdminYamlDatabase.update_epsilon_or_delta" title="Link to this definition"></a></dt>
+<dd><p>Update the current budget spent by a specific user
+with the last spent budget.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – name of the user</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – name of the dataset</p></li>
+<li><p><strong>parameter</strong> (<em>str</em>) – “current_epsilon” or “current_delta”</p></li>
+<li><p><strong>spent_value</strong> (<em>float</em>) – spending of epsilon or delta on last query</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-lomas_server.admin_database">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-lomas_server.admin_database" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lomas_server.html" class="btn btn-neutral float-left" title="lomas_server package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lomas_server.administration.html" class="btn btn-neutral float-right" title="lomas_server.administration package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: v0.3.3
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

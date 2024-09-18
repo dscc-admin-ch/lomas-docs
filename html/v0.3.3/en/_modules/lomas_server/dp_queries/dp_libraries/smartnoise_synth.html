@@ -1,0 +1,663 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lomas_server.dp_queries.dp_libraries.smartnoise_synth &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Lomas
+              <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                v0.3.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../poster.html">Poster</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../poster.html">Poster</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lomas_server.dp_queries.dp_libraries.smartnoise_synth</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lomas_server.dp_queries.dp_libraries.smartnoise_synth</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">TypeGuard</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">smartnoise_synth_logger</span> <span class="kn">import</span> <span class="n">deserialise_constraints</span>
+<span class="kn">from</span> <span class="nn">snsynth</span> <span class="kn">import</span> <span class="n">Synthesizer</span>
+<span class="kn">from</span> <span class="nn">snsynth.transform</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AnonymizationTransformer</span><span class="p">,</span>
+    <span class="n">BinTransformer</span><span class="p">,</span>
+    <span class="n">ChainTransformer</span><span class="p">,</span>
+    <span class="n">LabelTransformer</span><span class="p">,</span>
+    <span class="n">MinMaxTransformer</span><span class="p">,</span>
+    <span class="n">OneHotEncoder</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">snsynth.transform.datetime</span> <span class="kn">import</span> <span class="n">DateTimeTransformer</span>
+<span class="kn">from</span> <span class="nn">snsynth.transform.table</span> <span class="kn">import</span> <span class="n">TableTransformer</span>
+
+<span class="kn">from</span> <span class="nn">lomas_server.admin_database.admin_database</span> <span class="kn">import</span> <span class="n">AdminDatabase</span>
+<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SECONDS_IN_A_DAY</span><span class="p">,</span>
+    <span class="n">SSYNTH_DEFAULT_BINS</span><span class="p">,</span>
+    <span class="n">SSYNTH_MIN_ROWS_PATE_GAN</span><span class="p">,</span>
+    <span class="n">SSYNTH_PRIVATE_COLUMN</span><span class="p">,</span>
+    <span class="n">DPLibraries</span><span class="p">,</span>
+    <span class="n">SSynthGanSynthesizer</span><span class="p">,</span>
+    <span class="n">SSynthMarginalSynthesizer</span><span class="p">,</span>
+    <span class="n">SSynthTableTransStyle</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">lomas_server.data_connector.data_connector</span> <span class="kn">import</span> <span class="n">DataConnector</span>
+<span class="kn">from</span> <span class="nn">lomas_server.dp_queries.dp_libraries.utils</span> <span class="kn">import</span> <span class="n">serialise_model</span>
+<span class="kn">from</span> <span class="nn">lomas_server.dp_queries.dp_querier</span> <span class="kn">import</span> <span class="n">DPQuerier</span>
+<span class="kn">from</span> <span class="nn">lomas_server.utils.collection_models</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BooleanMetadata</span><span class="p">,</span>
+    <span class="n">ColumnMetadata</span><span class="p">,</span>
+    <span class="n">DatetimeMetadata</span><span class="p">,</span>
+    <span class="n">FloatMetadata</span><span class="p">,</span>
+    <span class="n">IntCategoricalMetadata</span><span class="p">,</span>
+    <span class="n">IntMetadata</span><span class="p">,</span>
+    <span class="n">Metadata</span><span class="p">,</span>
+    <span class="n">StrCategoricalMetadata</span><span class="p">,</span>
+    <span class="n">StrMetadata</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ExternalLibraryException</span><span class="p">,</span>
+    <span class="n">InternalServerException</span><span class="p">,</span>
+    <span class="n">InvalidQueryException</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">lomas_server.utils.query_models</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SmartnoiseSynthQueryModel</span><span class="p">,</span>
+    <span class="n">SmartnoiseSynthRequestModel</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="datetime_to_float">
+<a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.smartnoise_synth.datetime_to_float">[docs]</a>
+<span class="k">def</span> <span class="nf">datetime_to_float</span><span class="p">(</span><span class="n">upper</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">lower</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert the upper date as the distance between the upper date and</span>
+<span class="sd">    lower date as float</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">            upper (datetime): date to convert</span>
+<span class="sd">            lower (datetime): start date to convert from</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: number of days between upper and lower</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">upper</span> <span class="o">-</span> <span class="n">lower</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">distance</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="n">SECONDS_IN_A_DAY</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># TODO maybe a better place to put this? See issue #336</span>
+<span class="n">SSynthColumnType</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
+    <span class="n">StrMetadata</span><span class="p">,</span>
+    <span class="n">StrCategoricalMetadata</span><span class="p">,</span>
+    <span class="n">BooleanMetadata</span><span class="p">,</span>
+    <span class="n">IntCategoricalMetadata</span><span class="p">,</span>
+    <span class="n">IntMetadata</span><span class="p">,</span>
+    <span class="n">FloatMetadata</span><span class="p">,</span>
+    <span class="n">DatetimeMetadata</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="SmartnoiseSynthQuerier">
+<a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.smartnoise_synth.SmartnoiseSynthQuerier">[docs]</a>
+<span class="k">class</span> <span class="nc">SmartnoiseSynthQuerier</span><span class="p">(</span>
+    <span class="n">DPQuerier</span><span class="p">[</span><span class="n">SmartnoiseSynthRequestModel</span><span class="p">,</span> <span class="n">SmartnoiseSynthQueryModel</span><span class="p">]</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Concrete implementation of the DPQuerier ABC for the SmartNoiseSynth library.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data_connector</span><span class="p">:</span> <span class="n">DataConnector</span><span class="p">,</span>
+        <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data_connector</span><span class="p">,</span> <span class="n">admin_database</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Synthesizer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_is_categorical</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">col_metadata</span><span class="p">:</span> <span class="n">ColumnMetadata</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span>
+        <span class="n">StrMetadata</span>
+        <span class="o">|</span> <span class="n">StrCategoricalMetadata</span>
+        <span class="o">|</span> <span class="n">BooleanMetadata</span>
+        <span class="o">|</span> <span class="n">IntCategoricalMetadata</span>
+    <span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the column type is categorical</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            col_metadata (ColumnMetadata): The column metadata</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TypeGuard[StrMetadata | StrCategoricalMetadata| BooleanMetadata |</span>
+<span class="sd">                      IntCategoricalMetadata]:</span>
+<span class="sd">                TypeGuard for categorical columns metadata</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">col_metadata</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="n">StrMetadata</span><span class="p">,</span>
+                <span class="n">StrCategoricalMetadata</span><span class="p">,</span>
+                <span class="n">BooleanMetadata</span><span class="p">,</span>
+                <span class="n">IntCategoricalMetadata</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_is_continuous</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">col_metadata</span><span class="p">:</span> <span class="n">ColumnMetadata</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span><span class="n">IntMetadata</span> <span class="o">|</span> <span class="n">FloatMetadata</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if the column type is continuous</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            col_metadata (ColumnMetadata): The column metadata</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TypeGuard[IntMetadata | FloatMetadata]:</span>
+<span class="sd">                TypeGuard for continuous columns metadata</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">,</span> <span class="p">(</span><span class="n">IntMetadata</span><span class="p">,</span> <span class="n">FloatMetadata</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_is_datetime</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">col_metadata</span><span class="p">:</span> <span class="n">ColumnMetadata</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span><span class="n">DatetimeMetadata</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if the column type is datetime</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            col_metadata (ColumnMetadata): The column metadata</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TypeGuard[DatetimeMetadata]: TypeGuard for datetime metadata.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">,</span> <span class="n">DatetimeMetadata</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_and_check_valid_column_types</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span><span class="p">,</span> <span class="n">select_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SSynthColumnType</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ensures the type of the selected columns can be handled with</span>
+<span class="sd">        SmartnoiseSynth and returns the dict of column metadata</span>
+<span class="sd">        for the selected columns.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metadata (Metadata): Dataset metadata</span>
+<span class="sd">            select_cols (List[str]): List of selected columns</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            InternalServerException: If one of the column types</span>
+<span class="sd">                cannot be handled with SmartnoiseSynth.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, SSynthColumnType]: The filtered dict of selected columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">columns</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SSynthColumnType</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">select_cols</span> <span class="ow">and</span> <span class="n">col_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">select_cols</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">SSynthColumnType</span><span class="p">):</span>  <span class="c1"># type: ignore[misc, arg-type]</span>
+                <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Column type </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2"> not supported for SmartnoiseSynth&quot;</span>
+                <span class="p">)</span>
+
+            <span class="n">columns</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+
+        <span class="k">return</span> <span class="n">columns</span>
+
+    <span class="k">def</span> <span class="nf">_get_default_constraints</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span><span class="p">,</span>
+        <span class="n">query_json</span><span class="p">:</span> <span class="n">SmartnoiseSynthRequestModel</span><span class="p">,</span>
+        <span class="n">table_transformer_style</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TableTransformer</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the defaults table transformer constraints based on the metadata</span>
+<span class="sd">        See https://docs.smartnoise.org/synth/transforms/index.html for documentation</span>
+<span class="sd">        See https://github.com/opendp/smartnoise-sdk/blob/main/synth/snsynth/</span>
+<span class="sd">            transform/type_map.py#L40 for get_transformer() method taken as basis.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metadata (Metadata): Metadata of the dataset</span>
+<span class="sd">            query_json (SmartnoiseSynthRequestModel): JSON request object for the query</span>
+<span class="sd">                select_cols (List[str]): List of columns to select</span>
+<span class="sd">                nullable (bool): True is the data can have Null values, False otherwise</span>
+<span class="sd">            table_transformer_style (str): &#39;gan&#39; or &#39;cube&#39;</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            table_tranformer (TableTransformer) to pre and post-process the data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_and_check_valid_column_types</span><span class="p">(</span>
+            <span class="n">metadata</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">select_cols</span>
+        <span class="p">)</span>
+
+        <span class="n">constraints</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">nullable</span> <span class="o">=</span> <span class="n">query_json</span><span class="o">.</span><span class="n">nullable</span>
+        <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">col_metadata</span> <span class="ow">in</span> <span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">col_metadata</span><span class="o">.</span><span class="n">private_id</span><span class="p">:</span>
+                <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">AnonymizationTransformer</span><span class="p">(</span>
+                    <span class="n">SSYNTH_PRIVATE_COLUMN</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">table_transformer_style</span> <span class="o">==</span> <span class="n">SSynthTableTransStyle</span><span class="o">.</span><span class="n">GAN</span><span class="p">:</span>  <span class="c1"># gan</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_categorical</span><span class="p">(</span>
+                    <span class="n">col_metadata</span>
+                <span class="p">):</span>  <span class="c1"># TODO any way of specifying cardinality? See issue #337</span>
+                    <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">ChainTransformer</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">LabelTransformer</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">),</span> <span class="n">OneHotEncoder</span><span class="p">()]</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_continuous</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">):</span>
+                    <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">MinMaxTransformer</span><span class="p">(</span>
+                        <span class="n">lower</span><span class="o">=</span><span class="n">col_metadata</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+                        <span class="n">upper</span><span class="o">=</span><span class="n">col_metadata</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span>
+                        <span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_datetime</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">):</span>
+                    <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">ChainTransformer</span><span class="p">(</span>
+                        <span class="p">[</span>
+                            <span class="n">DateTimeTransformer</span><span class="p">(</span><span class="n">epoch</span><span class="o">=</span><span class="n">col_metadata</span><span class="o">.</span><span class="n">lower</span><span class="p">),</span>
+                            <span class="n">MinMaxTransformer</span><span class="p">(</span>
+                                <span class="n">lower</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>  <span class="c1"># because start epoch at lower bound</span>
+                                <span class="n">upper</span><span class="o">=</span><span class="n">datetime_to_float</span><span class="p">(</span>
+                                    <span class="n">col_metadata</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span>
+                                    <span class="n">col_metadata</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+                                <span class="p">),</span>
+                                <span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">,</span>
+                            <span class="p">),</span>
+                        <span class="p">]</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># Cube</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_categorical</span><span class="p">(</span>
+                    <span class="n">col_metadata</span>
+                <span class="p">):</span>  <span class="c1"># TODO any way of specifying cardinality? See issue #337</span>
+                    <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">LabelTransformer</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_continuous</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">):</span>
+                    <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">BinTransformer</span><span class="p">(</span>
+                        <span class="n">lower</span><span class="o">=</span><span class="n">col_metadata</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+                        <span class="n">upper</span><span class="o">=</span><span class="n">col_metadata</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span>
+                        <span class="n">bins</span><span class="o">=</span><span class="n">SSYNTH_DEFAULT_BINS</span><span class="p">,</span>
+                        <span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_datetime</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">):</span>
+                    <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">ChainTransformer</span><span class="p">(</span>
+                        <span class="p">[</span>
+                            <span class="n">DateTimeTransformer</span><span class="p">(</span><span class="n">epoch</span><span class="o">=</span><span class="n">col_metadata</span><span class="o">.</span><span class="n">lower</span><span class="p">),</span>
+                            <span class="n">BinTransformer</span><span class="p">(</span>
+                                <span class="n">lower</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>  <span class="c1"># because start epoch at lower bound</span>
+                                <span class="n">upper</span><span class="o">=</span><span class="n">datetime_to_float</span><span class="p">(</span>
+                                    <span class="n">col_metadata</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span>
+                                    <span class="n">col_metadata</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+                                <span class="p">),</span>
+                                <span class="n">bins</span><span class="o">=</span><span class="n">SSYNTH_DEFAULT_BINS</span><span class="p">,</span>
+                                <span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">,</span>
+                            <span class="p">),</span>
+                        <span class="p">]</span>
+                    <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">constraints</span>
+
+    <span class="k">def</span> <span class="nf">_get_fit_model</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">private_data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+        <span class="n">transformer</span><span class="p">:</span> <span class="n">TableTransformer</span><span class="p">,</span>
+        <span class="n">query_json</span><span class="p">:</span> <span class="n">SmartnoiseSynthRequestModel</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Synthesizer</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and fit the synthesizer model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            private_data (pd.DataFrame): Private data for fitting the model</span>
+<span class="sd">            transformer (TableTransformer): Transformer to pre/postprocess data</span>
+<span class="sd">            query_json (SmartnoiseSynthRequestModel): JSON request object for the query</span>
+<span class="sd">                synth_name (str): name of the Yanthesizer model to use</span>
+<span class="sd">                epsilon (float): epsilon budget value</span>
+<span class="sd">                nullable (bool): True if some data cells may be null</span>
+<span class="sd">                synth_params (dict): Keyword arguments to pass to the synthesizer</span>
+<span class="sd">                    constructor.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Synthesizer: Fitted synthesizer model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">query_json</span><span class="o">.</span><span class="n">delta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">query_json</span><span class="o">.</span><span class="n">synth_params</span><span class="p">[</span><span class="s2">&quot;delta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">query_json</span><span class="o">.</span><span class="n">delta</span>
+
+        <span class="k">if</span> <span class="n">query_json</span><span class="o">.</span><span class="n">synth_name</span> <span class="o">==</span> <span class="n">SSynthGanSynthesizer</span><span class="o">.</span><span class="n">DP_CTGAN</span><span class="p">:</span>
+            <span class="n">query_json</span><span class="o">.</span><span class="n">synth_params</span><span class="p">[</span><span class="s2">&quot;disabled_dp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">Synthesizer</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">synth</span><span class="o">=</span><span class="n">query_json</span><span class="o">.</span><span class="n">synth_name</span><span class="p">,</span>
+                <span class="n">epsilon</span><span class="o">=</span><span class="n">query_json</span><span class="o">.</span><span class="n">epsilon</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">query_json</span><span class="o">.</span><span class="n">synth_params</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
+                <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">,</span> <span class="s2">&quot;Error creating model: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">private_data</span><span class="p">,</span>
+                <span class="n">transformer</span><span class="o">=</span><span class="n">transformer</span><span class="p">,</span>
+                <span class="n">preprocessor_eps</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>  <span class="c1"># will error if not 0.0</span>
+                <span class="n">nullable</span><span class="o">=</span><span class="n">query_json</span><span class="o">.</span><span class="n">nullable</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># Improve snsynth error messages</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">r</span><span class="s2">&quot;sample_rate=[\d\.]+ is not a valid value\. &quot;</span>
+                <span class="sa">r</span><span class="s2">&quot;Please provide a float between 0 and 1\.&quot;</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">query_json</span><span class="o">.</span><span class="n">synth_name</span> <span class="o">==</span> <span class="n">SSynthGanSynthesizer</span><span class="o">.</span><span class="n">DP_CTGAN</span>
+                <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
+                    <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">&quot;Error fitting model: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> Try decreasing batch_size in &quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;synth_params (default batch_size=500).&quot;</span><span class="p">,</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
+                <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">,</span> <span class="s2">&quot;Error fitting model: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
+                <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">,</span> <span class="s2">&quot;Error fitting model: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">return</span> <span class="n">model</span>
+
+    <span class="k">def</span> <span class="nf">_model_pipeline</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">SmartnoiseSynthRequestModel</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Synthesizer</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a trained Synthesizer model based on query_json</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query_json (SmartnoiseSynthRequestModel): JSON request object for the query.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            model: Smartnoise Synthesizer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">query_json</span><span class="o">.</span><span class="n">synth_name</span> <span class="o">==</span> <span class="n">SSynthMarginalSynthesizer</span><span class="o">.</span><span class="n">MST</span>
+            <span class="ow">and</span> <span class="n">query_json</span><span class="o">.</span><span class="n">return_model</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span>
+                <span class="s2">&quot;mst synthesizer cannot be returned, only samples. &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Please, change model or set `return_model=False`&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">query_json</span><span class="o">.</span><span class="n">synth_name</span> <span class="o">==</span> <span class="n">SSynthMarginalSynthesizer</span><span class="o">.</span><span class="n">PAC_SYNTH</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span>
+                <span class="s2">&quot;pacsynth synthesizer not supported due to Rust panic. &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Please select another Synthesizer.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Table Transformation depenps on the type of Synthesizer</span>
+        <span class="k">if</span> <span class="n">query_json</span><span class="o">.</span><span class="n">synth_name</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">SSynthMarginalSynthesizer</span>
+        <span class="p">]:</span>
+            <span class="n">table_transformer_style</span> <span class="o">=</span> <span class="n">SSynthTableTransStyle</span><span class="o">.</span><span class="n">CUBE</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">table_transformer_style</span> <span class="o">=</span> <span class="n">SSynthTableTransStyle</span><span class="o">.</span><span class="n">GAN</span>
+
+        <span class="c1"># Preprocessing information from metadata</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_connector</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">query_json</span><span class="o">.</span><span class="n">synth_name</span> <span class="o">==</span> <span class="n">SSynthGanSynthesizer</span><span class="o">.</span><span class="n">PATE_GAN</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">metadata</span><span class="o">.</span><span class="n">rows</span> <span class="o">&lt;</span> <span class="n">SSYNTH_MIN_ROWS_PATE_GAN</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
+                    <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">SSynthGanSynthesizer</span><span class="o">.</span><span class="n">PATE_GAN</span><span class="si">}</span><span class="s2"> not reliable &quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;with this dataset.&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="n">constraints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_default_constraints</span><span class="p">(</span>
+            <span class="n">metadata</span><span class="p">,</span> <span class="n">query_json</span><span class="p">,</span> <span class="n">table_transformer_style</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Overwrite default constraint with custom constraint (if any)</span>
+        <span class="n">constraints_json</span> <span class="o">=</span> <span class="n">query_json</span><span class="o">.</span><span class="n">constraints</span>
+        <span class="k">if</span> <span class="n">constraints_json</span><span class="p">:</span>
+            <span class="n">custom_constraints</span> <span class="o">=</span> <span class="n">deserialise_constraints</span><span class="p">(</span><span class="n">constraints_json</span><span class="p">)</span>
+            <span class="n">custom_constraints</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">custom_constraints</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">query_json</span><span class="o">.</span><span class="n">select_cols</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">custom_constraints</span>
+            <span class="p">}</span>
+            <span class="n">constraints</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">custom_constraints</span><span class="p">)</span>
+
+        <span class="c1"># Prepare private data</span>
+        <span class="n">private_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_connector</span><span class="o">.</span><span class="n">get_pandas_df</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">query_json</span><span class="o">.</span><span class="n">select_cols</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">private_data</span> <span class="o">=</span> <span class="n">private_data</span><span class="p">[</span><span class="n">query_json</span><span class="o">.</span><span class="n">select_cols</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span>
+                    <span class="s2">&quot;Error while selecting provided select_cols: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="c1"># Get transformer</span>
+        <span class="n">transformer</span> <span class="o">=</span> <span class="n">TableTransformer</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">private_data</span><span class="p">,</span>
+            <span class="n">style</span><span class="o">=</span><span class="n">table_transformer_style</span><span class="p">,</span>
+            <span class="n">nullable</span><span class="o">=</span><span class="n">query_json</span><span class="o">.</span><span class="n">nullable</span><span class="p">,</span>
+            <span class="n">constraints</span><span class="o">=</span><span class="n">constraints</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># Create and fit synthesizer</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_fit_model</span><span class="p">(</span><span class="n">private_data</span><span class="p">,</span> <span class="n">transformer</span><span class="p">,</span> <span class="n">query_json</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">model</span>
+
+<div class="viewcode-block" id="SmartnoiseSynthQuerier.cost">
+<a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.smartnoise_synth.SmartnoiseSynthQuerier.cost">[docs]</a>
+    <span class="k">def</span> <span class="nf">cost</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">SmartnoiseSynthRequestModel</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return cost of query_json</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query_json (SmartnoiseSynthRequestModel): JSON request object for the query.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple[float, float]: The tuple of costs, the first value</span>
+<span class="sd">                is the epsilon cost, the second value is the delta value.</span>
+<span class="sd">        # TODO: verify and model.rho</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_pipeline</span><span class="p">(</span><span class="n">query_json</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">query_json</span><span class="o">.</span><span class="n">synth_name</span> <span class="o">==</span> <span class="n">SSynthMarginalSynthesizer</span><span class="o">.</span><span class="n">MWEM</span><span class="p">:</span>
+            <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">epsilon</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">query_json</span><span class="o">.</span><span class="n">synth_name</span> <span class="o">==</span> <span class="n">SSynthGanSynthesizer</span><span class="o">.</span><span class="n">DP_CTGAN</span><span class="p">:</span>
+            <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">epsilon_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">delta</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">epsilon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">delta</span>
+
+        <span class="k">return</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span></div>
+
+
+<div class="viewcode-block" id="SmartnoiseSynthQuerier.query">
+<a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.smartnoise_synth.SmartnoiseSynthQuerier.query">[docs]</a>
+    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query_json</span><span class="p">:</span> <span class="n">SmartnoiseSynthQueryModel</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform the query and return the response.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query_json (SmartnoiseSynthQueryModel):</span>
+<span class="sd">                The request object for the query.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ExternalLibraryException: For exceptions from libraries</span>
+<span class="sd">                external to this package.</span>
+<span class="sd">            InvalidQueryException: If the budget values are too small to</span>
+<span class="sd">                perform the query.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: The resulting pd.DataFrame samples.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
+                <span class="s2">&quot;Smartnoise Synth `query` method called before `cost` method&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">query_json</span><span class="o">.</span><span class="n">return_model</span><span class="p">:</span>
+            <span class="c1"># Sample</span>
+            <span class="n">df_samples</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">sample_conditional</span><span class="p">(</span>
+                    <span class="n">query_json</span><span class="o">.</span><span class="n">nb_samples</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">condition</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">query_json</span><span class="o">.</span><span class="n">condition</span>
+                <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">query_json</span><span class="o">.</span><span class="n">nb_samples</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="c1"># Ensure serialisable</span>
+            <span class="n">df_samples</span> <span class="o">=</span> <span class="n">df_samples</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">df_samples</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">serialise_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: v0.3.3
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

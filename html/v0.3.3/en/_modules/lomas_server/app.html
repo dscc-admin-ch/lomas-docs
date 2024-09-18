@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lomas_server.app &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Lomas
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                v0.3.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../poster.html">Poster</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../poster.html">Poster</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lomas_server.app</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lomas_server.app</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">AsyncGenerator</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">asynccontextmanager</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+
+<span class="kn">from</span> <span class="nn">lomas_server.admin_database.factory</span> <span class="kn">import</span> <span class="n">admin_database_factory</span>
+<span class="kn">from</span> <span class="nn">lomas_server.admin_database.utils</span> <span class="kn">import</span> <span class="n">add_demo_data_to_mongodb_admin</span>
+<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CONFIG_NOT_LOADED</span><span class="p">,</span>
+    <span class="n">DB_NOT_LOADED</span><span class="p">,</span>
+    <span class="n">SERVER_LIVE</span><span class="p">,</span>
+    <span class="n">AdminDBType</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">lomas_server.dp_queries.dp_libraries.opendp</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">set_opendp_features_config</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">lomas_server.routes</span> <span class="kn">import</span> <span class="n">routes_admin</span><span class="p">,</span> <span class="n">routes_dp</span>
+<span class="kn">from</span> <span class="nn">lomas_server.utils.anti_timing_att</span> <span class="kn">import</span> <span class="n">anti_timing_att</span>
+<span class="kn">from</span> <span class="nn">lomas_server.utils.config</span> <span class="kn">import</span> <span class="n">get_config</span>
+<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">InternalServerException</span><span class="p">,</span>
+    <span class="n">add_exception_handlers</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">lomas_server.utils.logger</span> <span class="kn">import</span> <span class="n">LOG</span>
+
+
+<div class="viewcode-block" id="lifespan">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.app.lifespan">[docs]</a>
+<span class="nd">@asynccontextmanager</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">lifespan</span><span class="p">(</span>
+    <span class="n">app</span><span class="p">:</span> <span class="n">FastAPI</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span>
+    <span class="n">AsyncGenerator</span>
+<span class="p">):</span>  <span class="c1"># pylint: disable=redefined-outer-name, too-many-statements</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Lifespan function for the server.</span>
+
+<span class="sd">    This function is executed once on server startup, yields and</span>
+<span class="sd">    finishes running at server shutdown.</span>
+
+<span class="sd">    Server initialization is performed (config loading, etc.) and</span>
+<span class="sd">    the server state is updated accordingly. This can have potential</span>
+<span class="sd">    side effects on the return values of the &quot;depends&quot;</span>
+<span class="sd">    functions, which check the server state.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Startup</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Startup message&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Set some app state</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># General server state, can add fields if need be.</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;LIVE&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Startup event&quot;</span><span class="p">)</span>
+
+    <span class="n">status_ok</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="c1"># Load config</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading config&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Loading config&quot;</span><span class="p">)</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">()</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">private_credentials</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">private_db_credentials</span>
+    <span class="k">except</span> <span class="n">InternalServerException</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Config could not loaded&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CONFIG_NOT_LOADED</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;Server could not be started!&quot;</span>
+        <span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;LIVE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">status_ok</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Fill up user database if in develop mode ONLY</span>
+    <span class="k">if</span> <span class="n">status_ok</span> <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">develop_mode</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;!! Develop mode ON !!&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;!! Develop mode ON !!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">db_type</span> <span class="o">==</span> <span class="n">AdminDBType</span><span class="o">.</span><span class="n">MONGODB</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Adding demo data to MongoDB Admin&quot;</span><span class="p">)</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;Adding demo data to MongoDB Admin&quot;</span>
+            <span class="p">)</span>
+            <span class="n">add_demo_data_to_mongodb_admin</span><span class="p">()</span>
+
+    <span class="c1"># Load admin database</span>
+    <span class="k">if</span> <span class="n">status_ok</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading admin database&quot;</span><span class="p">)</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Loading admin database&quot;</span><span class="p">)</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span> <span class="o">=</span> <span class="n">admin_database_factory</span><span class="p">(</span>
+                <span class="n">config</span><span class="o">.</span><span class="n">admin_database</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">InternalServerException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed at startup: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DB_NOT_LOADED</span><span class="p">)</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Admin database could not be loaded: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;LIVE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">status_ok</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Startup completed&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Startup completed&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Set DP Libraries config</span>
+    <span class="n">set_opendp_features_config</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">dp_libraries</span><span class="o">.</span><span class="n">opendp</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">status_ok</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Server start condition OK&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SERVER_LIVE</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Server start condition OK&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;LIVE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">yield</span>  <span class="c1"># app is handling requests</span>
+
+    <span class="c1"># Shutdown event</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">db_type</span> <span class="o">==</span> <span class="n">AdminDBType</span><span class="o">.</span><span class="n">YAML</span>
+    <span class="p">):</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">save_current_database</span><span class="p">()</span></div>
+
+
+
+<span class="c1"># This object holds the server object</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">(</span><span class="n">lifespan</span><span class="o">=</span><span class="n">lifespan</span><span class="p">)</span>
+
+
+<span class="c1"># A simple hack to hinder the timing attackers</span>
+<div class="viewcode-block" id="middleware">
+<a class="viewcode-back" href="../../lomas_server.html#lomas_server.app.middleware">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">middleware</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">middleware</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">call_next</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Request</span><span class="p">],</span> <span class="n">Response</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds delays to requests response to protect against timing attack&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">anti_timing_att</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">call_next</span><span class="p">,</span> <span class="n">get_config</span><span class="p">())</span></div>
+
+
+
+<span class="c1"># Add custom exception handlers</span>
+<span class="n">add_exception_handlers</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+<span class="c1"># Add endpoints</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">routes_dp</span><span class="o">.</span><span class="n">router</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">routes_admin</span><span class="o">.</span><span class="n">router</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: v0.3.3
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

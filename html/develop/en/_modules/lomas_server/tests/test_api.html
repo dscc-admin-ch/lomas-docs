@@ -113,7 +113,7 @@
 <span class="kn">from</span> <span class="nn">lomas_server.admin_database.factory</span> <span class="kn">import</span> <span class="n">admin_database_factory</span>
 <span class="kn">from</span> <span class="nn">lomas_server.admin_database.utils</span> <span class="kn">import</span> <span class="n">get_mongodb</span>
 <span class="kn">from</span> <span class="nn">lomas_server.app</span> <span class="kn">import</span> <span class="n">app</span>
-<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="n">EPSILON_LIMIT</span><span class="p">,</span> <span class="n">DPLibraries</span>
+<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="n">DPLibraries</span>
 <span class="kn">from</span> <span class="nn">lomas_server.mongodb_admin</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">add_datasets_via_yaml</span><span class="p">,</span>
     <span class="n">add_users_via_yaml</span><span class="p">,</span>
@@ -1130,28 +1130,6 @@
             <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="TestRootAPIEndpoint.test_budget_over_limit">
-<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_budget_over_limit">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_budget_over_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;test_budget_over_limit&quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-            <span class="c1"># Should fail: too much budget on one go</span>
-            <span class="n">smartnoise_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">)</span>
-            <span class="n">smartnoise_body</span><span class="p">[</span><span class="s2">&quot;epsilon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">EPSILON_LIMIT</span> <span class="o">*</span> <span class="mi">2</span>
-
-            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                <span class="s2">&quot;/smartnoise_sql_query&quot;</span><span class="p">,</span>
-                <span class="n">json</span><span class="o">=</span><span class="n">smartnoise_body</span><span class="p">,</span>
-                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
-            <span class="p">)</span>
-
-            <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_422_UNPROCESSABLE_ENTITY</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;detail&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">assert</span> <span class="n">error</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;less_than_equal&quot;</span>
-            <span class="k">assert</span> <span class="n">error</span><span class="p">[</span><span class="s2">&quot;loc&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;epsilon&quot;</span><span class="p">]</span>
-            <span class="k">assert</span> <span class="n">error</span><span class="p">[</span><span class="s2">&quot;msg&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Input should be less than or equal to 5&quot;</span></div>
-
-
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_subsequent_budget_limit_logic">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_subsequent_budget_limit_logic">[docs]</a>
     <span class="k">def</span> <span class="nf">test_subsequent_budget_limit_logic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1249,7 +1227,7 @@
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
         
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.2/en/index.html">v0.3.2</a></dd>
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
       </dl>
       

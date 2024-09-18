@@ -98,7 +98,7 @@
   <h1>Source code for lomas_server.dp_queries.dp_libraries.smartnoise_synth</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">TypeGuard</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">smartnoise_synth_logger</span> <span class="kn">import</span> <span class="n">deserialise_constraints</span>
@@ -116,13 +116,11 @@
 
 <span class="kn">from</span> <span class="nn">lomas_server.admin_database.admin_database</span> <span class="kn">import</span> <span class="n">AdminDatabase</span>
 <span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DEFAULT_DATE_FORMAT</span><span class="p">,</span>
     <span class="n">SECONDS_IN_A_DAY</span><span class="p">,</span>
     <span class="n">SSYNTH_DEFAULT_BINS</span><span class="p">,</span>
     <span class="n">SSYNTH_MIN_ROWS_PATE_GAN</span><span class="p">,</span>
     <span class="n">SSYNTH_PRIVATE_COLUMN</span><span class="p">,</span>
     <span class="n">DPLibraries</span><span class="p">,</span>
-    <span class="n">SSynthColumnType</span><span class="p">,</span>
     <span class="n">SSynthGanSynthesizer</span><span class="p">,</span>
     <span class="n">SSynthMarginalSynthesizer</span><span class="p">,</span>
     <span class="n">SSynthTableTransStyle</span><span class="p">,</span>
@@ -130,7 +128,17 @@
 <span class="kn">from</span> <span class="nn">lomas_server.data_connector.data_connector</span> <span class="kn">import</span> <span class="n">DataConnector</span>
 <span class="kn">from</span> <span class="nn">lomas_server.dp_queries.dp_libraries.utils</span> <span class="kn">import</span> <span class="n">serialise_model</span>
 <span class="kn">from</span> <span class="nn">lomas_server.dp_queries.dp_querier</span> <span class="kn">import</span> <span class="n">DPQuerier</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.collection_models</span> <span class="kn">import</span> <span class="n">Metadata</span>
+<span class="kn">from</span> <span class="nn">lomas_server.utils.collection_models</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BooleanMetadata</span><span class="p">,</span>
+    <span class="n">ColumnMetadata</span><span class="p">,</span>
+    <span class="n">DatetimeMetadata</span><span class="p">,</span>
+    <span class="n">FloatMetadata</span><span class="p">,</span>
+    <span class="n">IntCategoricalMetadata</span><span class="p">,</span>
+    <span class="n">IntMetadata</span><span class="p">,</span>
+    <span class="n">Metadata</span><span class="p">,</span>
+    <span class="n">StrCategoricalMetadata</span><span class="p">,</span>
+    <span class="n">StrMetadata</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ExternalLibraryException</span><span class="p">,</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
@@ -144,22 +152,32 @@
 
 <div class="viewcode-block" id="datetime_to_float">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.smartnoise_synth.datetime_to_float">[docs]</a>
-<span class="k">def</span> <span class="nf">datetime_to_float</span><span class="p">(</span><span class="n">upper</span><span class="p">,</span> <span class="n">lower</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">datetime_to_float</span><span class="p">(</span><span class="n">upper</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">lower</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert the upper date as the distance between the upper date and</span>
 <span class="sd">    lower date as float</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">            upper (str): date to convert</span>
-<span class="sd">            lower (str): start date to convert from</span>
+<span class="sd">            upper (datetime): date to convert</span>
+<span class="sd">            lower (datetime): start date to convert from</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            float: number of days between upper and lower</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">distance</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-        <span class="n">upper</span><span class="p">,</span> <span class="n">DEFAULT_DATE_FORMAT</span>
-    <span class="p">)</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">DEFAULT_DATE_FORMAT</span><span class="p">)</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">upper</span> <span class="o">-</span> <span class="n">lower</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">distance</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="n">SECONDS_IN_A_DAY</span><span class="p">)</span></div>
 
+
+
+<span class="c1"># TODO maybe a better place to put this? See issue #336</span>
+<span class="n">SSynthColumnType</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
+    <span class="n">StrMetadata</span><span class="p">,</span>
+    <span class="n">StrCategoricalMetadata</span><span class="p">,</span>
+    <span class="n">BooleanMetadata</span><span class="p">,</span>
+    <span class="n">IntCategoricalMetadata</span><span class="p">,</span>
+    <span class="n">IntMetadata</span><span class="p">,</span>
+    <span class="n">FloatMetadata</span><span class="p">,</span>
+    <span class="n">DatetimeMetadata</span><span class="p">,</span>
+<span class="p">]</span>
 
 
 <div class="viewcode-block" id="SmartnoiseSynthQuerier">
@@ -179,64 +197,95 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data_connector</span><span class="p">,</span> <span class="n">admin_database</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Synthesizer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">_categorize_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_is_categorical</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">col_metadata</span><span class="p">:</span> <span class="n">ColumnMetadata</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span>
+        <span class="n">StrMetadata</span>
+        <span class="o">|</span> <span class="n">StrCategoricalMetadata</span>
+        <span class="o">|</span> <span class="n">BooleanMetadata</span>
+        <span class="o">|</span> <span class="n">IntCategoricalMetadata</span>
+    <span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Categorize the column based on its metadata.</span>
+<span class="sd">        Checks if the column type is categorical</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (dict): Metadata of the column.</span>
+<span class="sd">            col_metadata (ColumnMetadata): The column metadata</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            str: Category of the column.</span>
+<span class="sd">            TypeGuard[StrMetadata | StrCategoricalMetadata| BooleanMetadata |</span>
+<span class="sd">                      IntCategoricalMetadata]:</span>
+<span class="sd">                TypeGuard for categorical columns metadata</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">match</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]:</span>
-            <span class="k">case</span> <span class="s2">&quot;string&quot;</span> <span class="o">|</span> <span class="s2">&quot;boolean&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">CATEGORICAL</span>
-            <span class="k">case</span> <span class="s2">&quot;int&quot;</span> <span class="o">|</span> <span class="s2">&quot;float&quot;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="s2">&quot;lower&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                    <span class="k">return</span> <span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">CONTINUOUS</span>
-                <span class="k">return</span> <span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">CATEGORICAL</span>
-            <span class="k">case</span> <span class="s2">&quot;datetime&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">DATETIME</span>
-            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Unknown column type in metadata: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">col_metadata</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="n">StrMetadata</span><span class="p">,</span>
+                <span class="n">StrCategoricalMetadata</span><span class="p">,</span>
+                <span class="n">BooleanMetadata</span><span class="p">,</span>
+                <span class="n">IntCategoricalMetadata</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_column_by_types</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span><span class="p">,</span>
-        <span class="n">select_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sort the column in categories based on their types and metadata</span>
+    <span class="k">def</span> <span class="nf">_is_continuous</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">col_metadata</span><span class="p">:</span> <span class="n">ColumnMetadata</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span><span class="n">IntMetadata</span> <span class="o">|</span> <span class="n">FloatMetadata</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if the column type is continuous</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            metadata (Metadata): Metadata of the dataset</span>
-<span class="sd">            select_cols (List[str]): List of columns to select</span>
+<span class="sd">            col_metadata (ColumnMetadata): The column metadata</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Dict[str, List[str]]: Dictionnary of list of columns by categories</span>
+<span class="sd">            TypeGuard[IntMetadata | FloatMetadata]:</span>
+<span class="sd">                TypeGuard for continuous columns metadata</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">col_categories</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">DATETIME</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">PRIVATE_ID</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">,</span> <span class="p">(</span><span class="n">IntMetadata</span><span class="p">,</span> <span class="n">FloatMetadata</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_is_datetime</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">col_metadata</span><span class="p">:</span> <span class="n">ColumnMetadata</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span><span class="n">DatetimeMetadata</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if the column type is datetime</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            col_metadata (ColumnMetadata): The column metadata</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TypeGuard[DatetimeMetadata]: TypeGuard for datetime metadata.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">,</span> <span class="n">DatetimeMetadata</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_and_check_valid_column_types</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span><span class="p">,</span> <span class="n">select_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SSynthColumnType</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ensures the type of the selected columns can be handled with</span>
+<span class="sd">        SmartnoiseSynth and returns the dict of column metadata</span>
+<span class="sd">        for the selected columns.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metadata (Metadata): Dataset metadata</span>
+<span class="sd">            select_cols (List[str]): List of selected columns</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            InternalServerException: If one of the column types</span>
+<span class="sd">                cannot be handled with SmartnoiseSynth.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, SSynthColumnType]: The filtered dict of selected columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">columns</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SSynthColumnType</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
         <span class="k">for</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">select_cols</span> <span class="ow">and</span> <span class="n">col_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">select_cols</span><span class="p">:</span>
                 <span class="k">continue</span>
 
-            <span class="k">if</span> <span class="s2">&quot;private_id&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">col_categories</span><span class="p">[</span><span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">PRIVATE_ID</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col_name</span><span class="p">)</span>
-                <span class="k">continue</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">SSynthColumnType</span><span class="p">):</span>  <span class="c1"># type: ignore[misc, arg-type]</span>
+                <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Column type </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2"> not supported for SmartnoiseSynth&quot;</span>
+                <span class="p">)</span>
 
-            <span class="c1"># Sort the column in categories based on their types and metadata</span>
-            <span class="n">category</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_categorize_column</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-            <span class="n">col_categories</span><span class="p">[</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col_name</span><span class="p">)</span>
+            <span class="n">columns</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
 
-        <span class="k">return</span> <span class="n">col_categories</span>
+        <span class="k">return</span> <span class="n">columns</span>
 
     <span class="k">def</span> <span class="nf">_get_default_constraints</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -260,69 +309,72 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            table_tranformer (TableTransformer) to pre and post-process the data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">col_categories</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_column_by_types</span><span class="p">(</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_and_check_valid_column_types</span><span class="p">(</span>
             <span class="n">metadata</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">select_cols</span>
         <span class="p">)</span>
 
         <span class="n">constraints</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_categories</span><span class="p">[</span><span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">PRIVATE_ID</span><span class="p">]:</span>
-            <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">AnonymizationTransformer</span><span class="p">(</span><span class="n">SSYNTH_PRIVATE_COLUMN</span><span class="p">)</span>
-
         <span class="n">nullable</span> <span class="o">=</span> <span class="n">query_json</span><span class="o">.</span><span class="n">nullable</span>
-        <span class="k">if</span> <span class="n">table_transformer_style</span> <span class="o">==</span> <span class="n">SSynthTableTransStyle</span><span class="o">.</span><span class="n">GAN</span><span class="p">:</span>  <span class="c1"># gan</span>
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_categories</span><span class="p">[</span><span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="p">]:</span>
-                <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">ChainTransformer</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">LabelTransformer</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">),</span> <span class="n">OneHotEncoder</span><span class="p">()]</span>
+        <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">col_metadata</span> <span class="ow">in</span> <span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">col_metadata</span><span class="o">.</span><span class="n">private_id</span><span class="p">:</span>
+                <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">AnonymizationTransformer</span><span class="p">(</span>
+                    <span class="n">SSYNTH_PRIVATE_COLUMN</span>
                 <span class="p">)</span>
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_categories</span><span class="p">[</span><span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">]:</span>
-                <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">MinMaxTransformer</span><span class="p">(</span>
-                    <span class="n">lower</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;lower&quot;</span><span class="p">],</span>
-                    <span class="n">upper</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;upper&quot;</span><span class="p">],</span>
-                    <span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">,</span>
-                <span class="p">)</span>
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_categories</span><span class="p">[</span><span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">DATETIME</span><span class="p">]:</span>
-                <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">ChainTransformer</span><span class="p">(</span>
-                    <span class="p">[</span>
-                        <span class="n">DateTimeTransformer</span><span class="p">(</span>
-                            <span class="n">epoch</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span>
-                        <span class="p">),</span>
-                        <span class="n">MinMaxTransformer</span><span class="p">(</span>
-                            <span class="n">lower</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>  <span class="c1"># because start epoch at lower bound</span>
-                            <span class="n">upper</span><span class="o">=</span><span class="n">datetime_to_float</span><span class="p">(</span>
-                                <span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;upper&quot;</span><span class="p">],</span>
-                                <span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;lower&quot;</span><span class="p">],</span>
+
+            <span class="k">if</span> <span class="n">table_transformer_style</span> <span class="o">==</span> <span class="n">SSynthTableTransStyle</span><span class="o">.</span><span class="n">GAN</span><span class="p">:</span>  <span class="c1"># gan</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_categorical</span><span class="p">(</span>
+                    <span class="n">col_metadata</span>
+                <span class="p">):</span>  <span class="c1"># TODO any way of specifying cardinality? See issue #337</span>
+                    <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">ChainTransformer</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">LabelTransformer</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">),</span> <span class="n">OneHotEncoder</span><span class="p">()]</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_continuous</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">):</span>
+                    <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">MinMaxTransformer</span><span class="p">(</span>
+                        <span class="n">lower</span><span class="o">=</span><span class="n">col_metadata</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+                        <span class="n">upper</span><span class="o">=</span><span class="n">col_metadata</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span>
+                        <span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_datetime</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">):</span>
+                    <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">ChainTransformer</span><span class="p">(</span>
+                        <span class="p">[</span>
+                            <span class="n">DateTimeTransformer</span><span class="p">(</span><span class="n">epoch</span><span class="o">=</span><span class="n">col_metadata</span><span class="o">.</span><span class="n">lower</span><span class="p">),</span>
+                            <span class="n">MinMaxTransformer</span><span class="p">(</span>
+                                <span class="n">lower</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>  <span class="c1"># because start epoch at lower bound</span>
+                                <span class="n">upper</span><span class="o">=</span><span class="n">datetime_to_float</span><span class="p">(</span>
+                                    <span class="n">col_metadata</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span>
+                                    <span class="n">col_metadata</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+                                <span class="p">),</span>
+                                <span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">,</span>
                             <span class="p">),</span>
-                            <span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">,</span>
-                        <span class="p">),</span>
-                    <span class="p">]</span>
-                <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>  <span class="c1"># cube</span>
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_categories</span><span class="p">[</span><span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="p">]:</span>
-                <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">LabelTransformer</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_categories</span><span class="p">[</span><span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">]:</span>
-                <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">BinTransformer</span><span class="p">(</span>
-                    <span class="n">lower</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;lower&quot;</span><span class="p">],</span>
-                    <span class="n">upper</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;upper&quot;</span><span class="p">],</span>
-                    <span class="n">bins</span><span class="o">=</span><span class="n">SSYNTH_DEFAULT_BINS</span><span class="p">,</span>
-                    <span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">,</span>
-                <span class="p">)</span>
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_categories</span><span class="p">[</span><span class="n">SSynthColumnType</span><span class="o">.</span><span class="n">DATETIME</span><span class="p">]:</span>
-                <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">ChainTransformer</span><span class="p">(</span>
-                    <span class="p">[</span>
-                        <span class="n">DateTimeTransformer</span><span class="p">(</span>
-                            <span class="n">epoch</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span>
-                        <span class="p">),</span>
-                        <span class="n">BinTransformer</span><span class="p">(</span>
-                            <span class="n">lower</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>  <span class="c1"># because start epoch at lower bound</span>
-                            <span class="n">upper</span><span class="o">=</span><span class="n">datetime_to_float</span><span class="p">(</span>
-                                <span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;upper&quot;</span><span class="p">],</span>
-                                <span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;lower&quot;</span><span class="p">],</span>
+                        <span class="p">]</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># Cube</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_categorical</span><span class="p">(</span>
+                    <span class="n">col_metadata</span>
+                <span class="p">):</span>  <span class="c1"># TODO any way of specifying cardinality? See issue #337</span>
+                    <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">LabelTransformer</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_continuous</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">):</span>
+                    <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">BinTransformer</span><span class="p">(</span>
+                        <span class="n">lower</span><span class="o">=</span><span class="n">col_metadata</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+                        <span class="n">upper</span><span class="o">=</span><span class="n">col_metadata</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span>
+                        <span class="n">bins</span><span class="o">=</span><span class="n">SSYNTH_DEFAULT_BINS</span><span class="p">,</span>
+                        <span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_datetime</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">):</span>
+                    <span class="n">constraints</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">ChainTransformer</span><span class="p">(</span>
+                        <span class="p">[</span>
+                            <span class="n">DateTimeTransformer</span><span class="p">(</span><span class="n">epoch</span><span class="o">=</span><span class="n">col_metadata</span><span class="o">.</span><span class="n">lower</span><span class="p">),</span>
+                            <span class="n">BinTransformer</span><span class="p">(</span>
+                                <span class="n">lower</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>  <span class="c1"># because start epoch at lower bound</span>
+                                <span class="n">upper</span><span class="o">=</span><span class="n">datetime_to_float</span><span class="p">(</span>
+                                    <span class="n">col_metadata</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span>
+                                    <span class="n">col_metadata</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+                                <span class="p">),</span>
+                                <span class="n">bins</span><span class="o">=</span><span class="n">SSYNTH_DEFAULT_BINS</span><span class="p">,</span>
+                                <span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">,</span>
                             <span class="p">),</span>
-                            <span class="n">bins</span><span class="o">=</span><span class="n">SSYNTH_DEFAULT_BINS</span><span class="p">,</span>
-                            <span class="n">nullable</span><span class="o">=</span><span class="n">nullable</span><span class="p">,</span>
-                        <span class="p">),</span>
-                    <span class="p">]</span>
-                <span class="p">)</span>
+                        <span class="p">]</span>
+                    <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">constraints</span>
 
@@ -594,7 +646,7 @@
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
         
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.2/en/index.html">v0.3.2</a></dd>
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
       </dl>
       

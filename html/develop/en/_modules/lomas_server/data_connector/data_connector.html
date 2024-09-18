@@ -101,7 +101,7 @@
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.utils.collection_models</span> <span class="kn">import</span> <span class="n">Metadata</span>
+<span class="kn">from</span> <span class="nn">lomas_server.utils.collection_models</span> <span class="kn">import</span> <span class="n">DatetimeMetadata</span><span class="p">,</span> <span class="n">Metadata</span>
 
 
 <div class="viewcode-block" id="DataConnector">
@@ -121,9 +121,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span> <span class="o">=</span> <span class="n">metadata</span>
 
-        <span class="n">dtypes</span><span class="p">,</span> <span class="n">datetime_columns</span> <span class="o">=</span> <span class="n">get_column_dtypes</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
-        <span class="p">)</span>
+        <span class="n">dtypes</span><span class="p">,</span> <span class="n">datetime_columns</span> <span class="o">=</span> <span class="n">get_column_dtypes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dtypes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">dtypes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">datetime_columns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime_columns</span>
 
@@ -153,25 +151,26 @@
 
 <div class="viewcode-block" id="get_column_dtypes">
 <a class="viewcode-back" href="../../../lomas_server.data_connector.html#lomas_server.data_connector.data_connector.get_column_dtypes">[docs]</a>
-<span class="k">def</span> <span class="nf">get_column_dtypes</span><span class="p">(</span><span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-    <span class="c1"># TODO change once metadata model is done.</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract and return the column types from the metadata.</span>
+<span class="k">def</span> <span class="nf">get_column_dtypes</span><span class="p">(</span><span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extracts and returns the column types from the metadata.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        metadata (dict): The metadata dictionary.</span>
+<span class="sd">        metadata (Metadata): The metadata.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        dict: The dictionary of the column type.</span>
-<span class="sd">        list: The list of columns of datetime type</span>
+<span class="sd">        Tuple[Dict[str, str], List[str]]:</span>
+<span class="sd">           dict: The dictionary of the column type.</span>
+<span class="sd">            list: The list of columns of datetime type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">dtypes</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">datetime_columns</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;datetime&quot;</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">DatetimeMetadata</span><span class="p">):</span>
             <span class="n">dtypes</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;string&quot;</span>
             <span class="n">datetime_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col_name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">dtypes</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+            <span class="n">dtypes</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">type</span>
     <span class="k">return</span> <span class="n">dtypes</span><span class="p">,</span> <span class="n">datetime_columns</span></div>
 
 </pre></div>
@@ -228,7 +227,7 @@
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
         
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.2/en/index.html">v0.3.2</a></dd>
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
       </dl>
       

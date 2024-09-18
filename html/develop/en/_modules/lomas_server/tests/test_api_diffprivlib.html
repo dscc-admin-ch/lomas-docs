@@ -112,7 +112,6 @@
 <span class="kn">from</span> <span class="nn">lomas_server.app</span> <span class="kn">import</span> <span class="n">app</span>
 <span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="n">DPLibraries</span>
 <span class="kn">from</span> <span class="nn">lomas_server.tests.test_api</span> <span class="kn">import</span> <span class="n">TestRootAPIEndpoint</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.logger</span> <span class="kn">import</span> <span class="n">LOG</span>
 <span class="kn">from</span> <span class="nn">lomas_server.utils.query_examples</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">example_diffprivlib</span><span class="p">,</span>
     <span class="n">example_dummy_diffprivlib</span><span class="p">,</span>
@@ -128,13 +127,7 @@
     <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
     <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;score&quot;</span><span class="p">]:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot; ************** DIFFPRIVLIB ERROR ************** &quot;</span><span class="p">)</span>
-        <span class="c1"># Temporary LOGs to help understand why tests sometimes fail</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">response_dict</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">])</span>
-
-    <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;score&quot;</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="s2">&quot;score&quot;</span> <span class="ow">in</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">]</span>  <span class="c1"># might be 0</span>
     <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;query_response&quot;</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">]</span></div>
 
 
@@ -571,7 +564,7 @@
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
         
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.2/en/index.html">v0.3.2</a></dd>
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
       </dl>
       
