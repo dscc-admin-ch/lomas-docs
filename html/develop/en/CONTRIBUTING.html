@@ -161,10 +161,15 @@ Once the release process is complete (see below), the release branch is merged t
 ./run_linter.sh<span class="w">  </span>--install-deps
 </pre></div>
 </div>
-<p>For subsequent runs, simply execute:</p>
+<p>For subsequent runs, to run all linters (on server, client and core) simply execute:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./run_linter.sh
 </pre></div>
 </div>
+<p>To run the linter in a specific package, the package can be specified as argument:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./run_linter.sh<span class="w"> </span>--client
+</pre></div>
+</div>
+<p>will only run the linter for the client. And similarly for <code class="docutils literal notranslate"><span class="pre">./run_linter.sh</span> <span class="pre">--core</span></code> and <code class="docutils literal notranslate"><span class="pre">./run_linter.sh</span> <span class="pre">--server</span></code>.</p>
 <p>There should be no error or warning, otherwise the linting github action will fail. All configurations are in <code class="docutils literal notranslate"><span class="pre">lomas/server/pyproject.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client/pyproject.toml</span></code>.</p>
 <p>As detailed below, we rely on GitHub workflows to automatically run these checks on pull requests, ensuring consistency and quality across all contributions.</p>
 </section>
