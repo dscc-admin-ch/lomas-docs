@@ -134,26 +134,32 @@ Once the release process is complete (see below), the release branch is merged t
 <h2>Linting and Other Checks<a class="headerlink" href="#linting-and-other-checks" title="Link to this heading"></a></h2>
 <p>To ensure code quality and consistency, we perform several checks using various tools. Below is a list of the checks that should be performed:</p>
 <ul>
-<li><p><strong>Code Formatting:</strong> Use <code class="docutils literal notranslate"><span class="pre">black</span></code> to automatically format the code. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code>:</p>
+<li><p><strong>Code Formatting:</strong> Use <code class="docutils literal notranslate"><span class="pre">black</span></code> to automatically format the code. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code>, <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core/lomas_core</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>black<span class="w"> </span>.
 </pre></div>
 </div>
 </li>
-<li><p><strong>Code Style and Static Analysis</strong>: Use flake8 to verify formatting and perform static code analysis. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code>:</p></li>
+<li><p><strong>Code Style and Static Analysis</strong>: Use flake8 to verify formatting and perform static code analysis. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code> , <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core/lomas_core</span></code>:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>flake8<span class="w"> </span>.
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><strong>Static Type Checking</strong>: Use mypy for static type checking. Note that both the server and the client have their own mypi.ini files to ignore specific warnings. In <code class="docutils literal notranslate"><span class="pre">lomas/server</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client</span></code>:</p></li>
+<li><p><strong>Static Type Checking</strong>: Use mypy for static type checking. Note that both the server and the client have their own mypi.ini files to ignore specific warnings. In <code class="docutils literal notranslate"><span class="pre">lomas/server</span></code>, <code class="docutils literal notranslate"><span class="pre">lomas/client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core</span></code>:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>mypy<span class="w"> </span>.
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><strong>Additional Static Analysis</strong>: Use pylint for further static analysis. Note that both the server and the client have their own .pylintrc files to ignore specific warnings. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code>:</p></li>
+<li><p><strong>Additional Static Analysis</strong>: Use pylint for further static analysis. Note that both the server and the client have their own .pylintrc files to ignore specific warnings. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code>, <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core/lomas_core</span></code>:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>pylint<span class="w"> </span>.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Automatic docstring linter formatting</strong>: Use pydocstringformatter for automatically formatting docstring following PEP257 recommandations. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code>, <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core/lomas_core</span></code>:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>pydocstringformatter<span class="w"> </span>.
 </pre></div>
 </div>
 <p>To streamline the process, you can use the <code class="docutils literal notranslate"><span class="pre">run_linter.sh</span></code> script in ``lomas`. The first time you run this script, use the following command to install dependencies:</p>

@@ -108,7 +108,7 @@
 <div class="viewcode-block" id="DatasetOfUser">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.DatasetOfUser">[docs]</a>
 <span class="k">class</span> <span class="nc">DatasetOfUser</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for informations of a user on a dataset&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for informations of a user on a dataset.&quot;&quot;&quot;</span>
 
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">initial_epsilon</span><span class="p">:</span> <span class="nb">float</span>
@@ -121,7 +121,7 @@
 <div class="viewcode-block" id="User">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.User">[docs]</a>
 <span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for a user in a user collection&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for a user in a user collection.&quot;&quot;&quot;</span>
 
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">may_query</span><span class="p">:</span> <span class="nb">bool</span>
@@ -132,7 +132,7 @@
 <div class="viewcode-block" id="UserCollection">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.UserCollection">[docs]</a>
 <span class="k">class</span> <span class="nc">UserCollection</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for users collection&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for users collection.&quot;&quot;&quot;</span>
 
     <span class="n">users</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">User</span><span class="p">]</span></div>
 
@@ -141,14 +141,14 @@
 <div class="viewcode-block" id="MetadataOfDataset">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.MetadataOfDataset">[docs]</a>
 <span class="k">class</span> <span class="nc">MetadataOfDataset</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for metadata of a dataset&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for metadata of a dataset.&quot;&quot;&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="MetadataOfPathDB">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.MetadataOfPathDB">[docs]</a>
 <span class="k">class</span> <span class="nc">MetadataOfPathDB</span><span class="p">(</span><span class="n">MetadataOfDataset</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for metadata of a dataset with PATH_DB&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for metadata of a dataset with PATH_DB.&quot;&quot;&quot;</span>
 
     <span class="n">database_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
     <span class="n">metadata_path</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -158,7 +158,7 @@
 <div class="viewcode-block" id="MetadataOfS3DB">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.MetadataOfS3DB">[docs]</a>
 <span class="k">class</span> <span class="nc">MetadataOfS3DB</span><span class="p">(</span><span class="n">MetadataOfDataset</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for metadata of a dataset with S3_DB&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for metadata of a dataset with S3_DB.&quot;&quot;&quot;</span>
 
     <span class="n">database_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
     <span class="n">endpoint_url</span><span class="p">:</span> <span class="nb">str</span>
@@ -173,7 +173,7 @@
 <div class="viewcode-block" id="Dataset">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.Dataset">[docs]</a>
 <span class="k">class</span> <span class="nc">Dataset</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for a dataset&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for a dataset.&quot;&quot;&quot;</span>
 
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">metadata</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">MetadataOfPathDB</span><span class="p">,</span> <span class="n">MetadataOfS3DB</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
@@ -185,7 +185,7 @@
 <div class="viewcode-block" id="DatasetOfPathDB">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.DatasetOfPathDB">[docs]</a>
 <span class="k">class</span> <span class="nc">DatasetOfPathDB</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for a local dataset&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for a local dataset.&quot;&quot;&quot;</span>
 
     <span class="n">database_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
     <span class="n">dataset_path</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -195,7 +195,7 @@
 <div class="viewcode-block" id="DatasetOfS3DB">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.DatasetOfS3DB">[docs]</a>
 <span class="k">class</span> <span class="nc">DatasetOfS3DB</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for a dataset on S3&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for a dataset on S3.&quot;&quot;&quot;</span>
 
     <span class="n">database_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
     <span class="n">endpoint_url</span><span class="p">:</span> <span class="nb">str</span>
@@ -208,7 +208,7 @@
 <div class="viewcode-block" id="DatasetsCollection">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.DatasetsCollection">[docs]</a>
 <span class="k">class</span> <span class="nc">DatasetsCollection</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for datasets collection&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for datasets collection.&quot;&quot;&quot;</span>
 
     <span class="n">datasets</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">DatasetOfPathDB</span><span class="p">,</span> <span class="n">DatasetOfS3DB</span><span class="p">]],</span>
@@ -220,7 +220,7 @@
 <div class="viewcode-block" id="ColumnMetadata">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.ColumnMetadata">[docs]</a>
 <span class="k">class</span> <span class="nc">ColumnMetadata</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base model for column metadata&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base model for column metadata.&quot;&quot;&quot;</span>
 
     <span class="n">private_id</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">nullable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -234,7 +234,7 @@
 <div class="viewcode-block" id="StrMetadata">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.StrMetadata">[docs]</a>
 <span class="k">class</span> <span class="nc">StrMetadata</span><span class="p">(</span><span class="n">ColumnMetadata</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for string metadata&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for string metadata.&quot;&quot;&quot;</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;string&quot;</span><span class="p">]</span></div>
 
@@ -243,7 +243,7 @@
 <div class="viewcode-block" id="CategoricalColumnMetadata">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.CategoricalColumnMetadata">[docs]</a>
 <span class="k">class</span> <span class="nc">CategoricalColumnMetadata</span><span class="p">(</span><span class="n">ColumnMetadata</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for categorical column metadata&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for categorical column metadata.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="CategoricalColumnMetadata.validate_categories">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.CategoricalColumnMetadata.validate_categories">[docs]</a>
@@ -260,7 +260,7 @@
 <div class="viewcode-block" id="StrCategoricalMetadata">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.StrCategoricalMetadata">[docs]</a>
 <span class="k">class</span> <span class="nc">StrCategoricalMetadata</span><span class="p">(</span><span class="n">CategoricalColumnMetadata</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for categorical string metadata&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for categorical string metadata.&quot;&quot;&quot;</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;string&quot;</span><span class="p">]</span>
     <span class="n">cardinality</span><span class="p">:</span> <span class="nb">int</span>
@@ -271,7 +271,7 @@
 <div class="viewcode-block" id="Precision">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.Precision">[docs]</a>
 <span class="k">class</span> <span class="nc">Precision</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Precision of integer and float data&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Precision of integer and float data.&quot;&quot;&quot;</span>
 
     <span class="n">SINGLE</span> <span class="o">=</span> <span class="mi">32</span>
     <span class="n">DOUBLE</span> <span class="o">=</span> <span class="mi">64</span></div>
@@ -281,7 +281,7 @@
 <div class="viewcode-block" id="BoundedColumnMetadata">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.BoundedColumnMetadata">[docs]</a>
 <span class="k">class</span> <span class="nc">BoundedColumnMetadata</span><span class="p">(</span><span class="n">ColumnMetadata</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for columns with bounded data&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for columns with bounded data.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="BoundedColumnMetadata.validate_bounds">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.BoundedColumnMetadata.validate_bounds">[docs]</a>
@@ -303,7 +303,7 @@
 <div class="viewcode-block" id="IntMetadata">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.IntMetadata">[docs]</a>
 <span class="k">class</span> <span class="nc">IntMetadata</span><span class="p">(</span><span class="n">BoundedColumnMetadata</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for integer column metadata&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for integer column metadata.&quot;&quot;&quot;</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;int&quot;</span><span class="p">]</span>
     <span class="n">precision</span><span class="p">:</span> <span class="n">Precision</span>
@@ -315,7 +315,7 @@
 <div class="viewcode-block" id="IntCategoricalMetadata">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.IntCategoricalMetadata">[docs]</a>
 <span class="k">class</span> <span class="nc">IntCategoricalMetadata</span><span class="p">(</span><span class="n">CategoricalColumnMetadata</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for integer categorical column metadata&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for integer categorical column metadata.&quot;&quot;&quot;</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;int&quot;</span><span class="p">]</span>
     <span class="n">precision</span><span class="p">:</span> <span class="n">Precision</span>
@@ -327,7 +327,7 @@
 <div class="viewcode-block" id="FloatMetadata">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.FloatMetadata">[docs]</a>
 <span class="k">class</span> <span class="nc">FloatMetadata</span><span class="p">(</span><span class="n">BoundedColumnMetadata</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for float column metadata&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for float column metadata.&quot;&quot;&quot;</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;float&quot;</span><span class="p">]</span>
     <span class="n">precision</span><span class="p">:</span> <span class="n">Precision</span>
@@ -339,7 +339,7 @@
 <div class="viewcode-block" id="BooleanMetadata">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.BooleanMetadata">[docs]</a>
 <span class="k">class</span> <span class="nc">BooleanMetadata</span><span class="p">(</span><span class="n">ColumnMetadata</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for boolean column metadata&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for boolean column metadata.&quot;&quot;&quot;</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;boolean&quot;</span><span class="p">]</span></div>
 
@@ -348,7 +348,7 @@
 <div class="viewcode-block" id="DatetimeMetadata">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.DatetimeMetadata">[docs]</a>
 <span class="k">class</span> <span class="nc">DatetimeMetadata</span><span class="p">(</span><span class="n">BoundedColumnMetadata</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for datetime column metadata&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for datetime column metadata.&quot;&quot;&quot;</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">]</span>  <span class="c1"># TODO make these constants, see issue #268</span>
     <span class="n">lower</span><span class="p">:</span> <span class="n">datetime</span>
@@ -390,7 +390,7 @@
 <div class="viewcode-block" id="Metadata">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.collection_models.Metadata">[docs]</a>
 <span class="k">class</span> <span class="nc">Metadata</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for a metadata format&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for a metadata format.&quot;&quot;&quot;</span>
 
     <span class="n">max_ids</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
     <span class="n">rows</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
