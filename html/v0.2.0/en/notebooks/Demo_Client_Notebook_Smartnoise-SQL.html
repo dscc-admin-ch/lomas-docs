@@ -166,22 +166,69 @@
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 {&#39;max_ids&#39;: 1,
+ &#39;rows&#39;: 344,
  &#39;row_privacy&#39;: True,
  &#39;censor_dims&#39;: False,
- &#39;columns&#39;: {&#39;species&#39;: {&#39;type&#39;: &#39;string&#39;,
+ &#39;columns&#39;: {&#39;species&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
    &#39;cardinality&#39;: 3,
    &#39;categories&#39;: [&#39;Adelie&#39;, &#39;Chinstrap&#39;, &#39;Gentoo&#39;]},
-  &#39;island&#39;: {&#39;type&#39;: &#39;string&#39;,
+  &#39;island&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
    &#39;cardinality&#39;: 3,
    &#39;categories&#39;: [&#39;Torgersen&#39;, &#39;Biscoe&#39;, &#39;Dream&#39;]},
-  &#39;bill_length_mm&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 30.0, &#39;upper&#39;: 65.0},
-  &#39;bill_depth_mm&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 13.0, &#39;upper&#39;: 23.0},
-  &#39;flipper_length_mm&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 150.0, &#39;upper&#39;: 250.0},
-  &#39;body_mass_g&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 2000.0, &#39;upper&#39;: 7000.0},
-  &#39;sex&#39;: {&#39;type&#39;: &#39;string&#39;,
+  &#39;bill_length_mm&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 30.0,
+   &#39;upper&#39;: 65.0},
+  &#39;bill_depth_mm&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 13.0,
+   &#39;upper&#39;: 23.0},
+  &#39;flipper_length_mm&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 150.0,
+   &#39;upper&#39;: 250.0},
+  &#39;body_mass_g&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 2000.0,
+   &#39;upper&#39;: 7000.0},
+  &#39;sex&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
    &#39;cardinality&#39;: 2,
-   &#39;categories&#39;: [&#39;MALE&#39;, &#39;FEMALE&#39;]}},
- &#39;rows&#39;: 344}
+   &#39;categories&#39;: [&#39;MALE&#39;, &#39;FEMALE&#39;]}}}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -249,7 +296,7 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On the remote server dummy dataframe</span>
-<span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span>
+<span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
@@ -262,7 +309,7 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bl_dummy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">][</span><span class="s2">&quot;avg_bill_length_mm&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bl_dummy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avg_bill_length_mm&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
 <span class="sa">f</span><span class="s2">&quot;Average bill length on dummy: </span><span class="si">{</span><span class="n">avg_bl_dummy</span><span class="si">}</span><span class="s2">mm.&quot;</span>
 </pre></div>
 </div>
@@ -273,7 +320,7 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;Average bill length on dummy: 46.68mm.&#39;
+&#39;Average bill length on dummy: 45.27mm.&#39;
 </pre></div></div>
 </div>
 </section>
@@ -284,7 +331,7 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_sql_cost</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
@@ -296,7 +343,7 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sa">f</span><span class="s1">&#39;This query would actually cost her </span><span class="si">{</span><span class="n">cost</span><span class="p">[</span><span class="s2">&quot;epsilon_cost&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> epsilon and </span><span class="si">{</span><span class="n">cost</span><span class="p">[</span><span class="s2">&quot;delta_cost&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> delta.&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sa">f</span><span class="s1">&#39;This query would actually cost her </span><span class="si">{</span><span class="n">cost</span><span class="o">.</span><span class="n">epsilon</span><span class="si">}</span><span class="s1"> epsilon and </span><span class="si">{</span><span class="n">cost</span><span class="o">.</span><span class="n">delta</span><span class="si">}</span><span class="s1"> delta.&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -319,7 +366,7 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On the remote server dummy dataframe</span>
-<span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span>
+<span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
@@ -333,7 +380,7 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bl_dummy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">][</span><span class="s2">&quot;avg_bill_length_mm&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bl_dummy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avg_bill_length_mm&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
 <span class="sa">f</span><span class="s2">&quot;Average bill length on dummy: </span><span class="si">{</span><span class="n">avg_bl_dummy</span><span class="si">}</span><span class="s2">mm.&quot;</span>
 </pre></div>
 </div>
@@ -344,14 +391,14 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;Average bill length on dummy: 50.83mm.&#39;
+&#39;Average bill length on dummy: 41.37mm.&#39;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_sql_cost</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
@@ -367,7 +414,7 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;epsilon_cost&#39;: 1.0, &#39;delta_cost&#39;: 1.4999949999983109e-05}
+CostResponse(epsilon=1.0, delta=1.4999949999983109e-05)
 </pre></div></div>
 </div>
 </section>
@@ -379,7 +426,7 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bill_length_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bill_length_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
@@ -393,7 +440,7 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bill_length</span> <span class="o">=</span> <span class="n">avg_bill_length_response</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">][</span><span class="s1">&#39;avg_bill_length_mm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bill_length</span> <span class="o">=</span> <span class="n">avg_bill_length_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;avg_bill_length_mm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average bill length on private data: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">avg_bill_length</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">mm.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -403,7 +450,7 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average bill length on private data: 45.19mm.
+Average bill length on private data: 43.5mm.
 </pre></div></div>
 </div>
 <p>After each query on the real dataset, the budget informations are also returned to the researcher. It is possible possible to check the remaining budget again afterwards:</p>
@@ -415,7 +462,7 @@ Average bill length on private data: 45.19mm.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
@@ -432,15 +479,15 @@ Average bill length on private data: 45.19mm.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;query_response&#39;:    avg_bill_length_mm
- 0           46.850983}
+QueryResponse(epsilon=1.0, delta=5.000000000032756e-06, requested_by=&#39;Dr. Antartica&#39;, result=SmartnoiseSQLQueryResult(res_type=&#39;sn_sql&#39;, df=   avg_bill_length_mm
+0           50.016594))
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
@@ -457,8 +504,8 @@ Average bill length on private data: 45.19mm.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;query_response&#39;:          res_0      res_1
- 0  4659.909203  96.041455}
+QueryResponse(epsilon=1.0, delta=5.000000000032756e-06, requested_by=&#39;Dr. Antartica&#39;, result=SmartnoiseSQLQueryResult(res_type=&#39;sn_sql&#39;, df=         res_0       res_1
+0  4304.177184  101.480531))
 </pre></div></div>
 </div>
 </section>
@@ -481,7 +528,7 @@ Average bill length on private data: 45.19mm.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
@@ -494,7 +541,7 @@ Average bill length on private data: 45.19mm.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">][</span><span class="s1">&#39;std_bill_length_mm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;std_bill_length_mm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
 <span class="sa">f</span><span class="s2">&quot;The dummy standard variation is </span><span class="si">{</span><span class="n">dummy_std</span><span class="si">}</span><span class="s2">.&quot;</span>
 </pre></div>
 </div>
@@ -505,7 +552,7 @@ Average bill length on private data: 45.19mm.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;The dummy standard variation is 16.64.&#39;
+&#39;The dummy standard variation is 10.09.&#39;
 </pre></div></div>
 </div>
 <p>The syntax of the query works, now she checks the budget:</p>
@@ -513,7 +560,7 @@ Average bill length on private data: 45.19mm.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_sql_cost</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-5</span>
@@ -525,7 +572,7 @@ Average bill length on private data: 45.19mm.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sa">f</span><span class="s1">&#39;This query would actually cost her </span><span class="si">{</span><span class="n">cost</span><span class="p">[</span><span class="s2">&quot;epsilon_cost&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> epsilon and </span><span class="si">{</span><span class="n">cost</span><span class="p">[</span><span class="s2">&quot;delta_cost&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> delta.&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sa">f</span><span class="s1">&#39;This query would actually cost her </span><span class="si">{</span><span class="n">cost</span><span class="o">.</span><span class="n">epsilon</span><span class="si">}</span><span class="s1"> epsilon and </span><span class="si">{</span><span class="n">cost</span><span class="o">.</span><span class="n">delta</span><span class="si">}</span><span class="s1"> delta.&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -543,7 +590,7 @@ Average bill length on private data: 45.19mm.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-5</span>
@@ -555,7 +602,7 @@ Average bill length on private data: 45.19mm.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">std_bill_length</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">][</span><span class="s1">&#39;std_bill_length_mm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">std_bill_length</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;std_bill_length_mm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Standard deviation of bill length: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">std_bill_length</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -565,7 +612,7 @@ Average bill length on private data: 45.19mm.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Standard deviation of bill length: 8.83.
+Standard deviation of bill length: 6.82.
 </pre></div></div>
 </div>
 <p>She can now do all the postprocessing that she wants with the returned data without increasing the privacy risk.</p>
@@ -584,7 +631,7 @@ Standard deviation of bill length: 8.83.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Standard error of bill length: 0.48.
+Standard error of bill length: 0.37.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -603,7 +650,7 @@ Standard error of bill length: 0.48.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The 95% confidence interval of the bill length of all penguins is [44.25, 46.12].
+The 95% confidence interval of the bill length of all penguins is [42.78, 44.22].
 </pre></div></div>
 </div>
 </section>
@@ -625,7 +672,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT STD(bill_length_mm) AS std_bill_length_mm FROM df&quot;</span>
-<span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_sql_cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="p">)</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="p">)</span>
 <span class="n">cost</span>
 </pre></div>
 </div>
@@ -636,7 +683,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;epsilon_cost&#39;: 3.0, &#39;delta_cost&#39;: 5.000000000032756e-06}
+CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -644,7 +691,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT AVG(bill_length_mm) AS avg_bl, STD(bill_length_mm) as std_bl FROM df&quot;</span>
-<span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_sql_cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="p">)</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="p">)</span>
 <span class="n">cost</span>
 </pre></div>
 </div>
@@ -655,7 +702,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;epsilon_cost&#39;: 3.0, &#39;delta_cost&#39;: 5.000000000032756e-06}
+CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -663,7 +710,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT COUNT(bill_length_mm) AS count_bl, AVG(bill_length_mm) AS avg_bl, STD(bill_length_mm) as std_bl FROM df&quot;</span>
-<span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_sql_cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="p">)</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="p">)</span>
 <span class="n">cost</span>
 </pre></div>
 </div>
@@ -674,7 +721,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;epsilon_cost&#39;: 3.0, &#39;delta_cost&#39;: 5.000000000032756e-06}
+CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 </pre></div></div>
 </div>
 <p>A way to know the sub-queries of a query is to use the following Smartnoise-SQL code:</p>
@@ -719,7 +766,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;snsql._ast.ast.Query at 0x70772e4e5310&gt;
+&lt;snsql._ast.ast.Query at 0x7cbd404b92e0&gt;
 </pre></div></div>
 </div>
 <p>The original dp query is represented as one query:</p>
@@ -737,7 +784,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;std_bl&#39;: &lt;snsql._ast.tokens.Symbol at 0x70772e4f5a90&gt;}
+{&#39;std_bl&#39;: &lt;snsql._ast.tokens.Symbol at 0x7cbd404ba0f0&gt;}
 </pre></div></div>
 </div>
 <p>But has 4 named symbols inside: 2 alias for the 2 SQL subqueries - ‘keycount’ for ‘count_bill_length_mm’, - ‘sum_alias_0xxxx’ for ‘sum_bill_length_mm’</p>
@@ -757,10 +804,10 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;keycount&#39;: &lt;snsql._ast.tokens.Symbol at 0x70772f81b410&gt;,
- &#39;sum_alias_0xde09&#39;: &lt;snsql._ast.tokens.Symbol at 0x70772e4e7990&gt;,
- &#39;count_bill_length_mm&#39;: &lt;snsql._ast.tokens.Symbol at 0x70772e4e7a10&gt;,
- &#39;sum_bill_length_mm&#39;: &lt;snsql._ast.tokens.Symbol at 0x70772e4779d0&gt;}
+{&#39;keycount&#39;: &lt;snsql._ast.tokens.Symbol at 0x7cbd404afe90&gt;,
+ &#39;sum_alias_0xd1a8&#39;: &lt;snsql._ast.tokens.Symbol at 0x7cbd40698560&gt;,
+ &#39;count_bill_length_mm&#39;: &lt;snsql._ast.tokens.Symbol at 0x7cbd40632ae0&gt;,
+ &#39;sum_bill_length_mm&#39;: &lt;snsql._ast.tokens.Symbol at 0x7cbd40605b50&gt;}
 </pre></div></div>
 </div>
 <p>This last query with <code class="docutils literal notranslate"><span class="pre">group_by</span></code> will cost the same because <code class="docutils literal notranslate"><span class="pre">max_ids=1</span></code> (a penguin appears in the dataset at most once) and so the <code class="docutils literal notranslate"><span class="pre">group_by</span></code> is applied on different partitions of the population.</p>
@@ -769,7 +816,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT COUNT(bill_length_mm) AS count_bl, AVG(bill_length_mm) AS avg_bl, STD(bill_length_mm) as std_bl FROM df GROUP BY species&quot;</span>
-<span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_sql_cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="p">)</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="p">)</span>
 <span class="n">cost</span>
 </pre></div>
 </div>
@@ -780,7 +827,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;epsilon_cost&#39;: 3.0, &#39;delta_cost&#39;: 5.000000000032756e-06}
+CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 </pre></div></div>
 </div>
 <p>NOTE: in the current code of Smartnoise-SQL, there is no odometer. Meaning all queries are independant. If someone first queries the private dataset for a count, then a second time for the average and then for the standard deviation then the total cost will be added: 3 count + 2 average + 1 std. That’s why it is better to do everything in one query.</p>
@@ -837,7 +884,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_sql_cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -847,7 +894,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;epsilon_cost&#39;: 3.0, &#39;delta_cost&#39;: 4.999999999999449e-05}
+CostResponse(epsilon=3.0, delta=4.999999999999449e-05)
 </pre></div></div>
 </div>
 <p>The real cost seems to be 3 times the epsilon that she sets. It is a lot but she tries on the dummy dataset to verify all is working properly.</p>
@@ -855,7 +902,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 <span class="n">dummy_res</span>
 </pre></div>
 </div>
@@ -866,10 +913,10 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;query_response&#39;:      species  nb_penguin  avg_bill_length_mm  std_bill_length_mm
- 0     Adelie          25           59.830486           27.444144
- 1  Chinstrap          47           13.527649           28.501660
- 2     Gentoo          28           42.375624           33.967001}
+QueryResponse(epsilon=0.30000000000000004, delta=4.999999969612645e-09, requested_by=&#39;Dr. Antartica&#39;, result=SmartnoiseSQLQueryResult(res_type=&#39;sn_sql&#39;, df=     species  nb_penguin  avg_bill_length_mm  std_bill_length_mm
+0     Adelie          29           52.132857            5.262345
+1  Chinstrap          32           47.583090           47.323825
+2     Gentoo          96           19.885250           23.327595))
 </pre></div></div>
 </div>
 <p>She did not give enough budget for the query to work. This is why there are ‘NANs’ in the output. She has to spend more budget for the query to work.</p>
@@ -877,7 +924,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">7.5</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">7.5</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 <span class="n">dummy_res</span>
 </pre></div>
 </div>
@@ -888,10 +935,10 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;query_response&#39;:      species  nb_penguin  avg_bill_length_mm  std_bill_length_mm
- 0     Adelie          36           49.021514            3.944748
- 1  Chinstrap          31           49.048848            3.801831
- 2     Gentoo          30           41.176308            7.628134}
+QueryResponse(epsilon=7.5, delta=4.999999999999449e-05, requested_by=&#39;Dr. Antartica&#39;, result=SmartnoiseSQLQueryResult(res_type=&#39;sn_sql&#39;, df=     species  nb_penguin  avg_bill_length_mm  std_bill_length_mm
+0     Adelie          27           47.188038           16.634112
+1  Chinstrap          33           47.524834            5.514985
+2     Gentoo          39           48.392045            6.535751))
 </pre></div></div>
 </div>
 <p>If it errors, she might need to re-run the query a few times until it works. The budget is not affected by dummy queries anyway.</p>
@@ -899,7 +946,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flipper_length_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">7.5</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flipper_length_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">7.5</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -909,7 +956,7 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_flipper</span> <span class="o">=</span> <span class="n">flipper_length_response</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_flipper</span> <span class="o">=</span> <span class="n">flipper_length_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span>
 <span class="n">df_flipper</span>
 </pre></div>
 </div>
@@ -948,22 +995,22 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
       <th>0</th>
       <td>Adelie</td>
       <td>151</td>
-      <td>38.362705</td>
-      <td>5.465330</td>
+      <td>38.370608</td>
+      <td>5.411184</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Chinstrap</td>
       <td>67</td>
-      <td>48.867188</td>
-      <td>3.828321</td>
+      <td>49.328525</td>
+      <td>3.933794</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Gentoo</td>
-      <td>123</td>
-      <td>47.257728</td>
-      <td>5.387484</td>
+      <td>122</td>
+      <td>46.562629</td>
+      <td>10.145133</td>
     </tr>
   </tbody>
 </table>
@@ -1009,9 +1056,9 @@ The 95% confidence interval of the bill length of all penguins is [44.25, 46.12]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-T test between specie 0 and specie 1: -14.41.  Reject null hypothesis: True.
-T test between specie 0 and specie 2: -13.49. Reject null hypothesis: True.
-T test between specie 1 and specie 2: 2.19.   Reject null hypothesis: True.
+T test between species 0 and specie 1: -15.05.  Reject null hypothesis: True.
+T test between species 0 and specie 2: -8.94. Reject null hypothesis: True.
+T test between species 1 and specie 2: 2.29.   Reject null hypothesis: True.
 </pre></div></div>
 </div>
 <p>All t-tests are above the critical value of 0.5. She can reject the null hypothesis.</p>
@@ -1065,31 +1112,31 @@ T test between specie 1 and specie 2: 2.19.   Reject null hypothesis: True.
       <th>0</th>
       <td>Adelie</td>
       <td>151</td>
-      <td>38.362705</td>
-      <td>5.465330</td>
-      <td>0.444762</td>
-      <td>37.490971</td>
-      <td>39.234439</td>
+      <td>38.370608</td>
+      <td>5.411184</td>
+      <td>0.440356</td>
+      <td>37.507511</td>
+      <td>39.233706</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Chinstrap</td>
       <td>67</td>
-      <td>48.867188</td>
-      <td>3.828321</td>
-      <td>0.467704</td>
-      <td>47.950489</td>
-      <td>49.783888</td>
+      <td>49.328525</td>
+      <td>3.933794</td>
+      <td>0.480589</td>
+      <td>48.386570</td>
+      <td>50.270481</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Gentoo</td>
-      <td>123</td>
-      <td>47.257728</td>
-      <td>5.387484</td>
-      <td>0.485773</td>
-      <td>46.305613</td>
-      <td>48.209843</td>
+      <td>122</td>
+      <td>46.562629</td>
+      <td>10.145133</td>
+      <td>0.918497</td>
+      <td>44.762374</td>
+      <td>48.362883</td>
     </tr>
   </tbody>
 </table>
