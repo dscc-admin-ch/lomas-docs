@@ -135,7 +135,7 @@
 <p>To interact with the secure server on which the data is stored, Dr.Antartica first needs to install the library <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> on her local developping environment.</p>
 <p>It can be installed via the pip command:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install lomas_client</span>
@@ -203,22 +203,69 @@
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 {&#39;max_ids&#39;: 1,
+ &#39;rows&#39;: 344,
  &#39;row_privacy&#39;: True,
  &#39;censor_dims&#39;: False,
- &#39;columns&#39;: {&#39;species&#39;: {&#39;type&#39;: &#39;string&#39;,
+ &#39;columns&#39;: {&#39;species&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
    &#39;cardinality&#39;: 3,
    &#39;categories&#39;: [&#39;Adelie&#39;, &#39;Chinstrap&#39;, &#39;Gentoo&#39;]},
-  &#39;island&#39;: {&#39;type&#39;: &#39;string&#39;,
+  &#39;island&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
    &#39;cardinality&#39;: 3,
    &#39;categories&#39;: [&#39;Torgersen&#39;, &#39;Biscoe&#39;, &#39;Dream&#39;]},
-  &#39;bill_length_mm&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 30.0, &#39;upper&#39;: 65.0},
-  &#39;bill_depth_mm&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 13.0, &#39;upper&#39;: 23.0},
-  &#39;flipper_length_mm&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 150.0, &#39;upper&#39;: 250.0},
-  &#39;body_mass_g&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 2000.0, &#39;upper&#39;: 7000.0},
-  &#39;sex&#39;: {&#39;type&#39;: &#39;string&#39;,
+  &#39;bill_length_mm&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 30.0,
+   &#39;upper&#39;: 65.0},
+  &#39;bill_depth_mm&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 13.0,
+   &#39;upper&#39;: 23.0},
+  &#39;flipper_length_mm&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 150.0,
+   &#39;upper&#39;: 250.0},
+  &#39;body_mass_g&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 2000.0,
+   &#39;upper&#39;: 7000.0},
+  &#39;sex&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
    &#39;cardinality&#39;: 2,
-   &#39;categories&#39;: [&#39;MALE&#39;, &#39;FEMALE&#39;]}},
- &#39;rows&#39;: 344}
+   &#39;categories&#39;: [&#39;MALE&#39;, &#39;FEMALE&#39;]}}}
 </pre></div></div>
 </div>
 </section>
@@ -229,7 +276,7 @@
 <p>Therefore, we use a Smartnoise Synth Synthesizers.</p>
 <p>Let’s list the potential options. There respective paramaters are then available in Smarntoise Synth documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/index.html">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">snsynth</span> <span class="kn">import</span> <span class="n">Synthesizer</span>
@@ -238,7 +285,7 @@
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -250,22 +297,22 @@
 <h3>AIM: Adaptive Iterative Mechanism<a class="headerlink" href="#AIM:-Adaptive-Iterative-Mechanism" title="Link to this heading"></a></h3>
 <p>We start by executing a query on the dummy dataset without specifying any special parameters for AIM (all optional kept as default). Also only works on categorical columns so we select “species” and “island” columns to create a synthetic dataset of these two columns.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
     <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -294,39 +341,70 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td>Adelie</td>
-      <td>Dream</td>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Gentoo</td>
-      <td>Torgersen</td>
+      <td>Adelie</td>
+      <td>Biscoe</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Adelie</td>
+      <td>Gentoo</td>
       <td>Dream</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Adelie</td>
+      <td>Chinstrap</td>
       <td>Dream</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Gentoo</td>
+      <td>Biscoe</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>Gentoo</td>
       <td>Torgersen</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>Chinstrap</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>197</th>
+      <td>Chinstrap</td>
+      <td>Torgersen</td>
+    </tr>
+    <tr>
+      <th>198</th>
+      <td>Adelie</td>
+      <td>Biscoe</td>
+    </tr>
+    <tr>
+      <th>199</th>
+      <td>Gentoo</td>
+      <td>Dream</td>
     </tr>
   </tbody>
 </table>
+<p>200 rows × 2 columns</p>
 </div></div>
 </div>
 <p>The algorithm works and returned a synthetic dataset. We now estimate the cost of running this command:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_synth_cost</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
@@ -337,21 +415,21 @@
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;epsilon_cost&#39;: 1.0, &#39;delta_cost&#39;: 0.0001}
+CostResponse(epsilon=1.0, delta=0.0001)
 </pre></div></div>
 </div>
 <p>Executing such a query on the private dataset would cost 1.0 epsilon and 0.0001 delta. Dr. Antartica decides to do it with now the flag <code class="docutils literal notranslate"><span class="pre">dummmy</span></code> to False and specifiying that the wants the aim synthesizer model in return (with <code class="docutils literal notranslate"><span class="pre">return_model</span> <span class="pre">=</span> <span class="pre">True</span></code>).</p>
 <p>NOTE: if she does not set the parameter <code class="docutils literal notranslate"><span class="pre">return_model</span> <span class="pre">=</span> <span class="pre">True</span></code>, then it is False by default and she will get a synthetic dataframe as response directly.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
@@ -359,7 +437,7 @@
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">return_model</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span>
-<span class="n">res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<span class="n">res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
 </pre></div>
 </div>
 </div>
@@ -368,31 +446,31 @@
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/usr/local/lib/python3.11/site-packages/mbi/__init__.py:15: UserWarning: MixtureInference disabled, please install jax and jaxlib
+/usr/local/lib/python3.12/site-packages/mbi/__init__.py:15: UserWarning: MixtureInference disabled, please install jax and jaxlib
   warnings.warn(&#39;MixtureInference disabled, please install jax and jaxlib&#39;)
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;snsynth.aim.aim.AIMSynthesizer at 0x75edc6e1ffd0&gt;
+&lt;snsynth.aim.aim.AIMSynthesizer at 0x71b3586e6a80&gt;
 </pre></div></div>
 </div>
 <p>She can now get the model and sample results with it. She choose to sample 10 samples.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
 <span class="n">synth</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -422,51 +500,51 @@
     <tr>
       <th>0</th>
       <td>Gentoo</td>
-      <td>Biscoe</td>
+      <td>Torgersen</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Gentoo</td>
-      <td>Dream</td>
+      <td>Biscoe</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Gentoo</td>
-      <td>Dream</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Adelie</td>
-      <td>Torgersen</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Chinstrap</td>
-      <td>Dream</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Adelie</td>
-      <td>Dream</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Adelie</td>
-      <td>Torgersen</td>
-    </tr>
-    <tr>
-      <th>7</th>
       <td>Chinstrap</td>
       <td>Biscoe</td>
     </tr>
     <tr>
-      <th>8</th>
+      <th>3</th>
+      <td>Gentoo</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>5</th>
       <td>Chinstrap</td>
+      <td>Biscoe</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Gentoo</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Adelie</td>
       <td>Torgersen</td>
     </tr>
     <tr>
-      <th>9</th>
+      <th>8</th>
       <td>Chinstrap</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Gentoo</td>
       <td>Torgersen</td>
     </tr>
   </tbody>
@@ -475,10 +553,10 @@
 </div>
 <p>She now wants to specify some specific parameters to the AIM model. Therefore, she needs to set some parameters in <code class="docutils literal notranslate"><span class="pre">synth_params</span></code> based on the Smartnoise-Synth documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/aim.html#parameters">here</a>. She decides that she wants to modify the <code class="docutils literal notranslate"><span class="pre">max_model_size</span></code> to 50 (the default was 80) and tries on the dummy.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
@@ -487,30 +565,30 @@
     <span class="n">return_model</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;max_model_size&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
 <span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;snsynth.aim.aim.AIMSynthesizer at 0x75edc6883650&gt;
+&lt;snsynth.aim.aim.AIMSynthesizer at 0x71b321d293d0&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth</span> <span class="o">=</span> <span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth</span> <span class="o">=</span> <span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
 <span class="n">synth</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -540,27 +618,27 @@
     <tr>
       <th>0</th>
       <td>Gentoo</td>
-      <td>Dream</td>
+      <td>Torgersen</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Adelie</td>
-      <td>None</td>
+      <td>Chinstrap</td>
+      <td>Dream</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Adelie</td>
+      <td>Gentoo</td>
       <td>Biscoe</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Gentoo</td>
-      <td>Torgersen</td>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Chinstrap</td>
-      <td>Torgersen</td>
+      <td>Adelie</td>
+      <td>Dream</td>
     </tr>
   </tbody>
 </table>
@@ -572,20 +650,20 @@
 <h3>MWEM: Multiplicative Weights Exponential Mechanism<a class="headerlink" href="#MWEM:-Multiplicative-Weights-Exponential-Mechanism" title="Link to this heading"></a></h3>
 <p>She tries MWEM on all columns with all default parameters. As <code class="docutils literal notranslate"><span class="pre">return_model</span></code> is not specified she will directly receive a synthetic dataframe back.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -619,52 +697,52 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td>Gentoo</td>
-      <td>Torgersen</td>
-      <td>42.25</td>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>56.25</td>
       <td>22.5</td>
-      <td>155.0</td>
-      <td>2250.0</td>
+      <td>165.0</td>
+      <td>4750.0</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Chinstrap</td>
-      <td>Biscoe</td>
-      <td>63.25</td>
-      <td>13.5</td>
-      <td>235.0</td>
-      <td>5250.0</td>
-      <td>FEMALE</td>
-    </tr>
-    <tr>
-      <th>2</th>
       <td>Gentoo</td>
-      <td>Torgersen</td>
-      <td>42.25</td>
-      <td>22.5</td>
-      <td>155.0</td>
+      <td>Dream</td>
+      <td>35.25</td>
+      <td>18.5</td>
+      <td>205.0</td>
       <td>2750.0</td>
       <td>FEMALE</td>
     </tr>
     <tr>
-      <th>3</th>
+      <th>2</th>
       <td>Chinstrap</td>
-      <td>Torgersen</td>
-      <td>63.25</td>
+      <td>Biscoe</td>
+      <td>49.25</td>
       <td>13.5</td>
-      <td>235.0</td>
-      <td>5250.0</td>
+      <td>215.0</td>
+      <td>2250.0</td>
       <td>FEMALE</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>Chinstrap</td>
-      <td>Dream</td>
-      <td>63.25</td>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Biscoe</td>
+      <td>35.25</td>
       <td>13.5</td>
-      <td>235.0</td>
-      <td>5250.0</td>
+      <td>225.0</td>
+      <td>4750.0</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>56.25</td>
+      <td>22.5</td>
+      <td>165.0</td>
+      <td>4750.0</td>
       <td>FEMALE</td>
     </tr>
   </tbody>
@@ -673,22 +751,22 @@
 </div>
 <p>She now specifies 3 columns and some parameters explained <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/mwem.html#snsynth.mwem.MWEMSynthesizer">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
     <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;measure_only&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;max_retries_exp_mechanism&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -724,27 +802,27 @@
     </tr>
     <tr>
       <th>1</th>
-      <td>Gentoo</td>
+      <td>Adelie</td>
       <td>Torgersen</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Gentoo</td>
+      <td>Adelie</td>
       <td>Torgersen</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Gentoo</td>
+      <td>Chinstrap</td>
       <td>Torgersen</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Chinstrap</td>
+      <td>Gentoo</td>
       <td>Biscoe</td>
-      <td>FEMALE</td>
+      <td>MALE</td>
     </tr>
   </tbody>
 </table>
@@ -754,7 +832,7 @@
 <p>By default, if no constraints are specified, the server creates its automatically a data transformer based on selected columns, synthesizer and metadata.</p>
 <p>Here she wants to add a clamping transformation on the continuous columns before training the synthesizer. She add the bounds based on metadata.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bl_bounds</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">]</span>
@@ -764,17 +842,33 @@
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-({&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 30.0, &#39;upper&#39;: 65.0},
- {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 13.0, &#39;upper&#39;: 23.0})
+({&#39;private_id&#39;: False,
+  &#39;nullable&#39;: False,
+  &#39;max_partition_length&#39;: None,
+  &#39;max_influenced_partitions&#39;: None,
+  &#39;max_partition_contributions&#39;: None,
+  &#39;type&#39;: &#39;float&#39;,
+  &#39;precision&#39;: 64,
+  &#39;lower&#39;: 30.0,
+  &#39;upper&#39;: 65.0},
+ {&#39;private_id&#39;: False,
+  &#39;nullable&#39;: False,
+  &#39;max_partition_length&#39;: None,
+  &#39;max_influenced_partitions&#39;: None,
+  &#39;max_partition_contributions&#39;: None,
+  &#39;type&#39;: &#39;float&#39;,
+  &#39;precision&#39;: 64,
+  &#39;lower&#39;: 13.0,
+  &#39;upper&#39;: 23.0})
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">snsynth.transform</span> <span class="kn">import</span> <span class="n">BinTransformer</span><span class="p">,</span> <span class="n">ClampTransformer</span><span class="p">,</span> <span class="n">ChainTransformer</span><span class="p">,</span> <span class="n">LabelTransformer</span>
@@ -798,22 +892,22 @@
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">],</span>
     <span class="n">constraints</span> <span class="o">=</span> <span class="n">my_own_constraints</span><span class="p">,</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -843,33 +937,33 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td>48.625</td>
-      <td>16.05</td>
+      <td>47.875</td>
+      <td>15.15</td>
       <td>Chinstrap</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>51.625</td>
-      <td>18.75</td>
+      <td>48.625</td>
+      <td>15.45</td>
       <td>Gentoo</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>51.625</td>
-      <td>18.75</td>
-      <td>Gentoo</td>
+      <td>55.000</td>
+      <td>20.85</td>
+      <td>Adelie</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>51.625</td>
-      <td>18.75</td>
-      <td>Gentoo</td>
+      <td>47.875</td>
+      <td>15.15</td>
+      <td>Chinstrap</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>44.875</td>
+      <td>47.875</td>
       <td>15.15</td>
-      <td>Adelie</td>
+      <td>Chinstrap</td>
     </tr>
   </tbody>
 </table>
@@ -877,7 +971,7 @@
 </div>
 <p>Also a subset of constraints can be specified for certain columns and the server will automatically generate those for the missing columns.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_own_constraints</span> <span class="o">=</span> <span class="p">{</span>
@@ -893,22 +987,22 @@
 </div>
 <p>In this case, only the bill_length will be clamped.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">],</span>
     <span class="n">constraints</span> <span class="o">=</span> <span class="n">my_own_constraints</span><span class="p">,</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -938,33 +1032,33 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td>41.125</td>
-      <td>20.5</td>
-      <td>Chinstrap</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>53.875</td>
-      <td>20.5</td>
+      <td>54.625</td>
+      <td>14.5</td>
       <td>Adelie</td>
     </tr>
     <tr>
+      <th>1</th>
+      <td>40.375</td>
+      <td>13.5</td>
+      <td>Gentoo</td>
+    </tr>
+    <tr>
       <th>2</th>
-      <td>49.375</td>
-      <td>21.5</td>
-      <td>Chinstrap</td>
+      <td>54.625</td>
+      <td>14.5</td>
+      <td>Adelie</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>53.875</td>
-      <td>20.5</td>
+      <td>54.625</td>
+      <td>14.5</td>
       <td>Adelie</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>41.125</td>
-      <td>22.5</td>
-      <td>Chinstrap</td>
+      <td>54.625</td>
+      <td>14.5</td>
+      <td>Adelie</td>
     </tr>
   </tbody>
 </table>
@@ -975,21 +1069,21 @@
 <h3>MST: Maximum Spanning Tree<a class="headerlink" href="#MST:-Maximum-Spanning-Tree" title="Link to this heading"></a></h3>
 <p>She now experiments with MST. As the synthesizer is very needy in terms of computation, she selects a subset of column for it. See MST <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/mst.html">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mst&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1018,28 +1112,28 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td></td>
+      <td>Chinstrap</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Adelie</td>
-      <td>FEMALE</td>
+      <td></td>
+      <td></td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Gentoo</td>
-      <td>MALE</td>
+      <td>Chinstrap</td>
+      <td></td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Gentoo</td>
-      <td>MALE</td>
+      <td></td>
+      <td></td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Adelie</td>
-      <td></td>
+      <td>Gentoo</td>
+      <td>MALE</td>
     </tr>
   </tbody>
 </table>
@@ -1047,22 +1141,22 @@
 </div>
 <p>She can also specify a specific number of samples to get (if return_model is not True):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mst&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
     <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1091,23 +1185,23 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td>Adelie</td>
+      <td></td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Chinstrap</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Adelie</td>
+      <td>Gentoo</td>
       <td>MALE</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>Adelie</td>
+      <th>2</th>
+      <td>Gentoo</td>
       <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Chinstrap</td>
+      <td>MALE</td>
     </tr>
   </tbody>
 </table>
@@ -1115,10 +1209,10 @@
 </div>
 <p>And a condition on these samples. For instance, here, she only wants female samples.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mst&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">],</span>
@@ -1126,12 +1220,12 @@
     <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;sex = FEMALE&quot;</span><span class="p">,</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1171,7 +1265,7 @@
     <tr>
       <th>2</th>
       <td></td>
-      <td>Chinstrap</td>
+      <td>Gentoo</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1188,10 +1282,10 @@
 <h2>DPCTGAN: Differentially Private Conditional Tabular GAN<a class="headerlink" href="#DPCTGAN:-Differentially-Private-Conditional-Tabular-GAN" title="Link to this heading"></a></h2>
 <p>She now tries DPCTGAN. A first warning let her know that the random noise generation for this model is not cryptographically secure and if it is not ok for her, she can decode to stop using this synthesizer. Then she does not get a response but an error 422 with an explanation.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpctgan&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1205,7 +1299,7 @@
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/code/lomas_client/utils.py:37: UserWarning: Warning:dpctgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
+/code/lomas_client/utils.py:62: UserWarning: Warning:dpctgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
   warnings.warn(
 </pre></div></div>
 </div>
@@ -1214,26 +1308,51 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;Error fitting model: sample_rate=5.0 is not a valid value. Please provide a float between 0 and 1. Try decreasing batch_size in synth_params (default batch_size=500).&#34;,&#34;library&#34;:&#34;smartnoise_synth&#34;}
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ExternalLibraryException</span>                  Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[23], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> res_dummy <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">smartnoise_synth</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">synth_name</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">dpctgan</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">epsilon</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">1.0</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span> res_dummy
+
+File <span class="ansi-green-fg">/code/lomas_client/libraries/smartnoise_synth.py:203</span>, in <span class="ansi-cyan-fg">SmartnoiseSynthClient.query</span><span class="ansi-blue-fg">(self, synth_name, epsilon, delta, select_cols, synth_params, nullable, constraints, dummy, return_model, condition, nb_samples, nb_rows, seed)</span>
+<span class="ansi-green-intense-fg ansi-bold">    200</span>     r_model <span style="color: rgb(98,98,98)">=</span> QueryResponse<span style="color: rgb(98,98,98)">.</span>model_validate_json(data)
+<span class="ansi-green-intense-fg ansi-bold">    201</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> r_model
+<span class="ansi-green-fg">--&gt; 203</span> <span class="ansi-yellow-bg">raise_error</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">res</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    204</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+
+File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span class="ansi-cyan-fg">raise_error</span><span class="ansi-blue-fg">(response)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> InvalidQueryException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">InvalidQueryException</span><span style="color: rgb(175,0,0)">&#34;</span>])
+<span class="ansi-green-intense-fg ansi-bold">     37</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_422_UNPROCESSABLE_ENTITY:
+<span class="ansi-green-fg">---&gt; 38</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> ExternalLibraryException(
+<span class="ansi-green-intense-fg ansi-bold">     39</span>         error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">library</span><span style="color: rgb(175,0,0)">&#34;</span>], error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">ExternalLibraryException</span><span style="color: rgb(175,0,0)">&#34;</span>]
+<span class="ansi-green-intense-fg ansi-bold">     40</span>     )
+<span class="ansi-green-intense-fg ansi-bold">     41</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_403_FORBIDDEN:
+<span class="ansi-green-intense-fg ansi-bold">     42</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> UnauthorizedAccessException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">UnauthorizedAccessException</span><span style="color: rgb(175,0,0)">&#34;</span>])
+
+<span class="ansi-red-fg">ExternalLibraryException</span>: (&#39;smartnoise_synth&#39;, &#39;Error fitting model: sample_rate=5.0 is not a valid value. Please provide a float between 0 and 1. Try decreasing batch_size in synth_params (default batch_size=500).&#39;)
 </pre></div></div>
 </div>
-<p>The default parameters of DPCTGAN do not work for PENGUIN dataset. Hence, as advised in the error message, she decreases the batch_size (also she chekcks the documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/dpctgan.html">here</a>.</p>
+<p>The default parameters of DPCTGAN do not work for PENGUIN dataset. Hence, as advised in the error message, she decreases the batch_size (also she checks the documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/dpctgan.html">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpctgan&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1267,53 +1386,53 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;Error fitting 
   <tbody>
     <tr>
       <th>0</th>
-      <td>Gentoo</td>
-      <td>Torgersen</td>
-      <td>47.809876</td>
-      <td>17.548668</td>
-      <td>188.346262</td>
-      <td>5152.039871</td>
-      <td>MALE</td>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>43.414108</td>
+      <td>17.841402</td>
+      <td>180.284642</td>
+      <td>5016.072102</td>
+      <td>FEMALE</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Gentoo</td>
-      <td>Torgersen</td>
-      <td>45.505892</td>
-      <td>15.785036</td>
-      <td>215.527822</td>
-      <td>4079.444863</td>
-      <td>FEMALE</td>
+      <td>Biscoe</td>
+      <td>43.298852</td>
+      <td>16.777365</td>
+      <td>222.225340</td>
+      <td>5162.192479</td>
+      <td>MALE</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Chinstrap</td>
-      <td>Biscoe</td>
-      <td>39.293022</td>
-      <td>19.115118</td>
-      <td>176.019657</td>
-      <td>3719.095856</td>
-      <td>MALE</td>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>50.622394</td>
+      <td>19.280649</td>
+      <td>209.893867</td>
+      <td>5275.184557</td>
+      <td>FEMALE</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Adelie</td>
-      <td>Dream</td>
-      <td>47.029771</td>
-      <td>17.322245</td>
-      <td>202.441730</td>
-      <td>4394.811036</td>
-      <td>MALE</td>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>41.493216</td>
+      <td>17.206660</td>
+      <td>233.323157</td>
+      <td>2938.070863</td>
+      <td>FEMALE</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Gentoo</td>
-      <td>Dream</td>
-      <td>44.393938</td>
-      <td>17.215382</td>
-      <td>200.788893</td>
-      <td>4653.589007</td>
-      <td>FEMALE</td>
+      <td>Adelie</td>
+      <td>Biscoe</td>
+      <td>46.749278</td>
+      <td>17.139504</td>
+      <td>204.060608</td>
+      <td>5795.609772</td>
+      <td>MALE</td>
     </tr>
   </tbody>
 </table>
@@ -1332,10 +1451,10 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;Error fitting 
 <h2>PATEGAN: Private Aggregation of Teacher Ensembles<a class="headerlink" href="#PATEGAN:-Private-Aggregation-of-Teacher-Ensembles" title="Link to this heading"></a></h2>
 <p>Unfortunatelly, she is not able to train the pategan synthetizer on the PENGUIN dataset. Hence, she must try another one.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;pategan&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1349,27 +1468,52 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;Error fitting 
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not reliable with this dataset.&#34;,&#34;library&#34;:&#34;smartnoise_synth&#34;}
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ExternalLibraryException</span>                  Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[25], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> res_dummy <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">smartnoise_synth</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">synth_name</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">pategan</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">epsilon</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">1.0</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span> res_dummy
+
+File <span class="ansi-green-fg">/code/lomas_client/libraries/smartnoise_synth.py:203</span>, in <span class="ansi-cyan-fg">SmartnoiseSynthClient.query</span><span class="ansi-blue-fg">(self, synth_name, epsilon, delta, select_cols, synth_params, nullable, constraints, dummy, return_model, condition, nb_samples, nb_rows, seed)</span>
+<span class="ansi-green-intense-fg ansi-bold">    200</span>     r_model <span style="color: rgb(98,98,98)">=</span> QueryResponse<span style="color: rgb(98,98,98)">.</span>model_validate_json(data)
+<span class="ansi-green-intense-fg ansi-bold">    201</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> r_model
+<span class="ansi-green-fg">--&gt; 203</span> <span class="ansi-yellow-bg">raise_error</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">res</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    204</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+
+File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span class="ansi-cyan-fg">raise_error</span><span class="ansi-blue-fg">(response)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> InvalidQueryException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">InvalidQueryException</span><span style="color: rgb(175,0,0)">&#34;</span>])
+<span class="ansi-green-intense-fg ansi-bold">     37</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_422_UNPROCESSABLE_ENTITY:
+<span class="ansi-green-fg">---&gt; 38</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> ExternalLibraryException(
+<span class="ansi-green-intense-fg ansi-bold">     39</span>         error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">library</span><span style="color: rgb(175,0,0)">&#34;</span>], error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">ExternalLibraryException</span><span style="color: rgb(175,0,0)">&#34;</span>]
+<span class="ansi-green-intense-fg ansi-bold">     40</span>     )
+<span class="ansi-green-intense-fg ansi-bold">     41</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_403_FORBIDDEN:
+<span class="ansi-green-intense-fg ansi-bold">     42</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> UnauthorizedAccessException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">UnauthorizedAccessException</span><span style="color: rgb(175,0,0)">&#34;</span>])
+
+<span class="ansi-red-fg">ExternalLibraryException</span>: (&#39;smartnoise_synth&#39;, &#39;pategan not reliable with this dataset.&#39;)
 </pre></div></div>
 </div>
 </section>
 <section id="PATECTGAN:-Conditional-tabular-GAN-using-Private-Aggregation-of-Teacher-Ensembles">
 <h2>PATECTGAN: Conditional tabular GAN using Private Aggregation of Teacher Ensembles<a class="headerlink" href="#PATECTGAN:-Conditional-tabular-GAN-using-Private-Aggregation-of-Teacher-Ensembles" title="Link to this heading"></a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;patectgan&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1405,50 +1549,50 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
       <th>0</th>
       <td>Adelie</td>
       <td>Torgersen</td>
-      <td>44.929629</td>
-      <td>17.136712</td>
-      <td>206.450379</td>
-      <td>3677.639037</td>
+      <td>44.965223</td>
+      <td>21.050138</td>
+      <td>197.011286</td>
+      <td>3798.269078</td>
       <td>MALE</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Chinstrap</td>
       <td>Biscoe</td>
-      <td>41.911177</td>
-      <td>15.958753</td>
-      <td>219.224480</td>
-      <td>3503.649727</td>
+      <td>54.784711</td>
+      <td>18.795483</td>
+      <td>189.339603</td>
+      <td>4936.383002</td>
       <td>MALE</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Chinstrap</td>
       <td>Biscoe</td>
-      <td>39.371106</td>
-      <td>18.538643</td>
-      <td>215.860750</td>
-      <td>6183.452576</td>
+      <td>58.836415</td>
+      <td>14.854715</td>
+      <td>201.541473</td>
+      <td>4849.516831</td>
       <td>MALE</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Gentoo</td>
       <td>Dream</td>
-      <td>39.778699</td>
-      <td>19.392393</td>
-      <td>220.403337</td>
-      <td>6291.852415</td>
-      <td>MALE</td>
+      <td>49.260641</td>
+      <td>19.661433</td>
+      <td>245.845395</td>
+      <td>4142.061740</td>
+      <td>FEMALE</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Gentoo</td>
       <td>Torgersen</td>
-      <td>41.940040</td>
-      <td>18.712894</td>
-      <td>209.865149</td>
-      <td>3379.273981</td>
+      <td>48.662708</td>
+      <td>17.788002</td>
+      <td>177.374248</td>
+      <td>5917.481452</td>
       <td>FEMALE</td>
     </tr>
   </tbody>
@@ -1456,10 +1600,10 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;patectgan&quot;</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;body_mass_g&quot;</span><span class="p">],</span>
@@ -1476,9 +1620,321 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
     <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>body_mass_g</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Dream</td>
+      <td>51.295550</td>
+      <td>4649.196619</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Biscoe</td>
+      <td>38.369172</td>
+      <td>4301.166393</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Biscoe</td>
+      <td>52.136779</td>
+      <td>4498.011571</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Torgersen</td>
+      <td>58.900825</td>
+      <td>4223.040946</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Dream</td>
+      <td>40.492166</td>
+      <td>3707.417592</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="DPGAN:-DIfferentially-Private-GAN">
+<h2>DPGAN: DIfferentially Private GAN<a class="headerlink" href="#DPGAN:-DIfferentially-Private-GAN" title="Link to this heading"></a></h2>
+<p>For DPGAN, there is the same warning as for DPCTGAN with the cryptographically secure random noise generation.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/code/lomas_client/utils.py:62: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
+  warnings.warn(
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>61.084300</td>
+      <td>17.778250</td>
+      <td>202.404261</td>
+      <td>4074.338235</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>45.143127</td>
+      <td>23.000000</td>
+      <td>250.000000</td>
+      <td>4078.621872</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>63.310050</td>
+      <td>16.944589</td>
+      <td>215.155567</td>
+      <td>3999.723613</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Gentoo</td>
+      <td>Dream</td>
+      <td>65.000000</td>
+      <td>22.198413</td>
+      <td>218.926238</td>
+      <td>7000.000000</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>65.000000</td>
+      <td>23.000000</td>
+      <td>191.299780</td>
+      <td>4249.239404</td>
+      <td>MALE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>One final time she samples with conditions:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;body_mass_g &gt; 5000&quot;</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/code/lomas_client/utils.py:62: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
+  warnings.warn(
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>48.614252</td>
+      <td>17.252423</td>
+      <td>250.000000</td>
+      <td>7000.000000</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>62.443527</td>
+      <td>17.991540</td>
+      <td>250.000000</td>
+      <td>7000.000000</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>65.000000</td>
+      <td>23.000000</td>
+      <td>226.908019</td>
+      <td>7000.000000</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Gentoo</td>
+      <td>Dream</td>
+      <td>60.141646</td>
+      <td>16.770572</td>
+      <td>246.724272</td>
+      <td>5726.566434</td>
+      <td>MALE</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>46.260255</td>
+      <td>16.974378</td>
+      <td>250.000000</td>
+      <td>6849.641472</td>
+      <td>MALE</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>And now on the real dataset</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;body_mass_g &gt; 5000&quot;</span><span class="p">,</span>
+    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/code/lomas_client/utils.py:62: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
+  warnings.warn(
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
@@ -1503,95 +1959,6 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>island</th>
-      <th>bill_length_mm</th>
-      <th>body_mass_g</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Torgersen</td>
-      <td>48.482846</td>
-      <td>4627.040502</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Biscoe</td>
-      <td>36.627252</td>
-      <td>4458.971380</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Biscoe</td>
-      <td>50.437214</td>
-      <td>4419.834249</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Torgersen</td>
-      <td>57.515079</td>
-      <td>4114.015296</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Dream</td>
-      <td>37.914762</td>
-      <td>3729.208380</td>
-    </tr>
-  </tbody>
-</table>
-</div></div>
-</div>
-</section>
-<section id="DPGAN:-DIfferentially-Private-GAN">
-<h2>DPGAN: DIfferentially Private GAN<a class="headerlink" href="#DPGAN:-DIfferentially-Private-GAN" title="Link to this heading"></a></h2>
-<p>For DPGAN, there is the same warning as for DPCTGAN with the cryptographically secure random noise generation.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/code/lomas_client/utils.py:37: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
-  warnings.warn(
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
       <th>species</th>
       <th>island</th>
       <th>bill_length_mm</th>
@@ -1604,326 +1971,103 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
   <tbody>
     <tr>
       <th>0</th>
-      <td>Chinstrap</td>
-      <td>Torgersen</td>
-      <td>47.418710</td>
+      <td>Adelie</td>
+      <td>Biscoe</td>
+      <td>44.275917</td>
       <td>23.000000</td>
-      <td>192.233215</td>
-      <td>4478.892826</td>
-      <td>MALE</td>
+      <td>194.386986</td>
+      <td>5710.911572</td>
+      <td></td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Adelie</td>
-      <td>Biscoe</td>
-      <td>45.057986</td>
-      <td>17.836150</td>
-      <td>195.967093</td>
-      <td>5085.548207</td>
-      <td>MALE</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Adelie</td>
-      <td>Dream</td>
-      <td>46.495445</td>
-      <td>17.600734</td>
-      <td>195.489978</td>
-      <td>3655.695215</td>
-      <td>MALE</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Gentoo</td>
-      <td>Torgersen</td>
-      <td>58.334219</td>
-      <td>19.706083</td>
-      <td>250.000000</td>
-      <td>7000.000000</td>
-      <td>FEMALE</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Adelie</td>
-      <td>Biscoe</td>
-      <td>65.000000</td>
-      <td>16.195120</td>
-      <td>206.065695</td>
-      <td>4478.947320</td>
-      <td>FEMALE</td>
-    </tr>
-  </tbody>
-</table>
-</div></div>
-</div>
-<p>One final time she samples with conditions:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;body_mass_g &gt; 5000&quot;</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/code/lomas_client/utils.py:37: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
-  warnings.warn(
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>species</th>
-      <th>island</th>
-      <th>bill_length_mm</th>
-      <th>bill_depth_mm</th>
-      <th>flipper_length_mm</th>
-      <th>body_mass_g</th>
-      <th>sex</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Adelie</td>
-      <td>Torgersen</td>
-      <td>43.485997</td>
-      <td>19.496153</td>
-      <td>180.303064</td>
-      <td>6134.536535</td>
-      <td>MALE</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Gentoo</td>
-      <td>Torgersen</td>
-      <td>63.116608</td>
-      <td>21.453384</td>
-      <td>189.907485</td>
-      <td>7000.000000</td>
-      <td>MALE</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Adelie</td>
-      <td>Dream</td>
-      <td>65.000000</td>
-      <td>20.504224</td>
-      <td>189.021906</td>
-      <td>5361.825123</td>
-      <td>MALE</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Adelie</td>
-      <td>Dream</td>
-      <td>65.000000</td>
-      <td>20.310123</td>
-      <td>193.809981</td>
-      <td>5012.155779</td>
-      <td>FEMALE</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Adelie</td>
-      <td>Torgersen</td>
-      <td>64.386925</td>
-      <td>16.037792</td>
-      <td>188.511754</td>
-      <td>6332.941920</td>
-      <td>MALE</td>
-    </tr>
-  </tbody>
-</table>
-</div></div>
-</div>
-<p>And now on the real dataset</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;body_mass_g &gt; 5000&quot;</span><span class="p">,</span>
-    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/code/lomas_client/utils.py:37: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
-  warnings.warn(
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>species</th>
-      <th>island</th>
-      <th>bill_length_mm</th>
-      <th>bill_depth_mm</th>
-      <th>flipper_length_mm</th>
-      <th>body_mass_g</th>
-      <th>sex</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Adelie</td>
-      <td>Torgersen</td>
-      <td>43.332719</td>
-      <td>16.996525</td>
-      <td>197.196980</td>
-      <td>6542.874247</td>
-      <td>FEMALE</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Gentoo</td>
-      <td>Biscoe</td>
-      <td>53.666000</td>
-      <td>19.943369</td>
-      <td>184.627506</td>
-      <td>5256.182522</td>
-      <td>FEMALE</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Adelie</td>
-      <td>Torgersen</td>
-      <td>47.092630</td>
-      <td>21.298139</td>
-      <td>193.409859</td>
-      <td>5405.979574</td>
-      <td>FEMALE</td>
-    </tr>
-    <tr>
-      <th>3</th>
       <td>Chinstrap</td>
       <td>Biscoe</td>
-      <td>54.154047</td>
-      <td>15.847898</td>
-      <td>192.380197</td>
-      <td>6358.633310</td>
-      <td>MALE</td>
+      <td>45.761536</td>
+      <td>19.180464</td>
+      <td>190.228606</td>
+      <td>5585.222661</td>
+      <td>FEMALE</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>51.918343</td>
+      <td>20.711846</td>
+      <td>250.000000</td>
+      <td>5547.108099</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>65.000000</td>
+      <td>23.000000</td>
+      <td>193.761142</td>
+      <td>7000.000000</td>
+      <td></td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Adelie</td>
-      <td>Biscoe</td>
-      <td>44.494324</td>
-      <td>16.248922</td>
-      <td>188.783114</td>
-      <td>5486.318067</td>
-      <td>FEMALE</td>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>65.000000</td>
+      <td>23.000000</td>
+      <td>244.220206</td>
+      <td>6518.389255</td>
+      <td>MALE</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>Gentoo</td>
-      <td>Biscoe</td>
-      <td>45.828992</td>
-      <td>16.119691</td>
-      <td>209.792230</td>
-      <td>6048.840851</td>
-      <td>FEMALE</td>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>61.533132</td>
+      <td>20.927101</td>
+      <td>186.077987</td>
+      <td>5242.271543</td>
+      <td>MALE</td>
     </tr>
     <tr>
       <th>6</th>
       <td>Chinstrap</td>
-      <td>Biscoe</td>
-      <td>45.586326</td>
-      <td>17.164572</td>
-      <td>196.064838</td>
-      <td>6345.135689</td>
-      <td>FEMALE</td>
+      <td>Dream</td>
+      <td>46.066000</td>
+      <td>20.364783</td>
+      <td>198.249876</td>
+      <td>5248.364478</td>
+      <td></td>
     </tr>
     <tr>
       <th>7</th>
-      <td>Gentoo</td>
-      <td>Biscoe</td>
-      <td>52.858690</td>
-      <td>18.386937</td>
-      <td>190.213206</td>
-      <td>5387.799114</td>
-      <td>MALE</td>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>63.791512</td>
+      <td>17.969750</td>
+      <td>199.137564</td>
+      <td>7000.000000</td>
+      <td></td>
     </tr>
     <tr>
       <th>8</th>
-      <td>Chinstrap</td>
-      <td>Biscoe</td>
+      <td>Adelie</td>
+      <td>Dream</td>
       <td>65.000000</td>
-      <td>17.667682</td>
-      <td>203.667950</td>
-      <td>7000.000000</td>
-      <td>FEMALE</td>
+      <td>16.838814</td>
+      <td>180.955905</td>
+      <td>6145.199358</td>
+      <td></td>
     </tr>
     <tr>
       <th>9</th>
-      <td>Chinstrap</td>
+      <td>Adelie</td>
       <td>Biscoe</td>
       <td>65.000000</td>
-      <td>19.445511</td>
-      <td>195.644815</td>
-      <td>5514.548540</td>
-      <td>FEMALE</td>
+      <td>19.727768</td>
+      <td>183.611000</td>
+      <td>7000.000000</td>
+      <td></td>
     </tr>
   </tbody>
 </table>
@@ -1934,7 +2078,7 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
 <h2>Step 6: See archives of queries<a class="headerlink" href="#Step-6:-See-archives-of-queries" title="Link to this heading"></a></h2>
 <p>She now wants to verify all the queries that she did on the real data. It is possible because an archive of all queries is kept in a secure database. With a function call she can see her queries, budget and associated responses.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">previous_queries</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_previous_queries</span><span class="p">()</span>
@@ -1943,7 +2087,7 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
 </div>
 <p>Let’s check the last query</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_query</span> <span class="o">=</span> <span class="n">previous_queries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -1952,7 +2096,7 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1971,33 +2115,23 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
   &#39;return_model&#39;: False,
   &#39;condition&#39;: &#39;body_mass_g &gt; 5000&#39;,
   &#39;nb_samples&#39;: 10},
- &#39;response&#39;: {&#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
-  &#39;query_response&#39;:      species     island  bill_length_mm  bill_depth_mm  flipper_length_mm  \
-  0     Adelie  Torgersen       43.332719      16.996525         197.196980
-  1     Gentoo     Biscoe       53.666000      19.943369         184.627506
-  2     Adelie  Torgersen       47.092630      21.298139         193.409859
-  3  Chinstrap     Biscoe       54.154047      15.847898         192.380197
-  4     Adelie     Biscoe       44.494324      16.248922         188.783114
-  5     Gentoo     Biscoe       45.828992      16.119691         209.792230
-  6  Chinstrap     Biscoe       45.586326      17.164572         196.064838
-  7     Gentoo     Biscoe       52.858690      18.386937         190.213206
-  8  Chinstrap     Biscoe       65.000000      17.667682         203.667950
-  9  Chinstrap     Biscoe       65.000000      19.445511         195.644815
+ &#39;response&#39;: {&#39;epsilon&#39;: 1.0,
+  &#39;delta&#39;: 0.00015673368198174188,
+  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
+  &#39;result&#39;:                       res_type  \
+  index         sn_synth_samples
+  columns       sn_synth_samples
+  data          sn_synth_samples
+  index_names   sn_synth_samples
+  column_names  sn_synth_samples
 
-     body_mass_g     sex
-  0  6542.874247  FEMALE
-  1  5256.182522  FEMALE
-  2  5405.979574  FEMALE
-  3  6358.633310    MALE
-  4  5486.318067  FEMALE
-  5  6048.840851  FEMALE
-  6  6345.135689  FEMALE
-  7  5387.799114    MALE
-  8  7000.000000  FEMALE
-  9  5514.548540  FEMALE  ,
-  &#39;spent_epsilon&#39;: 1.0,
-  &#39;spent_delta&#39;: 0.00015673368198174188},
- &#39;timestamp&#39;: 1724943669.4523578}
+                                                       df_samples
+  index                            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  columns       [species, island, bill_length_mm, bill_depth_m...
+  data          [[Adelie, Biscoe, 44.27591737359762, 23.0, 194...
+  index_names                                              [None]
+  column_names                                             [None]  },
+ &#39;timestamp&#39;: 1728461702.0089684}
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -2068,6 +2202,8 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.4/en/index.html">v0.3.4</a></dd>
         
       </dl>
       

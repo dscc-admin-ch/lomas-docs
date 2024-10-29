@@ -129,13 +129,76 @@
 <h2>Step 1: Install the library<a class="headerlink" href="#Step-1:-Install-the-library" title="Link to this heading"></a></h2>
 <p>To interact with the secure server on which the data is stored, one first needs to install the library <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> on her local developping environment.</p>
 <p>It can be installed via the pip command:</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>lomas-client
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Requirement already satisfied: lomas-client in /usr/local/lib/python3.12/site-packages (0.3.3)
+Requirement already satisfied: diffprivlib&gt;=0.6.4 in /usr/local/lib/python3.12/site-packages (from lomas-client) (0.6.4)
+Requirement already satisfied: diffprivlib-logger&gt;=0.0.3 in /usr/local/lib/python3.12/site-packages (from lomas-client) (0.0.3)
+Requirement already satisfied: numpy&gt;=1.26.2 in /usr/local/lib/python3.12/site-packages (from lomas-client) (1.26.2)
+Requirement already satisfied: opendp==0.10.0 in /usr/local/lib/python3.12/site-packages (from lomas-client) (0.10.0)
+Requirement already satisfied: opendp-logger==0.3.0 in /usr/local/lib/python3.12/site-packages (from lomas-client) (0.3.0)
+Requirement already satisfied: pandas&gt;=2.2.2 in /usr/local/lib/python3.12/site-packages (from lomas-client) (2.2.2)
+Requirement already satisfied: requests&gt;=2.32.0 in /usr/local/lib/python3.12/site-packages (from lomas-client) (2.32.0)
+Requirement already satisfied: scikit-learn==1.4.0 in /usr/local/lib/python3.12/site-packages (from lomas-client) (1.4.0)
+Requirement already satisfied: smartnoise-synth==1.0.4 in /usr/local/lib/python3.12/site-packages (from lomas-client) (1.0.4)
+Requirement already satisfied: smartnoise-synth-logger==0.0.3 in /usr/local/lib/python3.12/site-packages (from lomas-client) (0.0.3)
+Requirement already satisfied: scipy&gt;=1.6.0 in /usr/local/lib/python3.12/site-packages (from scikit-learn==1.4.0-&gt;lomas-client) (1.14.1)
+Requirement already satisfied: joblib&gt;=1.2.0 in /usr/local/lib/python3.12/site-packages (from scikit-learn==1.4.0-&gt;lomas-client) (1.4.2)
+Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /usr/local/lib/python3.12/site-packages (from scikit-learn==1.4.0-&gt;lomas-client) (3.5.0)
+Requirement already satisfied: Faker&gt;=17.0.0 in /usr/local/lib/python3.12/site-packages (from smartnoise-synth==1.0.4-&gt;lomas-client) (30.1.0)
+Requirement already satisfied: opacus&lt;0.15.0,&gt;=0.14.0 in /usr/local/lib/python3.12/site-packages (from smartnoise-synth==1.0.4-&gt;lomas-client) (0.14.0)
+Requirement already satisfied: pac-synth&lt;0.0.9,&gt;=0.0.8 in /usr/local/lib/python3.12/site-packages (from smartnoise-synth==1.0.4-&gt;lomas-client) (0.0.8)
+Requirement already satisfied: smartnoise-sql&lt;2.0.0,&gt;=1.0.4 in /usr/local/lib/python3.12/site-packages (from smartnoise-synth==1.0.4-&gt;lomas-client) (1.0.4)
+Requirement already satisfied: torch&gt;=2.2.0 in /usr/local/lib/python3.12/site-packages (from smartnoise-synth==1.0.4-&gt;lomas-client) (2.4.1)
+Requirement already satisfied: setuptools&gt;=49.0.0 in /usr/local/lib/python3.12/site-packages (from diffprivlib&gt;=0.6.4-&gt;lomas-client) (75.1.0)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in /usr/local/lib/python3.12/site-packages (from pandas&gt;=2.2.2-&gt;lomas-client) (2.9.0.post0)
+Requirement already satisfied: pytz&gt;=2020.1 in /usr/local/lib/python3.12/site-packages (from pandas&gt;=2.2.2-&gt;lomas-client) (2024.2)
+Requirement already satisfied: tzdata&gt;=2022.7 in /usr/local/lib/python3.12/site-packages (from pandas&gt;=2.2.2-&gt;lomas-client) (2024.2)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in /usr/local/lib/python3.12/site-packages (from requests&gt;=2.32.0-&gt;lomas-client) (3.4.0)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in /usr/local/lib/python3.12/site-packages (from requests&gt;=2.32.0-&gt;lomas-client) (3.10)
+Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in /usr/local/lib/python3.12/site-packages (from requests&gt;=2.32.0-&gt;lomas-client) (2.2.3)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.12/site-packages (from requests&gt;=2.32.0-&gt;lomas-client) (2024.8.30)
+Requirement already satisfied: typing-extensions in /usr/local/lib/python3.12/site-packages (from Faker&gt;=17.0.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (4.12.2)
+Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.12/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas&gt;=2.2.2-&gt;lomas-client) (1.16.0)
+Requirement already satisfied: PyYAML&lt;7.0.0,&gt;=6.0.1 in /usr/local/lib/python3.12/site-packages (from smartnoise-sql&lt;2.0.0,&gt;=1.0.4-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (6.0.2)
+Requirement already satisfied: antlr4-python3-runtime==4.9.3 in /usr/local/lib/python3.12/site-packages (from smartnoise-sql&lt;2.0.0,&gt;=1.0.4-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (4.9.3)
+Requirement already satisfied: graphviz&lt;0.18,&gt;=0.17 in /usr/local/lib/python3.12/site-packages (from smartnoise-sql&lt;2.0.0,&gt;=1.0.4-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (0.17)
+Requirement already satisfied: sqlalchemy&lt;3.0.0,&gt;=2.0.0 in /usr/local/lib/python3.12/site-packages (from smartnoise-sql&lt;2.0.0,&gt;=1.0.4-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (2.0.35)
+Requirement already satisfied: filelock in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (3.16.1)
+Requirement already satisfied: sympy in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (1.13.3)
+Requirement already satisfied: networkx in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (3.3)
+Requirement already satisfied: jinja2 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (3.1.4)
+Requirement already satisfied: fsspec in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (2024.9.0)
+Requirement already satisfied: nvidia-cuda-nvrtc-cu12==12.1.105 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.1.105)
+Requirement already satisfied: nvidia-cuda-runtime-cu12==12.1.105 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.1.105)
+Requirement already satisfied: nvidia-cuda-cupti-cu12==12.1.105 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.1.105)
+Requirement already satisfied: nvidia-cudnn-cu12==9.1.0.70 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (9.1.0.70)
+Requirement already satisfied: nvidia-cublas-cu12==12.1.3.1 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.1.3.1)
+Requirement already satisfied: nvidia-cufft-cu12==11.0.2.54 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (11.0.2.54)
+Requirement already satisfied: nvidia-curand-cu12==10.3.2.106 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (10.3.2.106)
+Requirement already satisfied: nvidia-cusolver-cu12==11.4.5.107 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (11.4.5.107)
+Requirement already satisfied: nvidia-cusparse-cu12==12.1.0.106 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.1.0.106)
+Requirement already satisfied: nvidia-nccl-cu12==2.20.5 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (2.20.5)
+Requirement already satisfied: nvidia-nvtx-cu12==12.1.105 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.1.105)
+Requirement already satisfied: triton==3.0.0 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (3.0.0)
+Requirement already satisfied: nvidia-nvjitlink-cu12 in /usr/local/lib/python3.12/site-packages (from nvidia-cusolver-cu12==11.4.5.107-&gt;torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.6.77)
+Requirement already satisfied: greenlet!=0.4.17 in /usr/local/lib/python3.12/site-packages (from sqlalchemy&lt;3.0.0,&gt;=2.0.0-&gt;smartnoise-sql&lt;2.0.0,&gt;=1.0.4-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (3.1.1)
+Requirement already satisfied: MarkupSafe&gt;=2.0 in /usr/local/lib/python3.12/site-packages (from jinja2-&gt;torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (2.1.5)
+Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in /usr/local/lib/python3.12/site-packages (from sympy-&gt;torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (1.3.0)
+<span class="ansi-yellow-fg">WARNING: Running pip as the &#39;root&#39; user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.</span><span class="ansi-yellow-fg">
+</span>
+</pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -152,7 +215,7 @@
 <p>Once the library is installed, a Client object must be created. It is responsible for sending sending requests to the server and processing responses in the local environment. It enables a seamless interaction with the server.</p>
 <p>To create the client, one needs to give it a few parameters: - a url: the root application endpoint to the remote secure server. - user_name: her name as registered in the database (Jack) - dataset_name: the name of the dataset that we want to query (TITANIC)</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">APP_URL</span> <span class="o">=</span> <span class="s2">&quot;http://lomas_server&quot;</span>
@@ -168,7 +231,7 @@
 <section id="Getting-dataset-metadata">
 <h3>Getting dataset metadata<a class="headerlink" href="#Getting-dataset-metadata" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
@@ -177,36 +240,107 @@
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 {&#39;max_ids&#39;: 1,
+ &#39;rows&#39;: 887,
  &#39;row_privacy&#39;: True,
- &#39;columns&#39;: {&#39;PassengerId&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 1},
-  &#39;Pclass&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 1, &#39;upper&#39;: 3},
-  &#39;Name&#39;: {&#39;type&#39;: &#39;string&#39;},
-  &#39;Sex&#39;: {&#39;type&#39;: &#39;string&#39;,
+ &#39;censor_dims&#39;: False,
+ &#39;columns&#39;: {&#39;Pclass&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;int&#39;,
+   &#39;precision&#39;: 32,
+   &#39;lower&#39;: 1,
+   &#39;upper&#39;: 3},
+  &#39;Name&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;},
+  &#39;Sex&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
    &#39;cardinality&#39;: 2,
    &#39;categories&#39;: [&#39;male&#39;, &#39;female&#39;]},
-  &#39;Age&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 0.1, &#39;upper&#39;: 100.0},
-  &#39;SibSp&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 0},
-  &#39;Parch&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 0},
-  &#39;Ticket&#39;: {&#39;type&#39;: &#39;string&#39;},
-  &#39;Fare&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 0.0},
-  &#39;Cabin&#39;: {&#39;type&#39;: &#39;string&#39;},
-  &#39;Embarked&#39;: {&#39;type&#39;: &#39;string&#39;,
+  &#39;Age&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 0.1,
+   &#39;upper&#39;: 100.0},
+  &#39;SibSp&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;int&#39;,
+   &#39;precision&#39;: 32,
+   &#39;lower&#39;: 0,
+   &#39;upper&#39;: 10},
+  &#39;Parch&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;int&#39;,
+   &#39;precision&#39;: 32,
+   &#39;lower&#39;: 0,
+   &#39;upper&#39;: 10},
+  &#39;Ticket&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;},
+  &#39;Fare&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 0.0,
+   &#39;upper&#39;: 1000.0},
+  &#39;Cabin&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;},
+  &#39;Embarked&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
    &#39;cardinality&#39;: 3,
    &#39;categories&#39;: [&#39;C&#39;, &#39;Q&#39;, &#39;S&#39;]},
-  &#39;Survived&#39;: {&#39;type&#39;: &#39;boolean&#39;}}}
+  &#39;Survived&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;boolean&#39;}}}
 </pre></div></div>
 </div>
 </section>
 <section id="Get-a-dummy-dataset">
 <h3>Get a dummy dataset<a class="headerlink" href="#Get-a-dummy-dataset" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NB_ROWS</span> <span class="o">=</span> <span class="mi">200</span>
@@ -215,7 +349,7 @@
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span>
@@ -233,11 +367,11 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(200, 12)
+(200, 11)
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -259,7 +393,6 @@
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>PassengerId</th>
       <th>Pclass</th>
       <th>Name</th>
       <th>Sex</th>
@@ -276,77 +409,72 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td>2733</td>
-      <td>1</td>
-      <td>0</td>
-      <td>male</td>
-      <td>96.160858</td>
-      <td>4078</td>
-      <td>4452</td>
-      <td>X</td>
-      <td>2421.785941</td>
-      <td>h</td>
-      <td>Q</td>
-      <td>False</td>
+      <td>3</td>
+      <td>o</td>
+      <td>female</td>
+      <td>89.690443</td>
+      <td>6</td>
+      <td>6</td>
+      <td>2</td>
+      <td>858.435326</td>
+      <td>U</td>
+      <td>S</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>9846</td>
-      <td>1</td>
-      <td>U</td>
-      <td>male</td>
-      <td>23.246992</td>
-      <td>5405</td>
-      <td>6743</td>
-      <td>O</td>
-      <td>2503.982129</td>
       <td>2</td>
-      <td>S</td>
-      <td>False</td>
+      <td>D</td>
+      <td>male</td>
+      <td>58.373673</td>
+      <td>0</td>
+      <td>0</td>
+      <td>Z</td>
+      <td>620.908898</td>
+      <td>a</td>
+      <td>C</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>3265</td>
       <td>2</td>
-      <td>A</td>
-      <td>male</td>
-      <td>94.936950</td>
-      <td>4611</td>
-      <td>9621</td>
-      <td>a</td>
-      <td>4833.935352</td>
-      <td>c</td>
-      <td>C</td>
-      <td>False</td>
+      <td>u</td>
+      <td>female</td>
+      <td>4.117800</td>
+      <td>2</td>
+      <td>4</td>
+      <td>h</td>
+      <td>193.917948</td>
+      <td>G</td>
+      <td>S</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>4860</td>
       <td>1</td>
-      <td>q</td>
-      <td>female</td>
-      <td>94.143633</td>
-      <td>8266</td>
-      <td>5630</td>
-      <td>l</td>
-      <td>399.928019</td>
-      <td>p</td>
+      <td>o</td>
+      <td>male</td>
+      <td>71.177534</td>
+      <td>9</td>
+      <td>7</td>
+      <td>a</td>
+      <td>687.914521</td>
+      <td>Z</td>
       <td>Q</td>
-      <td>False</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>9226</td>
-      <td>2</td>
-      <td>F</td>
+      <td>1</td>
+      <td>3</td>
       <td>male</td>
-      <td>79.940338</td>
-      <td>6634</td>
-      <td>2562</td>
-      <td>F</td>
-      <td>6397.051061</td>
-      <td>G</td>
-      <td>C</td>
+      <td>56.945683</td>
+      <td>4</td>
+      <td>10</td>
+      <td>1</td>
+      <td>758.999002</td>
+      <td>W</td>
+      <td>S</td>
       <td>True</td>
     </tr>
   </tbody>
@@ -359,7 +487,7 @@
 <section id="Average-and-number-of-rows-with-smartnoise-sql-library-on-remote-dummy">
 <h4>Average and number of rows with smartnoise-sql library on remote dummy<a class="headerlink" href="#Average-and-number-of-rows-with-smartnoise-sql-library-on-remote-dummy" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Average Age</span>
@@ -370,11 +498,11 @@
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On the remote server dummy dataframe</span>
-<span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span>
+<span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">100.0</span><span class="p">,</span> <span class="c1"># make sure to select high values of epsilon and delta to have small differences</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>     <span class="c1"># make sure to select high values of epsilon and delta to have small differences</span>
@@ -386,11 +514,11 @@
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average age in remote dummy: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">][</span><span class="s1">&#39;avg_age&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> years old.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of rows in remote dummy: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">][</span><span class="s1">&#39;nb_passengers&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average age in remote dummy: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;avg_age&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> years old.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of rows in remote dummy: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;nb_passengers&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -399,7 +527,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average age in remote dummy: 49.01 years old.
+Average age in remote dummy: 51.7 years old.
 Number of rows in remote dummy: 199.
 </pre></div></div>
 </div>
@@ -408,7 +536,7 @@ Number of rows in remote dummy: 199.
 <section id="Get-current-budget">
 <h3>Get current budget<a class="headerlink" href="#Get-current-budget" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_initial_budget</span><span class="p">()</span>
@@ -416,16 +544,16 @@ Number of rows in remote dummy: 199.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;initial_epsilon&#39;: 45.0, &#39;initial_delta&#39;: 0.2}
+InitialBudgetResponse(initial_epsilon=45.0, initial_delta=0.2)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">()</span>
@@ -433,17 +561,17 @@ Number of rows in remote dummy: 199.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;total_spent_epsilon&#39;: 0.0, &#39;total_spent_delta&#39;: 0.0}
+SpentBudgetResponse(total_spent_epsilon=0.0, total_spent_delta=0.0)
 </pre></div></div>
 </div>
 <p>It will also be useful to know what the remaining budget is. Therefore, we call the function <code class="docutils literal notranslate"><span class="pre">get_remaining_budget</span></code>. It just substarcts the total spent budget from the initial budget.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
@@ -451,12 +579,12 @@ Number of rows in remote dummy: 199.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;remaining_epsilon&#39;: 45.0, &#39;remaining_delta&#39;: 0.2}
+RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 </pre></div></div>
 </div>
 <p>As expected, for now the remaining budget is equal to the inital budget.</p>
@@ -466,7 +594,7 @@ Number of rows in remote dummy: 199.
 <p>Another safeguard is the functionnality to estimate the cost of a query. As in OpenDP and SmartnoiseSQL, the budget that will by used by a query might be slightly different than what is asked by the user. The <code class="docutils literal notranslate"><span class="pre">estimate</span> <span class="pre">cost</span></code> function returns the estimated real cost of any query.</p>
 <p>Again, of course, this will not impact the user’s budget.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EPSILON</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -475,10 +603,10 @@ Number of rows in remote dummy: 199.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_sql_cost</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span>
@@ -487,19 +615,19 @@ Number of rows in remote dummy: 199.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;epsilon_cost&#39;: 1.5, &#39;delta_cost&#39;: 0.00014999500000001387}
+CostResponse(epsilon=1.5, delta=0.00014999500000001387)
 </pre></div></div>
 </div>
 </section>
 <section id="Query-on-real-private-dataset-with-smartnoise-sql.">
 <h3>Query on real private dataset with smartnoise-sql.<a class="headerlink" href="#Query-on-real-private-dataset-with-smartnoise-sql." title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
@@ -507,19 +635,19 @@ Number of rows in remote dummy: 199.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;remaining_epsilon&#39;: 45.0, &#39;remaining_delta&#39;: 0.2}
+RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
@@ -537,13 +665,13 @@ Number of rows in remote dummy: 199.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nb_passengers</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">][</span><span class="s1">&#39;nb_passengers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nb_passengers</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;nb_passengers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of passengers in real data: </span><span class="si">{</span><span class="n">nb_passengers</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
-<span class="n">avg_age</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">][</span><span class="s1">&#39;avg_age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">avg_age</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;avg_age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average age in real data: </span><span class="si">{</span><span class="n">avg_age</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -553,13 +681,13 @@ Number of rows in remote dummy: 199.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Number of passengers in real data: 891.
-Average age in real data: 30.27.
+Number of passengers in real data: 887.
+Average age in real data: 29.34.
 </pre></div></div>
 </div>
 <p>After each query on the real dataset, the budget informations are also returned to the researcher. It is possible possible to check the remaining budget again afterwards:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
@@ -567,17 +695,17 @@ Average age in real data: 30.27.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;remaining_epsilon&#39;: 43.5, &#39;remaining_delta&#39;: 0.199850005}
+RemainingBudgetResponse(remaining_epsilon=43.5, remaining_delta=0.199850005)
 </pre></div></div>
 </div>
 <p>As can be seen in <code class="docutils literal notranslate"><span class="pre">get_total_spent_budget()</span></code>, it is the budget estimated with <code class="docutils literal notranslate"><span class="pre">estimate_smartnoise_sql_cost()</span></code> that was spent.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">()</span>
@@ -585,12 +713,12 @@ Average age in real data: 30.27.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;total_spent_epsilon&#39;: 1.5, &#39;total_spent_delta&#39;: 0.00014999500000001387}
+SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.00014999500000001387)
 </pre></div></div>
 </div>
 </section>
@@ -598,7 +726,7 @@ Average age in real data: 30.27.
 <section id="Step-4:-Titanic-statistics-with-opendp">
 <h2>Step 4: Titanic statistics with opendp<a class="headerlink" href="#Step-4:-Titanic-statistics-with-opendp" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">opendp</span> <span class="k">as</span> <span class="nn">dp</span>
@@ -610,7 +738,7 @@ Average age in real data: 30.27.
 <section id="Confidence-intervals-for-age-over-the-whole-population">
 <h3>Confidence intervals for age over the whole population<a class="headerlink" href="#Confidence-intervals-for-age-over-the-whole-population" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic_metadata</span>
@@ -618,33 +746,104 @@ Average age in real data: 30.27.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 {&#39;max_ids&#39;: 1,
+ &#39;rows&#39;: 887,
  &#39;row_privacy&#39;: True,
- &#39;columns&#39;: {&#39;PassengerId&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 1},
-  &#39;Pclass&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 1, &#39;upper&#39;: 3},
-  &#39;Name&#39;: {&#39;type&#39;: &#39;string&#39;},
-  &#39;Sex&#39;: {&#39;type&#39;: &#39;string&#39;,
+ &#39;censor_dims&#39;: False,
+ &#39;columns&#39;: {&#39;Pclass&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;int&#39;,
+   &#39;precision&#39;: 32,
+   &#39;lower&#39;: 1,
+   &#39;upper&#39;: 3},
+  &#39;Name&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;},
+  &#39;Sex&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
    &#39;cardinality&#39;: 2,
    &#39;categories&#39;: [&#39;male&#39;, &#39;female&#39;]},
-  &#39;Age&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 0.1, &#39;upper&#39;: 100.0},
-  &#39;SibSp&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 0},
-  &#39;Parch&#39;: {&#39;type&#39;: &#39;int&#39;, &#39;lower&#39;: 0},
-  &#39;Ticket&#39;: {&#39;type&#39;: &#39;string&#39;},
-  &#39;Fare&#39;: {&#39;type&#39;: &#39;float&#39;, &#39;lower&#39;: 0.0},
-  &#39;Cabin&#39;: {&#39;type&#39;: &#39;string&#39;},
-  &#39;Embarked&#39;: {&#39;type&#39;: &#39;string&#39;,
+  &#39;Age&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 0.1,
+   &#39;upper&#39;: 100.0},
+  &#39;SibSp&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;int&#39;,
+   &#39;precision&#39;: 32,
+   &#39;lower&#39;: 0,
+   &#39;upper&#39;: 10},
+  &#39;Parch&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;int&#39;,
+   &#39;precision&#39;: 32,
+   &#39;lower&#39;: 0,
+   &#39;upper&#39;: 10},
+  &#39;Ticket&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;},
+  &#39;Fare&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 0.0,
+   &#39;upper&#39;: 1000.0},
+  &#39;Cabin&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;},
+  &#39;Embarked&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
    &#39;cardinality&#39;: 3,
    &#39;categories&#39;: [&#39;C&#39;, &#39;Q&#39;, &#39;S&#39;]},
-  &#39;Survived&#39;: {&#39;type&#39;: &#39;boolean&#39;}}}
+  &#39;Survived&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;boolean&#39;}}}
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;PassengerId&quot;</span><span class="p">,</span> <span class="s2">&quot;Pclass&quot;</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Sex&quot;</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="s2">&quot;SibSp&quot;</span><span class="p">,</span> <span class="s2">&quot;Parch&quot;</span><span class="p">]</span>
@@ -652,7 +851,7 @@ Average age in real data: 30.27.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">age_min</span> <span class="o">=</span> <span class="n">titanic_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s1">&#39;Age&#39;</span><span class="p">][</span><span class="s1">&#39;lower&#39;</span><span class="p">]</span>
@@ -662,7 +861,7 @@ Average age in real data: 30.27.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -671,7 +870,7 @@ Average age in real data: 30.27.
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">age_transformation_pipeline</span> <span class="o">=</span> <span class="p">(</span>
@@ -686,11 +885,11 @@ Average age in real data: 30.27.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Expect to fail !!!</span>
-<span class="n">client</span><span class="o">.</span><span class="n">opendp_query</span><span class="p">(</span>
+<span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">age_transformation_pipeline</span><span class="p">,</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
@@ -702,7 +901,36 @@ Average age in real data: 30.27.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Server error status 400: {&#34;InvalidQueryException&#34;:&#34;The pipeline provided is not a measurement. It cannot be processed in this server.&#34;}
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">InvalidQueryException</span>                     Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[24], line 2</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span style="color: rgb(95,135,135)"># Expect to fail !!!</span>
+<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">opendp</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">opendp_pipeline</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">age_transformation_pipeline</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">/code/lomas_client/libraries/opendp.py:105</span>, in <span class="ansi-cyan-fg">OpenDPClient.query</span><span class="ansi-blue-fg">(self, opendp_pipeline, fixed_delta, dummy, nb_rows, seed)</span>
+<span class="ansi-green-intense-fg ansi-bold">    102</span> body <span style="color: rgb(98,98,98)">=</span> request_model<span style="color: rgb(98,98,98)">.</span>model_validate(body_dict)
+<span class="ansi-green-intense-fg ansi-bold">    103</span> res <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>http_client<span style="color: rgb(98,98,98)">.</span>post(endpoint, body)
+<span class="ansi-green-fg">--&gt; 105</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">validate_model_response</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">res</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">QueryResponse</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">/code/lomas_client/utils.py:83</span>, in <span class="ansi-cyan-fg">validate_model_response</span><span class="ansi-blue-fg">(response, response_model)</span>
+<span class="ansi-green-intense-fg ansi-bold">     80</span>     r_model <span style="color: rgb(98,98,98)">=</span> response_model<span style="color: rgb(98,98,98)">.</span>model_validate_json(data)
+<span class="ansi-green-intense-fg ansi-bold">     81</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> r_model
+<span class="ansi-green-fg">---&gt; 83</span> <span class="ansi-yellow-bg">raise_error</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">response</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     84</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+
+File <span class="ansi-green-fg">/code/lomas_client/utils.py:26</span>, in <span class="ansi-cyan-fg">raise_error</span><span class="ansi-blue-fg">(response)</span>
+<span class="ansi-green-intense-fg ansi-bold">     24</span> error_message <span style="color: rgb(98,98,98)">=</span> response<span style="color: rgb(98,98,98)">.</span>json()
+<span class="ansi-green-intense-fg ansi-bold">     25</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_400_BAD_REQUEST:
+<span class="ansi-green-fg">---&gt; 26</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> InvalidQueryException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">InvalidQueryException</span><span style="color: rgb(175,0,0)">&#34;</span>])
+<span class="ansi-green-intense-fg ansi-bold">     27</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_422_UNPROCESSABLE_ENTITY:
+<span class="ansi-green-intense-fg ansi-bold">     28</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> ExternalLibraryException(
+<span class="ansi-green-intense-fg ansi-bold">     29</span>         error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">library</span><span style="color: rgb(175,0,0)">&#34;</span>], error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">ExternalLibraryException</span><span style="color: rgb(175,0,0)">&#34;</span>]
+<span class="ansi-green-intense-fg ansi-bold">     30</span>     )
+
+<span class="ansi-red-fg">InvalidQueryException</span>: The pipeline provided is not a measurement. It cannot be processed in this server.
 </pre></div></div>
 </div>
 <p>This is because the server will only allow measurement pipeline with differentially private results. We add Laplacian noise to the pipeline and should be able to instantiate the pipeline.</p>
@@ -722,11 +950,11 @@ Server error status 400: {&#34;InvalidQueryException&#34;:&#34;The pipeline prov
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_var_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_var_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">var_age_transformation_pipeline</span><span class="p">,</span>
     <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dummy result for variance: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_var_res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dummy result for variance: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_var_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -735,7 +963,7 @@ Server error status 400: {&#34;InvalidQueryException&#34;:&#34;The pipeline prov
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Dummy result for variance: 133.38
+Dummy result for variance: 59.75
 </pre></div></div>
 </div>
 <p>With opendp, the function <code class="docutils literal notranslate"><span class="pre">estimate_opendp_cost</span></code> is particularly useful to estimate the used <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and <code class="docutils literal notranslate"><span class="pre">delta</span></code> based on the <code class="docutils literal notranslate"><span class="pre">scale</span></code> value.</p>
@@ -743,7 +971,7 @@ Dummy result for variance: 133.38
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_opendp_cost</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
     <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">var_age_transformation_pipeline</span>
 <span class="p">)</span>
 <span class="n">cost_res</span>
@@ -756,7 +984,7 @@ Dummy result for variance: 133.38
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;epsilon_cost&#39;: 2.240181818190626, &#39;delta_cost&#39;: 0}
+CostResponse(epsilon=2.2502841037292076, delta=0.0)
 </pre></div></div>
 </div>
 <p>One can now execute the query on the real dataset.</p>
@@ -764,7 +992,7 @@ Dummy result for variance: 133.38
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp_query</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
     <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">var_age_transformation_pipeline</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
@@ -778,7 +1006,7 @@ Dummy result for variance: 133.38
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average age: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">avg_age</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> (from previous smartnoise-sql query).&quot;</span><span class="p">)</span>
 
-<span class="n">var_age</span> <span class="o">=</span> <span class="n">var_res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<span class="n">var_age</span> <span class="o">=</span> <span class="n">var_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">value</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance of age: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">var_age</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2"> (from opendp query).&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -788,9 +1016,9 @@ Dummy result for variance: 133.38
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Number of passengers: 891 (from previous smartnoise-sql query).
-Average age: 30.27 (from previous smartnoise-sql query).
-Variance of age: -4.3 (from opendp query).
+Number of passengers: 887 (from previous smartnoise-sql query).
+Average age: 29.34 (from previous smartnoise-sql query).
+Variance of age: 182.132 (from opendp query).
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -803,21 +1031,12 @@ Variance of age: -4.3 (from opendp query).
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Standard error of age: nan.
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/tmp/ipykernel_1062/2464255812.py:2: RuntimeWarning: invalid value encountered in sqrt
-  standard_error = np.sqrt(var_age/nb_passengers)
+Standard error of age: 0.45.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -837,7 +1056,7 @@ Standard error of age: nan.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The 95% confidence interval of the age of all passengers is [nan, nan].
+The 95% confidence interval of the age of all passengers is [28.45, 30.23].
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -909,6 +1128,8 @@ The 95% confidence interval of the age of all passengers is [nan, nan].
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.4/en/index.html">v0.3.4</a></dd>
         
       </dl>
       

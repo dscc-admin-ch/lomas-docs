@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Notes for Client Contributors" href="CONTRIBUTING_CLIENT.html" />
-    <link rel="prev" title="lomas_client package" href="lomas_client.html" /> 
+    <link rel="prev" title="lomas_client.libraries package" href="lomas_client.libraries.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -244,7 +244,7 @@ The table below gives an overview of which workflows are triggered by what event
 </table>
 <p>Of these workflows, three of them need manual intervention to adjust the version number:</p>
 <ul class="simple">
-<li><p><strong>Client library push</strong>: The ‘version’ and the ‘install_requires’ must be set in <code class="docutils literal notranslate"><span class="pre">client/setup.py</span></code> (‘install_requires’ should match the list of library in requirements.txt).</p></li>
+<li><p><strong>Client library push</strong>: The ‘version’ and the ‘install_requires’ must be set in <code class="docutils literal notranslate"><span class="pre">core/setup.py</span></code>, <code class="docutils literal notranslate"><span class="pre">server/setup.py</span></code> and <code class="docutils literal notranslate"><span class="pre">client/setup.py</span></code> (‘install_requires’ should match the list of library in requirements.txt and the new version of <code class="docutils literal notranslate"><span class="pre">core</span></code>).</p></li>
 <li><p><strong>Helm chart push</strong>: The chart version (<code class="docutils literal notranslate"><span class="pre">version</span></code>) and app version (<code class="docutils literal notranslate"><span class="pre">AppVersion</span></code>) of the server and the client must be updated in <code class="docutils literal notranslate"><span class="pre">server/deploy/helm/charts/lomas_server/Chart.yml</span></code>and <code class="docutils literal notranslate"><span class="pre">client/deploy/helm/charts/lomas_client/Chart.yaml</span></code>.</p></li>
 <li><p><strong>Documentation push</strong>: If a new version is released, it must be added to the <code class="docutils literal notranslate"><span class="pre">docs/versions.yaml</span></code> file. For more details on the generation of the documentation, please refer to <code class="docutils literal notranslate"><span class="pre">docs</span></code> and the <code class="docutils literal notranslate"><span class="pre">docs/build_docs.py</span></code> script.</p></li>
 </ul>
@@ -261,7 +261,7 @@ The table below gives an overview of which workflows are triggered by what event
 <li><p>Once merged, manually create a release on GitHub with the tag <code class="docutils literal notranslate"><span class="pre">vx.y.z</span></code>.</p></li>
 </ol>
 <p>The workflows listed in the previous section will take care of building and publishing the different items (docker images, pip packages, etc.).</p>
-<p>Note: Helm charts are updated when there is a push on the <code class="docutils literal notranslate"><span class="pre">release/vx.y.z</span></code> branch. If you have a specific deployment that rely on the Chart, you can test it before finishing the release. Then, do not forget to update the chart and app versions of your specific deployment.</p>
+<p>Note: Helm charts are updated when there is a push on the <code class="docutils literal notranslate"><span class="pre">release/vx.y.z</span></code> branch. If you have a specific deployment that rely on the Chart, you can test it before finishing the release. Then, <strong>do not forget</strong> to update the chart and app versions of your specific deployment.</p>
 </section>
 <section id="adding-a-dp-library">
 <h2>Adding a DP Library<a class="headerlink" href="#adding-a-dp-library" title="Link to this heading"></a></h2>
@@ -312,7 +312,7 @@ In those cases, a <code class="docutils literal notranslate"><span class="pre">l
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="lomas_client.html" class="btn btn-neutral float-left" title="lomas_client package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lomas_client.libraries.html" class="btn btn-neutral float-left" title="lomas_client.libraries package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="CONTRIBUTING_CLIENT.html" class="btn btn-neutral float-right" title="Notes for Client Contributors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
@@ -365,6 +365,8 @@ In those cases, a <code class="docutils literal notranslate"><span class="pre">l
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.4/en/index.html">v0.3.4</a></dd>
         
       </dl>
       
