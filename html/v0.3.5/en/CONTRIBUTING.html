@@ -131,26 +131,32 @@ Once the release process is complete (see below), the release branch is merged t
 <h2>Linting and Other Checks<a class="headerlink" href="#linting-and-other-checks" title="Link to this heading"></a></h2>
 <p>To ensure code quality and consistency, we perform several checks using various tools. Below is a list of the checks that should be performed:</p>
 <ul>
-<li><p><strong>Code Formatting:</strong> Use <code class="docutils literal notranslate"><span class="pre">black</span></code> to automatically format the code. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code>:</p>
+<li><p><strong>Code Formatting:</strong> Use <code class="docutils literal notranslate"><span class="pre">black</span></code> to automatically format the code. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code>, <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core/lomas_core</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>black<span class="w"> </span>.
 </pre></div>
 </div>
 </li>
-<li><p><strong>Code Style and Static Analysis</strong>: Use flake8 to verify formatting and perform static code analysis. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code>:</p></li>
+<li><p><strong>Code Style and Static Analysis</strong>: Use flake8 to verify formatting and perform static code analysis. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code> , <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core/lomas_core</span></code>:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>flake8<span class="w"> </span>.
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><strong>Static Type Checking</strong>: Use mypy for static type checking. Note that both the server and the client have their own mypi.ini files to ignore specific warnings. In <code class="docutils literal notranslate"><span class="pre">lomas/server</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client</span></code>:</p></li>
+<li><p><strong>Static Type Checking</strong>: Use mypy for static type checking. Note that both the server and the client have their own mypi.ini files to ignore specific warnings. In <code class="docutils literal notranslate"><span class="pre">lomas/server</span></code>, <code class="docutils literal notranslate"><span class="pre">lomas/client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core</span></code>:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>mypy<span class="w"> </span>.
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><strong>Additional Static Analysis</strong>: Use pylint for further static analysis. Note that both the server and the client have their own .pylintrc files to ignore specific warnings. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code>:</p></li>
+<li><p><strong>Additional Static Analysis</strong>: Use pylint for further static analysis. Note that both the server and the client have their own .pylintrc files to ignore specific warnings. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code>, <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core/lomas_core</span></code>:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>pylint<span class="w"> </span>.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Automatic docstring linter formatting</strong>: Use pydocstringformatter for automatically formatting docstring following PEP257 recommandations. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code>, <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core/lomas_core</span></code>:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>pydocstringformatter<span class="w"> </span>.
 </pre></div>
 </div>
 <p>To streamline the process, you can use the <code class="docutils literal notranslate"><span class="pre">run_linter.sh</span></code> script in ``lomas`. The first time you run this script, use the following command to install dependencies:</p>
@@ -158,10 +164,15 @@ Once the release process is complete (see below), the release branch is merged t
 ./run_linter.sh<span class="w">  </span>--install-deps
 </pre></div>
 </div>
-<p>For subsequent runs, simply execute:</p>
+<p>For subsequent runs, to run all linters (on server, client and core) simply execute:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./run_linter.sh
 </pre></div>
 </div>
+<p>To run the linter in a specific package, the package can be specified as argument:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./run_linter.sh<span class="w"> </span>--client
+</pre></div>
+</div>
+<p>will only run the linter for the client. And similarly for <code class="docutils literal notranslate"><span class="pre">./run_linter.sh</span> <span class="pre">--core</span></code> and <code class="docutils literal notranslate"><span class="pre">./run_linter.sh</span> <span class="pre">--server</span></code>.</p>
 <p>There should be no error or warning, otherwise the linting github action will fail. All configurations are in <code class="docutils literal notranslate"><span class="pre">lomas/server/pyproject.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client/pyproject.toml</span></code>.</p>
 <p>As detailed below, we rely on GitHub workflows to automatically run these checks on pull requests, ensuring consistency and quality across all contributions.</p>
 </section>
@@ -233,7 +244,7 @@ The table below gives an overview of which workflows are triggered by what event
 </table>
 <p>Of these workflows, three of them need manual intervention to adjust the version number:</p>
 <ul class="simple">
-<li><p><strong>Client library push</strong>: The ‘version’ and the ‘install_requires’ must be set in <code class="docutils literal notranslate"><span class="pre">client/setup.py</span></code> (‘install_requires’ should match the list of library in requirements.txt).</p></li>
+<li><p><strong>Client library push</strong>: The ‘version’ and the ‘install_requires’ must be set in <code class="docutils literal notranslate"><span class="pre">core/setup.py</span></code>, <code class="docutils literal notranslate"><span class="pre">server/setup.py</span></code> and <code class="docutils literal notranslate"><span class="pre">client/setup.py</span></code> (‘install_requires’ should match the list of library in requirements.txt and the new version of <code class="docutils literal notranslate"><span class="pre">core</span></code>).</p></li>
 <li><p><strong>Helm chart push</strong>: The chart version (<code class="docutils literal notranslate"><span class="pre">version</span></code>) and app version (<code class="docutils literal notranslate"><span class="pre">AppVersion</span></code>) of the server and the client must be updated in <code class="docutils literal notranslate"><span class="pre">server/deploy/helm/charts/lomas_server/Chart.yml</span></code>and <code class="docutils literal notranslate"><span class="pre">client/deploy/helm/charts/lomas_client/Chart.yaml</span></code>.</p></li>
 <li><p><strong>Documentation push</strong>: If a new version is released, it must be added to the <code class="docutils literal notranslate"><span class="pre">docs/versions.yaml</span></code> file. For more details on the generation of the documentation, please refer to <code class="docutils literal notranslate"><span class="pre">docs</span></code> and the <code class="docutils literal notranslate"><span class="pre">docs/build_docs.py</span></code> script.</p></li>
 </ul>
@@ -245,12 +256,12 @@ The table below gives an overview of which workflows are triggered by what event
 <ol class="arabic simple">
 <li><p>Create a <code class="docutils literal notranslate"><span class="pre">release/vx.y.z</span></code> branch from develop.</p></li>
 <li><p>Fix remaining issues.</p></li>
-<li><p>Adjust versions for the client library, the helm charts, as well as for the documentation.</p></li>
+<li><p>Adjust versions for the client, core and server libraries (in the different setup.py), the helm charts, as well as for the documentation.</p></li>
 <li><p>Create a GitHub PR from this branch to develop AND master (make sure you are up to date with develop by rebasing on it)</p></li>
 <li><p>Once merged, manually create a release on GitHub with the tag <code class="docutils literal notranslate"><span class="pre">vx.y.z</span></code>.</p></li>
 </ol>
 <p>The workflows listed in the previous section will take care of building and publishing the different items (docker images, pip packages, etc.).</p>
-<p>Note: Helm charts are updated when there is a push on the <code class="docutils literal notranslate"><span class="pre">release/vx.y.z</span></code> branch. If you have a specific deployment that rely on the Chart, you can test it before finishing the release. Then, do not forget to update the chart and app versions of your specific deployment.</p>
+<p>Note: Helm charts are updated when there is a push on the <code class="docutils literal notranslate"><span class="pre">release/vx.y.z</span></code> branch. If you have a specific deployment that rely on the Chart, you can test it before finishing the release. Then, <strong>do not forget</strong> to update the chart and app versions of your specific deployment.</p>
 </section>
 <section id="adding-a-dp-library">
 <h2>Adding a DP Library<a class="headerlink" href="#adding-a-dp-library" title="Link to this heading"></a></h2>
@@ -258,13 +269,13 @@ The table below gives an overview of which workflows are triggered by what event
 Steps:
 0. Add the necessary requirements in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/requirements.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/lomas_client/requirements.txt</span></code></p>
 <ol class="arabic simple">
-<li><p>Add the library the the <code class="docutils literal notranslate"><span class="pre">DPLibraries</span></code> StrEnum class in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/constants.py</span></code> (<code class="docutils literal notranslate"><span class="pre">DPLibraries.NEW_LIBRARY</span> <span class="pre">=</span> <span class="pre">&quot;new_library&quot;</span></code>) and add the <code class="docutils literal notranslate"><span class="pre">NewLibraryQuerier</span></code> option in the <code class="docutils literal notranslate"><span class="pre">querier_factory</span></code> (in  <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dp_queries/dp_libraries/factory.py</span></code>).</p></li>
+<li><p>Add the library the the <code class="docutils literal notranslate"><span class="pre">DPLibraries</span></code> StrEnum class in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_core/constants.py</span></code> (<code class="docutils literal notranslate"><span class="pre">DPLibraries.NEW_LIBRARY</span> <span class="pre">=</span> <span class="pre">&quot;new_library&quot;</span></code>) and add the <code class="docutils literal notranslate"><span class="pre">NewLibraryQuerier</span></code> option in the <code class="docutils literal notranslate"><span class="pre">querier_factory</span></code> (in  <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dp_queries/dp_libraries/factory.py</span></code>).</p></li>
 <li><p>Create a file for your querier in the folder <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dp_queries/dp_libraries/new_library.py</span></code>. Inside, create a class <code class="docutils literal notranslate"><span class="pre">NewLibraryQuerier</span></code> that inherits from <code class="docutils literal notranslate"><span class="pre">DPQuerier</span></code> (<code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/dp_queries/dp_querier.py</span></code>), your class must contain a <code class="docutils literal notranslate"><span class="pre">cost</span></code> method that return the cost of a query and a <code class="docutils literal notranslate"><span class="pre">query</span></code> method that return a result of a DP query.</p></li>
 <li><p>Add the three associated API endpoints .</p></li>
 </ol>
 <ul class="simple">
 <li><p>a. Add the endpoint handlers in <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/routes/routes_dp.py</span></code>: <code class="docutils literal notranslate"><span class="pre">/new_library_query</span></code> (for queries on the real dataset), <code class="docutils literal notranslate"><span class="pre">/dummy_new_library_query</span></code> (for queries on the dummy dataset) and <code class="docutils literal notranslate"><span class="pre">/estimate_new_library_cost</span></code> (for estimating the privacy budget cost of a query).</p></li>
-<li><p>b. The endpoints should have predefined pydantic BaselModel types. Aadd BaseModel classes of expected input <code class="docutils literal notranslate"><span class="pre">NewLibraryModel</span></code>, <code class="docutils literal notranslate"><span class="pre">DummyNewLibraryModel</span></code>, <code class="docutils literal notranslate"><span class="pre">NewLibraryCostModel</span></code> in  <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/utils/query_models.py</span></code> and add the link for the archives in the constant dict <code class="docutils literal notranslate"><span class="pre">MODEL_INPUT_TO_LIB</span></code>: <code class="docutils literal notranslate"><span class="pre">{&quot;NewLibraryModel&quot;:</span> <span class="pre">DPLibraries.NEW_LIBRARY}</span></code>.</p></li>
+<li><p>b. The endpoints should have predefined pydantic BaselModel types. Aadd BaseModel classes of expected input <code class="docutils literal notranslate"><span class="pre">NewLibraryModel</span></code>, <code class="docutils literal notranslate"><span class="pre">DummyNewLibraryModel</span></code>, <code class="docutils literal notranslate"><span class="pre">NewLibraryCostModel</span></code> in  <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/utils/query_models.py</span></code> and add the request case in the function <code class="docutils literal notranslate"><span class="pre">model_input_to_lib()</span></code>.</p></li>
 <li><p>c. The endpoints should have predefined default values <code class="docutils literal notranslate"><span class="pre">example_new_library</span></code>, <code class="docutils literal notranslate"><span class="pre">example_dummy_new_library</span></code> in  <code class="docutils literal notranslate"><span class="pre">lomas/lomas_server/utils/query_examples.py</span></code>.</p></li>
 </ul>
 <ol class="arabic simple" start="4">
