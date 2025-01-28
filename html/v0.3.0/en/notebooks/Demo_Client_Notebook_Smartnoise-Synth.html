@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Secure Data Disclosure: Client Side Smartnoise-Synth &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
 
@@ -135,8 +135,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;images/image_demo_client.png&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from IPython.display import Image
+Image(filename=&quot;images/image_demo_client.png&quot;, width=800)
 </pre></div>
 </div>
 </div>
@@ -159,10 +159,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)))</span>
-<span class="c1"># !pip install lomas_client</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(&#39;..&#39;)))
+# !pip install lomas_client
 </pre></div>
 </div>
 </div>
@@ -170,8 +170,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lomas_client</span> <span class="kn">import</span> <span class="n">Client</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_client import Client
+import numpy as np
 </pre></div>
 </div>
 </div>
@@ -179,16 +179,21 @@
 <section id="Step-2:-Initialise-the-client">
 <h2>Step 2: Initialise the client<a class="headerlink" href="#Step-2:-Initialise-the-client" title="Link to this heading"></a></h2>
 <p>Once the library is installed, a Client object must be created. It is responsible for sending sending requests to the server and processing responses in the local environment. It enables a seamless interaction with the server.</p>
-<p>To create the client, Dr. Antartica needs to give it a few parameters: - a url: the root application endpoint to the remote secure server. - user_name: her name as registered in the database (Dr. Alice Antartica) - dataset_name: the name of the dataset that she wants to query (PENGUIN)</p>
+<p>To create the client, Dr. Antartica needs to give it a few parameters:</p>
+<ul class="simple">
+<li><p>a url: the root application endpoint to the remote secure server.</p></li>
+<li><p>user_name: her name as registered in the database (Dr. Alice Antartica)</p></li>
+<li><p>dataset_name: the name of the dataset that she wants to query (PENGUIN)</p></li>
+</ul>
 <p>She will only be able to query on the real dataset if the queen Icergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit (as is done in the Admin Notebook for Users and Datasets management).</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">APP_URL</span> <span class="o">=</span> <span class="s2">&quot;http://lomas_server&quot;</span>
-<span class="n">USER_NAME</span> <span class="o">=</span> <span class="s2">&quot;Dr. Antartica&quot;</span>
-<span class="n">DATASET_NAME</span> <span class="o">=</span> <span class="s2">&quot;PENGUIN&quot;</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">APP_URL</span><span class="p">,</span> <span class="n">user_name</span> <span class="o">=</span> <span class="n">USER_NAME</span><span class="p">,</span> <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">DATASET_NAME</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>APP_URL = &quot;http://lomas_server&quot;
+USER_NAME = &quot;Dr. Antartica&quot;
+DATASET_NAME = &quot;PENGUIN&quot;
+client = Client(url=APP_URL, user_name = USER_NAME, dataset_name = DATASET_NAME)
 </pre></div>
 </div>
 </div>
@@ -204,8 +209,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguin_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
-<span class="n">penguin_metadata</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata = client.get_dataset_metadata()
+penguin_metadata
 </pre></div>
 </div>
 </div>
@@ -247,8 +252,8 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NB_ROWS</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="n">SEED</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>NB_ROWS = 200
+SEED = 0
 </pre></div>
 </div>
 </div>
@@ -256,13 +261,13 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span>
-    <span class="n">nb_rows</span> <span class="o">=</span> <span class="n">NB_ROWS</span><span class="p">,</span>
-    <span class="n">seed</span> <span class="o">=</span> <span class="n">SEED</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_dummy = client.get_dummy_dataset(
+    nb_rows = NB_ROWS,
+    seed = SEED
+)
 
-<span class="nb">print</span><span class="p">(</span><span class="n">df_dummy</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">df_dummy</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+print(df_dummy.shape)
+df_dummy.head()
 </pre></div>
 </div>
 </div>
@@ -372,8 +377,8 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">snsynth</span> <span class="kn">import</span> <span class="n">Synthesizer</span>
-<span class="n">Synthesizer</span><span class="o">.</span><span class="n">list_synthesizers</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from snsynth import Synthesizer
+Synthesizer.list_synthesizers()
 </pre></div>
 </div>
 </div>
@@ -393,14 +398,14 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
-    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;aim&quot;,
+    epsilon=1.0,
+    delta=0.0001,
+    select_cols = [&quot;species&quot;, &quot;island&quot;],
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;].head()
 </pre></div>
 </div>
 </div>
@@ -466,13 +471,13 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">estimate_smartnoise_synth_cost</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
-    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
-<span class="p">)</span>
-<span class="n">res_cost</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_cost = client.estimate_smartnoise_synth_cost(
+    synth_name=&quot;aim&quot;,
+    epsilon=1.0,
+    delta=0.0001,
+    select_cols = [&quot;species&quot;, &quot;island&quot;],
+)
+res_cost
 </pre></div>
 </div>
 </div>
@@ -491,15 +496,15 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
-    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">return_model</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="p">)</span>
-<span class="n">res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res = client.smartnoise_synth_query(
+    synth_name=&quot;aim&quot;,
+    epsilon=1.0,
+    delta=0.0001,
+    select_cols = [&quot;species&quot;, &quot;island&quot;],
+    dummy=True,
+    return_model = True
+)
+res[&#39;query_response&#39;]
 </pre></div>
 </div>
 </div>
@@ -526,8 +531,8 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
-<span class="n">synth</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth = res[&#39;query_response&#39;]
+synth.sample(10)
 </pre></div>
 </div>
 </div>
@@ -618,16 +623,16 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
-    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">return_model</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;max_model_size&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;aim&quot;,
+    epsilon=1.0,
+    delta=0.0001,
+    select_cols = [&quot;species&quot;, &quot;island&quot;],
+    dummy=True,
+    return_model = True,
+    synth_params = {&quot;max_model_size&quot;: 50}
+)
+res_dummy[&#39;query_response&#39;]
 </pre></div>
 </div>
 </div>
@@ -644,8 +649,8 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth</span> <span class="o">=</span> <span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
-<span class="n">synth</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth = res_dummy[&#39;query_response&#39;]
+synth.sample(5)
 </pre></div>
 </div>
 </div>
@@ -715,12 +720,12 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;mwem&quot;,
+    epsilon=1.0,
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;].head()
 </pre></div>
 </div>
 </div>
@@ -816,14 +821,14 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
-    <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;measure_only&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;max_retries_exp_mechanism&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;mwem&quot;,
+    epsilon=1.0,
+    select_cols = [&quot;species&quot;, &quot;island&quot;, &quot;sex&quot;],
+    synth_params = {&quot;measure_only&quot;: False, &quot;max_retries_exp_mechanism&quot;: 5},
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;].head()
 </pre></div>
 </div>
 </div>
@@ -897,9 +902,9 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bl_bounds</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">]</span>
-<span class="n">bd_bounds</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">]</span>
-<span class="n">bl_bounds</span><span class="p">,</span> <span class="n">bd_bounds</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bl_bounds = penguin_metadata[&quot;columns&quot;][&quot;bill_length_mm&quot;]
+bd_bounds = penguin_metadata[&quot;columns&quot;][&quot;bill_depth_mm&quot;]
+bl_bounds, bd_bounds
 </pre></div>
 </div>
 </div>
@@ -917,23 +922,23 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">snsynth.transform</span> <span class="kn">import</span> <span class="n">BinTransformer</span><span class="p">,</span> <span class="n">ClampTransformer</span><span class="p">,</span> <span class="n">ChainTransformer</span><span class="p">,</span> <span class="n">LabelTransformer</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from snsynth.transform import BinTransformer, ClampTransformer, ChainTransformer, LabelTransformer
 
-<span class="n">my_own_constraints</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">:</span> <span class="n">ChainTransformer</span><span class="p">(</span>
-        <span class="p">[</span>
-            <span class="n">ClampTransformer</span><span class="p">(</span><span class="n">lower</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
-            <span class="n">BinTransformer</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
-        <span class="p">]</span>
-    <span class="p">),</span>
-    <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">:</span> <span class="n">ChainTransformer</span><span class="p">(</span>
-        <span class="p">[</span>
-            <span class="n">ClampTransformer</span><span class="p">(</span><span class="n">lower</span> <span class="o">=</span> <span class="n">bd_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bd_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
-            <span class="n">BinTransformer</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">bd_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bd_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="p">]</span>
-    <span class="p">),</span>
-    <span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="n">LabelTransformer</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="p">}</span>
+my_own_constraints = {
+    &quot;bill_length_mm&quot;: ChainTransformer(
+        [
+            ClampTransformer(lower = bl_bounds[&quot;lower&quot;] + 10, upper = bl_bounds[&quot;upper&quot;] - 10),
+            BinTransformer(bins = 20, lower = bl_bounds[&quot;lower&quot;] + 10, upper = bl_bounds[&quot;upper&quot;] - 10),
+        ]
+    ),
+    &quot;bill_depth_mm&quot;: ChainTransformer(
+        [
+            ClampTransformer(lower = bd_bounds[&quot;lower&quot;] + 2, upper = bd_bounds[&quot;upper&quot;] - 2),
+            BinTransformer(bins=20, lower = bd_bounds[&quot;lower&quot;] + 2, upper = bd_bounds[&quot;upper&quot;] - 2),
+        ]
+    ),
+    &quot;species&quot;: LabelTransformer(nullable=True)
+}
 </pre></div>
 </div>
 </div>
@@ -941,14 +946,14 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">],</span>
-    <span class="n">constraints</span> <span class="o">=</span> <span class="n">my_own_constraints</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;mwem&quot;,
+    epsilon=1.0,
+    select_cols = [&quot;bill_length_mm&quot;, &quot;bill_depth_mm&quot;, &quot;species&quot;],
+    constraints = my_own_constraints,
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;].head()
 </pre></div>
 </div>
 </div>
@@ -1020,14 +1025,14 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_own_constraints</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">:</span> <span class="n">ChainTransformer</span><span class="p">(</span>
-        <span class="p">[</span>
-            <span class="n">ClampTransformer</span><span class="p">(</span><span class="n">lower</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
-            <span class="n">BinTransformer</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
-        <span class="p">]</span>
-    <span class="p">)</span>
-<span class="p">}</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>my_own_constraints = {
+    &quot;bill_length_mm&quot;: ChainTransformer(
+        [
+            ClampTransformer(lower = bl_bounds[&quot;lower&quot;] + 10, upper = bl_bounds[&quot;upper&quot;] - 10),
+            BinTransformer(bins = 20, lower = bl_bounds[&quot;lower&quot;] + 10, upper = bl_bounds[&quot;upper&quot;] - 10),
+        ]
+    )
+}
 </pre></div>
 </div>
 </div>
@@ -1036,14 +1041,14 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">],</span>
-    <span class="n">constraints</span> <span class="o">=</span> <span class="n">my_own_constraints</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;mwem&quot;,
+    epsilon=1.0,
+    select_cols = [&quot;bill_length_mm&quot;, &quot;bill_depth_mm&quot;, &quot;species&quot;],
+    constraints = my_own_constraints,
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;].head()
 </pre></div>
 </div>
 </div>
@@ -1118,13 +1123,13 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mst&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;mst&quot;,
+    epsilon=1.0,
+    select_cols = [&quot;species&quot;, &quot;sex&quot;],
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;].head()
 </pre></div>
 </div>
 </div>
@@ -1190,14 +1195,14 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mst&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
-    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;mst&quot;,
+    epsilon=1.0,
+    select_cols = [&quot;species&quot;, &quot;sex&quot;],
+    nb_samples = 4,
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;]
 </pre></div>
 </div>
 </div>
@@ -1258,15 +1263,15 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mst&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">],</span>
-    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;sex = FEMALE&quot;</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;mst&quot;,
+    epsilon=1.0,
+    select_cols = [&quot;sex&quot;, &quot;species&quot;],
+    nb_samples = 4,
+    condition = &quot;sex = FEMALE&quot;,
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;]
 </pre></div>
 </div>
 </div>
@@ -1331,12 +1336,12 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpctgan&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;dpctgan&quot;,
+    epsilon=1.0,
+    dummy=True,
+)
+res_dummy
 </pre></div>
 </div>
 </div>
@@ -1362,13 +1367,13 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;Error fitting 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpctgan&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;dpctgan&quot;,
+    epsilon=1.0,
+    synth_params = {&quot;batch_size&quot;: 50},
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;].head()
 </pre></div>
 </div>
 </div>
@@ -1475,12 +1480,12 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;Error fitting 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;pategan&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;pategan&quot;,
+    epsilon=1.0,
+    dummy=True,
+)
+res_dummy
 </pre></div>
 </div>
 </div>
@@ -1499,12 +1504,12 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;patectgan&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;patectgan&quot;,
+    epsilon=1.0,
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;].head()
 </pre></div>
 </div>
 </div>
@@ -1599,24 +1604,24 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;patectgan&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;body_mass_g&quot;</span><span class="p">],</span>
-    <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;embedding_dim&quot;</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
-        <span class="s2">&quot;generator_dim&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
-        <span class="s2">&quot;discriminator_dim&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
-        <span class="s2">&quot;generator_lr&quot;</span><span class="p">:</span> <span class="mf">0.0003</span><span class="p">,</span>
-        <span class="s2">&quot;generator_decay&quot;</span><span class="p">:</span> <span class="mf">1e-05</span><span class="p">,</span>
-        <span class="s2">&quot;discriminator_lr&quot;</span><span class="p">:</span> <span class="mf">0.0003</span><span class="p">,</span>
-        <span class="s2">&quot;discriminator_decay&quot;</span><span class="p">:</span> <span class="mf">1e-05</span><span class="p">,</span>
-        <span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">500</span>
-    <span class="p">},</span>
-    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;patectgan&quot;,
+    epsilon=1.0,
+    select_cols = [&quot;island&quot;, &quot;bill_length_mm&quot;, &quot;body_mass_g&quot;],
+    synth_params = {
+        &quot;embedding_dim&quot;: 256,
+        &quot;generator_dim&quot;: (128, 128),
+        &quot;discriminator_dim&quot;: (256, 256),
+        &quot;generator_lr&quot;: 0.0003,
+        &quot;generator_decay&quot;: 1e-05,
+        &quot;discriminator_lr&quot;: 0.0003,
+        &quot;discriminator_decay&quot;: 1e-05,
+        &quot;batch_size&quot;: 500
+    },
+    nb_samples = 100,
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;].head()
 </pre></div>
 </div>
 </div>
@@ -1691,12 +1696,12 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;dpgan&quot;,
+    epsilon=1.0,
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;].head()
 </pre></div>
 </div>
 </div>
@@ -1801,13 +1806,13 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;body_mass_g &gt; 5000&quot;</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;dpgan&quot;,
+    epsilon=1.0,
+    condition = &quot;body_mass_g &gt; 5000&quot;,
+    dummy=True,
+)
+res_dummy[&#39;query_response&#39;].head()
 </pre></div>
 </div>
 </div>
@@ -1912,14 +1917,14 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth_query</span><span class="p">(</span>
-    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;body_mass_g &gt; 5000&quot;</span><span class="p">,</span>
-    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res_dummy</span><span class="p">[</span><span class="s1">&#39;query_response&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth_query(
+    synth_name=&quot;dpgan&quot;,
+    epsilon=1.0,
+    condition = &quot;body_mass_g &gt; 5000&quot;,
+    nb_samples = 10,
+    dummy=False,
+)
+res_dummy[&#39;query_response&#39;]
 </pre></div>
 </div>
 </div>
@@ -2077,7 +2082,7 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">previous_queries</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_previous_queries</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>previous_queries = client.get_previous_queries()
 </pre></div>
 </div>
 </div>
@@ -2086,8 +2091,8 @@ Server error status 422: {&#34;ExternalLibraryException&#34;:&#34;pategan not re
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_query</span> <span class="o">=</span> <span class="n">previous_queries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">last_query</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>last_query = previous_queries[-1]
+last_query
 </pre></div>
 </div>
 </div>

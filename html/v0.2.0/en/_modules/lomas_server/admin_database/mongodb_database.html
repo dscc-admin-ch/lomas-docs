@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.admin_database.mongodb_database &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -88,30 +88,30 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.admin_database.mongodb_database</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
-<span class="kn">from</span> <span class="nn">pymongo.database</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="kn">from</span> <span class="nn">pymongo.errors</span> <span class="kn">import</span> <span class="n">WriteConcernError</span>
-<span class="kn">from</span> <span class="nn">pymongo.results</span> <span class="kn">import</span> <span class="n">_WriteResult</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymongo</span><span class="w"> </span><span class="kn">import</span> <span class="n">MongoClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">Database</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">WriteConcernError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">_WriteResult</span>
 
-<span class="kn">from</span> <span class="nn">admin_database.admin_database</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">AdminDatabase</span><span class="p">,</span>
     <span class="n">dataset_must_exist</span><span class="p">,</span>
     <span class="n">user_must_exist</span><span class="p">,</span>
     <span class="n">user_must_have_access_to_dataset</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InvalidQueryException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InvalidQueryException</span>
 
 
 <div class="viewcode-block" id="AdminMongoDatabase">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase">[docs]</a>
-<span class="k">class</span> <span class="nc">AdminMongoDatabase</span><span class="p">(</span><span class="n">AdminDatabase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AdminMongoDatabase</span><span class="p">(</span><span class="n">AdminDatabase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overall MongoDB database management for server state.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">database_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">database_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to database.</span>
 
 <span class="sd">        Args:</span>
@@ -122,7 +122,7 @@
 
 <div class="viewcode-block" id="AdminMongoDatabase.does_user_exist">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.does_user_exist">[docs]</a>
-    <span class="k">def</span> <span class="nf">does_user_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">does_user_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if user exist in the database</span>
 
 <span class="sd">        Args:</span>
@@ -139,7 +139,7 @@
 
 <div class="viewcode-block" id="AdminMongoDatabase.does_dataset_exist">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.does_dataset_exist">[docs]</a>
-    <span class="k">def</span> <span class="nf">does_dataset_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">does_dataset_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if dataset exist in the database</span>
 
 <span class="sd">        Args:</span>
@@ -159,7 +159,7 @@
 <div class="viewcode-block" id="AdminMongoDatabase.get_dataset_metadata">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_dataset_metadata">[docs]</a>
     <span class="nd">@dataset_must_exist</span>
-    <span class="k">def</span> <span class="nf">get_dataset_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataset_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the metadata dictionnary of the dataset.</span>
 
 <span class="sd">        Wrapped by :py:func:`dataset_must_exist`.</span>
@@ -179,7 +179,7 @@
 <div class="viewcode-block" id="AdminMongoDatabase.set_may_user_query">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.set_may_user_query">[docs]</a>
     <span class="nd">@user_must_exist</span>
-    <span class="k">def</span> <span class="nf">set_may_user_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">may_query</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_may_user_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">may_query</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets if a user may query the server.</span>
 
 <span class="sd">        (Set False before querying and True after updating budget)</span>
@@ -203,7 +203,7 @@
 <div class="viewcode-block" id="AdminMongoDatabase.get_and_set_may_user_query">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_and_set_may_user_query">[docs]</a>
     <span class="nd">@user_must_exist</span>
-    <span class="k">def</span> <span class="nf">get_and_set_may_user_query</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_and_set_may_user_query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">may_query</span><span class="p">:</span> <span class="nb">bool</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -230,7 +230,7 @@
 <div class="viewcode-block" id="AdminMongoDatabase.has_user_access_to_dataset">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.has_user_access_to_dataset">[docs]</a>
     <span class="nd">@user_must_exist</span>
-    <span class="k">def</span> <span class="nf">has_user_access_to_dataset</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">has_user_access_to_dataset</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if a user may access a particular dataset</span>
@@ -260,7 +260,7 @@
 
 <div class="viewcode-block" id="AdminMongoDatabase.get_epsilon_or_delta">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_epsilon_or_delta">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_epsilon_or_delta</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_epsilon_or_delta</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the total spent epsilon or delta  by a specific user</span>
@@ -291,7 +291,7 @@
 
 <div class="viewcode-block" id="AdminMongoDatabase.update_epsilon_or_delta">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.update_epsilon_or_delta">[docs]</a>
-    <span class="k">def</span> <span class="nf">update_epsilon_or_delta</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_epsilon_or_delta</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -324,7 +324,7 @@
 <div class="viewcode-block" id="AdminMongoDatabase.get_dataset_field">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_dataset_field">[docs]</a>
     <span class="nd">@dataset_must_exist</span>
-    <span class="k">def</span> <span class="nf">get_dataset_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataset_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get dataset field type based on dataset name and key</span>
 
 <span class="sd">        Wrapped by :py:func:`dataset_must_exist`.</span>
@@ -343,7 +343,7 @@
 <div class="viewcode-block" id="AdminMongoDatabase.get_user_previous_queries">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_user_previous_queries">[docs]</a>
     <span class="nd">@user_must_have_access_to_dataset</span>
-    <span class="k">def</span> <span class="nf">get_user_previous_queries</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user_previous_queries</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -371,7 +371,7 @@
 
 <div class="viewcode-block" id="AdminMongoDatabase.save_query">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.save_query">[docs]</a>
-    <span class="k">def</span> <span class="nf">save_query</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="nb">dict</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save queries of user on datasets in a separate collection (table)</span>
@@ -396,7 +396,7 @@
 
 <div class="viewcode-block" id="check_result_acknowledged">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.check_result_acknowledged">[docs]</a>
-<span class="k">def</span> <span class="nf">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">:</span> <span class="n">_WriteResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_result_acknowledged</span><span class="p">(</span><span class="n">res</span><span class="p">:</span> <span class="n">_WriteResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raises an exception if the result is not acknowledged.</span>
 
 <span class="sd">    Args:</span>

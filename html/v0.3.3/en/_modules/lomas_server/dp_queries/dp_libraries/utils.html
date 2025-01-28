@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.dp_queries.dp_libraries.utils &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,21 +93,21 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.dp_queries.dp_libraries.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">from</span> <span class="nn">base64</span> <span class="kn">import</span> <span class="n">b64encode</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">base64</span><span class="w"> </span><span class="kn">import</span> <span class="n">b64encode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleImputer</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="n">NUMERICAL_DTYPES</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="n">InvalidQueryException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">NUMERICAL_DTYPES</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InvalidQueryException</span>
 
 
 <div class="viewcode-block" id="handle_missing_data">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.utils.handle_missing_data">[docs]</a>
-<span class="k">def</span> <span class="nf">handle_missing_data</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">handle_missing_data</span><span class="p">(</span>
     <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">imputer_strategy</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Impute missing data based on given imputation strategy for NaNs</span>
@@ -175,7 +175,7 @@
 
 <div class="viewcode-block" id="serialise_model">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.utils.serialise_model">[docs]</a>
-<span class="k">def</span> <span class="nf">serialise_model</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">serialise_model</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Serialise a python object (fitted Smartnoise Synth synthesizer of</span>
 <span class="sd">    fitted DiffPrivLib pipeline) into an utf-8 string</span>

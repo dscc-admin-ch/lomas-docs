@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.utils.config &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,12 +93,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.utils.config</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">yaml</span>
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CONFIG_PATH</span><span class="p">,</span>
     <span class="n">SECRETS_PATH</span><span class="p">,</span>
     <span class="n">AdminDBType</span><span class="p">,</span>
@@ -106,12 +106,12 @@
     <span class="n">PrivateDatabaseType</span><span class="p">,</span>
     <span class="n">TimeAttackMethod</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
 
 
 <div class="viewcode-block" id="TimeAttack">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.TimeAttack">[docs]</a>
-<span class="k">class</span> <span class="nc">TimeAttack</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TimeAttack</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for configs to prevent timing attacks&quot;&quot;&quot;</span>
 
     <span class="n">method</span><span class="p">:</span> <span class="n">TimeAttackMethod</span>
@@ -121,7 +121,7 @@
 
 <div class="viewcode-block" id="Server">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.Server">[docs]</a>
-<span class="k">class</span> <span class="nc">Server</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Server</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for uvicorn server configs&quot;&quot;&quot;</span>
 
     <span class="n">time_attack</span><span class="p">:</span> <span class="n">TimeAttack</span>
@@ -135,14 +135,14 @@
 
 <div class="viewcode-block" id="DBConfig">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.DBConfig">[docs]</a>
-<span class="k">class</span> <span class="nc">DBConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DBConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for database type config&quot;&quot;&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="YamlDBConfig">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.YamlDBConfig">[docs]</a>
-<span class="k">class</span> <span class="nc">YamlDBConfig</span><span class="p">(</span><span class="n">DBConfig</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">YamlDBConfig</span><span class="p">(</span><span class="n">DBConfig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for dataset store configs  in case of a Yaml database&quot;&quot;&quot;</span>
 
     <span class="n">db_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">AdminDBType</span><span class="o">.</span><span class="n">YAML</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
@@ -152,7 +152,7 @@
 
 <div class="viewcode-block" id="MongoDBConfig">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.MongoDBConfig">[docs]</a>
-<span class="k">class</span> <span class="nc">MongoDBConfig</span><span class="p">(</span><span class="n">DBConfig</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MongoDBConfig</span><span class="p">(</span><span class="n">DBConfig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for dataset store configs  in case of a  MongoDB database&quot;&quot;&quot;</span>
 
     <span class="n">db_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">AdminDBType</span><span class="o">.</span><span class="n">MONGODB</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
@@ -166,14 +166,14 @@
 
 <div class="viewcode-block" id="PrivateDBCredentials">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.PrivateDBCredentials">[docs]</a>
-<span class="k">class</span> <span class="nc">PrivateDBCredentials</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PrivateDBCredentials</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for private database credentials.&quot;&quot;&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="S3CredentialsConfig">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.S3CredentialsConfig">[docs]</a>
-<span class="k">class</span> <span class="nc">S3CredentialsConfig</span><span class="p">(</span><span class="n">PrivateDBCredentials</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">S3CredentialsConfig</span><span class="p">(</span><span class="n">PrivateDBCredentials</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for S3 database credentials.&quot;&quot;&quot;</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;allow&quot;</span><span class="p">)</span>
@@ -187,7 +187,7 @@
 
 <div class="viewcode-block" id="OpenDPConfig">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.OpenDPConfig">[docs]</a>
-<span class="k">class</span> <span class="nc">OpenDPConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OpenDPConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for openDP librairy config&quot;&quot;&quot;</span>
 
     <span class="n">contrib</span><span class="p">:</span> <span class="nb">bool</span>
@@ -198,7 +198,7 @@
 
 <div class="viewcode-block" id="DPLibraryConfig">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.DPLibraryConfig">[docs]</a>
-<span class="k">class</span> <span class="nc">DPLibraryConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DPLibraryConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for DP librairies config&quot;&quot;&quot;</span>
 
     <span class="n">opendp</span><span class="p">:</span> <span class="n">OpenDPConfig</span></div>
@@ -207,7 +207,7 @@
 
 <div class="viewcode-block" id="Config">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.Config">[docs]</a>
-<span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Server runtime config.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -235,7 +235,7 @@
 
 <div class="viewcode-block" id="ConfigLoader">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.ConfigLoader">[docs]</a>
-<span class="k">class</span> <span class="nc">ConfigLoader</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConfigLoader</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Singleton object that holds the config for the server.</span>
 
 <span class="sd">    Initialises the config by calling load_config() with its</span>
@@ -248,14 +248,14 @@
     <span class="n">_instance</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_config</span><span class="p">:</span> <span class="n">Config</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
 
 <div class="viewcode-block" id="ConfigLoader.load_config">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.ConfigLoader.load_config">[docs]</a>
-    <span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_config</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">CONFIG_PATH</span><span class="p">,</span> <span class="n">secrets_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">SECRETS_PATH</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -289,10 +289,10 @@
             <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Could not read config from disk at </span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; or missing fields: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_merge_dicts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">u</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_merge_dicts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">u</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Recursively add dictionnary u to dictionnary v</span>
 
 <span class="sd">        Args:</span>
@@ -311,7 +311,7 @@
 
 <div class="viewcode-block" id="ConfigLoader.set_config">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.ConfigLoader.set_config">[docs]</a>
-    <span class="k">def</span> <span class="nf">set_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the singleton&#39;s config to config.</span>
 
@@ -323,7 +323,7 @@
 
 <div class="viewcode-block" id="ConfigLoader.get_config">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.ConfigLoader.get_config">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Config</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Config</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the config.</span>
 
@@ -343,7 +343,7 @@
 
 <div class="viewcode-block" id="get_config">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.get_config">[docs]</a>
-<span class="k">def</span> <span class="nf">get_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Config</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Config</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the config from the ConfigLoader Singleton instance.</span>
 

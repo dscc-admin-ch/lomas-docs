@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.app &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,37 +93,37 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.app</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">AsyncGenerator</span>
-<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">asynccontextmanager</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncGenerator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">asynccontextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 
-<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.admin_database.factory</span> <span class="kn">import</span> <span class="n">admin_database_factory</span>
-<span class="kn">from</span> <span class="nn">lomas_server.admin_database.utils</span> <span class="kn">import</span> <span class="n">add_demo_data_to_mongodb_admin</span>
-<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">admin_database_factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_demo_data_to_mongodb_admin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CONFIG_NOT_LOADED</span><span class="p">,</span>
     <span class="n">DB_NOT_LOADED</span><span class="p">,</span>
     <span class="n">SERVER_LIVE</span><span class="p">,</span>
     <span class="n">AdminDBType</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.dp_queries.dp_libraries.opendp</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dp_libraries.opendp</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">set_opendp_features_config</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.routes</span> <span class="kn">import</span> <span class="n">routes_admin</span><span class="p">,</span> <span class="n">routes_dp</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.anti_timing_att</span> <span class="kn">import</span> <span class="n">anti_timing_att</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.config</span> <span class="kn">import</span> <span class="n">get_config</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">routes_admin</span><span class="p">,</span> <span class="n">routes_dp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.anti_timing_att</span><span class="w"> </span><span class="kn">import</span> <span class="n">anti_timing_att</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
     <span class="n">add_exception_handlers</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.logger</span> <span class="kn">import</span> <span class="n">LOG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOG</span>
 
 
 <div class="viewcode-block" id="lifespan">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.app.lifespan">[docs]</a>
 <span class="nd">@asynccontextmanager</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">lifespan</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">lifespan</span><span class="p">(</span>
     <span class="n">app</span><span class="p">:</span> <span class="n">FastAPI</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span>
     <span class="n">AsyncGenerator</span>
@@ -229,7 +229,7 @@
 <div class="viewcode-block" id="middleware">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.app.middleware">[docs]</a>
 <span class="nd">@app</span><span class="o">.</span><span class="n">middleware</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">middleware</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">middleware</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">call_next</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Request</span><span class="p">],</span> <span class="n">Response</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds delays to requests response to protect against timing attack&quot;&quot;&quot;</span>

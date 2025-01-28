@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_client.client &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -88,16 +88,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_client.client</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">StrEnum</span>
-<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringIO</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">opendp</span> <span class="k">as</span> <span class="nn">dp</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">opendp.mod</span> <span class="kn">import</span> <span class="n">enable_features</span>
-<span class="kn">from</span> <span class="nn">opendp_logger</span> <span class="kn">import</span> <span class="n">enable_logging</span><span class="p">,</span> <span class="n">make_load_json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">opendp</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opendp.mod</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_features</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opendp_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_logging</span><span class="p">,</span> <span class="n">make_load_json</span>
 
 
 <span class="c1"># Opendp_logger</span>
@@ -111,7 +111,7 @@
 
 <div class="viewcode-block" id="DPLibraries">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.DPLibraries">[docs]</a>
-<span class="k">class</span> <span class="nc">DPLibraries</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DPLibraries</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Enum of the DP librairies used in the server</span>
 <span class="sd">    WARNING: MUST match those of lomas_server</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -123,7 +123,7 @@
 
 <div class="viewcode-block" id="error_message">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.error_message">[docs]</a>
-<span class="k">def</span> <span class="nf">error_message</span><span class="p">(</span><span class="n">res</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">error_message</span><span class="p">(</span><span class="n">res</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates an error message based on the HTTP response.</span>
 
 <span class="sd">    Args:</span>
@@ -139,12 +139,12 @@
 
 <div class="viewcode-block" id="Client">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client">[docs]</a>
-<span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Client</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Client class to send requests to the server</span>
 <span class="sd">    Handle all serialisation and deserialisation steps</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the Client with the specified URL, user name, and dataset name.</span>
 
 <span class="sd">        Args:</span>
@@ -159,7 +159,7 @@
 
 <div class="viewcode-block" id="Client.get_dataset_metadata">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.get_dataset_metadata">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_dataset_metadata</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataset_metadata</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;This function retrieves metadata for the dataset.</span>
@@ -182,7 +182,7 @@
 
 <div class="viewcode-block" id="Client.get_dummy_dataset">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.get_dummy_dataset">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_dummy_dataset</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_dataset</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">nb_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span>
         <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DUMMY_SEED</span><span class="p">,</span>
@@ -220,7 +220,7 @@
 
 <div class="viewcode-block" id="Client.smartnoise_query">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.smartnoise_query">[docs]</a>
-    <span class="k">def</span> <span class="nf">smartnoise_query</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">smartnoise_query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -292,7 +292,7 @@
 
 <div class="viewcode-block" id="Client.estimate_smartnoise_cost">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.estimate_smartnoise_cost">[docs]</a>
-    <span class="k">def</span> <span class="nf">estimate_smartnoise_cost</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_smartnoise_cost</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -331,7 +331,7 @@
 
 <div class="viewcode-block" id="Client.opendp_query">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.opendp_query">[docs]</a>
-    <span class="k">def</span> <span class="nf">opendp_query</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">opendp_query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">opendp_pipeline</span><span class="p">:</span> <span class="n">dp</span><span class="o">.</span><span class="n">Measurement</span><span class="p">,</span>
         <span class="n">fixed_delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -398,7 +398,7 @@
 
 <div class="viewcode-block" id="Client.estimate_opendp_cost">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.estimate_opendp_cost">[docs]</a>
-    <span class="k">def</span> <span class="nf">estimate_opendp_cost</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_opendp_cost</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">opendp_pipeline</span><span class="p">:</span> <span class="n">dp</span><span class="o">.</span><span class="n">Measurement</span><span class="p">,</span>
         <span class="n">fixed_delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -436,7 +436,7 @@
 
 <div class="viewcode-block" id="Client.get_initial_budget">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.get_initial_budget">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_initial_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_initial_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;This function retrieves the initial budget.</span>
 
 <span class="sd">        Returns:</span>
@@ -456,7 +456,7 @@
 
 <div class="viewcode-block" id="Client.get_total_spent_budget">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.get_total_spent_budget">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_total_spent_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_total_spent_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;This function retrieves the total spent budget.</span>
 
 <span class="sd">        Returns:</span>
@@ -476,7 +476,7 @@
 
 <div class="viewcode-block" id="Client.get_remaining_budget">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.get_remaining_budget">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_remaining_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_remaining_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;This function retrieves the remaining budget.</span>
 
 <span class="sd">        Returns:</span>
@@ -496,7 +496,7 @@
 
 <div class="viewcode-block" id="Client.get_previous_queries">
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.client.Client.get_previous_queries">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_previous_queries</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_previous_queries</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;This function retrieves the previous queries of the user.</span>
 
 <span class="sd">        Raises:</span>
@@ -543,7 +543,7 @@
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">body_json</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">body_json</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Executes a POST request to the specified endpoint with the provided</span>
 <span class="sd">        JSON body.</span>
 

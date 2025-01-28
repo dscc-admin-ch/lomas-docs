@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.app &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -88,15 +88,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.app</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">AsyncGenerator</span>
-<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">asynccontextmanager</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncGenerator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">asynccontextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 
-<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">Body</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
-<span class="kn">from</span> <span class="nn">fastapi.responses</span> <span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">StreamingResponse</span><span class="p">,</span> <span class="n">RedirectResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Body</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">StreamingResponse</span><span class="p">,</span> <span class="n">RedirectResponse</span>
 
-<span class="kn">from</span> <span class="nn">admin_database.utils</span> <span class="kn">import</span> <span class="n">database_factory</span>
-<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">admin_database.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">database_factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CONFIG_NOT_LOADED</span><span class="p">,</span>
     <span class="n">DB_NOT_LOADED</span><span class="p">,</span>
     <span class="n">QUERY_HANDLER_NOT_LOADED</span><span class="p">,</span>
@@ -104,22 +104,22 @@
     <span class="n">AdminDBType</span><span class="p">,</span>
     <span class="n">DPLibraries</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">dataset_store.utils</span> <span class="kn">import</span> <span class="n">dataset_store_factory</span>
-<span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.opendp</span> <span class="kn">import</span> <span class="n">set_opendp_features_config</span>
-<span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.utils</span> <span class="kn">import</span> <span class="n">querier_factory</span>
-<span class="kn">from</span> <span class="nn">dp_queries.dp_logic</span> <span class="kn">import</span> <span class="n">QueryHandler</span>
-<span class="kn">from</span> <span class="nn">dp_queries.dummy_dataset</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataset_store.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataset_store_factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dp_queries.dp_libraries.opendp</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_opendp_features_config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dp_queries.dp_libraries.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">querier_factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dp_queries.dp_logic</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryHandler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dp_queries.dummy_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_dummy_dataset_for_query</span><span class="p">,</span>
     <span class="n">make_dummy_dataset</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">utils.anti_timing_att</span> <span class="kn">import</span> <span class="n">anti_timing_att</span>
-<span class="kn">from</span> <span class="nn">utils.config</span> <span class="kn">import</span> <span class="n">get_config</span>
-<span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils.anti_timing_att</span><span class="w"> </span><span class="kn">import</span> <span class="n">anti_timing_att</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">KNOWN_EXCEPTIONS</span><span class="p">,</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
     <span class="n">add_exception_handlers</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">utils.example_inputs</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils.example_inputs</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">example_dummy_opendp</span><span class="p">,</span>
     <span class="n">example_dummy_smartnoise_sql</span><span class="p">,</span>
     <span class="n">example_get_admin_db_data</span><span class="p">,</span>
@@ -128,7 +128,7 @@
     <span class="n">example_smartnoise_sql</span><span class="p">,</span>
     <span class="n">example_smartnoise_sql_cost</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">utils.input_models</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils.input_models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DummyOpenDPInp</span><span class="p">,</span>
     <span class="n">DummySNSQLInp</span><span class="p">,</span>
     <span class="n">GetDbData</span><span class="p">,</span>
@@ -137,14 +137,14 @@
     <span class="n">SNSQLInp</span><span class="p">,</span>
     <span class="n">SNSQLInpCost</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">utils.loggr</span> <span class="kn">import</span> <span class="n">LOG</span>
-<span class="kn">from</span> <span class="nn">utils.utils</span> <span class="kn">import</span> <span class="n">add_demo_data_to_admindb</span><span class="p">,</span> <span class="n">server_live</span><span class="p">,</span> <span class="n">stream_dataframe</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils.loggr</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_demo_data_to_admindb</span><span class="p">,</span> <span class="n">server_live</span><span class="p">,</span> <span class="n">stream_dataframe</span>
 
 
 <div class="viewcode-block" id="lifespan">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.app.lifespan">[docs]</a>
 <span class="nd">@asynccontextmanager</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">lifespan</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">lifespan</span><span class="p">(</span>
     <span class="n">app</span><span class="p">:</span> <span class="n">FastAPI</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span>
     <span class="n">AsyncGenerator</span>
@@ -271,7 +271,7 @@
 <div class="viewcode-block" id="middleware">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.app.middleware">[docs]</a>
 <span class="nd">@app</span><span class="o">.</span><span class="n">middleware</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">middleware</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">middleware</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">call_next</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Request</span><span class="p">],</span> <span class="n">Response</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds delays to requests response to protect against timing attack&quot;&quot;&quot;</span>
@@ -289,7 +289,7 @@
 <div class="viewcode-block" id="root">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.app.root">[docs]</a>
 <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">root</span><span class="p">():</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">root</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Redirect root endpoint to the state endpoint</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        JSONResponse: The state of the server instance.</span>
@@ -302,7 +302,7 @@
 <div class="viewcode-block" id="get_state">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.app.get_state">[docs]</a>
 <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/state&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ADMIN_USER&quot;</span><span class="p">])</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">get_state</span><span class="p">(</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_state</span><span class="p">(</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the current state dict of this server instance.</span>
@@ -329,7 +329,7 @@
     <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ADMIN_USER&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">get_memory_usage</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_memory_usage</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the dataset store object memory usage</span>
 <span class="sd">    Args:</span>
 <span class="sd">        user_name (str, optional): The user name. Defaults to Header(None).</span>
@@ -353,7 +353,7 @@
     <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;USER_METADATA&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_dataset_metadata</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_dataset_metadata</span><span class="p">(</span>
     <span class="n">_request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">GetDbData</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_admin_db_data</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
@@ -383,7 +383,7 @@
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">ds_metadata</span></div>
 
@@ -397,7 +397,7 @@
     <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;USER_DUMMY&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_dummy_dataset</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_dataset</span><span class="p">(</span>
     <span class="n">_request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">GetDummyDataset</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_dummy_dataset</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StreamingResponse</span><span class="p">:</span>
@@ -433,7 +433,7 @@
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">stream_dataframe</span><span class="p">(</span><span class="n">dummy_df</span><span class="p">)</span></div>
 
@@ -447,7 +447,7 @@
     <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;USER_QUERY&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">smartnoise_sql_handler</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">smartnoise_sql_handler</span><span class="p">(</span>
     <span class="n">_request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">SNSQLInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
@@ -501,7 +501,7 @@
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">response</span></div>
 
@@ -515,7 +515,7 @@
     <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;USER_DUMMY&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">dummy_smartnoise_sql_handler</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dummy_smartnoise_sql_handler</span><span class="p">(</span>
     <span class="n">_request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">DummySNSQLInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_dummy_smartnoise_sql</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
@@ -570,7 +570,7 @@
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">response</span></div>
 
@@ -583,7 +583,7 @@
     <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;USER_QUERY&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">estimate_smartnoise_cost</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_smartnoise_cost</span><span class="p">(</span>
     <span class="n">_request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">SNSQLInpCost</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_smartnoise_sql_cost</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
@@ -624,7 +624,7 @@
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">response</span><span class="p">)</span></div>
 
@@ -635,7 +635,7 @@
 <span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
     <span class="s2">&quot;/opendp_query&quot;</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;USER_QUERY&quot;</span><span class="p">]</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">opendp_query_handler</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">opendp_query_handler</span><span class="p">(</span>
     <span class="n">_request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">OpenDPInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_opendp</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
@@ -685,7 +685,7 @@
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">response</span><span class="p">)</span></div>
 
@@ -698,7 +698,7 @@
     <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;USER_DUMMY&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">dummy_opendp_query_handler</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dummy_opendp_query_handler</span><span class="p">(</span>
     <span class="n">_request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">DummyOpenDPInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_dummy_opendp</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
@@ -752,7 +752,7 @@
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">response</span><span class="p">)</span></div>
 
@@ -765,7 +765,7 @@
     <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;USER_QUERY&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">estimate_opendp_cost</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_opendp_cost</span><span class="p">(</span>
     <span class="n">_request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">OpenDPInp</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_opendp</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
@@ -800,7 +800,7 @@
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">response</span><span class="p">)</span></div>
 
@@ -814,7 +814,7 @@
     <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;USER_BUDGET&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_initial_budget</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_initial_budget</span><span class="p">(</span>
     <span class="n">_request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">GetDbData</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_admin_db_data</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
@@ -854,7 +854,7 @@
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span>
         <span class="n">content</span><span class="o">=</span><span class="p">{</span>
@@ -873,7 +873,7 @@
     <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;USER_BUDGET&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_total_spent_budget</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_total_spent_budget</span><span class="p">(</span>
     <span class="n">_request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">GetDbData</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_admin_db_data</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
@@ -913,7 +913,7 @@
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span>
         <span class="n">content</span><span class="o">=</span><span class="p">{</span>
@@ -932,7 +932,7 @@
     <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;USER_BUDGET&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_remaining_budget</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_remaining_budget</span><span class="p">(</span>
     <span class="n">_request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">GetDbData</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_admin_db_data</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
@@ -969,7 +969,7 @@
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span>
         <span class="n">content</span><span class="o">=</span><span class="p">{</span>
@@ -988,7 +988,7 @@
     <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="n">Depends</span><span class="p">(</span><span class="n">server_live</span><span class="p">)],</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;USER_BUDGET&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_user_previous_queries</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_user_previous_queries</span><span class="p">(</span>
     <span class="n">_request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">query_json</span><span class="p">:</span> <span class="n">GetDbData</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_admin_db_data</span><span class="p">),</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
@@ -1026,7 +1026,7 @@
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">:</span> <span class="n">previous_queries</span><span class="p">})</span></div>
 

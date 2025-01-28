@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.dp_queries.dp_libraries.opendp &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,27 +93,27 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.dp_queries.dp_libraries.opendp</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">opendp</span> <span class="k">as</span> <span class="nn">dp</span>
-<span class="kn">from</span> <span class="nn">opendp.metrics</span> <span class="kn">import</span> <span class="n">metric_distance_type</span><span class="p">,</span> <span class="n">metric_type</span>
-<span class="kn">from</span> <span class="nn">opendp.mod</span> <span class="kn">import</span> <span class="n">enable_features</span>
-<span class="kn">from</span> <span class="nn">opendp_logger</span> <span class="kn">import</span> <span class="n">make_load_json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">opendp</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opendp.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">metric_distance_type</span><span class="p">,</span> <span class="n">metric_type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opendp.mod</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_features</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opendp_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_load_json</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DPLibraries</span><span class="p">,</span>
     <span class="n">OpenDPDatasetInputMetric</span><span class="p">,</span>
     <span class="n">OpenDPMeasurement</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.dp_queries.dp_querier</span> <span class="kn">import</span> <span class="n">DPQuerier</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.config</span> <span class="kn">import</span> <span class="n">OpenDPConfig</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dp_querier</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPQuerier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDPConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ExternalLibraryException</span><span class="p">,</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
     <span class="n">InvalidQueryException</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.logger</span> <span class="kn">import</span> <span class="n">LOG</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.query_models</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.query_models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">OpenDPQueryModel</span><span class="p">,</span>
     <span class="n">OpenDPRequestModel</span><span class="p">,</span>
 <span class="p">)</span>
@@ -121,14 +121,14 @@
 
 <div class="viewcode-block" id="OpenDPQuerier">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.opendp.OpenDPQuerier">[docs]</a>
-<span class="k">class</span> <span class="nc">OpenDPQuerier</span><span class="p">(</span><span class="n">DPQuerier</span><span class="p">[</span><span class="n">OpenDPRequestModel</span><span class="p">,</span> <span class="n">OpenDPQueryModel</span><span class="p">]):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OpenDPQuerier</span><span class="p">(</span><span class="n">DPQuerier</span><span class="p">[</span><span class="n">OpenDPRequestModel</span><span class="p">,</span> <span class="n">OpenDPQueryModel</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Concrete implementation of the DPQuerier ABC for the OpenDP library.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="OpenDPQuerier.cost">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.opendp.OpenDPQuerier.cost">[docs]</a>
-    <span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">OpenDPRequestModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">OpenDPRequestModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate cost of query</span>
 
@@ -163,7 +163,7 @@
             <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
                 <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">,</span> <span class="s2">&quot;Error obtaining cost:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
         <span class="c1"># Cost interpretation</span>
         <span class="k">match</span> <span class="n">measurement_type</span><span class="p">:</span>
@@ -191,7 +191,7 @@
 
 <div class="viewcode-block" id="OpenDPQuerier.query">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.opendp.OpenDPQuerier.query">[docs]</a>
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">OpenDPQueryModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">OpenDPQueryModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform the query and return the response.</span>
 
 <span class="sd">        Args:</span>
@@ -217,7 +217,7 @@
             <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
                 <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">,</span>
                 <span class="s2">&quot;Error executing query:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
         <span class="k">return</span> <span class="n">release_data</span></div>
 </div>
@@ -226,7 +226,7 @@
 
 <div class="viewcode-block" id="is_measurement">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.opendp.is_measurement">[docs]</a>
-<span class="k">def</span> <span class="nf">is_measurement</span><span class="p">(</span><span class="n">pipeline</span><span class="p">:</span> <span class="n">dp</span><span class="o">.</span><span class="n">Measurement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_measurement</span><span class="p">(</span><span class="n">pipeline</span><span class="p">:</span> <span class="n">dp</span><span class="o">.</span><span class="n">Measurement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the pipeline is a measurement.</span>
 
 <span class="sd">    Args:</span>
@@ -247,7 +247,7 @@
 
 <div class="viewcode-block" id="has_dataset_input_metric">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.opendp.has_dataset_input_metric">[docs]</a>
-<span class="k">def</span> <span class="nf">has_dataset_input_metric</span><span class="p">(</span><span class="n">pipeline</span><span class="p">:</span> <span class="n">dp</span><span class="o">.</span><span class="n">Measurement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">has_dataset_input_metric</span><span class="p">(</span><span class="n">pipeline</span><span class="p">:</span> <span class="n">dp</span><span class="o">.</span><span class="n">Measurement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that the input metric of the pipeline is a dataset metric</span>
 
 <span class="sd">    Args:</span>
@@ -280,7 +280,7 @@
 
 <div class="viewcode-block" id="reconstruct_measurement_pipeline">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.opendp.reconstruct_measurement_pipeline">[docs]</a>
-<span class="k">def</span> <span class="nf">reconstruct_measurement_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dp</span><span class="o">.</span><span class="n">Measurement</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">reconstruct_measurement_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dp</span><span class="o">.</span><span class="n">Measurement</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Reconstruct OpenDP pipeline from json representation.</span>
 
 <span class="sd">    Args:</span>
@@ -305,7 +305,7 @@
 
 <div class="viewcode-block" id="get_output_measure">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.opendp.get_output_measure">[docs]</a>
-<span class="k">def</span> <span class="nf">get_output_measure</span><span class="p">(</span><span class="n">opendp_pipe</span><span class="p">:</span> <span class="n">dp</span><span class="o">.</span><span class="n">Measurement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_output_measure</span><span class="p">(</span><span class="n">opendp_pipe</span><span class="p">:</span> <span class="n">dp</span><span class="o">.</span><span class="n">Measurement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get output measure type.</span>
 
 <span class="sd">    Args:</span>
@@ -351,7 +351,7 @@
 
 <div class="viewcode-block" id="set_opendp_features_config">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.opendp.set_opendp_features_config">[docs]</a>
-<span class="k">def</span> <span class="nf">set_opendp_features_config</span><span class="p">(</span><span class="n">opendp_config</span><span class="p">:</span> <span class="n">OpenDPConfig</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_opendp_features_config</span><span class="p">(</span><span class="n">opendp_config</span><span class="p">:</span> <span class="n">OpenDPConfig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Enable opendp features based on config</span>
 <span class="sd">    See https://github.com/opendp/opendp/discussions/304</span>
 

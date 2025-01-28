@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.tests.test_dummy_generation &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,17 +93,17 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.tests.test_dummy_generation</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.dp_queries.dummy_dataset</span> <span class="kn">import</span> <span class="n">make_dummy_dataset</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.collection_models</span> <span class="kn">import</span> <span class="n">Metadata</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.query_examples</span> <span class="kn">import</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span> <span class="n">DUMMY_SEED</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dummy_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_dummy_dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.collection_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Metadata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.query_examples</span><span class="w"> </span><span class="kn">import</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span> <span class="n">DUMMY_SEED</span>
 
 
 <div class="viewcode-block" id="TestMakeDummyDataset">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset">[docs]</a>
-<span class="k">class</span> <span class="nc">TestMakeDummyDataset</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TestMakeDummyDataset</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tests for the generation of dummy datasets.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -117,7 +117,7 @@
 
 <div class="viewcode-block" id="TestMakeDummyDataset.test_categorical_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_categorical_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_categorical_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_categorical_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_categorical_column&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;col_card_cat&quot;</span><span class="p">:</span> <span class="p">{</span>  <span class="c1"># cardinality + categories</span>
@@ -142,7 +142,7 @@
 
 <div class="viewcode-block" id="TestMakeDummyDataset.test_boolean_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_boolean_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_boolean_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_boolean_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_boolean_column&quot;&quot;&quot;</span>
 
         <span class="c1"># Test a boolean column</span>
@@ -162,7 +162,7 @@
 
 <div class="viewcode-block" id="TestMakeDummyDataset.test_float_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_float_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_float_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_float_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_float_column&quot;&quot;&quot;</span>
         <span class="n">lower_bound</span> <span class="o">=</span> <span class="mf">10.0</span>
         <span class="n">upper_bound</span> <span class="o">=</span> <span class="mf">20.0</span>
@@ -187,7 +187,7 @@
 
 <div class="viewcode-block" id="TestMakeDummyDataset.test_int_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_int_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_int_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_int_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_int_column&quot;&quot;&quot;</span>
         <span class="n">lower_bound</span> <span class="o">=</span> <span class="mi">100</span>
         <span class="n">upper_bound</span> <span class="o">=</span> <span class="mi">120</span>
@@ -212,7 +212,7 @@
 
 <div class="viewcode-block" id="TestMakeDummyDataset.test_datetime_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_datetime_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_datetime_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_datetime_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_datetime_column&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;col_datetime&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -233,7 +233,7 @@
 
 <div class="viewcode-block" id="TestMakeDummyDataset.test_nullable_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_nullable_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_nullable_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_nullable_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_nullable_column&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;col_nullable&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -252,7 +252,7 @@
 
 <div class="viewcode-block" id="TestMakeDummyDataset.test_seed">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_dummy_generation.TestMakeDummyDataset.test_seed">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_seed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_seed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_seed&quot;&quot;&quot;</span>
         <span class="c1"># Test the behavior with different seeds</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>

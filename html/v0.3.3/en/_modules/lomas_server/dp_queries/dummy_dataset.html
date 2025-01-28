@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.dp_queries.dummy_dataset &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,18 +93,18 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.dp_queries.dummy_dataset</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.admin_database.admin_database</span> <span class="kn">import</span> <span class="n">AdminDatabase</span>
-<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span>
     <span class="n">DUMMY_SEED</span><span class="p">,</span>
     <span class="n">NB_RANDOM_NONE</span><span class="p">,</span>
     <span class="n">RANDOM_STRINGS</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.data_connector.in_memory_connector</span> <span class="kn">import</span> <span class="n">InMemoryConnector</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.collection_models</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.in_memory_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.collection_models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">BooleanMetadata</span><span class="p">,</span>
     <span class="n">CategoricalColumnMetadata</span><span class="p">,</span>
     <span class="n">DatetimeMetadata</span><span class="p">,</span>
@@ -113,13 +113,13 @@
     <span class="n">Metadata</span><span class="p">,</span>
     <span class="n">StrMetadata</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.query_models</span> <span class="kn">import</span> <span class="n">RequestModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.query_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">RequestModel</span>
 
 
 <div class="viewcode-block" id="make_dummy_dataset">
 <a class="viewcode-back" href="../../../lomas_server.dp_queries.html#lomas_server.dp_queries.dummy_dataset.make_dummy_dataset">[docs]</a>
-<span class="k">def</span> <span class="nf">make_dummy_dataset</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-locals</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_dummy_dataset</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-locals</span>
     <span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span><span class="p">,</span> <span class="n">nb_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DUMMY_SEED</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -203,7 +203,7 @@
 
 <div class="viewcode-block" id="get_dummy_dataset_for_query">
 <a class="viewcode-back" href="../../../lomas_server.dp_queries.html#lomas_server.dp_queries.dummy_dataset.get_dummy_dataset_for_query">[docs]</a>
-<span class="k">def</span> <span class="nf">get_dummy_dataset_for_query</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_dataset_for_query</span><span class="p">(</span>
     <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">RequestModel</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InMemoryConnector</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a dummy dataset for a given query.</span>

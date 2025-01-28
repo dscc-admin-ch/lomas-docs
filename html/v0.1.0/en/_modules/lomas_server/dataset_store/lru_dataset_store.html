@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.dataset_store.lru_dataset_store &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -88,22 +88,22 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.dataset_store.lru_dataset_store</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
 
-<span class="kn">from</span> <span class="nn">admin_database.admin_database</span> <span class="kn">import</span> <span class="n">AdminDatabase</span>
-<span class="kn">from</span> <span class="nn">dataset_store.dataset_store</span> <span class="kn">import</span> <span class="n">DatasetStore</span>
-<span class="kn">from</span> <span class="nn">dataset_store.private_dataset_observer</span> <span class="kn">import</span> <span class="n">PrivateDatasetObserver</span>
-<span class="kn">from</span> <span class="nn">dp_queries.dp_libraries.utils</span> <span class="kn">import</span> <span class="n">querier_factory</span>
-<span class="kn">from</span> <span class="nn">dp_queries.dp_querier</span> <span class="kn">import</span> <span class="n">DPQuerier</span>
-<span class="kn">from</span> <span class="nn">private_dataset.private_dataset</span> <span class="kn">import</span> <span class="n">PrivateDataset</span>
-<span class="kn">from</span> <span class="nn">private_dataset.utils</span> <span class="kn">import</span> <span class="n">private_dataset_factory</span>
-<span class="kn">from</span> <span class="nn">utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
-<span class="kn">from</span> <span class="nn">utils.loggr</span> <span class="kn">import</span> <span class="n">LOG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataset_store.dataset_store</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatasetStore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataset_store.private_dataset_observer</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivateDatasetObserver</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dp_queries.dp_libraries.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">querier_factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dp_queries.dp_querier</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPQuerier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">private_dataset.private_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivateDataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">private_dataset.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">private_dataset_factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils.loggr</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOG</span>
 
 
 <div class="viewcode-block" id="LRUDatasetStore">
 <a class="viewcode-back" href="../../../lomas_server.dataset_store.html#lomas_server.dataset_store.lru_dataset_store.LRUDatasetStore">[docs]</a>
-<span class="k">class</span> <span class="nc">LRUDatasetStore</span><span class="p">(</span><span class="n">DatasetStore</span><span class="p">,</span> <span class="n">PrivateDatasetObserver</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LRUDatasetStore</span><span class="p">(</span><span class="n">DatasetStore</span><span class="p">,</span> <span class="n">PrivateDatasetObserver</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implementation of the DatasetStore interface, with an LRU cache.</span>
 
@@ -114,7 +114,7 @@
 
     <span class="n">dataset_cache</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PrivateDataset</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span> <span class="n">max_memory_usage</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializer.</span>
@@ -131,7 +131,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dataset_cache</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">memory_usage</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="nf">_add_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a dataset to the manager.</span>
 
 <span class="sd">        Makes sure the memory usage limit is not exceeded.</span>
@@ -168,7 +168,7 @@
 
 <div class="viewcode-block" id="LRUDatasetStore.update_memory_usage">
 <a class="viewcode-back" href="../../../lomas_server.dataset_store.html#lomas_server.dataset_store.lru_dataset_store.LRUDatasetStore.update_memory_usage">[docs]</a>
-    <span class="k">def</span> <span class="nf">update_memory_usage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_memory_usage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove least recently used datasets until the cache</span>
 <span class="sd">        is back to below or equal to its maximum size.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -189,7 +189,7 @@
 
 <div class="viewcode-block" id="LRUDatasetStore.get_querier">
 <a class="viewcode-back" href="../../../lomas_server.dataset_store.html#lomas_server.dataset_store.lru_dataset_store.LRUDatasetStore.get_querier">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_querier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">library</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DPQuerier</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_querier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">library</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DPQuerier</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the querier for the given dataset and library</span>
 
 <span class="sd">        Args:</span>

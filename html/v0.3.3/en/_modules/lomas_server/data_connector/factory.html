@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.data_connector.factory &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,20 +93,20 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.data_connector.factory</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.admin_database.admin_database</span> <span class="kn">import</span> <span class="n">AdminDatabase</span>
-<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="n">PrivateDatabaseType</span>
-<span class="kn">from</span> <span class="nn">lomas_server.data_connector.data_connector</span> <span class="kn">import</span> <span class="n">DataConnector</span>
-<span class="kn">from</span> <span class="nn">lomas_server.data_connector.path_connector</span> <span class="kn">import</span> <span class="n">PathConnector</span>
-<span class="kn">from</span> <span class="nn">lomas_server.data_connector.s3_connector</span> <span class="kn">import</span> <span class="n">S3Connector</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.config</span> <span class="kn">import</span> <span class="n">PrivateDBCredentials</span><span class="p">,</span> <span class="n">S3CredentialsConfig</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivateDatabaseType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.data_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.path_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.s3_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3Connector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivateDBCredentials</span><span class="p">,</span> <span class="n">S3CredentialsConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
 
 
 <div class="viewcode-block" id="data_connector_factory">
 <a class="viewcode-back" href="../../../lomas_server.data_connector.html#lomas_server.data_connector.factory.data_connector_factory">[docs]</a>
-<span class="k">def</span> <span class="nf">data_connector_factory</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">data_connector_factory</span><span class="p">(</span>
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span>
     <span class="n">private_db_credentials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PrivateDBCredentials</span><span class="p">],</span>
@@ -172,7 +172,7 @@
 
 <div class="viewcode-block" id="get_dataset_credentials">
 <a class="viewcode-back" href="../../../lomas_server.data_connector.html#lomas_server.data_connector.factory.get_dataset_credentials">[docs]</a>
-<span class="k">def</span> <span class="nf">get_dataset_credentials</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_dataset_credentials</span><span class="p">(</span>
     <span class="n">private_db_credentials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PrivateDBCredentials</span><span class="p">],</span>
     <span class="n">db_type</span><span class="p">:</span> <span class="n">PrivateDatabaseType</span><span class="p">,</span>
     <span class="n">credentials_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>

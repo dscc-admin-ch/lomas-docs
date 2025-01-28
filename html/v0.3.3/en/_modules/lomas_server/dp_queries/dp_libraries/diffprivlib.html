@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.dp_queries.dp_libraries.diffprivlib &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,28 +93,28 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.dp_queries.dp_libraries.diffprivlib</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">diffprivlib.utils</span> <span class="kn">import</span> <span class="n">PrivacyLeakWarning</span>
-<span class="kn">from</span> <span class="nn">diffprivlib_logger</span> <span class="kn">import</span> <span class="n">deserialise_pipeline</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffprivlib.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivacyLeakWarning</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffprivlib_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">deserialise_pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.admin_database.admin_database</span> <span class="kn">import</span> <span class="n">AdminDatabase</span>
-<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="n">DPLibraries</span>
-<span class="kn">from</span> <span class="nn">lomas_server.data_connector.data_connector</span> <span class="kn">import</span> <span class="n">DataConnector</span>
-<span class="kn">from</span> <span class="nn">lomas_server.dp_queries.dp_libraries.utils</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPLibraries</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.data_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dp_libraries.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">handle_missing_data</span><span class="p">,</span>
     <span class="n">serialise_model</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.dp_queries.dp_querier</span> <span class="kn">import</span> <span class="n">DPQuerier</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dp_querier</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPQuerier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ExternalLibraryException</span><span class="p">,</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.query_models</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.query_models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DiffPrivLibQueryModel</span><span class="p">,</span>
     <span class="n">DiffPrivLibRequestModel</span><span class="p">,</span>
 <span class="p">)</span>
@@ -122,14 +122,14 @@
 
 <div class="viewcode-block" id="DiffPrivLibQuerier">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier">[docs]</a>
-<span class="k">class</span> <span class="nc">DiffPrivLibQuerier</span><span class="p">(</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiffPrivLibQuerier</span><span class="p">(</span>
     <span class="n">DPQuerier</span><span class="p">[</span><span class="n">DiffPrivLibRequestModel</span><span class="p">,</span> <span class="n">DiffPrivLibQueryModel</span><span class="p">]</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Concrete implementation of the DPQuerier ABC for the DiffPrivLib library.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">data_connector</span><span class="p">:</span> <span class="n">DataConnector</span><span class="p">,</span>
         <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span>
@@ -141,7 +141,7 @@
 
 <div class="viewcode-block" id="DiffPrivLibQuerier.fit_model_on_data">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.fit_model_on_data">[docs]</a>
-    <span class="k">def</span> <span class="nf">fit_model_on_data</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit_model_on_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibRequestModel</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Pipeline</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform necessary steps to fit the model on the data</span>
@@ -180,19 +180,19 @@
                 <span class="sa">f</span><span class="s2">&quot;PrivacyLeakWarning: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. &quot;</span>
                 <span class="o">+</span> <span class="s2">&quot;Lomas server cannot fit pipeline on data, &quot;</span>
                 <span class="o">+</span> <span class="s2">&quot;PrivacyLeakWarning is a blocker.&quot;</span><span class="p">,</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
                 <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">,</span>
                 <span class="sa">f</span><span class="s2">&quot;Cannot fit pipeline on data because </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
         <span class="k">return</span> <span class="n">dpl_pipeline</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span></div>
 
 
 <div class="viewcode-block" id="DiffPrivLibQuerier.cost">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.cost">[docs]</a>
-    <span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibRequestModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibRequestModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate cost of query</span>
 
 <span class="sd">        Args:</span>
@@ -221,7 +221,7 @@
 
 <div class="viewcode-block" id="DiffPrivLibQuerier.query">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.query">[docs]</a>
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibQueryModel</span><span class="p">,</span>  <span class="c1"># pylint: disable=unused-argument</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
@@ -259,7 +259,7 @@
 
 <div class="viewcode-block" id="split_train_test_data">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.split_train_test_data">[docs]</a>
-<span class="k">def</span> <span class="nf">split_train_test_data</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">split_train_test_data</span><span class="p">(</span>
     <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibRequestModel</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Split the data between train and test set</span>

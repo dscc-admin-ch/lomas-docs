@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.mongodb_admin &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,33 +93,33 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.mongodb_admin</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">argparse</span>
-<span class="kn">import</span> <span class="nn">functools</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
 
-<span class="kn">import</span> <span class="nn">boto3</span>
-<span class="kn">import</span> <span class="nn">yaml</span>
-<span class="kn">from</span> <span class="nn">pymongo.database</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="kn">from</span> <span class="nn">pymongo.results</span> <span class="kn">import</span> <span class="n">_WriteResult</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">Database</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">_WriteResult</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.admin_database.mongodb_database</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.mongodb_database</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">check_result_acknowledged</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="n">PrivateDatabaseType</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.collection_models</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivateDatabaseType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.collection_models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DatasetsCollection</span><span class="p">,</span>
     <span class="n">MetadataOfPathDB</span><span class="p">,</span>
     <span class="n">MetadataOfS3DB</span><span class="p">,</span>
     <span class="n">UserCollection</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.logger</span> <span class="kn">import</span> <span class="n">LOG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOG</span>
 
 
 <div class="viewcode-block" id="check_user_exists">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.check_user_exists">[docs]</a>
-<span class="k">def</span> <span class="nf">check_user_exists</span><span class="p">(</span><span class="n">enforce_true</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_user_exists</span><span class="p">(</span><span class="n">enforce_true</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a wrapper function that raises a ValueError if the supplied</span>
 <span class="sd">    user does (not) exist in the user collection depending on the</span>
 <span class="sd">    enforce_true parameter.</span>
@@ -134,11 +134,11 @@
 <span class="sd">            (or absence) before calling the suplied function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">inner_func</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner_func</span><span class="p">(</span>
         <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Database</span><span class="p">,</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">wrapper_decorator</span><span class="p">(</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper_decorator</span><span class="p">(</span>
             <span class="o">*</span><span class="n">arguments</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">db</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -165,7 +165,7 @@
 
 <div class="viewcode-block" id="check_user_has_dataset">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.check_user_has_dataset">[docs]</a>
-<span class="k">def</span> <span class="nf">check_user_has_dataset</span><span class="p">(</span><span class="n">enforce_true</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_user_has_dataset</span><span class="p">(</span><span class="n">enforce_true</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a wrapper function that raises a ValueError if the supplied</span>
 <span class="sd">    user has access (or not) to the supplied dataset depending on the</span>
 <span class="sd">    enforce_true parameter.</span>
@@ -181,11 +181,11 @@
 <span class="sd">            to the provided dataset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">inner_func</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner_func</span><span class="p">(</span>
         <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Database</span><span class="p">,</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">wrapper_decorator</span><span class="p">(</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper_decorator</span><span class="p">(</span>
             <span class="o">*</span><span class="n">arguments</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">db</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -216,16 +216,16 @@
 
 <div class="viewcode-block" id="check_dataset_and_metadata_exist">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.check_dataset_and_metadata_exist">[docs]</a>
-<span class="k">def</span> <span class="nf">check_dataset_and_metadata_exist</span><span class="p">(</span><span class="n">enforce_true</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_dataset_and_metadata_exist</span><span class="p">(</span><span class="n">enforce_true</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a wrapper function that raises a ValueError</span>
 <span class="sd">    if the supplied user does not already exist in the user collection.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">inner_func</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner_func</span><span class="p">(</span>
         <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Database</span><span class="p">,</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">wrapper_decorator</span><span class="p">(</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper_decorator</span><span class="p">(</span>
             <span class="o">*</span><span class="n">arguments</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">db</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -271,7 +271,7 @@
 <div class="viewcode-block" id="add_user">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.add_user">[docs]</a>
 <span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add new user in users collection with initial values for all fields</span>
 <span class="sd">    set by default.</span>
 
@@ -304,7 +304,7 @@
 <div class="viewcode-block" id="add_user_with_budget">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.add_user_with_budget">[docs]</a>
 <span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">add_user_with_budget</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_user_with_budget</span><span class="p">(</span>
     <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add new user in users collection with initial values</span>
@@ -351,7 +351,7 @@
 <div class="viewcode-block" id="del_user">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.del_user">[docs]</a>
 <span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">del_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">del_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete all related information for user from the users collection.</span>
 
 <span class="sd">    Args:</span>
@@ -372,7 +372,7 @@
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.add_dataset_to_user">[docs]</a>
 <span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="nd">@check_user_has_dataset</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">add_dataset_to_user</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_dataset_to_user</span><span class="p">(</span>
     <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add dataset with initialized budget values to list of datasets</span>
@@ -425,7 +425,7 @@
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.del_dataset_to_user">[docs]</a>
 <span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="nd">@check_user_has_dataset</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">del_dataset_to_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">del_dataset_to_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove if exists the dataset (and all related budget info)</span>
 <span class="sd">    from list of datasets that user has access to.</span>
 
@@ -452,7 +452,7 @@
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.set_budget_field">[docs]</a>
 <span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="nd">@check_user_has_dataset</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">set_budget_field</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_budget_field</span><span class="p">(</span>
     <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set (for some reason) a budget field to a given value</span>
@@ -488,7 +488,7 @@
 <div class="viewcode-block" id="set_may_query">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.set_may_query">[docs]</a>
 <span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">set_may_query</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_may_query</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set (for some reason) the &#39;may query&#39; field to a given value</span>
 <span class="sd">    if given user exists.</span>
 
@@ -514,7 +514,7 @@
 <div class="viewcode-block" id="get_user">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.get_user">[docs]</a>
 <span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Show a user</span>
 
 <span class="sd">    Args:</span>
@@ -533,7 +533,7 @@
 
 <div class="viewcode-block" id="add_users_via_yaml">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.add_users_via_yaml">[docs]</a>
-<span class="k">def</span> <span class="nf">add_users_via_yaml</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_users_via_yaml</span><span class="p">(</span>
     <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span>
     <span class="n">yaml_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">],</span>
     <span class="n">clean</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -609,7 +609,7 @@
 <div class="viewcode-block" id="get_archives_of_user">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.get_archives_of_user">[docs]</a>
 <span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_archives_of_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_archives_of_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Show all previous queries from a user</span>
 
 <span class="sd">    Args:</span>
@@ -629,7 +629,7 @@
 
 <div class="viewcode-block" id="get_list_of_users">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.get_list_of_users">[docs]</a>
-<span class="k">def</span> <span class="nf">get_list_of_users</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_list_of_users</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the list of all users is &#39;users&#39; collection</span>
 
 <span class="sd">    Args:</span>
@@ -649,7 +649,7 @@
 <div class="viewcode-block" id="get_list_of_datasets_from_user">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.get_list_of_datasets_from_user">[docs]</a>
 <span class="nd">@check_user_exists</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_list_of_datasets_from_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_list_of_datasets_from_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the list of all datasets from the user</span>
 
 <span class="sd">    Args:</span>
@@ -672,7 +672,7 @@
 <div class="viewcode-block" id="add_dataset">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.add_dataset">[docs]</a>
 <span class="nd">@check_dataset_and_metadata_exist</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">add_dataset</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-arguments, too-many-locals</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_dataset</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-arguments, too-many-locals</span>
     <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span>
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">database_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -783,7 +783,7 @@
 
 <div class="viewcode-block" id="add_datasets_via_yaml">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.add_datasets_via_yaml">[docs]</a>
-<span class="k">def</span> <span class="nf">add_datasets_via_yaml</span><span class="p">(</span>  <span class="c1"># pylint: disable=R0912, R0914, R0915</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_datasets_via_yaml</span><span class="p">(</span>  <span class="c1"># pylint: disable=R0912, R0914, R0915</span>
     <span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span>
     <span class="n">yaml_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">],</span>
     <span class="n">clean</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -912,7 +912,7 @@
 <div class="viewcode-block" id="del_dataset">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.del_dataset">[docs]</a>
 <span class="nd">@check_dataset_and_metadata_exist</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">del_dataset</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">del_dataset</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete dataset from dataset collection.</span>
 
 <span class="sd">    Args:</span>
@@ -933,7 +933,7 @@
 <div class="viewcode-block" id="get_dataset">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.get_dataset">[docs]</a>
 <span class="nd">@check_dataset_and_metadata_exist</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_dataset</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_dataset</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Show a dataset from dataset collection.</span>
 
 <span class="sd">    Args:</span>
@@ -953,7 +953,7 @@
 <div class="viewcode-block" id="get_metadata_of_dataset">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.get_metadata_of_dataset">[docs]</a>
 <span class="nd">@check_dataset_and_metadata_exist</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_metadata_of_dataset</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_metadata_of_dataset</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Show a metadata from metadata collection.</span>
 
 <span class="sd">    Args:</span>
@@ -976,7 +976,7 @@
 
 <div class="viewcode-block" id="get_list_of_datasets">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.get_list_of_datasets">[docs]</a>
-<span class="k">def</span> <span class="nf">get_list_of_datasets</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_list_of_datasets</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the list of all dataset is &#39;datasets&#39; collection</span>
 
 <span class="sd">    Args:</span>
@@ -996,7 +996,7 @@
 <span class="c1">#######################  COLLECTIONS  ####################### # noqa: E266</span>
 <div class="viewcode-block" id="drop_collection">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.drop_collection">[docs]</a>
-<span class="k">def</span> <span class="nf">drop_collection</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">drop_collection</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete collection.</span>
 
 <span class="sd">    Args:</span>
@@ -1013,7 +1013,7 @@
 
 <div class="viewcode-block" id="get_collection">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.mongodb_admin.get_collection">[docs]</a>
-<span class="k">def</span> <span class="nf">get_collection</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_collection</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Database</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Show a collection</span>
 
 <span class="sd">    Args:</span>

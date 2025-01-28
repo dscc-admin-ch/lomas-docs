@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.tests.test_collection_models &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,9 +93,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.tests.test_collection_models</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.utils.collection_models</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.collection_models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">BooleanMetadata</span><span class="p">,</span>
     <span class="n">BoundedColumnMetadata</span><span class="p">,</span>
     <span class="n">CategoricalColumnMetadata</span><span class="p">,</span>
@@ -111,12 +111,12 @@
 
 <div class="viewcode-block" id="TestMetadataModel">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel">[docs]</a>
-<span class="k">class</span> <span class="nc">TestMetadataModel</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TestMetadataModel</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests for the input validation of dataset metadata.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="TestMetadataModel.test_categories">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel.test_categories">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test categories validation&quot;&quot;&quot;</span>
         <span class="n">input_str</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -152,7 +152,7 @@
 
 <div class="viewcode-block" id="TestMetadataModel.test_categories_required">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel.test_categories_required">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_categories_required</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_categories_required</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test categories required&quot;&quot;&quot;</span>
         <span class="n">input_str</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
 
@@ -162,7 +162,7 @@
 
 <div class="viewcode-block" id="TestMetadataModel.test_categories_match_type">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel.test_categories_match_type">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_categories_match_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_categories_match_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test categories match column type&quot;&quot;&quot;</span>
         <span class="n">input_str</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -176,7 +176,7 @@
 
 <div class="viewcode-block" id="TestMetadataModel.test_categories_match_cardinality">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel.test_categories_match_cardinality">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_categories_match_cardinality</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_categories_match_cardinality</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test categories match cardinality&quot;&quot;&quot;</span>
         <span class="n">input_int</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;categories&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}</span>
 
@@ -186,7 +186,7 @@
 
 <div class="viewcode-block" id="TestMetadataModel.test_boolean_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel.test_boolean_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_boolean_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_boolean_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_boolean_column&quot;&quot;&quot;</span>
         <span class="n">input_bool</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
@@ -198,7 +198,7 @@
 
 <div class="viewcode-block" id="TestMetadataModel.test_int_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel.test_int_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_int_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_int_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="s2">&quot;test_int_column&quot;</span>
         <span class="n">input_int</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s2">&quot;lower&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;upper&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">}</span>
 
@@ -209,7 +209,7 @@
 
 <div class="viewcode-block" id="TestMetadataModel.test_float_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel.test_float_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_float_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_float_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="s2">&quot;test_float_column&quot;</span>
         <span class="n">input_float</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;float&quot;</span><span class="p">,</span>
@@ -225,7 +225,7 @@
 
 <div class="viewcode-block" id="TestMetadataModel.test_datetime_column">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel.test_datetime_column">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_datetime_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_datetime_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="s2">&quot;test_datetime_column&quot;</span>
         <span class="n">input_datetime</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;datetime&quot;</span><span class="p">,</span>
@@ -248,7 +248,7 @@
 
 <div class="viewcode-block" id="TestMetadataModel.test_precision">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel.test_precision">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_precision</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_precision</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="s2">&quot;test precision can only be 32 or 64&quot;</span>
         <span class="n">input_int</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;lower&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;upper&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">}</span>
 
@@ -258,7 +258,7 @@
 
 <div class="viewcode-block" id="TestMetadataModel.test_lower_upper_bounded">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel.test_lower_upper_bounded">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_lower_upper_bounded</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_lower_upper_bounded</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test lower is smaller than upper and of right type&quot;&quot;&quot;</span>
         <span class="n">input_int</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s2">&quot;lower&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;upper&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span>
 
@@ -272,7 +272,7 @@
 
 <div class="viewcode-block" id="TestMetadataModel.test_standard_metadata_fields">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel.test_standard_metadata_fields">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_standard_metadata_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_standard_metadata_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test standard metadata fields&quot;&quot;&quot;</span>
         <span class="n">input_metadata</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;max_ids&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
@@ -301,7 +301,7 @@
 
 <div class="viewcode-block" id="TestMetadataModel.test_metadata_columns_discriminator">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_collection_models.TestMetadataModel.test_metadata_columns_discriminator">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_metadata_columns_discriminator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_metadata_columns_discriminator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test metadata column discriminator&quot;&quot;&quot;</span>
         <span class="n">input_metadata</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;max_ids&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>

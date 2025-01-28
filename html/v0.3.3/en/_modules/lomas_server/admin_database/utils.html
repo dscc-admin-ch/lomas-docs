@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.admin_database.utils &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,22 +93,22 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.admin_database.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
-<span class="kn">from</span> <span class="nn">pymongo.database</span> <span class="kn">import</span> <span class="n">Database</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pymongo</span><span class="w"> </span><span class="kn">import</span> <span class="n">MongoClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">Database</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.mongodb_admin</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.mongodb_admin</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">add_datasets_via_yaml</span><span class="p">,</span>
     <span class="n">add_users_via_yaml</span><span class="p">,</span>
     <span class="n">drop_collection</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.config</span> <span class="kn">import</span> <span class="n">MongoDBConfig</span><span class="p">,</span> <span class="n">get_config</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.logger</span> <span class="kn">import</span> <span class="n">LOG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">MongoDBConfig</span><span class="p">,</span> <span class="n">get_config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOG</span>
 
 
 <div class="viewcode-block" id="get_mongodb_url">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.utils.get_mongodb_url">[docs]</a>
-<span class="k">def</span> <span class="nf">get_mongodb_url</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">MongoDBConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_mongodb_url</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">MongoDBConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get URL of the administration MongoDB.</span>
 
 <span class="sd">    Args:</span>
@@ -135,7 +135,7 @@
 
 <div class="viewcode-block" id="get_mongodb">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.utils.get_mongodb">[docs]</a>
-<span class="k">def</span> <span class="nf">get_mongodb</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Database</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_mongodb</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Database</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get URL of the administration MongoDB.</span>
 
 <span class="sd">    Args:</span>
@@ -159,7 +159,7 @@
 
 <div class="viewcode-block" id="add_demo_data_to_mongodb_admin">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.utils.add_demo_data_to_mongodb_admin">[docs]</a>
-<span class="k">def</span> <span class="nf">add_demo_data_to_mongodb_admin</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_demo_data_to_mongodb_admin</span><span class="p">(</span>
     <span class="n">user_yaml</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/data/collections/user_collection.yaml&quot;</span><span class="p">,</span>
     <span class="n">dataset_yaml</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/data/collections/dataset_collection.yaml&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

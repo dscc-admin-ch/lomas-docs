@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.tests.test_api &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,37 +93,37 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.tests.test_api</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">glob</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringIO</span>
 
-<span class="kn">import</span> <span class="nn">opendp.prelude</span> <span class="k">as</span> <span class="nn">dp_p</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">status</span>
-<span class="kn">from</span> <span class="nn">fastapi.testclient</span> <span class="kn">import</span> <span class="n">TestClient</span>
-<span class="kn">from</span> <span class="nn">opendp.mod</span> <span class="kn">import</span> <span class="n">enable_features</span>
-<span class="kn">from</span> <span class="nn">opendp_logger</span> <span class="kn">import</span> <span class="n">enable_logging</span>
-<span class="kn">from</span> <span class="nn">pymongo.database</span> <span class="kn">import</span> <span class="n">Database</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">opendp.prelude</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dp_p</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">status</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.testclient</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opendp.mod</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_features</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opendp_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">Database</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.admin_database.factory</span> <span class="kn">import</span> <span class="n">admin_database_factory</span>
-<span class="kn">from</span> <span class="nn">lomas_server.admin_database.utils</span> <span class="kn">import</span> <span class="n">get_mongodb</span>
-<span class="kn">from</span> <span class="nn">lomas_server.app</span> <span class="kn">import</span> <span class="n">app</span>
-<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="n">DPLibraries</span>
-<span class="kn">from</span> <span class="nn">lomas_server.mongodb_admin</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">admin_database_factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_mongodb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.app</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPLibraries</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.mongodb_admin</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">add_datasets_via_yaml</span><span class="p">,</span>
     <span class="n">add_users_via_yaml</span><span class="p">,</span>
     <span class="n">drop_collection</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.tests.constants</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.tests.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span>
     <span class="n">ENV_S3_INTEGRATION</span><span class="p">,</span>
     <span class="n">TRUE_VALUES</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.config</span> <span class="kn">import</span> <span class="n">CONFIG_LOADER</span><span class="p">,</span> <span class="n">DBConfig</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="n">InternalServerException</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.query_examples</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">CONFIG_LOADER</span><span class="p">,</span> <span class="n">DBConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.query_examples</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span>
     <span class="n">PENGUIN_DATASET</span><span class="p">,</span>
     <span class="n">QUERY_DELTA</span><span class="p">,</span>
@@ -145,7 +145,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint">[docs]</a>
-<span class="k">class</span> <span class="nc">TestRootAPIEndpoint</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>  <span class="c1"># pylint: disable=R0904</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TestRootAPIEndpoint</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>  <span class="c1"># pylint: disable=R0904</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    End-to-end tests of the api endpoints.</span>
 
@@ -158,7 +158,7 @@
 <div class="viewcode-block" id="TestRootAPIEndpoint.setUpClass">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.setUpClass">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Read correct config depending on the database we test against</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TRUE_VALUES</span><span class="p">:</span>
             <span class="n">CONFIG_LOADER</span><span class="o">.</span><span class="n">load_config</span><span class="p">(</span>
@@ -175,13 +175,13 @@
 <div class="viewcode-block" id="TestRootAPIEndpoint.tearDownClass">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.tearDownClass">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">tearDownClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tearDownClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.setUp">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.setUp">[docs]</a>
-    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set Up Header and DB for test&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span> <span class="o">=</span> <span class="s2">&quot;Dr. Antartica&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
@@ -217,7 +217,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.tearDown">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.tearDown">[docs]</a>
-    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Clean up database if needed</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_MONGO_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TRUE_VALUES</span><span class="p">:</span>
             <span class="n">drop_collection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">)</span>
@@ -231,7 +231,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_config_and_internal_server_exception">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_config_and_internal_server_exception">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_config_and_internal_server_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_config_and_internal_server_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test set wrong configuration&quot;&quot;&quot;</span>
 
         <span class="c1"># Put unknown admin database</span>
@@ -244,7 +244,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_root">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_root">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_root</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_root</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test root endpoint redirection to state endpoint&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="n">response_root</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
@@ -257,7 +257,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_state">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_state">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test state endpoint&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/state&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
@@ -270,7 +270,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_dataset_metadata">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_dataset_metadata">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_get_dataset_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_get_dataset_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_get_dataset_metadata&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
@@ -316,7 +316,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_dummy_dataset">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_dummy_dataset">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_get_dummy_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_get_dummy_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_get_dummy_dataset&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
@@ -445,7 +445,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_smartnoise_sql_query">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_smartnoise_sql_query">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_smartnoise_sql_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_smartnoise_sql_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test smartnoise-sql query&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
@@ -566,7 +566,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_smartnoise_sql_query_parameters">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_smartnoise_sql_query_parameters">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_smartnoise_sql_query_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_smartnoise_sql_query_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test smartnoise-sql query parameters&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Change the Query</span>
@@ -617,7 +617,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_smartnoise_sql_query_datetime">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_smartnoise_sql_query_datetime">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_smartnoise_sql_query_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_smartnoise_sql_query_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test smartnoise-sql query on datetime&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work: query with datetimes and another user</span>
@@ -642,7 +642,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_smartnoise_sql_query_on_s3_dataset">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_smartnoise_sql_query_on_s3_dataset">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_smartnoise_sql_query_on_s3_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_smartnoise_sql_query_on_s3_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test smartnoise-sql on s3 dataset&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">ENV_S3_INTEGRATION</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TRUE_VALUES</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
@@ -665,7 +665,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_dummy_smartnoise_sql_query">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_dummy_smartnoise_sql_query">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_dummy_smartnoise_sql_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_dummy_smartnoise_sql_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_dummy_smartnoise_sql_query&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
@@ -709,7 +709,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_smartnoise_sql_cost">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_smartnoise_sql_cost">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_smartnoise_sql_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_smartnoise_sql_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_smartnoise_sql_cost&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
@@ -741,7 +741,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_opendp_query">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_opendp_query">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_opendp_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=R0915</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_opendp_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=R0915</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_opendp_query&quot;&quot;&quot;</span>
         <span class="n">enable_logging</span><span class="p">()</span>
 
@@ -888,7 +888,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_dummy_opendp_query">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_dummy_opendp_query">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_dummy_opendp_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_dummy_opendp_query</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_dummy_opendp_query&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
@@ -918,7 +918,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_opendp_cost">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_opendp_cost">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_opendp_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_opendp_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_opendp_cost&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
@@ -950,7 +950,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_initial_budget">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_initial_budget">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_get_initial_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_get_initial_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_get_initial_budget&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
@@ -981,7 +981,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_total_spent_budget">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_total_spent_budget">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_get_total_spent_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_get_total_spent_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_get_total_spent_budget&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
@@ -1015,7 +1015,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_remaining_budget">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_remaining_budget">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_get_remaining_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_get_remaining_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_get_remaining_budget&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
@@ -1055,7 +1055,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_previous_queries">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_get_previous_queries">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_get_previous_queries</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_get_previous_queries</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_get_previous_queries&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
@@ -1129,7 +1129,7 @@
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_subsequent_budget_limit_logic">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api.TestRootAPIEndpoint.test_subsequent_budget_limit_logic">[docs]</a>
-    <span class="k">def</span> <span class="nf">test_subsequent_budget_limit_logic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_subsequent_budget_limit_logic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;test_subsequent_budget_limit_logic&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Should fail: too much budget after three queries</span>

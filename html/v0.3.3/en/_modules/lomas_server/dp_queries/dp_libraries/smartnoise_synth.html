@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lomas_server.dp_queries.dp_libraries.smartnoise_synth &mdash; Lomas 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -93,14 +93,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.dp_queries.dp_libraries.smartnoise_synth</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">TypeGuard</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">TypeGuard</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">smartnoise_synth_logger</span> <span class="kn">import</span> <span class="n">deserialise_constraints</span>
-<span class="kn">from</span> <span class="nn">snsynth</span> <span class="kn">import</span> <span class="n">Synthesizer</span>
-<span class="kn">from</span> <span class="nn">snsynth.transform</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">smartnoise_synth_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">deserialise_constraints</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snsynth</span><span class="w"> </span><span class="kn">import</span> <span class="n">Synthesizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snsynth.transform</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">AnonymizationTransformer</span><span class="p">,</span>
     <span class="n">BinTransformer</span><span class="p">,</span>
     <span class="n">ChainTransformer</span><span class="p">,</span>
@@ -108,11 +108,11 @@
     <span class="n">MinMaxTransformer</span><span class="p">,</span>
     <span class="n">OneHotEncoder</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">snsynth.transform.datetime</span> <span class="kn">import</span> <span class="n">DateTimeTransformer</span>
-<span class="kn">from</span> <span class="nn">snsynth.transform.table</span> <span class="kn">import</span> <span class="n">TableTransformer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snsynth.transform.datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">DateTimeTransformer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snsynth.transform.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">TableTransformer</span>
 
-<span class="kn">from</span> <span class="nn">lomas_server.admin_database.admin_database</span> <span class="kn">import</span> <span class="n">AdminDatabase</span>
-<span class="kn">from</span> <span class="nn">lomas_server.constants</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">SECONDS_IN_A_DAY</span><span class="p">,</span>
     <span class="n">SSYNTH_DEFAULT_BINS</span><span class="p">,</span>
     <span class="n">SSYNTH_MIN_ROWS_PATE_GAN</span><span class="p">,</span>
@@ -122,10 +122,10 @@
     <span class="n">SSynthMarginalSynthesizer</span><span class="p">,</span>
     <span class="n">SSynthTableTransStyle</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.data_connector.data_connector</span> <span class="kn">import</span> <span class="n">DataConnector</span>
-<span class="kn">from</span> <span class="nn">lomas_server.dp_queries.dp_libraries.utils</span> <span class="kn">import</span> <span class="n">serialise_model</span>
-<span class="kn">from</span> <span class="nn">lomas_server.dp_queries.dp_querier</span> <span class="kn">import</span> <span class="n">DPQuerier</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.collection_models</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.data_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dp_libraries.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">serialise_model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dp_querier</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPQuerier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.collection_models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">BooleanMetadata</span><span class="p">,</span>
     <span class="n">ColumnMetadata</span><span class="p">,</span>
     <span class="n">DatetimeMetadata</span><span class="p">,</span>
@@ -136,12 +136,12 @@
     <span class="n">StrCategoricalMetadata</span><span class="p">,</span>
     <span class="n">StrMetadata</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.error_handler</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ExternalLibraryException</span><span class="p">,</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
     <span class="n">InvalidQueryException</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lomas_server.utils.query_models</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.query_models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">SmartnoiseSynthQueryModel</span><span class="p">,</span>
     <span class="n">SmartnoiseSynthRequestModel</span><span class="p">,</span>
 <span class="p">)</span>
@@ -149,7 +149,7 @@
 
 <div class="viewcode-block" id="datetime_to_float">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.smartnoise_synth.datetime_to_float">[docs]</a>
-<span class="k">def</span> <span class="nf">datetime_to_float</span><span class="p">(</span><span class="n">upper</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">lower</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">datetime_to_float</span><span class="p">(</span><span class="n">upper</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">lower</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert the upper date as the distance between the upper date and</span>
 <span class="sd">    lower date as float</span>
 
@@ -179,14 +179,14 @@
 
 <div class="viewcode-block" id="SmartnoiseSynthQuerier">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.smartnoise_synth.SmartnoiseSynthQuerier">[docs]</a>
-<span class="k">class</span> <span class="nc">SmartnoiseSynthQuerier</span><span class="p">(</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSynthQuerier</span><span class="p">(</span>
     <span class="n">DPQuerier</span><span class="p">[</span><span class="n">SmartnoiseSynthRequestModel</span><span class="p">,</span> <span class="n">SmartnoiseSynthQueryModel</span><span class="p">]</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Concrete implementation of the DPQuerier ABC for the SmartNoiseSynth library.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">data_connector</span><span class="p">:</span> <span class="n">DataConnector</span><span class="p">,</span>
         <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span>
@@ -194,7 +194,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data_connector</span><span class="p">,</span> <span class="n">admin_database</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Synthesizer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">_is_categorical</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_categorical</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">col_metadata</span><span class="p">:</span> <span class="n">ColumnMetadata</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span>
         <span class="n">StrMetadata</span>
@@ -223,7 +223,7 @@
             <span class="p">),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_is_continuous</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_continuous</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">col_metadata</span><span class="p">:</span> <span class="n">ColumnMetadata</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span><span class="n">IntMetadata</span> <span class="o">|</span> <span class="n">FloatMetadata</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if the column type is continuous</span>
@@ -237,7 +237,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">,</span> <span class="p">(</span><span class="n">IntMetadata</span><span class="p">,</span> <span class="n">FloatMetadata</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_is_datetime</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_datetime</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">col_metadata</span><span class="p">:</span> <span class="n">ColumnMetadata</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span><span class="n">DatetimeMetadata</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if the column type is datetime</span>
@@ -250,7 +250,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">col_metadata</span><span class="p">,</span> <span class="n">DatetimeMetadata</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_and_check_valid_column_types</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_and_check_valid_column_types</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span><span class="p">,</span> <span class="n">select_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SSynthColumnType</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -284,7 +284,7 @@
 
         <span class="k">return</span> <span class="n">columns</span>
 
-    <span class="k">def</span> <span class="nf">_get_default_constraints</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_default_constraints</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span><span class="p">,</span>
         <span class="n">query_json</span><span class="p">:</span> <span class="n">SmartnoiseSynthRequestModel</span><span class="p">,</span>
@@ -375,7 +375,7 @@
 
         <span class="k">return</span> <span class="n">constraints</span>
 
-    <span class="k">def</span> <span class="nf">_get_fit_model</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_fit_model</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">private_data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
         <span class="n">transformer</span><span class="p">:</span> <span class="n">TableTransformer</span><span class="p">,</span>
@@ -412,7 +412,7 @@
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
                 <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">,</span> <span class="s2">&quot;Error creating model: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
                 <span class="n">data</span><span class="o">=</span><span class="n">private_data</span><span class="p">,</span>
@@ -433,17 +433,17 @@
                     <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">,</span>
                     <span class="sa">f</span><span class="s2">&quot;Error fitting model: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> Try decreasing batch_size in &quot;</span>
                     <span class="o">+</span> <span class="s2">&quot;synth_params (default batch_size=500).&quot;</span><span class="p">,</span>
-                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
             <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
                 <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">,</span> <span class="s2">&quot;Error fitting model: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
                 <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">,</span> <span class="s2">&quot;Error fitting model: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">return</span> <span class="n">model</span>
 
-    <span class="k">def</span> <span class="nf">_model_pipeline</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_model_pipeline</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">SmartnoiseSynthRequestModel</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Synthesizer</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a trained Synthesizer model based on query_json</span>
@@ -509,7 +509,7 @@
             <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span>
                     <span class="s2">&quot;Error while selecting provided select_cols: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
         <span class="c1"># Get transformer</span>
         <span class="n">transformer</span> <span class="o">=</span> <span class="n">TableTransformer</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
@@ -524,7 +524,7 @@
 
 <div class="viewcode-block" id="SmartnoiseSynthQuerier.cost">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.smartnoise_synth.SmartnoiseSynthQuerier.cost">[docs]</a>
-    <span class="k">def</span> <span class="nf">cost</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cost</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">SmartnoiseSynthRequestModel</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return cost of query_json</span>
@@ -550,7 +550,7 @@
 
 <div class="viewcode-block" id="SmartnoiseSynthQuerier.query">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.smartnoise_synth.SmartnoiseSynthQuerier.query">[docs]</a>
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">query_json</span><span class="p">:</span> <span class="n">SmartnoiseSynthQueryModel</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
