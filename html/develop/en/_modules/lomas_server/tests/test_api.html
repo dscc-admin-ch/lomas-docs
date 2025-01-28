@@ -102,6 +102,10 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">opendp.prelude</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dp_p</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">status</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.testclient</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opendp.mod</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_features</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opendp_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">Database</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPLibraries</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">DBConfig</span>
@@ -133,10 +137,6 @@
     <span class="n">SmartnoiseSQLQueryResult</span><span class="p">,</span>
     <span class="n">SpentBudgetResponse</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">opendp.mod</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_features</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">opendp_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">Database</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">admin_database_factory</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_mongodb</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.app</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span>
@@ -363,9 +363,7 @@
             <span class="p">]</span>
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="n">expected_dtypes</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Dtypes do not match: </span><span class="si">{</span><span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">dtypes</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">expected_dtypes</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;Dtypes do not match: </span><span class="si">{</span><span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">dtypes</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">expected_dtypes</span><span class="si">}</span><span class="s2">&quot;</span>
 
             <span class="c1"># Expect to fail: dataset does not exist</span>
             <span class="n">fake_dataset</span> <span class="o">=</span> <span class="s2">&quot;I_do_not_exist&quot;</span>
@@ -451,9 +449,7 @@
             <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
             <span class="n">r_model</span> <span class="o">=</span> <span class="n">DummyDsResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">response_dict</span><span class="p">)</span>
 
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span>
-            <span class="p">),</span> <span class="s2">&quot;Dummy pd.DataFrame does not have expected number of rows&quot;</span>
+            <span class="k">assert</span> <span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Dummy pd.DataFrame does not have expected number of rows&quot;</span>
 
             <span class="n">expected_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;&lt;M8[ns]&quot;</span><span class="p">)</span>
             <span class="k">assert</span> <span class="p">(</span>
@@ -525,9 +521,7 @@
 
             <span class="c1"># Expect to fail: query does not make sense</span>
             <span class="n">input_smartnoise</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">)</span>
-            <span class="n">input_smartnoise</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;SELECT AVG(bill) FROM df&quot;</span>  <span class="c1"># no &#39;bill&#39; column</span>
-            <span class="p">)</span>
+            <span class="n">input_smartnoise</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;SELECT AVG(bill) FROM df&quot;</span>  <span class="c1"># no &#39;bill&#39; column</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="s2">&quot;/smartnoise_sql_query&quot;</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="n">input_smartnoise</span><span class="p">,</span>
@@ -600,9 +594,7 @@
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Change the Query</span>
             <span class="n">body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_smartnoise_sql</span><span class="p">)</span>
-            <span class="n">body</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&quot;</span>
-            <span class="p">)</span>
+            <span class="n">body</span><span class="p">[</span><span class="s2">&quot;query_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&quot;</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
                 <span class="s2">&quot;/smartnoise_sql_query&quot;</span><span class="p">,</span>
                 <span class="n">json</span><span class="o">=</span><span class="n">body</span><span class="p">,</span>
@@ -762,9 +754,7 @@
                 <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_403_FORBIDDEN</span>
-            <span class="k">assert</span> <span class="n">UnauthorizedAccessExceptionModel</span><span class="p">(</span>
-                <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> does not have access to IRIS.&quot;</span>
-            <span class="p">)</span></div>
+            <span class="k">assert</span> <span class="n">UnauthorizedAccessExceptionModel</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> does not have access to IRIS.&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_opendp_query">
@@ -945,9 +935,7 @@
                 <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
-            <span class="n">response_model</span> <span class="o">=</span> <span class="n">QueryResponse</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span>
-                <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">response_model</span> <span class="o">=</span> <span class="n">QueryResponse</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
             <span class="k">assert</span> <span class="n">response_model</span><span class="o">.</span><span class="n">requested_by</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span>
             <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response_model</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">OpenDPQueryResult</span><span class="p">)</span>
             <span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response_model</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
@@ -1011,9 +999,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test_get_initial_budget.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                <span class="s2">&quot;/get_initial_budget&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span>
-            <span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/get_initial_budget&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
 
             <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
@@ -1029,9 +1015,7 @@
             <span class="p">)</span>
 
             <span class="c1"># Response should stay the same</span>
-            <span class="n">response_2</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                <span class="s2">&quot;/get_initial_budget&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span>
-            <span class="p">)</span>
+            <span class="n">response_2</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/get_initial_budget&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">response_2</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
             <span class="n">response_dict_2</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response_2</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
             <span class="k">assert</span> <span class="n">response_dict_2</span> <span class="o">==</span> <span class="n">response_dict</span></div>
@@ -1043,9 +1027,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test_get_total_spent_budget.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                <span class="s2">&quot;/get_total_spent_budget&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span>
-            <span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/get_total_spent_budget&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
 
             <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
@@ -1061,9 +1043,7 @@
             <span class="p">)</span>
 
             <span class="c1"># Response should have updated spent budget</span>
-            <span class="n">response_2</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                <span class="s2">&quot;/get_total_spent_budget&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span>
-            <span class="p">)</span>
+            <span class="n">response_2</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/get_total_spent_budget&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">response_2</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
 
             <span class="n">response_dict_2</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response_2</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
@@ -1080,9 +1060,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test_get_remaining_budget.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                <span class="s2">&quot;/get_remaining_budget&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span>
-            <span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/get_remaining_budget&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
 
             <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
@@ -1099,9 +1077,7 @@
             <span class="p">)</span>
 
             <span class="c1"># Response should have removed spent budget</span>
-            <span class="n">response_2</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                <span class="s2">&quot;/get_remaining_budget&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span>
-            <span class="p">)</span>
+            <span class="n">response_2</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/get_remaining_budget&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">response_2</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
 
             <span class="n">response_dict_2</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response_2</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
@@ -1117,9 +1093,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test_get_previous_queries.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
             <span class="c1"># Expect to work</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                <span class="s2">&quot;/get_previous_queries&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span>
-            <span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/get_previous_queries&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
 
             <span class="n">response_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
@@ -1134,21 +1108,13 @@
             <span class="n">query_res</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">query_res</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
 
             <span class="c1"># Response should have one element in list</span>
-            <span class="n">response_2</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                <span class="s2">&quot;/get_previous_queries&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span>
-            <span class="p">)</span>
+            <span class="n">response_2</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/get_previous_queries&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">response_2</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
 
             <span class="n">response_dict_2</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response_2</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
             <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">response_dict_2</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">response_dict_2</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dp_librairy&quot;</span><span class="p">]</span>
-                <span class="o">==</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span>
-            <span class="p">)</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">response_dict_2</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;client_input&quot;</span><span class="p">]</span>
-                <span class="o">==</span> <span class="n">example_smartnoise_sql</span>
-            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response_dict_2</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dp_librairy&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span>
+            <span class="k">assert</span> <span class="n">response_dict_2</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;client_input&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">example_smartnoise_sql</span>
             <span class="k">assert</span> <span class="n">response_dict_2</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;response&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">query_res</span>
 
             <span class="c1"># Query to archive 2 (opendp)</span>
@@ -1159,24 +1125,14 @@
             <span class="n">query_res</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">query_res</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
 
             <span class="c1"># Response should have two elements in list</span>
-            <span class="n">response_3</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-                <span class="s2">&quot;/get_previous_queries&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span>
-            <span class="p">)</span>
+            <span class="n">response_3</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/get_previous_queries&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">example_get_admin_db_data</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">response_3</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span>
 
             <span class="n">response_dict_3</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response_3</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
             <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">response_dict_3</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">response_dict_3</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                <span class="o">==</span> <span class="n">response_dict_2</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-            <span class="p">)</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">response_dict_3</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;dp_librairy&quot;</span><span class="p">]</span>
-                <span class="o">==</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span>
-            <span class="p">)</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">response_dict_3</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;client_input&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">example_opendp</span>
-            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">response_dict_3</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">response_dict_2</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">assert</span> <span class="n">response_dict_3</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;dp_librairy&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span>
+            <span class="k">assert</span> <span class="n">response_dict_3</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;client_input&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">example_opendp</span>
             <span class="k">assert</span> <span class="n">response_dict_3</span><span class="p">[</span><span class="s2">&quot;previous_queries&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;response&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">query_res</span></div>
 
 

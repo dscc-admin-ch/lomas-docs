@@ -110,7 +110,6 @@
     <span class="n">QueryResponse</span><span class="p">,</span>
     <span class="n">QueryResultTypeAlias</span><span class="p">,</span>
 <span class="p">)</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.data_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnector</span>
 
@@ -121,9 +120,7 @@
 
 <div class="viewcode-block" id="DPQuerier">
 <a class="viewcode-back" href="../../../lomas_server.dp_queries.html#lomas_server.dp_queries.dp_querier.DPQuerier">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DPQuerier</span><span class="p">(</span>
-    <span class="n">ABC</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">RequestModelGeneric</span><span class="p">,</span> <span class="n">QueryModelGeneric</span><span class="p">,</span> <span class="n">QueryResultGeneric</span><span class="p">]</span>
-<span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DPQuerier</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">RequestModelGeneric</span><span class="p">,</span> <span class="n">QueryModelGeneric</span><span class="p">,</span> <span class="n">QueryResultGeneric</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract Base Class for Queriers to external DP library.</span>
 
@@ -216,8 +213,7 @@
         <span class="c1"># Block access to other queries to user</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_and_set_may_user_query</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> is trying to query&quot;</span>
-                <span class="o">+</span> <span class="s2">&quot; before end of previous query.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> is trying to query before end of previous query.&quot;</span>
             <span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -229,9 +225,7 @@
                 <span class="p">(</span>
                     <span class="n">eps_remain</span><span class="p">,</span>
                     <span class="n">delta_remain</span><span class="p">,</span>
-                <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">(</span>
-                    <span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
-                <span class="p">)</span>
+                <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">UnauthorizedAccessException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">e</span>
 
@@ -250,9 +244,7 @@
                 <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
             <span class="c1"># Deduce budget from user</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">update_budget</span><span class="p">(</span>
-                <span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">eps_cost</span><span class="p">,</span> <span class="n">delta_cost</span>
-            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">update_budget</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">eps_cost</span><span class="p">,</span> <span class="n">delta_cost</span><span class="p">)</span>
 
             <span class="n">response</span> <span class="o">=</span> <span class="n">QueryResponse</span><span class="p">(</span>
                 <span class="n">requested_by</span><span class="o">=</span><span class="n">user_name</span><span class="p">,</span>
@@ -262,9 +254,7 @@
             <span class="p">)</span>
 
             <span class="c1"># Add query to db (for archive)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">save_query</span><span class="p">(</span>
-                <span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="p">,</span> <span class="n">response</span>
-            <span class="p">)</span>  <span class="c1"># TODO 359 here</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">save_query</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>  <span class="c1"># TODO 359 here</span>
 
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">set_may_user_query</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>

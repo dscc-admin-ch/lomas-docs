@@ -182,9 +182,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSQLRequestModel</span><span class="p">(</span><span class="n">LomasRequestModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for a smarnoise-sql request.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_smartnoise_sql_cost</span><span class="p">]}</span>
-    <span class="p">)</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_smartnoise_sql_cost</span><span class="p">]})</span>
 
     <span class="n">query_str</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The SQL query to execute.</span>
@@ -210,9 +208,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSQLQueryModel</span><span class="p">(</span><span class="n">SmartnoiseSQLRequestModel</span><span class="p">,</span> <span class="n">QueryModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for a smartnoise-sql query.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_smartnoise_sql</span><span class="p">]}</span>
-    <span class="p">)</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_smartnoise_sql</span><span class="p">]})</span>
 
     <span class="n">postprocess</span><span class="p">:</span> <span class="nb">bool</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -229,9 +225,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSQLDummyQueryModel</span><span class="p">(</span><span class="n">SmartnoiseSQLQueryModel</span><span class="p">,</span> <span class="n">DummyQueryModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Input model for a smartnoise-sql query on a dummy dataset.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_dummy_smartnoise_sql</span><span class="p">]}</span>
-    <span class="p">)</span></div>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_dummy_smartnoise_sql</span><span class="p">]})</span></div>
 
 
 
@@ -242,9 +236,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSynthRequestModel</span><span class="p">(</span><span class="n">LomasRequestModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for a SmartnoiseSynth request.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_smartnoise_synth_cost</span><span class="p">]}</span>
-    <span class="p">)</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_smartnoise_synth_cost</span><span class="p">]})</span>
 
     <span class="n">synth_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SSynthMarginalSynthesizer</span><span class="p">,</span> <span class="n">SSynthGanSynthesizer</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of the synthesizer model to use.&quot;&quot;&quot;</span>
@@ -277,9 +269,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSynthQueryModel</span><span class="p">(</span><span class="n">SmartnoiseSynthRequestModel</span><span class="p">,</span> <span class="n">QueryModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for a smarnoise-synth query.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_smartnoise_synth_query</span><span class="p">]}</span>
-    <span class="p">)</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_smartnoise_synth_query</span><span class="p">]})</span>
 
     <span class="n">return_model</span><span class="p">:</span> <span class="nb">bool</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;True to get Synthesizer model, False to get samples.&quot;&quot;&quot;</span>
@@ -335,9 +325,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">OpenDPQueryModel</span><span class="p">(</span><span class="n">OpenDPRequestModel</span><span class="p">,</span> <span class="n">QueryModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for an opendp query.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_opendp</span><span class="p">]}</span>
-    <span class="p">)</span></div>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_opendp</span><span class="p">]})</span></div>
 
 
 
@@ -346,9 +334,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">OpenDPDummyQueryModel</span><span class="p">(</span><span class="n">OpenDPRequestModel</span><span class="p">,</span> <span class="n">DummyQueryModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Input model for an opendp query on a dummy dataset.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_dummy_opendp</span><span class="p">]}</span>
-    <span class="p">)</span></div>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_dummy_opendp</span><span class="p">]})</span></div>
 
 
 
@@ -359,9 +345,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">DiffPrivLibRequestModel</span><span class="p">(</span><span class="n">LomasRequestModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for a diffprivlib request.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_diffprivlib</span><span class="p">]}</span>
-    <span class="p">)</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_diffprivlib</span><span class="p">]})</span>
 
     <span class="n">diffprivlib_json</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The DiffPrivLib pipeline for the query (See diffprivlib_logger package.).&quot;&quot;&quot;</span>
@@ -383,9 +367,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">DiffPrivLibQueryModel</span><span class="p">(</span><span class="n">DiffPrivLibRequestModel</span><span class="p">,</span> <span class="n">QueryModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for a diffprivlib query.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_diffprivlib</span><span class="p">]}</span>
-    <span class="p">)</span></div>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_diffprivlib</span><span class="p">]})</span></div>
 
 
 
@@ -394,9 +376,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">DiffPrivLibDummyQueryModel</span><span class="p">(</span><span class="n">DiffPrivLibQueryModel</span><span class="p">,</span> <span class="n">DummyQueryModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Input model for a DiffPrivLib query on a dummy dataset.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_dummy_diffprivlib</span><span class="p">]}</span>
-    <span class="p">)</span></div>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_dummy_diffprivlib</span><span class="p">]})</span></div>
 
 
 

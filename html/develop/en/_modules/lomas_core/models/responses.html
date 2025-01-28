@@ -178,9 +178,7 @@
 <a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.responses.DummyDsResponse.deserialize_dummy_df">[docs]</a>
     <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;dummy_df&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">deserialize_dummy_df</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">ValidationInfo</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">deserialize_dummy_df</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">ValidationInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Decodes the dict representation of the dummy df with correct types.</span>
 
 <span class="sd">        Only does so if the input value is not already a dataframe.</span>
@@ -273,9 +271,7 @@
 
     <span class="n">res_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Result type description.&quot;&quot;&quot;</span>
-    <span class="n">model</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
-        <span class="n">Synthesizer</span><span class="p">,</span> <span class="n">PlainSerializer</span><span class="p">(</span><span class="n">serialize_model</span><span class="p">),</span> <span class="n">PlainValidator</span><span class="p">(</span><span class="n">deserialize_model</span><span class="p">)</span>
-    <span class="p">]</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Synthesizer</span><span class="p">,</span> <span class="n">PlainSerializer</span><span class="p">(</span><span class="n">serialize_model</span><span class="p">),</span> <span class="n">PlainValidator</span><span class="p">(</span><span class="n">deserialize_model</span><span class="p">)]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Synthetic data generator model.&quot;&quot;&quot;</span></div>
 
 

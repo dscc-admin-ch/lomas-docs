@@ -96,10 +96,10 @@
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigKeys</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">CONFIG_PATH</span><span class="p">,</span> <span class="n">SECRETS_PATH</span>
 
 
@@ -125,9 +125,7 @@
 
 <div class="viewcode-block" id="ConfigLoader.load_config">
 <a class="viewcode-back" href="../../../lomas_server.utils.html#lomas_server.utils.config.ConfigLoader.load_config">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">load_config</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">CONFIG_PATH</span><span class="p">,</span> <span class="n">secrets_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">SECRETS_PATH</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">CONFIG_PATH</span><span class="p">,</span> <span class="n">secrets_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">SECRETS_PATH</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads the config and the secret data from disk,.</span>
 
@@ -145,9 +143,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                <span class="n">config_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="n">ConfigKeys</span><span class="o">.</span><span class="n">RUNTIME_ARGS</span><span class="p">][</span>
-                    <span class="n">ConfigKeys</span><span class="o">.</span><span class="n">SETTINGS</span>
-                <span class="p">]</span>
+                <span class="n">config_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="n">ConfigKeys</span><span class="o">.</span><span class="n">RUNTIME_ARGS</span><span class="p">][</span><span class="n">ConfigKeys</span><span class="o">.</span><span class="n">SETTINGS</span><span class="p">]</span>
 
             <span class="c1"># Merge secret data into config data</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">secrets_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -158,8 +154,7 @@
 
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Could not read config from disk at </span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; or missing fields: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Could not read config from disk at </span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; or missing fields: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 
 

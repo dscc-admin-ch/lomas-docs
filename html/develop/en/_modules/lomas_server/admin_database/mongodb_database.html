@@ -95,15 +95,15 @@
   <h1>Source code for lomas_server.admin_database.mongodb_database</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InvalidQueryException</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">DSInfo</span><span class="p">,</span> <span class="n">Metadata</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">LomasRequestModel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryResponse</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pymongo</span><span class="w"> </span><span class="kn">import</span> <span class="n">MongoClient</span><span class="p">,</span> <span class="n">ReturnDocument</span><span class="p">,</span> <span class="n">WriteConcern</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">Database</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">WriteConcernError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">_WriteResult</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InvalidQueryException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">DSInfo</span><span class="p">,</span> <span class="n">Metadata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">LomasRequestModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryResponse</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">AdminDatabase</span><span class="p">,</span>
     <span class="n">dataset_must_exist</span><span class="p">,</span>
@@ -266,9 +266,7 @@
 
 <div class="viewcode-block" id="AdminMongoDatabase.get_epsilon_or_delta">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.get_epsilon_or_delta">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_epsilon_or_delta</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">BudgetDBKey</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_epsilon_or_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">BudgetDBKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get total spent epsilon or delta by a user on dataset.</span>
 
 <span class="sd">        Args:</span>
@@ -378,9 +376,7 @@
 
 <div class="viewcode-block" id="AdminMongoDatabase.save_query">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.mongodb_database.AdminMongoDatabase.save_query">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_query</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">LomasRequestModel</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">QueryResponse</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">LomasRequestModel</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">QueryResponse</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save queries of user on datasets in a separate collection (table).</span>
 

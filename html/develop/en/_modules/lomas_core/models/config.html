@@ -217,13 +217,9 @@
     <span class="c1"># A limit on the rate which users can submit answers</span>
     <span class="n">submit_limit</span><span class="p">:</span> <span class="nb">float</span>
 
-    <span class="n">admin_database</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
-        <span class="n">Union</span><span class="p">[</span><span class="n">MongoDBConfig</span><span class="p">,</span> <span class="n">YamlDBConfig</span><span class="p">],</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;db_type&quot;</span><span class="p">)</span>
-    <span class="p">]</span>
+    <span class="n">admin_database</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">MongoDBConfig</span><span class="p">,</span> <span class="n">YamlDBConfig</span><span class="p">],</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;db_type&quot;</span><span class="p">)]</span>
 
-    <span class="n">private_db_credentials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">S3CredentialsConfig</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;db_type&quot;</span>
-    <span class="p">)</span>
+    <span class="n">private_db_credentials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">S3CredentialsConfig</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;db_type&quot;</span><span class="p">)</span>
 
     <span class="n">dp_libraries</span><span class="p">:</span> <span class="n">DPLibraryConfig</span></div>
 

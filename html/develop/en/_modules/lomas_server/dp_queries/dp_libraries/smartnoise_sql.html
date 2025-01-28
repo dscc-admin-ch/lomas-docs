@@ -96,6 +96,9 @@
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snsql</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mechanism</span><span class="p">,</span> <span class="n">Privacy</span><span class="p">,</span> <span class="n">Stat</span><span class="p">,</span> <span class="n">from_connection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snsql.reader.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPLibraries</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ExternalLibraryException</span><span class="p">,</span>
@@ -108,9 +111,6 @@
     <span class="n">SmartnoiseSQLRequestModel</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">SmartnoiseSQLQueryResult</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">snsql</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mechanism</span><span class="p">,</span> <span class="n">Privacy</span><span class="p">,</span> <span class="n">Stat</span><span class="p">,</span> <span class="n">from_connection</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">snsql.reader.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">SSQL_MAX_ITERATION</span><span class="p">,</span> <span class="n">SSQL_STATS</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.data_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnector</span>
@@ -120,9 +120,7 @@
 <div class="viewcode-block" id="SmartnoiseSQLQuerier">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.smartnoise_sql.SmartnoiseSQLQuerier">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSQLQuerier</span><span class="p">(</span>
-    <span class="n">DPQuerier</span><span class="p">[</span>
-        <span class="n">SmartnoiseSQLRequestModel</span><span class="p">,</span> <span class="n">SmartnoiseSQLQueryModel</span><span class="p">,</span> <span class="n">SmartnoiseSQLQueryResult</span>
-    <span class="p">]</span>
+    <span class="n">DPQuerier</span><span class="p">[</span><span class="n">SmartnoiseSQLRequestModel</span><span class="p">,</span> <span class="n">SmartnoiseSQLQueryModel</span><span class="p">,</span> <span class="n">SmartnoiseSQLQueryResult</span><span class="p">]</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Concrete implementation of the DPQuerier ABC for the SmartNoiseSQL library.&quot;&quot;&quot;</span>
 
@@ -212,14 +210,10 @@
         <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">query_json</span><span class="o">.</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">delta</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
-                <span class="s2">&quot;Smartnoise SQL `query` method called before `cost` method&quot;</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="s2">&quot;Smartnoise SQL `query` method called before `cost` method&quot;</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-                <span class="n">query_json</span><span class="o">.</span><span class="n">query_str</span><span class="p">,</span> <span class="n">postprocess</span><span class="o">=</span><span class="n">query_json</span><span class="o">.</span><span class="n">postprocess</span>
-            <span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_json</span><span class="o">.</span><span class="n">query_str</span><span class="p">,</span> <span class="n">postprocess</span><span class="o">=</span><span class="n">query_json</span><span class="o">.</span><span class="n">postprocess</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
                 <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span><span class="p">,</span>

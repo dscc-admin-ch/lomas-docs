@@ -97,13 +97,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">asynccontextmanager</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
     <span class="n">add_exception_handlers</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOG</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDBType</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">admin_database_factory</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_demo_data_to_mongodb_admin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.yaml_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminYamlDatabase</span>
@@ -168,9 +168,7 @@
         <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;!! Develop mode ON !!&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">db_type</span> <span class="o">==</span> <span class="n">AdminDBType</span><span class="o">.</span><span class="n">MONGODB</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Adding demo data to MongoDB Admin&quot;</span><span class="p">)</span>
-            <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="s2">&quot;Adding demo data to MongoDB Admin&quot;</span>
-            <span class="p">)</span>
+            <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Adding demo data to MongoDB Admin&quot;</span><span class="p">)</span>
             <span class="n">add_demo_data_to_mongodb_admin</span><span class="p">()</span>
 
     <span class="c1"># Load admin database</span>
@@ -178,15 +176,11 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading admin database&quot;</span><span class="p">)</span>
             <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Loading admin database&quot;</span><span class="p">)</span>
-            <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span> <span class="o">=</span> <span class="n">admin_database_factory</span><span class="p">(</span>
-                <span class="n">config</span><span class="o">.</span><span class="n">admin_database</span>
-            <span class="p">)</span>
+            <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span> <span class="o">=</span> <span class="n">admin_database_factory</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">InternalServerException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed at startup: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DB_NOT_LOADED</span><span class="p">)</span>
-            <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Admin database could not be loaded: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
+            <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Admin database could not be loaded: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;LIVE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">status_ok</span> <span class="o">=</span> <span class="kc">False</span>
 

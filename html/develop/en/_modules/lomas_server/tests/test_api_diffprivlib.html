@@ -104,6 +104,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffprivlib_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">serialise_pipeline</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">status</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.testclient</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPLibraries</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ExternalLibraryExceptionModel</span><span class="p">,</span>
@@ -119,8 +121,6 @@
     <span class="n">DiffPrivLibQueryResult</span><span class="p">,</span>
     <span class="n">QueryResponse</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.app</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.tests.test_api</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestRootAPIEndpoint</span>
 
@@ -319,9 +319,7 @@
                     <span class="p">),</span>
                     <span class="p">(</span>
                         <span class="s2">&quot;gaussian&quot;</span><span class="p">,</span>
-                        <span class="n">models</span><span class="o">.</span><span class="n">GaussianNB</span><span class="p">(</span>
-                            <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">priors</span><span class="o">=</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)</span>
-                        <span class="p">),</span>
+                        <span class="n">models</span><span class="o">.</span><span class="n">GaussianNB</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">priors</span><span class="o">=</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)),</span>
                     <span class="p">),</span>
                 <span class="p">]</span>
             <span class="p">)</span>

@@ -98,6 +98,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">status</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">SSynthGanSynthesizer</span><span class="p">,</span> <span class="n">SSynthMarginalSynthesizer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ExternalLibraryException</span><span class="p">,</span>
@@ -167,10 +168,7 @@
             <span class="o">+</span> <span class="s2">&quot;Please, change synthesizer or set `return_model=False`.&quot;</span>
         <span class="p">)</span>
     <span class="k">if</span> <span class="n">synth_name</span> <span class="o">==</span> <span class="n">SSynthMarginalSynthesizer</span><span class="o">.</span><span class="n">PAC_SYNTH</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">synth_name</span><span class="si">}</span><span class="s2"> synthesizer not supported. &quot;</span>
-            <span class="o">+</span> <span class="s2">&quot;Please choose another synthesizer.&quot;</span>
-        <span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">synth_name</span><span class="si">}</span><span class="s2"> synthesizer not supported. Please choose another synthesizer.&quot;</span><span class="p">)</span></div>
 
 
 
