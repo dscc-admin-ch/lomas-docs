@@ -56,12 +56,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../poster.html">Poster</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
 <ul>
@@ -93,7 +96,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_core.constants</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
+
+<span class="n">OTLP_COLLECTOR_ENDPOINT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OTEL_COLLECTOR_ENDPOINT&quot;</span><span class="p">,</span> <span class="s2">&quot;http://otel-collector:4317&quot;</span><span class="p">)</span>
 
 <span class="c1"># Server error messages</span>
 <span class="n">INTERNAL_SERVER_ERROR</span> <span class="o">=</span> <span class="s2">&quot;Internal server error. Please contact the administrator of this service.&quot;</span>

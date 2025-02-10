@@ -56,12 +56,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../poster.html">Poster</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
 <ul>
@@ -111,6 +114,9 @@
     <span class="n">SECRETS_PATH</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;LOMAS_SECRETS_PATH&quot;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">SECRETS_PATH</span> <span class="o">=</span> <span class="s2">&quot;/usr/lomas_server/secrets.yaml&quot;</span>
+
+<span class="n">SERVER_SERVICE_NAME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;SERVER_SERVICE_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;lomas-server-app&quot;</span><span class="p">)</span>
+<span class="n">SERVICE_ID</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;HOSTNAME&quot;</span><span class="p">,</span> <span class="s2">&quot;default-host&quot;</span><span class="p">)</span>
 
 
 <span class="c1"># Misc</span>
