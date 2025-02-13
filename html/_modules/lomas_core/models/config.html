@@ -56,12 +56,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
 <ul>
@@ -217,13 +220,9 @@
     <span class="c1"># A limit on the rate which users can submit answers</span>
     <span class="n">submit_limit</span><span class="p">:</span> <span class="nb">float</span>
 
-    <span class="n">admin_database</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
-        <span class="n">Union</span><span class="p">[</span><span class="n">MongoDBConfig</span><span class="p">,</span> <span class="n">YamlDBConfig</span><span class="p">],</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;db_type&quot;</span><span class="p">)</span>
-    <span class="p">]</span>
+    <span class="n">admin_database</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">MongoDBConfig</span><span class="p">,</span> <span class="n">YamlDBConfig</span><span class="p">],</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;db_type&quot;</span><span class="p">)]</span>
 
-    <span class="n">private_db_credentials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">S3CredentialsConfig</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;db_type&quot;</span>
-    <span class="p">)</span>
+    <span class="n">private_db_credentials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">S3CredentialsConfig</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;db_type&quot;</span><span class="p">)</span>
 
     <span class="n">dp_libraries</span><span class="p">:</span> <span class="n">DPLibraryConfig</span></div>
 
@@ -284,6 +283,8 @@
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.0/en/index.html">v0.4.0</a></dd>
         
       </dl>
       

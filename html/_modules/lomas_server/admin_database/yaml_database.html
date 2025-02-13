@@ -56,12 +56,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
 <ul>
@@ -97,13 +100,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">InvalidQueryException</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">DSInfo</span><span class="p">,</span> <span class="n">Metadata</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">LomasRequestModel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryResponse</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">AdminDatabase</span><span class="p">,</span>
     <span class="n">dataset_must_exist</span><span class="p">,</span>
@@ -271,9 +274,7 @@
 
 <div class="viewcode-block" id="AdminYamlDatabase.get_epsilon_or_delta">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.yaml_database.AdminYamlDatabase.get_epsilon_or_delta">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_epsilon_or_delta</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">BudgetDBKey</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_epsilon_or_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">BudgetDBKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get total spent epsilon or delta by user on dataset.</span>
 
 <span class="sd">        Args:</span>
@@ -368,9 +369,7 @@
 
 <div class="viewcode-block" id="AdminYamlDatabase.save_query">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.yaml_database.AdminYamlDatabase.save_query">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_query</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">LomasRequestModel</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">QueryResponse</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">LomasRequestModel</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">QueryResponse</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save queries of user on datasets in a separate collection (table).</span>
 
 <span class="sd">        Args:</span>
@@ -451,6 +450,8 @@
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.0/en/index.html">v0.4.0</a></dd>
         
       </dl>
       

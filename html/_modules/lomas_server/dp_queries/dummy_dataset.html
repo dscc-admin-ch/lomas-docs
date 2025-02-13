@@ -56,12 +56,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
 <ul>
@@ -95,6 +98,7 @@
   <h1>Source code for lomas_server.dp_queries.dummy_dataset</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">BooleanMetadata</span><span class="p">,</span>
@@ -105,12 +109,10 @@
     <span class="n">Metadata</span><span class="p">,</span>
     <span class="n">StrMetadata</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span> <span class="n">DUMMY_SEED</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">DummyQueryModel</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span>
-    <span class="n">DUMMY_SEED</span><span class="p">,</span>
     <span class="n">NB_RANDOM_NONE</span><span class="p">,</span>
     <span class="n">RANDOM_STRINGS</span><span class="p">,</span>
 <span class="p">)</span>
@@ -151,9 +153,7 @@
                 <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">RANDOM_STRINGS</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">nb_rows</span><span class="p">))</span>
             <span class="k">case</span> <span class="n">BooleanMetadata</span><span class="p">():</span>
                 <span class="c1"># type boolean instead of bool will allow null values below</span>
-                <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
-                    <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">nb_rows</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;boolean&quot;</span>
-                <span class="p">)</span>
+                <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">nb_rows</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;boolean&quot;</span><span class="p">)</span>
             <span class="k">case</span> <span class="n">IntMetadata</span><span class="p">():</span>
                 <span class="c1"># pd.Series to ensure consistency between different types</span>
                 <span class="n">dtype</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">type</span><span class="si">}{</span><span class="n">data</span><span class="o">.</span><span class="n">precision</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -169,9 +169,7 @@
             <span class="k">case</span> <span class="n">FloatMetadata</span><span class="p">():</span>
                 <span class="n">dtype</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">type</span><span class="si">}{</span><span class="n">data</span><span class="o">.</span><span class="n">precision</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
-                    <span class="n">data</span><span class="o">.</span><span class="n">lower</span>
-                    <span class="o">+</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">upper</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
-                    <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">nb_rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">))</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">lower</span> <span class="o">+</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">upper</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">nb_rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">))</span>
                 <span class="p">)</span>
             <span class="k">case</span> <span class="n">DatetimeMetadata</span><span class="p">():</span>
                 <span class="n">serie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
@@ -284,6 +282,8 @@
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.0/en/index.html">v0.4.0</a></dd>
         
       </dl>
       

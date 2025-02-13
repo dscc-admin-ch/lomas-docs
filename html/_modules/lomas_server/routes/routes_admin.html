@@ -56,12 +56,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
 <ul>
@@ -95,6 +98,7 @@
   <h1>Source code for lomas_server.routes.routes_admin</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Body</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">Request</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">RedirectResponse</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">KNOWN_EXCEPTIONS</span><span class="p">,</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
@@ -102,20 +106,19 @@
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Metadata</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">GetDummyDataset</span><span class="p">,</span> <span class="n">LomasRequestModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests_examples</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">example_get_admin_db_data</span><span class="p">,</span>
+    <span class="n">example_get_dummy_dataset</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DummyDsResponse</span><span class="p">,</span>
     <span class="n">InitialBudgetResponse</span><span class="p">,</span>
     <span class="n">RemainingBudgetResponse</span><span class="p">,</span>
     <span class="n">SpentBudgetResponse</span><span class="p">,</span>
 <span class="p">)</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.data_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_column_dtypes</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dummy_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_dummy_dataset</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.routes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">server_live</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.query_examples</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">example_get_admin_db_data</span><span class="p">,</span>
-    <span class="n">example_get_dummy_dataset</span><span class="p">,</span>
-<span class="p">)</span>
 
 <span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">()</span>
 
@@ -256,9 +259,7 @@
         <span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">ds_metadata</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">(</span>
-            <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
-        <span class="p">)</span>
+        <span class="n">ds_metadata</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">(</span><span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">)</span>
         <span class="n">dtypes</span><span class="p">,</span> <span class="n">datetime_columns</span> <span class="o">=</span> <span class="n">get_column_dtypes</span><span class="p">(</span><span class="n">ds_metadata</span><span class="p">)</span>
 
         <span class="n">dummy_df</span> <span class="o">=</span> <span class="n">make_dummy_dataset</span><span class="p">(</span>
@@ -275,9 +276,7 @@
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
-    <span class="k">return</span> <span class="n">DummyDsResponse</span><span class="p">(</span>
-        <span class="n">dtypes</span><span class="o">=</span><span class="n">dtypes</span><span class="p">,</span> <span class="n">datetime_columns</span><span class="o">=</span><span class="n">datetime_columns</span><span class="p">,</span> <span class="n">dummy_df</span><span class="o">=</span><span class="n">dummy_df</span>
-    <span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">DummyDsResponse</span><span class="p">(</span><span class="n">dtypes</span><span class="o">=</span><span class="n">dtypes</span><span class="p">,</span> <span class="n">datetime_columns</span><span class="o">=</span><span class="n">datetime_columns</span><span class="p">,</span> <span class="n">dummy_df</span><span class="o">=</span><span class="n">dummy_df</span><span class="p">)</span></div>
 
 
 
@@ -325,17 +324,13 @@
         <span class="p">(</span>
             <span class="n">initial_epsilon</span><span class="p">,</span>
             <span class="n">initial_delta</span><span class="p">,</span>
-        <span class="p">)</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_initial_budget</span><span class="p">(</span>
-            <span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
-        <span class="p">)</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_initial_budget</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
-    <span class="k">return</span> <span class="n">InitialBudgetResponse</span><span class="p">(</span>
-        <span class="n">initial_epsilon</span><span class="o">=</span><span class="n">initial_epsilon</span><span class="p">,</span> <span class="n">initial_delta</span><span class="o">=</span><span class="n">initial_delta</span>
-    <span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">InitialBudgetResponse</span><span class="p">(</span><span class="n">initial_epsilon</span><span class="o">=</span><span class="n">initial_epsilon</span><span class="p">,</span> <span class="n">initial_delta</span><span class="o">=</span><span class="n">initial_delta</span><span class="p">)</span></div>
 
 
 
@@ -383,17 +378,13 @@
         <span class="p">(</span>
             <span class="n">total_spent_epsilon</span><span class="p">,</span>
             <span class="n">total_spent_delta</span><span class="p">,</span>
-        <span class="p">)</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">(</span>
-            <span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
-        <span class="p">)</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
-    <span class="k">return</span> <span class="n">SpentBudgetResponse</span><span class="p">(</span>
-        <span class="n">total_spent_epsilon</span><span class="o">=</span><span class="n">total_spent_epsilon</span><span class="p">,</span> <span class="n">total_spent_delta</span><span class="o">=</span><span class="n">total_spent_delta</span>
-    <span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">SpentBudgetResponse</span><span class="p">(</span><span class="n">total_spent_epsilon</span><span class="o">=</span><span class="n">total_spent_epsilon</span><span class="p">,</span> <span class="n">total_spent_delta</span><span class="o">=</span><span class="n">total_spent_delta</span><span class="p">)</span></div>
 
 
 
@@ -446,9 +437,7 @@
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
-    <span class="k">return</span> <span class="n">RemainingBudgetResponse</span><span class="p">(</span>
-        <span class="n">remaining_epsilon</span><span class="o">=</span><span class="n">rem_epsilon</span><span class="p">,</span> <span class="n">remaining_delta</span><span class="o">=</span><span class="n">rem_delta</span>
-    <span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">RemainingBudgetResponse</span><span class="p">(</span><span class="n">remaining_epsilon</span><span class="o">=</span><span class="n">rem_epsilon</span><span class="p">,</span> <span class="n">remaining_delta</span><span class="o">=</span><span class="n">rem_delta</span><span class="p">)</span></div>
 
 
 
@@ -561,6 +550,8 @@
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.0/en/index.html">v0.4.0</a></dd>
         
       </dl>
       

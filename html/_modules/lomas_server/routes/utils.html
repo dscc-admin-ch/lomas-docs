@@ -56,12 +56,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
 <ul>
@@ -99,6 +102,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Request</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPLibraries</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">KNOWN_EXCEPTIONS</span><span class="p">,</span>
@@ -111,7 +115,6 @@
     <span class="n">QueryModel</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">CostResponse</span><span class="p">,</span> <span class="n">QueryResponse</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">data_connector_factory</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dp_libraries.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">querier_factory</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dummy_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_dummy_dataset_for_query</span>
@@ -138,9 +141,7 @@
                         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">time_attack</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">-</span> <span class="n">process_time</span><span class="p">)</span>
                 <span class="k">case</span> <span class="s2">&quot;jitter&quot;</span><span class="p">:</span>
                     <span class="c1"># Adds some time between 0 and magnitude secs</span>
-                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span>
-                        <span class="n">config</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">time_attack</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-                    <span class="p">)</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">time_attack</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
                 <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="s2">&quot;Time attack method not supported.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span>
@@ -166,8 +167,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">server_state</span><span class="p">[</span><span class="s2">&quot;LIVE&quot;</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
-            <span class="s2">&quot;Woops, the server did not start correctly.&quot;</span>
-            <span class="o">+</span> <span class="s2">&quot;Contact the administrator of this service.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Woops, the server did not start correctly. Contact the administrator of this service.&quot;</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">yield</span></div>
 
@@ -183,13 +183,14 @@
     <span class="n">dp_library</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QueryResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles queries for the SmartNoiseSQL library.</span>
+<span class="sd">    Handles queries on private datasets for all supported libraries.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): Raw request object</span>
-<span class="sd">        query_json (BaseModel): A JSON object containing the user request</span>
+<span class="sd">        query_model (DummyQueryModel): An instance of DummyQueryModel,</span>
+<span class="sd">            specific to the library.</span>
 <span class="sd">        user_name (str): The user name</span>
-<span class="sd">        dp_library: Name of the DP library to use for the query</span>
+<span class="sd">        dp_library (DPLibraries): Name of the DP library to use for the request</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ExternalLibraryException: For exceptions from libraries</span>
@@ -201,14 +202,8 @@
 <span class="sd">            the user does not exist or does not have access to the dataset.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        JSONResponse: A JSON object containing the following:</span>
-<span class="sd">            - requested_by (str): The user name.</span>
-<span class="sd">            - query_response (pd.DataFrame): A DataFrame containing</span>
-<span class="sd">              the query response.</span>
-<span class="sd">            - spent_epsilon (float): The amount of epsilon budget spent</span>
-<span class="sd">              for the query.</span>
-<span class="sd">            - spent_delta (float): The amount of delta budget spent</span>
-<span class="sd">              for the query.</span>
+<span class="sd">        QueryResponse: A QueryResponse model containing the result of the query</span>
+<span class="sd">            (specific to the library) as well as the cost of the query.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span>
 
@@ -237,18 +232,19 @@
 <a class="viewcode-back" href="../../../lomas_server.routes.html#lomas_server.routes.utils.handle_query_on_dummy_dataset">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">handle_query_on_dummy_dataset</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">DummyQueryModel</span><span class="p">,</span>
+    <span class="n">query_model</span><span class="p">:</span> <span class="n">DummyQueryModel</span><span class="p">,</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">dp_library</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QueryResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles queries for the SmartNoiseSQL library.</span>
+<span class="sd">    Handles queries on dummy datasets for all supported libraries.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): Raw request object</span>
-<span class="sd">        query_json (BaseModel): A JSON object containing the user request</span>
+<span class="sd">        query_model (DummyQueryModel): An instance of DummyQueryModel,</span>
+<span class="sd">            specific to the library.</span>
 <span class="sd">        user_name (str): The user name</span>
-<span class="sd">        dp_library: Name of the DP library to use for the query</span>
+<span class="sd">        dp_library (DPLibraries): Name of the DP library to use for the request</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ExternalLibraryException: For exceptions from libraries</span>
@@ -256,21 +252,23 @@
 <span class="sd">        InternalServerException: For any other unforseen exceptions.</span>
 <span class="sd">        InvalidQueryException: If there is not enough budget or the dataset</span>
 <span class="sd">            does not exist.</span>
+<span class="sd">        UnauthorizedAccessException: A query is already ongoing for this user,</span>
+<span class="sd">            the user does not exist or does not have access to the dataset.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        JSONResponse: A JSON object containing the query response.</span>
+<span class="sd">        QueryResponse: A QueryResponse model containing the result of the query</span>
+<span class="sd">            (specific to the library) as well as the cost of such a query if it was</span>
+<span class="sd">            executed on a private dataset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span>
 
-    <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
+    <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">query_model</span><span class="o">.</span><span class="n">dataset_name</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">has_user_access_to_dataset</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> does not have access to </span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="n">ds_data_connector</span> <span class="o">=</span> <span class="n">get_dummy_dataset_for_query</span><span class="p">(</span>
-        <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="p">,</span> <span class="n">query_json</span>
-    <span class="p">)</span>
+    <span class="n">ds_data_connector</span> <span class="o">=</span> <span class="n">get_dummy_dataset_for_query</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="p">,</span> <span class="n">query_model</span><span class="p">)</span>
     <span class="n">dummy_querier</span> <span class="o">=</span> <span class="n">querier_factory</span><span class="p">(</span>
         <span class="n">dp_library</span><span class="p">,</span>
         <span class="n">data_connector</span><span class="o">=</span><span class="n">ds_data_connector</span><span class="p">,</span>
@@ -278,11 +276,9 @@
     <span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">eps_cost</span><span class="p">,</span> <span class="n">delta_cost</span> <span class="o">=</span> <span class="n">dummy_querier</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query_json</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">dummy_querier</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query_json</span><span class="p">)</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">QueryResponse</span><span class="p">(</span>
-            <span class="n">requested_by</span><span class="o">=</span><span class="n">user_name</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">eps_cost</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="n">delta_cost</span>
-        <span class="p">)</span>
+        <span class="n">eps_cost</span><span class="p">,</span> <span class="n">delta_cost</span> <span class="o">=</span> <span class="n">dummy_querier</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query_model</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">dummy_querier</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query_model</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">QueryResponse</span><span class="p">(</span><span class="n">requested_by</span><span class="o">=</span><span class="n">user_name</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">eps_cost</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="n">delta_cost</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -297,7 +293,7 @@
 <span class="nd">@timing_protection</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">handle_cost_query</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">LomasRequestModel</span><span class="p">,</span>
+    <span class="n">request_model</span><span class="p">:</span> <span class="n">LomasRequestModel</span><span class="p">,</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">dp_library</span><span class="p">:</span> <span class="n">DPLibraries</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CostResponse</span><span class="p">:</span>
@@ -306,31 +302,34 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (Request): Raw request object</span>
-<span class="sd">        query_json (BaseModel): A JSON object containing the user request</span>
+<span class="sd">        request_model (LomasRequestModel): An instance of LomasRequestModel,</span>
+<span class="sd">            specific to the library.</span>
 <span class="sd">        user_name (str): The user name</span>
-<span class="sd">        dp_library: Name of the DP library to use for the query</span>
+<span class="sd">        dp_library (DPLibraries): Name of the DP library to use for the request</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ExternalLibraryException: For exceptions from libraries</span>
 <span class="sd">            external to this package.</span>
 <span class="sd">        InternalServerException: For any other unforseen exceptions.</span>
-<span class="sd">        InvalidQueryException: The dataset does not exist.</span>
+<span class="sd">        InvalidQueryException: If there is not enough budget or the dataset</span>
+<span class="sd">            does not exist.</span>
+<span class="sd">        UnauthorizedAccessException: A query is already ongoing for this user,</span>
+<span class="sd">            the user does not exist or does not have access to the dataset.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        JSONResponse: A JSON object containing:</span>
-<span class="sd">            - epsilon_cost (float): The estimated epsilon cost.</span>
-<span class="sd">            - delta_cost (float): The estimated delta cost.</span>
+<span class="sd">        CostResponse: A cost response containing the epsilon and delta</span>
+<span class="sd">            privacy-loss budget cost for the request.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span>
 
-    <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span>
+    <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">request_model</span><span class="o">.</span><span class="n">dataset_name</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">has_user_access_to_dataset</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> does not have access to </span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">data_connector</span> <span class="o">=</span> <span class="n">data_connector_factory</span><span class="p">(</span>
-        <span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
+        <span class="n">request_model</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
         <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="p">,</span>
         <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">private_credentials</span><span class="p">,</span>
     <span class="p">)</span>
@@ -340,7 +339,7 @@
         <span class="n">admin_database</span><span class="o">=</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">eps_cost</span><span class="p">,</span> <span class="n">delta_cost</span> <span class="o">=</span> <span class="n">dp_querier</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query_json</span><span class="p">)</span>
+        <span class="n">eps_cost</span><span class="p">,</span> <span class="n">delta_cost</span> <span class="o">=</span> <span class="n">dp_querier</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">request_model</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">KNOWN_EXCEPTIONS</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">e</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -405,6 +404,8 @@
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.0/en/index.html">v0.4.0</a></dd>
         
       </dl>
       

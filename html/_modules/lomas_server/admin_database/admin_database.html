@@ -56,12 +56,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
 <ul>
@@ -106,7 +109,6 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">DSInfo</span><span class="p">,</span> <span class="n">Metadata</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">LomasRequestModel</span><span class="p">,</span> <span class="n">model_input_to_lib</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryResponse</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">BudgetDBKey</span>
 
 
@@ -130,14 +132,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper_decorator</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper_decorator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">user_name</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">does_user_exist</span><span class="p">(</span><span class="n">user_name</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> does not exist. &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;Please, verify the client object initialisation.&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> does not exist. Please, verify the client object initialisation.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -165,9 +164,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper_decorator</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper_decorator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">does_dataset_exist</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span>
@@ -204,9 +201,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper_decorator</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper_decorator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">user_name</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_user_access_to_dataset</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">):</span>
@@ -344,9 +339,7 @@
 <div class="viewcode-block" id="AdminDatabase.get_epsilon_or_delta">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.admin_database.AdminDatabase.get_epsilon_or_delta">[docs]</a>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_epsilon_or_delta</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">BudgetDBKey</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_epsilon_or_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">BudgetDBKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the total spent epsilon or delta by user on dataset.</span>
 
@@ -378,9 +371,7 @@
 <span class="sd">                the second value is the delta value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_epsilon_or_delta</span><span class="p">(</span>
-                <span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">BudgetDBKey</span><span class="o">.</span><span class="n">EPSILON_SPENT</span>
-            <span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_epsilon_or_delta</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">BudgetDBKey</span><span class="o">.</span><span class="n">EPSILON_SPENT</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_epsilon_or_delta</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">BudgetDBKey</span><span class="o">.</span><span class="n">DELTA_SPENT</span><span class="p">),</span>
         <span class="p">]</span></div>
 
@@ -403,9 +394,7 @@
 <span class="sd">                the second value is the delta value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_epsilon_or_delta</span><span class="p">(</span>
-                <span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">BudgetDBKey</span><span class="o">.</span><span class="n">EPSILON_INIT</span>
-            <span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_epsilon_or_delta</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">BudgetDBKey</span><span class="o">.</span><span class="n">EPSILON_INIT</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_epsilon_or_delta</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">BudgetDBKey</span><span class="o">.</span><span class="n">DELTA_INIT</span><span class="p">),</span>
         <span class="p">]</span></div>
 
@@ -455,9 +444,7 @@
 
 <div class="viewcode-block" id="AdminDatabase.update_epsilon">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.admin_database.AdminDatabase.update_epsilon">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update_epsilon</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">spent_epsilon</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_epsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">spent_epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update spent epsilon by user with total spent epsilon.</span>
 
@@ -466,16 +453,12 @@
 <span class="sd">            dataset_name (str): name of the dataset</span>
 <span class="sd">            spent_epsilon (float): value of epsilon spent on last query</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_epsilon_or_delta</span><span class="p">(</span>
-            <span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">BudgetDBKey</span><span class="o">.</span><span class="n">EPSILON_SPENT</span><span class="p">,</span> <span class="n">spent_epsilon</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_epsilon_or_delta</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">BudgetDBKey</span><span class="o">.</span><span class="n">EPSILON_SPENT</span><span class="p">,</span> <span class="n">spent_epsilon</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AdminDatabase.update_delta">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.admin_database.AdminDatabase.update_delta">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update_delta</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">spent_delta</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">spent_delta</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update spent delta spent by user with spent delta of the user.</span>
 
@@ -484,9 +467,7 @@
 <span class="sd">            dataset_name (str): name of the dataset</span>
 <span class="sd">            spent_delta (float): value of delta spent on last query</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">update_epsilon_or_delta</span><span class="p">(</span>
-            <span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">BudgetDBKey</span><span class="o">.</span><span class="n">DELTA_SPENT</span><span class="p">,</span> <span class="n">spent_delta</span>
-        <span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_epsilon_or_delta</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">BudgetDBKey</span><span class="o">.</span><span class="n">DELTA_SPENT</span><span class="p">,</span> <span class="n">spent_delta</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AdminDatabase.update_budget">
@@ -557,9 +538,7 @@
 
 <div class="viewcode-block" id="AdminDatabase.prepare_save_query">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.admin_database.AdminDatabase.prepare_save_query">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">prepare_save_query</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">LomasRequestModel</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">QueryResponse</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prepare_save_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">LomasRequestModel</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">QueryResponse</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prepare the query to save in archives.</span>
 
@@ -589,9 +568,7 @@
 <div class="viewcode-block" id="AdminDatabase.save_query">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.admin_database.AdminDatabase.save_query">[docs]</a>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_query</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">LomasRequestModel</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">QueryResponse</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">LomasRequestModel</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">QueryResponse</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save queries of user on datasets in a separate collection (table).</span>
 
@@ -659,6 +636,8 @@
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.0/en/index.html">v0.4.0</a></dd>
         
       </dl>
       

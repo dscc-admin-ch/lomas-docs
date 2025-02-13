@@ -1,0 +1,485 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lomas_core.models.requests &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Lomas
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lomas_core.models.requests</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lomas_core.models.requests</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DPLibraries</span><span class="p">,</span>
+    <span class="n">SSynthGanSynthesizer</span><span class="p">,</span>
+    <span class="n">SSynthMarginalSynthesizer</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSON_SCHEMA_EXAMPLES</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests_examples</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">example_diffprivlib</span><span class="p">,</span>
+    <span class="n">example_dummy_diffprivlib</span><span class="p">,</span>
+    <span class="n">example_dummy_opendp</span><span class="p">,</span>
+    <span class="n">example_dummy_smartnoise_sql</span><span class="p">,</span>
+    <span class="n">example_dummy_smartnoise_synth_query</span><span class="p">,</span>
+    <span class="n">example_opendp</span><span class="p">,</span>
+    <span class="n">example_smartnoise_sql</span><span class="p">,</span>
+    <span class="n">example_smartnoise_sql_cost</span><span class="p">,</span>
+    <span class="n">example_smartnoise_synth_cost</span><span class="p">,</span>
+    <span class="n">example_smartnoise_synth_query</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="LomasRequestModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.LomasRequestModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LomasRequestModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all types of requests to the lomas server.</span>
+
+<span class="sd">    We differentiate between requests and queries:</span>
+<span class="sd">        - a request does not necessarily require an algorithm</span>
+<span class="sd">          to be executed on the private dataset (e.g. some cost requests).</span>
+<span class="sd">        - a query requires executing an algorithm on a private</span>
+<span class="sd">          dataset (or a potentially a dummy).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">use_attribute_docstrings</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The name of the dataset the request is aimed at.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="GetDummyDataset">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.GetDummyDataset">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GetDummyDataset</span><span class="p">(</span><span class="n">LomasRequestModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model input to get a dummy dataset.&quot;&quot;&quot;</span>
+
+    <span class="n">dummy_nb_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The number of dummy rows to generate.&quot;&quot;&quot;</span>
+    <span class="n">dummy_seed</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The seed for the random generation of the dummy dataset.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="QueryModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.QueryModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">QueryModel</span><span class="p">(</span><span class="n">LomasRequestModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base input model for any query on a dataset.</span>
+
+<span class="sd">    We differentiate between requests and queries:</span>
+<span class="sd">        - a request does not necessarily require an algorithm</span>
+<span class="sd">          to be executed on the private dataset (e.g. some cost requests).</span>
+<span class="sd">        - a query requires executing an algorithm on a private</span>
+<span class="sd">          dataset (or a potentially a dummy).</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="DummyQueryModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.DummyQueryModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DummyQueryModel</span><span class="p">(</span><span class="n">QueryModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input model for a query on a dummy dataset.&quot;&quot;&quot;</span>
+
+    <span class="n">dummy_nb_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The number of rows in the dummy dataset.&quot;&quot;&quot;</span>
+    <span class="n">dummy_seed</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The seed to set at the start of the dummy dataset generation.&quot;&quot;&quot;</span></div>
+
+
+
+<span class="c1"># SmartnoiseSQL</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="SmartnoiseSQLRequestModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.SmartnoiseSQLRequestModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSQLRequestModel</span><span class="p">(</span><span class="n">LomasRequestModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for a smarnoise-sql request.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_smartnoise_sql_cost</span><span class="p">]})</span>
+
+    <span class="n">query_str</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The SQL query to execute.</span>
+
+<span class="sd">    NOTE: the table name is \&quot;df\&quot;, the query must end with \&quot;FROM df\&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Privacy parameter (e.g., 0.1).&quot;&quot;&quot;</span>
+    <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Privacy parameter (e.g., 1e-5).&quot;&quot;&quot;</span>
+    <span class="n">mechanisms</span><span class="p">:</span> <span class="nb">dict</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dictionary of mechanisms for the query.</span>
+
+<span class="sd">    See Smartnoise-SQL mechanisms documentation at</span>
+<span class="sd">    https://docs.smartnoise.org/sql/advanced.html#overriding-mechanisms.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="SmartnoiseSQLQueryModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.SmartnoiseSQLQueryModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSQLQueryModel</span><span class="p">(</span><span class="n">SmartnoiseSQLRequestModel</span><span class="p">,</span> <span class="n">QueryModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for a smartnoise-sql query.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_smartnoise_sql</span><span class="p">]})</span>
+
+    <span class="n">postprocess</span><span class="p">:</span> <span class="nb">bool</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Whether to postprocess the query results (default: True).</span>
+
+<span class="sd">    See Smartnoise-SQL postprocessing documentation</span>
+<span class="sd">    https://docs.smartnoise.org/sql/advanced.html#postprocess.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="SmartnoiseSQLDummyQueryModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.SmartnoiseSQLDummyQueryModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSQLDummyQueryModel</span><span class="p">(</span><span class="n">SmartnoiseSQLQueryModel</span><span class="p">,</span> <span class="n">DummyQueryModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input model for a smartnoise-sql query on a dummy dataset.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_dummy_smartnoise_sql</span><span class="p">]})</span></div>
+
+
+
+<span class="c1"># SmartnoiseSynth</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="SmartnoiseSynthRequestModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.SmartnoiseSynthRequestModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSynthRequestModel</span><span class="p">(</span><span class="n">LomasRequestModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for a SmartnoiseSynth request.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_smartnoise_synth_cost</span><span class="p">]})</span>
+
+    <span class="n">synth_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SSynthMarginalSynthesizer</span><span class="p">,</span> <span class="n">SSynthGanSynthesizer</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of the synthesizer model to use.&quot;&quot;&quot;</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Privacy parameter (e.g., 0.1).&quot;&quot;&quot;</span>
+    <span class="n">delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Privacy parameter (e.g., 1e-5).&quot;&quot;&quot;</span>
+    <span class="n">select_cols</span><span class="p">:</span> <span class="n">List</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List of columns to select.&quot;&quot;&quot;</span>
+    <span class="n">synth_params</span><span class="p">:</span> <span class="nb">dict</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Keyword arguments to pass to the synthesizer constructor.</span>
+
+<span class="sd">    See https://docs.smartnoise.org/synth/synthesizers/index.html#, provide</span>
+<span class="sd">    all parameters of the model except `epsilon` and `delta`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nullable</span><span class="p">:</span> <span class="nb">bool</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;True if some data cells may be null.&quot;&quot;&quot;</span>
+    <span class="n">constraints</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dictionnary for custom table transformer constraints.</span>
+
+<span class="sd">    Column that are not specified will be inferred based on metadata.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="SmartnoiseSynthQueryModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.SmartnoiseSynthQueryModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSynthQueryModel</span><span class="p">(</span><span class="n">SmartnoiseSynthRequestModel</span><span class="p">,</span> <span class="n">QueryModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for a smarnoise-synth query.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_smartnoise_synth_query</span><span class="p">]})</span>
+
+    <span class="n">return_model</span><span class="p">:</span> <span class="nb">bool</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;True to get Synthesizer model, False to get samples.&quot;&quot;&quot;</span>
+    <span class="n">condition</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sampling condition in `model.sample` (only relevant if return_model is False).&quot;&quot;&quot;</span>
+    <span class="n">nb_samples</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of samples to generate.</span>
+
+<span class="sd">    (only relevant if return_model is False)</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="SmartnoiseSynthDummyQueryModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.SmartnoiseSynthDummyQueryModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SmartnoiseSynthDummyQueryModel</span><span class="p">(</span><span class="n">SmartnoiseSynthQueryModel</span><span class="p">,</span> <span class="n">DummyQueryModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input model for a smarnoise-synth query on a dummy dataset.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_dummy_smartnoise_synth_query</span><span class="p">]}</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># OpenDP</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="OpenDPRequestModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.OpenDPRequestModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OpenDPRequestModel</span><span class="p">(</span><span class="n">LomasRequestModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for an opendp request.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">use_attribute_docstrings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_opendp</span><span class="p">]},</span>
+    <span class="p">)</span>
+
+    <span class="n">opendp_json</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The OpenDP pipeline for the query.&quot;&quot;&quot;</span>
+    <span class="n">fixed_delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    If the pipeline measurement is of type &quot;ZeroConcentratedDivergence&quot;.</span>
+
+<span class="sd">    (e.g. with &quot;make_gaussian&quot;) then it is converted to &quot;SmoothedMaxDivergence&quot;</span>
+<span class="sd">    with &quot;make_zCDP_to_approxDP&quot; (see &quot;opendp measurements documentation at</span>
+<span class="sd">    https://docs.opendp.org/en/stable/api/python/opendp.combinators.html#opendp.combinators.make_zCDP_to_approxDP). # noqa # pylint: disable=C0301</span>
+<span class="sd">    In that case a &quot;fixed_delta&quot; must be provided by the user.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="OpenDPQueryModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.OpenDPQueryModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OpenDPQueryModel</span><span class="p">(</span><span class="n">OpenDPRequestModel</span><span class="p">,</span> <span class="n">QueryModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for an opendp query.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_opendp</span><span class="p">]})</span></div>
+
+
+
+<div class="viewcode-block" id="OpenDPDummyQueryModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.OpenDPDummyQueryModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OpenDPDummyQueryModel</span><span class="p">(</span><span class="n">OpenDPRequestModel</span><span class="p">,</span> <span class="n">DummyQueryModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input model for an opendp query on a dummy dataset.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_dummy_opendp</span><span class="p">]})</span></div>
+
+
+
+<span class="c1"># DiffPrivLib</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="DiffPrivLibRequestModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.DiffPrivLibRequestModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiffPrivLibRequestModel</span><span class="p">(</span><span class="n">LomasRequestModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for a diffprivlib request.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_diffprivlib</span><span class="p">]})</span>
+
+    <span class="n">diffprivlib_json</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The DiffPrivLib pipeline for the query (See diffprivlib_logger package.).&quot;&quot;&quot;</span>
+    <span class="n">feature_columns</span><span class="p">:</span> <span class="nb">list</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The list of feature columns to train.&quot;&quot;&quot;</span>
+    <span class="n">target_columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The list of target columns to predict.&quot;&quot;&quot;</span>
+    <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The proportion of the test set.&quot;&quot;&quot;</span>
+    <span class="n">test_train_split_seed</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The seed for the random train/test split.&quot;&quot;&quot;</span>
+    <span class="n">imputer_strategy</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The imputation strategy.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="DiffPrivLibQueryModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.DiffPrivLibQueryModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiffPrivLibQueryModel</span><span class="p">(</span><span class="n">DiffPrivLibRequestModel</span><span class="p">,</span> <span class="n">QueryModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base input model for a diffprivlib query.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_diffprivlib</span><span class="p">]})</span></div>
+
+
+
+<div class="viewcode-block" id="DiffPrivLibDummyQueryModel">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.DiffPrivLibDummyQueryModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiffPrivLibDummyQueryModel</span><span class="p">(</span><span class="n">DiffPrivLibQueryModel</span><span class="p">,</span> <span class="n">DummyQueryModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input model for a DiffPrivLib query on a dummy dataset.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="n">JSON_SCHEMA_EXAMPLES</span><span class="p">:</span> <span class="p">[</span><span class="n">example_dummy_diffprivlib</span><span class="p">]})</span></div>
+
+
+
+<span class="c1"># Utils</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="model_input_to_lib">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.requests.model_input_to_lib">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">model_input_to_lib</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">LomasRequestModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DPLibraries</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the type of DP library given a LomasRequestModel.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (LomasRequestModel): The user request</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        InternalServerException: If the library type cannot be determined.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        DPLibraries: The type of library for the request.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">match</span> <span class="n">request</span><span class="p">:</span>
+        <span class="k">case</span> <span class="n">SmartnoiseSQLRequestModel</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span>
+        <span class="k">case</span> <span class="n">SmartnoiseSynthRequestModel</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span>
+        <span class="k">case</span> <span class="n">OpenDPRequestModel</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span>
+        <span class="k">case</span> <span class="n">DiffPrivLibRequestModel</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span>
+        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="s2">&quot;Cannot find library type for given model.&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: v0.4.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.0/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.0/en/index.html">v0.4.0</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

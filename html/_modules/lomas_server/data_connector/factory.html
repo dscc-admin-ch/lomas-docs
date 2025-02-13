@@ -56,12 +56,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
 <ul>
@@ -99,7 +102,6 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">DSPathAccess</span><span class="p">,</span> <span class="n">DSS3Access</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivateDBCredentials</span><span class="p">,</span> <span class="n">S3CredentialsConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivateDatabaseType</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.data_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.path_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathConnector</span>
@@ -151,9 +153,7 @@
 
             <span class="k">return</span> <span class="n">S3Connector</span><span class="p">(</span><span class="n">ds_metadata</span><span class="p">,</span> <span class="n">ds_access</span><span class="p">)</span>
         <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Unknown database type: </span><span class="si">{</span><span class="n">ds_access</span><span class="o">.</span><span class="n">database_type</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span></div>
+            <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown database type: </span><span class="si">{</span><span class="n">ds_access</span><span class="o">.</span><span class="n">database_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 
@@ -184,14 +184,11 @@
 
     <span class="k">if</span> <span class="n">db_type</span> <span class="o">==</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">private_db_credentials</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">S3CredentialsConfig</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
-                <span class="n">credentials_name</span> <span class="o">==</span> <span class="n">c</span><span class="o">.</span><span class="n">credentials_name</span>
-            <span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">S3CredentialsConfig</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">credentials_name</span> <span class="o">==</span> <span class="n">c</span><span class="o">.</span><span class="n">credentials_name</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">c</span>
 
     <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
-        <span class="s2">&quot;Could not find credentials for private dataset.&quot;</span>
-        <span class="s2">&quot;Please contact server administrator.&quot;</span>
+        <span class="s2">&quot;Could not find credentials for private dataset. Please contact server administrator.&quot;</span>
     <span class="p">)</span></div>
 
 </pre></div>
@@ -251,6 +248,8 @@
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.0/en/index.html">v0.4.0</a></dd>
         
       </dl>
       
