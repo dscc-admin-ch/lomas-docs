@@ -860,8 +860,66 @@ external libraries (smartnoise-sql, opendp, diffprivlib)</p>
 </dd></dl>
 
 </section>
-<section id="lomas-core-instrumentation-module">
-<h2>lomas_core.instrumentation module<a class="headerlink" href="#lomas-core-instrumentation-module" title="Link to this heading"></a></h2>
+<section id="module-lomas_core.instrumentation">
+<span id="lomas-core-instrumentation-module"></span><h2>lomas_core.instrumentation module<a class="headerlink" href="#module-lomas_core.instrumentation" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_core.instrumentation.get_ressource">
+<span class="sig-prename descclassname"><span class="pre">lomas_core.instrumentation.</span></span><span class="sig-name descname"><span class="pre">get_ressource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_core/instrumentation.html#get_ressource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_core.instrumentation.get_ressource" title="Link to this definition"></a></dt>
+<dd><p>Creates a Resource object with metadata describing the service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The resource object containing service metadata.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resource</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_core.instrumentation.init_logs_exporter">
+<span class="sig-prename descclassname"><span class="pre">lomas_core.instrumentation.</span></span><span class="sig-name descname"><span class="pre">init_logs_exporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Resource</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_core/instrumentation.html#init_logs_exporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_core.instrumentation.init_logs_exporter" title="Link to this definition"></a></dt>
+<dd><p>Initializes the OpenTelemetry logs exporter with a given resource.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resource</strong> (<em>Resource</em>) – The resource to associate with the log telemetry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_core.instrumentation.init_metrics_exporter">
+<span class="sig-prename descclassname"><span class="pre">lomas_core.instrumentation.</span></span><span class="sig-name descname"><span class="pre">init_metrics_exporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Resource</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_core/instrumentation.html#init_metrics_exporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_core.instrumentation.init_metrics_exporter" title="Link to this definition"></a></dt>
+<dd><p>Initializes the OpenTelemetry metrics exporter with a given resource.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resource</strong> (<em>Resource</em>) – The resource to associate with the metric telemetry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_core.instrumentation.init_telemetry">
+<span class="sig-prename descclassname"><span class="pre">lomas_core.instrumentation.</span></span><span class="sig-name descname"><span class="pre">init_telemetry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Resource</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_core/instrumentation.html#init_telemetry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_core.instrumentation.init_telemetry" title="Link to this definition"></a></dt>
+<dd><p>Initializes all OpenTelemetry exporters with a shared resource.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resource</strong> (<em>Resource</em>) – The resource to associate with the app and instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_core.instrumentation.init_traces_exporter">
+<span class="sig-prename descclassname"><span class="pre">lomas_core.instrumentation.</span></span><span class="sig-name descname"><span class="pre">init_traces_exporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Resource</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_core/instrumentation.html#init_traces_exporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_core.instrumentation.init_traces_exporter" title="Link to this definition"></a></dt>
+<dd><p>Initializes the OpenTelemetry trace exporter with a given resource.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resource</strong> (<em>Resource</em>) – The resource to associate with the trace telemetry.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-lomas_core">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-lomas_core" title="Link to this heading"></a></h2>
