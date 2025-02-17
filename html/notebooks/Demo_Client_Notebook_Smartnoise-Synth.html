@@ -88,15 +88,12 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../poster.html">Poster</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
 <ul>
@@ -141,7 +138,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># !pip install lomas_client
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install lomas_client</span>
 </pre></div>
 </div>
 </div>
@@ -150,9 +147,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(&#39;..&#39;)))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
@@ -160,8 +157,8 @@ sys.path.append(os.path.abspath(os.path.join(&#39;..&#39;)))
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_client import Client
-import numpy as np
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -180,10 +177,10 @@ import numpy as np
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>APP_URL = &quot;http://lomas_server&quot;
-USER_NAME = &quot;Dr. Antartica&quot;
-DATASET_NAME = &quot;PENGUIN&quot;
-client = Client(url=APP_URL, user_name = USER_NAME, dataset_name = DATASET_NAME)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">APP_URL</span> <span class="o">=</span> <span class="s2">&quot;http://lomas_server&quot;</span>
+<span class="n">USER_NAME</span> <span class="o">=</span> <span class="s2">&quot;Dr. Antartica&quot;</span>
+<span class="n">DATASET_NAME</span> <span class="o">=</span> <span class="s2">&quot;PENGUIN&quot;</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">APP_URL</span><span class="p">,</span> <span class="n">user_name</span> <span class="o">=</span> <span class="n">USER_NAME</span><span class="p">,</span> <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">DATASET_NAME</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -199,8 +196,8 @@ client = Client(url=APP_URL, user_name = USER_NAME, dataset_name = DATASET_NAME)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata = client.get_dataset_metadata()
-penguin_metadata
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguin_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
+<span class="n">penguin_metadata</span>
 </pre></div>
 </div>
 </div>
@@ -287,8 +284,8 @@ penguin_metadata
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from snsynth import Synthesizer
-Synthesizer.list_synthesizers()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snsynth</span><span class="w"> </span><span class="kn">import</span> <span class="n">Synthesizer</span>
+<span class="n">Synthesizer</span><span class="o">.</span><span class="n">list_synthesizers</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -308,14 +305,14 @@ Synthesizer.list_synthesizers()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;aim&quot;,
-    epsilon=1.0,
-    delta=0.0001,
-    select_cols = [&quot;species&quot;, &quot;island&quot;],
-    dummy=True,
-)
-res_dummy.result.df_samples
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span>
 </pre></div>
 </div>
 </div>
@@ -412,13 +409,13 @@ res_dummy.result.df_samples
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_cost = client.smartnoise_synth.cost(
-    synth_name=&quot;aim&quot;,
-    epsilon=1.0,
-    delta=0.0001,
-    select_cols = [&quot;species&quot;, &quot;island&quot;],
-)
-res_cost
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">res_cost</span>
 </pre></div>
 </div>
 </div>
@@ -437,15 +434,15 @@ CostResponse(epsilon=1.0, delta=0.0001)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res = client.smartnoise_synth.query(
-    synth_name=&quot;aim&quot;,
-    epsilon=1.0,
-    delta=0.0001,
-    select_cols = [&quot;species&quot;, &quot;island&quot;],
-    dummy=True,
-    return_model = True
-)
-res.result.model
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">return_model</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
 </pre></div>
 </div>
 </div>
@@ -472,8 +469,8 @@ res.result.model
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth = res.result.model
-synth.sample(10)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
+<span class="n">synth</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -564,16 +561,16 @@ synth.sample(10)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;aim&quot;,
-    epsilon=1.0,
-    delta=0.0001,
-    select_cols = [&quot;species&quot;, &quot;island&quot;],
-    dummy=True,
-    return_model = True,
-    synth_params = {&quot;max_model_size&quot;: 50}
-)
-res_dummy.result.model
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">return_model</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;max_model_size&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
 </pre></div>
 </div>
 </div>
@@ -590,8 +587,8 @@ res_dummy.result.model
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth = res_dummy.result.model
-synth.sample(5)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth</span> <span class="o">=</span> <span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
+<span class="n">synth</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -661,12 +658,12 @@ synth.sample(5)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;mwem&quot;,
-    epsilon=1.0,
-    dummy=True,
-)
-res_dummy.result.df_samples.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -762,14 +759,14 @@ res_dummy.result.df_samples.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;mwem&quot;,
-    epsilon=1.0,
-    select_cols = [&quot;species&quot;, &quot;island&quot;, &quot;sex&quot;],
-    synth_params = {&quot;measure_only&quot;: False, &quot;max_retries_exp_mechanism&quot;: 5},
-    dummy=True,
-)
-res_dummy.result.df_samples.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
+    <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;measure_only&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;max_retries_exp_mechanism&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -843,9 +840,9 @@ res_dummy.result.df_samples.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bl_bounds = penguin_metadata[&quot;columns&quot;][&quot;bill_length_mm&quot;]
-bd_bounds = penguin_metadata[&quot;columns&quot;][&quot;bill_depth_mm&quot;]
-bl_bounds, bd_bounds
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bl_bounds</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">]</span>
+<span class="n">bd_bounds</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">]</span>
+<span class="n">bl_bounds</span><span class="p">,</span> <span class="n">bd_bounds</span>
 </pre></div>
 </div>
 </div>
@@ -879,23 +876,23 @@ bl_bounds, bd_bounds
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from snsynth.transform import BinTransformer, ClampTransformer, ChainTransformer, LabelTransformer
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snsynth.transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">BinTransformer</span><span class="p">,</span> <span class="n">ClampTransformer</span><span class="p">,</span> <span class="n">ChainTransformer</span><span class="p">,</span> <span class="n">LabelTransformer</span>
 
-my_own_constraints = {
-    &quot;bill_length_mm&quot;: ChainTransformer(
-        [
-            ClampTransformer(lower = bl_bounds[&quot;lower&quot;] + 10, upper = bl_bounds[&quot;upper&quot;] - 10),
-            BinTransformer(bins = 20, lower = bl_bounds[&quot;lower&quot;] + 10, upper = bl_bounds[&quot;upper&quot;] - 10),
-        ]
-    ),
-    &quot;bill_depth_mm&quot;: ChainTransformer(
-        [
-            ClampTransformer(lower = bd_bounds[&quot;lower&quot;] + 2, upper = bd_bounds[&quot;upper&quot;] - 2),
-            BinTransformer(bins=20, lower = bd_bounds[&quot;lower&quot;] + 2, upper = bd_bounds[&quot;upper&quot;] - 2),
-        ]
-    ),
-    &quot;species&quot;: LabelTransformer(nullable=True)
-}
+<span class="n">my_own_constraints</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">:</span> <span class="n">ChainTransformer</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">ClampTransformer</span><span class="p">(</span><span class="n">lower</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
+            <span class="n">BinTransformer</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">:</span> <span class="n">ChainTransformer</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">ClampTransformer</span><span class="p">(</span><span class="n">lower</span> <span class="o">=</span> <span class="n">bd_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bd_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">BinTransformer</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">bd_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bd_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="n">LabelTransformer</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -903,14 +900,14 @@ my_own_constraints = {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;mwem&quot;,
-    epsilon=1.0,
-    select_cols = [&quot;bill_length_mm&quot;, &quot;bill_depth_mm&quot;, &quot;species&quot;],
-    constraints = my_own_constraints,
-    dummy=True,
-)
-res_dummy.result.df_samples.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">],</span>
+    <span class="n">constraints</span> <span class="o">=</span> <span class="n">my_own_constraints</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -982,14 +979,14 @@ res_dummy.result.df_samples.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>my_own_constraints = {
-    &quot;bill_length_mm&quot;: ChainTransformer(
-        [
-            ClampTransformer(lower = bl_bounds[&quot;lower&quot;] + 10, upper = bl_bounds[&quot;upper&quot;] - 10),
-            BinTransformer(bins = 20, lower = bl_bounds[&quot;lower&quot;] + 10, upper = bl_bounds[&quot;upper&quot;] - 10),
-        ]
-    )
-}
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_own_constraints</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">:</span> <span class="n">ChainTransformer</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">ClampTransformer</span><span class="p">(</span><span class="n">lower</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
+            <span class="n">BinTransformer</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">bl_bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -998,14 +995,14 @@ res_dummy.result.df_samples.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;mwem&quot;,
-    epsilon=1.0,
-    select_cols = [&quot;bill_length_mm&quot;, &quot;bill_depth_mm&quot;, &quot;species&quot;],
-    constraints = my_own_constraints,
-    dummy=True,
-)
-res_dummy.result.df_samples.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mwem&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">],</span>
+    <span class="n">constraints</span> <span class="o">=</span> <span class="n">my_own_constraints</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1080,13 +1077,13 @@ res_dummy.result.df_samples.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;mst&quot;,
-    epsilon=1.0,
-    select_cols = [&quot;species&quot;, &quot;sex&quot;],
-    dummy=True,
-)
-res_dummy.result.df_samples.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mst&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1152,14 +1149,14 @@ res_dummy.result.df_samples.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;mst&quot;,
-    epsilon=1.0,
-    select_cols = [&quot;species&quot;, &quot;sex&quot;],
-    nb_samples = 4,
-    dummy=True,
-)
-res_dummy.result.df_samples
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mst&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">],</span>
+    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span>
 </pre></div>
 </div>
 </div>
@@ -1220,15 +1217,15 @@ res_dummy.result.df_samples
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;mst&quot;,
-    epsilon=1.0,
-    select_cols = [&quot;sex&quot;, &quot;species&quot;],
-    nb_samples = 4,
-    condition = &quot;sex = FEMALE&quot;,
-    dummy=True,
-)
-res_dummy.result.df_samples
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;mst&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">],</span>
+    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;sex = FEMALE&quot;</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span>
 </pre></div>
 </div>
 </div>
@@ -1293,12 +1290,12 @@ res_dummy.result.df_samples
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;dpctgan&quot;,
-    epsilon=1.0,
-    dummy=True,
-)
-res_dummy
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpctgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span>
 </pre></div>
 </div>
 </div>
@@ -1349,13 +1346,13 @@ File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;dpctgan&quot;,
-    epsilon=1.0,
-    synth_params = {&quot;batch_size&quot;: 50},
-    dummy=True,
-)
-res_dummy.result.df_samples.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpctgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1462,12 +1459,12 @@ res_dummy.result.df_samples.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;pategan&quot;,
-    epsilon=1.0,
-    dummy=True,
-)
-res_dummy
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;pategan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span>
 </pre></div>
 </div>
 </div>
@@ -1511,12 +1508,12 @@ File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;patectgan&quot;,
-    epsilon=1.0,
-    dummy=True,
-)
-res_dummy.result.df_samples.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;patectgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1611,24 +1608,24 @@ res_dummy.result.df_samples.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;patectgan&quot;,
-    epsilon=1.0,
-    select_cols = [&quot;island&quot;, &quot;bill_length_mm&quot;, &quot;body_mass_g&quot;],
-    synth_params = {
-        &quot;embedding_dim&quot;: 256,
-        &quot;generator_dim&quot;: (128, 128),
-        &quot;discriminator_dim&quot;: (256, 256),
-        &quot;generator_lr&quot;: 0.0003,
-        &quot;generator_decay&quot;: 1e-05,
-        &quot;discriminator_lr&quot;: 0.0003,
-        &quot;discriminator_decay&quot;: 1e-05,
-        &quot;batch_size&quot;: 500
-    },
-    nb_samples = 100,
-    dummy=True,
-)
-res_dummy.result.df_samples.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;patectgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;body_mass_g&quot;</span><span class="p">],</span>
+    <span class="n">synth_params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;embedding_dim&quot;</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
+        <span class="s2">&quot;generator_dim&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+        <span class="s2">&quot;discriminator_dim&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
+        <span class="s2">&quot;generator_lr&quot;</span><span class="p">:</span> <span class="mf">0.0003</span><span class="p">,</span>
+        <span class="s2">&quot;generator_decay&quot;</span><span class="p">:</span> <span class="mf">1e-05</span><span class="p">,</span>
+        <span class="s2">&quot;discriminator_lr&quot;</span><span class="p">:</span> <span class="mf">0.0003</span><span class="p">,</span>
+        <span class="s2">&quot;discriminator_decay&quot;</span><span class="p">:</span> <span class="mf">1e-05</span><span class="p">,</span>
+        <span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">500</span>
+    <span class="p">},</span>
+    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1703,12 +1700,12 @@ res_dummy.result.df_samples.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;dpgan&quot;,
-    epsilon=1.0,
-    dummy=True,
-)
-res_dummy.result.df_samples.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1813,13 +1810,13 @@ res_dummy.result.df_samples.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;dpgan&quot;,
-    epsilon=1.0,
-    condition = &quot;body_mass_g &gt; 5000&quot;,
-    dummy=True,
-)
-res_dummy.result.df_samples.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;body_mass_g &gt; 5000&quot;</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1924,14 +1921,14 @@ res_dummy.result.df_samples.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;dpgan&quot;,
-    epsilon=1.0,
-    condition = &quot;body_mass_g &gt; 5000&quot;,
-    nb_samples = 10,
-    dummy=False,
-)
-res_dummy.result.df_samples
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="s2">&quot;body_mass_g &gt; 5000&quot;</span><span class="p">,</span>
+    <span class="n">nb_samples</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span>
 </pre></div>
 </div>
 </div>
@@ -2089,7 +2086,7 @@ res_dummy.result.df_samples
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>previous_queries = client.get_previous_queries()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">previous_queries</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_previous_queries</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -2098,8 +2095,8 @@ res_dummy.result.df_samples
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>last_query = previous_queries[-1]
-last_query
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_query</span> <span class="o">=</span> <span class="n">previous_queries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">last_query</span>
 </pre></div>
 </div>
 </div>
@@ -2212,8 +2209,6 @@ last_query
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
-        
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.0/en/index.html">v0.4.0</a></dd>
         
       </dl>
       

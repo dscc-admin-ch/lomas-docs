@@ -118,200 +118,20 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-lomas_server.data_connector.data_connector">
-<span id="lomas-server-data-connector-data-connector-module"></span><h2>lomas_server.data_connector.data_connector module<a class="headerlink" href="#module-lomas_server.data_connector.data_connector" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="lomas_server.data_connector.data_connector.DataConnector">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.data_connector.data_connector.</span></span><span class="sig-name descname"><span class="pre">DataConnector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.Metadata" title="lomas_core.models.collections.Metadata"><span class="pre">Metadata</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/data_connector/data_connector.html#DataConnector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.data_connector.data_connector.DataConnector" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<p>Overall access to sensitive data.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="lomas_server.data_connector.data_connector.DataConnector.df">
-<span class="sig-name descname"><span class="pre">df</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#lomas_server.data_connector.data_connector.DataConnector.df" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.data_connector.data_connector.DataConnector.get_metadata">
-<span class="sig-name descname"><span class="pre">get_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.Metadata" title="lomas_core.models.collections.Metadata"><span class="pre">Metadata</span></a></span></span><a class="reference internal" href="_modules/lomas_server/data_connector/data_connector.html#DataConnector.get_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.data_connector.data_connector.DataConnector.get_metadata" title="Link to this definition"></a></dt>
-<dd><p>Get the metadata for this dataset.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The metadata object.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.Metadata" title="lomas_core.models.collections.Metadata">Metadata</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.data_connector.data_connector.DataConnector.get_pandas_df">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_pandas_df</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/lomas_server/data_connector/data_connector.html#DataConnector.get_pandas_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.data_connector.data_connector.DataConnector.get_pandas_df" title="Link to this definition"></a></dt>
-<dd><p>Get the data in pandas dataframe format.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The pandas dataframe for this dataset.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>pd.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.data_connector.data_connector.get_column_dtypes">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.data_connector.data_connector.</span></span><span class="sig-name descname"><span class="pre">get_column_dtypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.Metadata" title="lomas_core.models.collections.Metadata"><span class="pre">Metadata</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/lomas_server/data_connector/data_connector.html#get_column_dtypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.data_connector.data_connector.get_column_dtypes" title="Link to this definition"></a></dt>
-<dd><p>Extracts and returns the column types from the metadata.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>metadata</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.Metadata" title="lomas_core.models.collections.Metadata"><em>Metadata</em></a>) – The metadata.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>dict: The dictionary of the column type.</dt><dd><p>list: The list of columns of datetime type</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[Dict[str, str], List[str]]</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="lomas-server-data-connector-data-connector-module">
+<h2>lomas_server.data_connector.data_connector module<a class="headerlink" href="#lomas-server-data-connector-data-connector-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-lomas_server.data_connector.factory">
-<span id="lomas-server-data-connector-factory-module"></span><h2>lomas_server.data_connector.factory module<a class="headerlink" href="#module-lomas_server.data_connector.factory" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.data_connector.factory.data_connector_factory">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.data_connector.factory.</span></span><span class="sig-name descname"><span class="pre">data_connector_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_database</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_server.admin_database.html#lomas_server.admin_database.admin_database.AdminDatabase" title="lomas_server.admin_database.admin_database.AdminDatabase"><span class="pre">AdminDatabase</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">private_db_credentials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="lomas_core.models.html#lomas_core.models.config.PrivateDBCredentials" title="lomas_core.models.config.PrivateDBCredentials"><span class="pre">PrivateDBCredentials</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#lomas_server.data_connector.data_connector.DataConnector" title="lomas_server.data_connector.data_connector.DataConnector"><span class="pre">DataConnector</span></a></span></span><a class="reference internal" href="_modules/lomas_server/data_connector/factory.html#data_connector_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.data_connector.factory.data_connector_factory" title="Link to this definition"></a></dt>
-<dd><p>Returns the appropriate dataset class based on dataset storage location.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset_name</strong> (<em>str</em>) – The dataset name.</p></li>
-<li><p><strong>admin_database</strong> (<a class="reference internal" href="lomas_server.admin_database.html#lomas_server.admin_database.admin_database.AdminDatabase" title="lomas_server.admin_database.admin_database.AdminDatabase"><em>AdminDatabase</em></a>) – An initialized instance
-of AdminDatabase.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – If the dataset type does not exist.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The DataConnector instance for this dataset.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#lomas_server.data_connector.data_connector.DataConnector" title="lomas_server.data_connector.data_connector.DataConnector">DataConnector</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.data_connector.factory.get_dataset_credentials">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.data_connector.factory.</span></span><span class="sig-name descname"><span class="pre">get_dataset_credentials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">private_db_credentials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="lomas_core.models.html#lomas_core.models.config.PrivateDBCredentials" title="lomas_core.models.config.PrivateDBCredentials"><span class="pre">PrivateDBCredentials</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.constants.PrivateDatabaseType" title="lomas_core.models.constants.PrivateDatabaseType"><span class="pre">PrivateDatabaseType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">credentials_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.config.PrivateDBCredentials" title="lomas_core.models.config.PrivateDBCredentials"><span class="pre">PrivateDBCredentials</span></a></span></span><a class="reference internal" href="_modules/lomas_server/data_connector/factory.html#get_dataset_credentials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.data_connector.factory.get_dataset_credentials" title="Link to this definition"></a></dt>
-<dd><p>Search the list of private database credentials and.</p>
-<p>returns the one that matches the database type and
-credentials name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>private_db_credentials</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="lomas_core.models.html#lomas_core.models.config.PrivateDBCredentials" title="lomas_core.models.config.PrivateDBCredentials"><em>PrivateDBCredentials</em></a><em>]</em>) – The list of private database credentials.</p></li>
-<li><p><strong>db_type</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.constants.PrivateDatabaseType" title="lomas_core.models.constants.PrivateDatabaseType"><em>PrivateDatabaseType</em></a>) – The type of the database.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – If the credentials are not found.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The matching credentials.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.config.PrivateDBCredentials" title="lomas_core.models.config.PrivateDBCredentials">PrivateDBCredentials</a></p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="lomas-server-data-connector-factory-module">
+<h2>lomas_server.data_connector.factory module<a class="headerlink" href="#lomas-server-data-connector-factory-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-lomas_server.data_connector.in_memory_connector">
-<span id="lomas-server-data-connector-in-memory-connector-module"></span><h2>lomas_server.data_connector.in_memory_connector module<a class="headerlink" href="#module-lomas_server.data_connector.in_memory_connector" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="lomas_server.data_connector.in_memory_connector.InMemoryConnector">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.data_connector.in_memory_connector.</span></span><span class="sig-name descname"><span class="pre">InMemoryConnector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.Metadata" title="lomas_core.models.collections.Metadata"><span class="pre">Metadata</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/data_connector/in_memory_connector.html#InMemoryConnector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.data_connector.in_memory_connector.InMemoryConnector" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#lomas_server.data_connector.data_connector.DataConnector" title="lomas_server.data_connector.data_connector.DataConnector"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataConnector</span></code></a></p>
-<p>DataConnector for a dataset created from an in-memory pandas DataFrame.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.data_connector.in_memory_connector.InMemoryConnector.get_pandas_df">
-<span class="sig-name descname"><span class="pre">get_pandas_df</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/lomas_server/data_connector/in_memory_connector.html#InMemoryConnector.get_pandas_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.data_connector.in_memory_connector.InMemoryConnector.get_pandas_df" title="Link to this definition"></a></dt>
-<dd><p>Get the data in pandas dataframe format.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas dataframe of dataset (a copy)</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>pd.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<section id="lomas-server-data-connector-in-memory-connector-module">
+<h2>lomas_server.data_connector.in_memory_connector module<a class="headerlink" href="#lomas-server-data-connector-in-memory-connector-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-lomas_server.data_connector.path_connector">
-<span id="lomas-server-data-connector-path-connector-module"></span><h2>lomas_server.data_connector.path_connector module<a class="headerlink" href="#module-lomas_server.data_connector.path_connector" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="lomas_server.data_connector.path_connector.PathConnector">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.data_connector.path_connector.</span></span><span class="sig-name descname"><span class="pre">PathConnector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.Metadata" title="lomas_core.models.collections.Metadata"><span class="pre">Metadata</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/data_connector/path_connector.html#PathConnector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.data_connector.path_connector.PathConnector" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#lomas_server.data_connector.data_connector.DataConnector" title="lomas_server.data_connector.data_connector.DataConnector"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataConnector</span></code></a></p>
-<p>DataConnector for dataset located at constant path.</p>
-<p>Path can be local or remote (http).</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.data_connector.path_connector.PathConnector.get_pandas_df">
-<span class="sig-name descname"><span class="pre">get_pandas_df</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/lomas_server/data_connector/path_connector.html#PathConnector.get_pandas_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.data_connector.path_connector.PathConnector.get_pandas_df" title="Link to this definition"></a></dt>
-<dd><p>Get the data in pandas dataframe format.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – If the file format is not supported.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>pandas dataframe of dataset</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<section id="lomas-server-data-connector-path-connector-module">
+<h2>lomas_server.data_connector.path_connector module<a class="headerlink" href="#lomas-server-data-connector-path-connector-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-lomas_server.data_connector.s3_connector">
-<span id="lomas-server-data-connector-s3-connector-module"></span><h2>lomas_server.data_connector.s3_connector module<a class="headerlink" href="#module-lomas_server.data_connector.s3_connector" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="lomas_server.data_connector.s3_connector.S3Connector">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.data_connector.s3_connector.</span></span><span class="sig-name descname"><span class="pre">S3Connector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.Metadata" title="lomas_core.models.collections.Metadata"><span class="pre">Metadata</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">credentials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.DSS3Access" title="lomas_core.models.collections.DSS3Access"><span class="pre">DSS3Access</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/data_connector/s3_connector.html#S3Connector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.data_connector.s3_connector.S3Connector" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#lomas_server.data_connector.data_connector.DataConnector" title="lomas_server.data_connector.data_connector.DataConnector"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataConnector</span></code></a></p>
-<p>DataConnector for dataset in S3 storage.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.data_connector.s3_connector.S3Connector.get_pandas_df">
-<span class="sig-name descname"><span class="pre">get_pandas_df</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/lomas_server/data_connector/s3_connector.html#S3Connector.get_pandas_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.data_connector.s3_connector.S3Connector.get_pandas_df" title="Link to this definition"></a></dt>
-<dd><p>Get the data in pandas dataframe format.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – If the dataset cannot be read.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>pandas dataframe of dataset</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<section id="lomas-server-data-connector-s3-connector-module">
+<h2>lomas_server.data_connector.s3_connector module<a class="headerlink" href="#lomas-server-data-connector-s3-connector-module" title="Link to this heading"></a></h2>
 </section>
 <section id="module-lomas_server.data_connector">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-lomas_server.data_connector" title="Link to this heading"></a></h2>
@@ -377,8 +197,6 @@ credentials name.</p>
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
-        
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.0/en/index.html">v0.4.0</a></dd>
         
       </dl>
       

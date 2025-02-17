@@ -105,7 +105,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># !pip install lomas_client
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install lomas_client</span>
 </pre></div>
 </div>
 </div>
@@ -114,9 +114,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(&#39;..&#39;)))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
@@ -124,8 +124,8 @@ sys.path.append(os.path.abspath(os.path.join(&#39;..&#39;)))
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_client.client import Client
-import numpy as np
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -144,10 +144,10 @@ import numpy as np
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>APP_URL = &quot;http://lomas_server&quot;
-USER_NAME = &quot;Dr. Antartica&quot;
-DATASET_NAME = &quot;PENGUIN&quot;
-client = Client(url=APP_URL, user_name = USER_NAME, dataset_name = DATASET_NAME)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">APP_URL</span> <span class="o">=</span> <span class="s2">&quot;http://lomas_server&quot;</span>
+<span class="n">USER_NAME</span> <span class="o">=</span> <span class="s2">&quot;Dr. Antartica&quot;</span>
+<span class="n">DATASET_NAME</span> <span class="o">=</span> <span class="s2">&quot;PENGUIN&quot;</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">APP_URL</span><span class="p">,</span> <span class="n">user_name</span> <span class="o">=</span> <span class="n">USER_NAME</span><span class="p">,</span> <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">DATASET_NAME</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -159,8 +159,8 @@ client = Client(url=APP_URL, user_name = USER_NAME, dataset_name = DATASET_NAME)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>metadata = client.get_dataset_metadata()
-metadata
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
+<span class="n">metadata</span>
 </pre></div>
 </div>
 </div>
@@ -240,8 +240,8 @@ metadata
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nb_penguin = metadata[&#39;rows&#39;]
-print(f&quot;Number of penguins: {nb_penguin}.&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nb_penguin</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;rows&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of penguins: </span><span class="si">{</span><span class="n">nb_penguin</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -257,8 +257,8 @@ Number of penguins: 344.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>columns = metadata[&quot;columns&quot;].keys()
-columns
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">columns</span>
 </pre></div>
 </div>
 </div>
@@ -282,8 +282,8 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Average bill length in mm
-QUERY = &quot;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Average bill length in mm</span>
+<span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -291,8 +291,8 @@ QUERY = &quot;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>EPSILON = 0.5
-DELTA = 1e-5
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EPSILON</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">DELTA</span> <span class="o">=</span> <span class="mf">1e-5</span>
 </pre></div>
 </div>
 </div>
@@ -300,13 +300,13 @@ DELTA = 1e-5
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># On the remote server dummy dataframe
-dummy_res = client.smartnoise_sql.query(
-    query = QUERY,
-    epsilon = EPSILON,
-    delta = DELTA,
-    dummy = True,
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On the remote server dummy dataframe</span>
+<span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -314,8 +314,8 @@ dummy_res = client.smartnoise_sql.query(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_bl_dummy = np.round(dummy_res.result.df[&quot;avg_bill_length_mm&quot;][0], 2)
-f&quot;Average bill length on dummy: {avg_bl_dummy}mm.&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bl_dummy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avg_bill_length_mm&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="sa">f</span><span class="s2">&quot;Average bill length on dummy: </span><span class="si">{</span><span class="n">avg_bl_dummy</span><span class="si">}</span><span class="s2">mm.&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -336,11 +336,11 @@ f&quot;Average bill length on dummy: {avg_bl_dummy}mm.&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost = client.smartnoise_sql.cost(
-    query = QUERY,
-    epsilon = EPSILON,
-    delta = DELTA,
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -348,7 +348,7 @@ f&quot;Average bill length on dummy: {avg_bl_dummy}mm.&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f&#39;This query would actually cost her {cost.epsilon} epsilon and {cost.delta} delta.&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sa">f</span><span class="s1">&#39;This query would actually cost her </span><span class="si">{</span><span class="n">cost</span><span class="o">.</span><span class="n">epsilon</span><span class="si">}</span><span class="s1"> epsilon and </span><span class="si">{</span><span class="n">cost</span><span class="o">.</span><span class="n">delta</span><span class="si">}</span><span class="s1"> delta.&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -370,14 +370,14 @@ f&quot;Average bill length on dummy: {avg_bl_dummy}mm.&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># On the remote server dummy dataframe
-dummy_res = client.smartnoise_sql.query(
-    query = QUERY,
-    epsilon = EPSILON,
-    delta = DELTA,
-    mechanisms = {&quot;count&quot;: &quot;gaussian&quot;, &quot;sum_float&quot;: &quot;laplace&quot;},
-    dummy = True,
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On the remote server dummy dataframe</span>
+<span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
+    <span class="n">mechanisms</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="s2">&quot;gaussian&quot;</span><span class="p">,</span> <span class="s2">&quot;sum_float&quot;</span><span class="p">:</span> <span class="s2">&quot;laplace&quot;</span><span class="p">},</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -385,8 +385,8 @@ dummy_res = client.smartnoise_sql.query(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_bl_dummy = np.round(dummy_res.result.df[&quot;avg_bill_length_mm&quot;][0], 2)
-f&quot;Average bill length on dummy: {avg_bl_dummy}mm.&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bl_dummy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avg_bill_length_mm&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="sa">f</span><span class="s2">&quot;Average bill length on dummy: </span><span class="si">{</span><span class="n">avg_bl_dummy</span><span class="si">}</span><span class="s2">mm.&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -403,13 +403,13 @@ f&quot;Average bill length on dummy: {avg_bl_dummy}mm.&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost = client.smartnoise_sql.cost(
-    query = QUERY,
-    epsilon = EPSILON,
-    delta = DELTA,
-    mechanisms = {&quot;count&quot;: &quot;gaussian&quot;, &quot;sum_float&quot;: &quot;laplace&quot;}
-)
-cost
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
+    <span class="n">mechanisms</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="s2">&quot;gaussian&quot;</span><span class="p">,</span> <span class="s2">&quot;sum_float&quot;</span><span class="p">:</span> <span class="s2">&quot;laplace&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">cost</span>
 </pre></div>
 </div>
 </div>
@@ -431,13 +431,13 @@ CostResponse(epsilon=1.0, delta=1.4999949999983109e-05)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_bill_length_response = client.smartnoise_sql.query(
-    query = QUERY,
-    epsilon = EPSILON,
-    delta = DELTA,
-    mechanisms = {&quot;count&quot;: &quot;gaussian&quot;, &quot;sum_float&quot;: &quot;laplace&quot;},
-    dummy = False
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bill_length_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
+    <span class="n">mechanisms</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="s2">&quot;gaussian&quot;</span><span class="p">,</span> <span class="s2">&quot;sum_float&quot;</span><span class="p">:</span> <span class="s2">&quot;laplace&quot;</span><span class="p">},</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -445,8 +445,8 @@ CostResponse(epsilon=1.0, delta=1.4999949999983109e-05)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_bill_length = avg_bill_length_response.result.df[&#39;avg_bill_length_mm&#39;].iloc[0]
-print(f&quot;Average bill length on private data: {np.round(avg_bill_length, 2)}mm.&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bill_length</span> <span class="o">=</span> <span class="n">avg_bill_length_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;avg_bill_length_mm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average bill length on private data: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">avg_bill_length</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">mm.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -467,14 +467,14 @@ Average bill length on private data: 43.5mm.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_res = client.smartnoise_sql.query(
-    query = QUERY,
-    epsilon = EPSILON,
-    delta = DELTA,
-    postprocess = True,
-    dummy = True,
-)
-dummy_res
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
+    <span class="n">postprocess</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">dummy_res</span>
 </pre></div>
 </div>
 </div>
@@ -492,14 +492,14 @@ QueryResponse(epsilon=1.0, delta=5.000000000032756e-06, requested_by=&#39;Dr. An
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_res = client.smartnoise_sql.query(
-    query = QUERY,
-    epsilon = EPSILON,
-    delta = DELTA,
-    postprocess = False,
-    dummy = True,
-)
-dummy_res
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
+    <span class="n">postprocess</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">dummy_res</span>
 </pre></div>
 </div>
 </div>
@@ -524,7 +524,7 @@ QueryResponse(epsilon=1.0, delta=5.000000000032756e-06, requested_by=&#39;Dr. An
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUERY = &quot;SELECT STD(bill_length_mm) AS std_bill_length_mm FROM df&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT STD(bill_length_mm) AS std_bill_length_mm FROM df&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -533,12 +533,12 @@ QueryResponse(epsilon=1.0, delta=5.000000000032756e-06, requested_by=&#39;Dr. An
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_res = client.smartnoise_sql.query(
-    query = QUERY,
-    epsilon = 0.5,
-    delta = 1e-5,
-    dummy = True
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -546,8 +546,8 @@ QueryResponse(epsilon=1.0, delta=5.000000000032756e-06, requested_by=&#39;Dr. An
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_std = np.round(dummy_res.result.df[&#39;std_bill_length_mm&#39;].iloc[0], 2)
-f&quot;The dummy standard variation is {dummy_std}.&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;std_bill_length_mm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="sa">f</span><span class="s2">&quot;The dummy standard variation is </span><span class="si">{</span><span class="n">dummy_std</span><span class="si">}</span><span class="s2">.&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -565,11 +565,11 @@ f&quot;The dummy standard variation is {dummy_std}.&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost = client.smartnoise_sql.cost(
-    query = QUERY,
-    epsilon = 0.5,
-    delta = 1e-5
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -577,7 +577,7 @@ f&quot;The dummy standard variation is {dummy_std}.&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f&#39;This query would actually cost her {cost.epsilon} epsilon and {cost.delta} delta.&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sa">f</span><span class="s1">&#39;This query would actually cost her </span><span class="si">{</span><span class="n">cost</span><span class="o">.</span><span class="n">epsilon</span><span class="si">}</span><span class="s1"> epsilon and </span><span class="si">{</span><span class="n">cost</span><span class="o">.</span><span class="n">delta</span><span class="si">}</span><span class="s1"> delta.&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -595,11 +595,11 @@ f&quot;The dummy standard variation is {dummy_std}.&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.smartnoise_sql.query(
-    query = QUERY,
-    epsilon = 0.5,
-    delta = 1e-5
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -607,8 +607,8 @@ f&quot;The dummy standard variation is {dummy_std}.&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>std_bill_length = response.result.df[&#39;std_bill_length_mm&#39;].iloc[0]
-print(f&quot;Standard deviation of bill length: {np.round(std_bill_length, 2)}.&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">std_bill_length</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;std_bill_length_mm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Standard deviation of bill length: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">std_bill_length</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -625,9 +625,9 @@ Standard deviation of bill length: 6.82.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get standard error
-standard_error = std_bill_length/np.sqrt(nb_penguin)
-print(f&quot;Standard error of bill length: {np.round(standard_error, 2)}.&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get standard error</span>
+<span class="n">standard_error</span> <span class="o">=</span> <span class="n">std_bill_length</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nb_penguin</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Standard error of bill length: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">standard_error</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -643,10 +643,10 @@ Standard error of bill length: 0.37.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> # Compute the 95% confidence interval
-ZSCORE = 1.96
-lower_bound, upper_bound = avg_bill_length - ZSCORE*standard_error, avg_bill_length + ZSCORE*standard_error
-print(f&quot;The 95% confidence interval of the bill length of all penguins is [{np.round(lower_bound, 2)}, {np.round(upper_bound, 2)}].&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Compute the 95% confidence interval</span>
+<span class="n">ZSCORE</span> <span class="o">=</span> <span class="mf">1.96</span>
+<span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">avg_bill_length</span> <span class="o">-</span> <span class="n">ZSCORE</span><span class="o">*</span><span class="n">standard_error</span><span class="p">,</span> <span class="n">avg_bill_length</span> <span class="o">+</span> <span class="n">ZSCORE</span><span class="o">*</span><span class="n">standard_error</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The 95% confidence interval of the bill length of all penguins is [</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">upper_bound</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -667,8 +667,8 @@ The 95% confidence interval of the bill length of all penguins is [42.78, 44.22]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>epsilon = 1.0
-delta = 1e-5
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-5</span>
 </pre></div>
 </div>
 </div>
@@ -676,9 +676,9 @@ delta = 1e-5
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUERY = &quot;SELECT STD(bill_length_mm) AS std_bill_length_mm FROM df&quot;
-cost = client.smartnoise_sql.cost(query = QUERY, epsilon = epsilon, delta = delta)
-cost
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT STD(bill_length_mm) AS std_bill_length_mm FROM df&quot;</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="p">)</span>
+<span class="n">cost</span>
 </pre></div>
 </div>
 </div>
@@ -695,9 +695,9 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUERY = &quot;SELECT AVG(bill_length_mm) AS avg_bl, STD(bill_length_mm) as std_bl FROM df&quot;
-cost = client.smartnoise_sql.cost(query = QUERY, epsilon = epsilon, delta = delta)
-cost
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT AVG(bill_length_mm) AS avg_bl, STD(bill_length_mm) as std_bl FROM df&quot;</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="p">)</span>
+<span class="n">cost</span>
 </pre></div>
 </div>
 </div>
@@ -714,9 +714,9 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUERY = &quot;SELECT COUNT(bill_length_mm) AS count_bl, AVG(bill_length_mm) AS avg_bl, STD(bill_length_mm) as std_bl FROM df&quot;
-cost = client.smartnoise_sql.cost(query = QUERY, epsilon = epsilon, delta = delta)
-cost
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT COUNT(bill_length_mm) AS count_bl, AVG(bill_length_mm) AS avg_bl, STD(bill_length_mm) as std_bl FROM df&quot;</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="p">)</span>
+<span class="n">cost</span>
 </pre></div>
 </div>
 </div>
@@ -734,11 +734,11 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert metadata to Smartnoise-SQL compliant metadata
-metadata = dict(metadata)
-metadata.update(metadata[&quot;columns&quot;])
-del metadata[&quot;columns&quot;]
-snsql_metadata = {&quot;&quot;: {&quot;&quot;: {&quot;df&quot;: metadata}}}
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert metadata to Smartnoise-SQL compliant metadata</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+<span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">])</span>
+<span class="k">del</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span>
+<span class="n">snsql_metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;df&quot;</span><span class="p">:</span> <span class="n">metadata</span><span class="p">}}}</span>
 </pre></div>
 </div>
 </div>
@@ -746,9 +746,9 @@ snsql_metadata = {&quot;&quot;: {&quot;&quot;: {&quot;df&quot;: metadata}}}
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Write the query to inspect
-QUERY = &quot;SELECT STD(bill_length_mm) as std_bl FROM df&quot;
-#QUERY = &quot;SELECT COUNT(*) as nb_row FROM df&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write the query to inspect</span>
+<span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT STD(bill_length_mm) as std_bl FROM df&quot;</span>
+<span class="c1">#QUERY = &quot;SELECT COUNT(*) as nb_row FROM df&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -756,12 +756,12 @@ QUERY = &quot;SELECT STD(bill_length_mm) as std_bl FROM df&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from snsql.sql.private_rewriter import Rewriter
-rewriter = Rewriter(snsql_metadata)
-rewriter.options.row_privacy = metadata[&quot;row_privacy&quot;]
-rewriter.options.max_contrib = metadata[&quot;max_ids&quot;]
-dp_query = rewriter.query(QUERY)
-dp_query
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snsql.sql.private_rewriter</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rewriter</span>
+<span class="n">rewriter</span> <span class="o">=</span> <span class="n">Rewriter</span><span class="p">(</span><span class="n">snsql_metadata</span><span class="p">)</span>
+<span class="n">rewriter</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">row_privacy</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;row_privacy&quot;</span><span class="p">]</span>
+<span class="n">rewriter</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">max_contrib</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;max_ids&quot;</span><span class="p">]</span>
+<span class="n">dp_query</span> <span class="o">=</span> <span class="n">rewriter</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">QUERY</span><span class="p">)</span>
+<span class="n">dp_query</span>
 </pre></div>
 </div>
 </div>
@@ -779,7 +779,7 @@ dp_query
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dp_query._named_symbols
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dp_query</span><span class="o">.</span><span class="n">_named_symbols</span>
 </pre></div>
 </div>
 </div>
@@ -801,9 +801,9 @@ dp_query
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>subquery = dp_query.source.relations[0].primary.query
-syms = subquery._named_symbols
-syms
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subquery</span> <span class="o">=</span> <span class="n">dp_query</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">relations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">query</span>
+<span class="n">syms</span> <span class="o">=</span> <span class="n">subquery</span><span class="o">.</span><span class="n">_named_symbols</span>
+<span class="n">syms</span>
 </pre></div>
 </div>
 </div>
@@ -824,9 +824,9 @@ syms
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUERY = &quot;SELECT COUNT(bill_length_mm) AS count_bl, AVG(bill_length_mm) AS avg_bl, STD(bill_length_mm) as std_bl FROM df GROUP BY species&quot;
-cost = client.smartnoise_sql.cost(query = QUERY, epsilon = epsilon, delta = delta)
-cost
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT COUNT(bill_length_mm) AS count_bl, AVG(bill_length_mm) AS avg_bl, STD(bill_length_mm) as std_bl FROM df GROUP BY species&quot;</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="p">)</span>
+<span class="n">cost</span>
 </pre></div>
 </div>
 </div>
@@ -853,7 +853,7 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>CRITICAL_VALUE = 0.05
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CRITICAL_VALUE</span> <span class="o">=</span> <span class="mf">0.05</span>
 </pre></div>
 </div>
 </div>
@@ -861,12 +861,12 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUERY = &quot;SELECT \
-        species AS species, \
-        COUNT(bill_length_mm) AS nb_penguin,  \
-        AVG(bill_length_mm) AS avg_bill_length_mm, \
-        STD(bill_length_mm) AS std_bill_length_mm \
-        FROM df GROUP BY species&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT </span><span class="se">\</span>
+<span class="s2">        species AS species, </span><span class="se">\</span>
+<span class="s2">        COUNT(bill_length_mm) AS nb_penguin,  </span><span class="se">\</span>
+<span class="s2">        AVG(bill_length_mm) AS avg_bill_length_mm, </span><span class="se">\</span>
+<span class="s2">        STD(bill_length_mm) AS std_bill_length_mm </span><span class="se">\</span>
+<span class="s2">        FROM df GROUP BY species&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -875,7 +875,7 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -893,7 +893,7 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.smartnoise_sql.cost(query = QUERY, epsilon = 1.0, delta = 1e-4)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -911,8 +911,8 @@ CostResponse(epsilon=3.0, delta=4.999999999999449e-05)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_res = client.smartnoise_sql.query(query = QUERY, epsilon = 0.1, delta = 1e-8, dummy = True)
-dummy_res
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">dummy_res</span>
 </pre></div>
 </div>
 </div>
@@ -933,8 +933,8 @@ QueryResponse(epsilon=0.30000000000000004, delta=4.999999969612645e-09, requeste
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_res = client.smartnoise_sql.query(query = QUERY, epsilon = 7.5/3, delta = 1e-4, dummy = True)
-dummy_res
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">7.5</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">dummy_res</span>
 </pre></div>
 </div>
 </div>
@@ -955,7 +955,7 @@ QueryResponse(epsilon=7.5, delta=4.999999999999449e-05, requested_by=&#39;Dr. An
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>flipper_length_response = client.smartnoise_sql.query(query = QUERY, epsilon = 7.5/3, delta = 1e-4)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flipper_length_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">7.5</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -965,8 +965,8 @@ QueryResponse(epsilon=7.5, delta=4.999999999999449e-05, requested_by=&#39;Dr. An
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_flipper = flipper_length_response.result.df
-df_flipper
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_flipper</span> <span class="o">=</span> <span class="n">flipper_length_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span>
+<span class="n">df_flipper</span>
 </pre></div>
 </div>
 </div>
@@ -1030,9 +1030,9 @@ df_flipper
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def t_test(avg_1, avg_2, std_1, std_2, nb_1, nb_2):
-    standard_error = (std_1 * (nb_1 - 1) + std_2 * (nb_2 - 1))/(nb_1 + nb_2 - 2)
-    return (avg_1 - avg_2)/np.sqrt(standard_error**2*(1/nb_1 + 1 /nb_2))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">t_test</span><span class="p">(</span><span class="n">avg_1</span><span class="p">,</span> <span class="n">avg_2</span><span class="p">,</span> <span class="n">std_1</span><span class="p">,</span> <span class="n">std_2</span><span class="p">,</span> <span class="n">nb_1</span><span class="p">,</span> <span class="n">nb_2</span><span class="p">):</span>
+    <span class="n">standard_error</span> <span class="o">=</span> <span class="p">(</span><span class="n">std_1</span> <span class="o">*</span> <span class="p">(</span><span class="n">nb_1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">std_2</span> <span class="o">*</span> <span class="p">(</span><span class="n">nb_2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">nb_1</span> <span class="o">+</span> <span class="n">nb_2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">avg_1</span> <span class="o">-</span> <span class="n">avg_2</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">standard_error</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">nb_1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span><span class="n">nb_2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1040,9 +1040,9 @@ df_flipper
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nb_0, avg_0, std_0 = df_flipper[[&#39;nb_penguin&#39;, &#39;avg_bill_length_mm&#39;, &#39;std_bill_length_mm&#39;]].iloc[0]
-nb_1, avg_1, std_1 = df_flipper[[&#39;nb_penguin&#39;, &#39;avg_bill_length_mm&#39;, &#39;std_bill_length_mm&#39;]].iloc[1]
-nb_2, avg_2, std_2 = df_flipper[[&#39;nb_penguin&#39;, &#39;avg_bill_length_mm&#39;, &#39;std_bill_length_mm&#39;]].iloc[2]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nb_0</span><span class="p">,</span> <span class="n">avg_0</span><span class="p">,</span> <span class="n">std_0</span> <span class="o">=</span> <span class="n">df_flipper</span><span class="p">[[</span><span class="s1">&#39;nb_penguin&#39;</span><span class="p">,</span> <span class="s1">&#39;avg_bill_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;std_bill_length_mm&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">nb_1</span><span class="p">,</span> <span class="n">avg_1</span><span class="p">,</span> <span class="n">std_1</span> <span class="o">=</span> <span class="n">df_flipper</span><span class="p">[[</span><span class="s1">&#39;nb_penguin&#39;</span><span class="p">,</span> <span class="s1">&#39;avg_bill_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;std_bill_length_mm&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">nb_2</span><span class="p">,</span> <span class="n">avg_2</span><span class="p">,</span> <span class="n">std_2</span> <span class="o">=</span> <span class="n">df_flipper</span><span class="p">[[</span><span class="s1">&#39;nb_penguin&#39;</span><span class="p">,</span> <span class="s1">&#39;avg_bill_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;std_bill_length_mm&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1050,13 +1050,13 @@ nb_2, avg_2, std_2 = df_flipper[[&#39;nb_penguin&#39;, &#39;avg_bill_length_mm&#
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>t_01 = t_test(avg_0, avg_1, std_0, std_1, nb_0, nb_1)
-t_02 = t_test(avg_0, avg_2, std_0, std_2, nb_0, nb_2)
-t_12 = t_test(avg_1, avg_2, std_1, std_2, nb_1, nb_2)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_01</span> <span class="o">=</span> <span class="n">t_test</span><span class="p">(</span><span class="n">avg_0</span><span class="p">,</span> <span class="n">avg_1</span><span class="p">,</span> <span class="n">std_0</span><span class="p">,</span> <span class="n">std_1</span><span class="p">,</span> <span class="n">nb_0</span><span class="p">,</span> <span class="n">nb_1</span><span class="p">)</span>
+<span class="n">t_02</span> <span class="o">=</span> <span class="n">t_test</span><span class="p">(</span><span class="n">avg_0</span><span class="p">,</span> <span class="n">avg_2</span><span class="p">,</span> <span class="n">std_0</span><span class="p">,</span> <span class="n">std_2</span><span class="p">,</span> <span class="n">nb_0</span><span class="p">,</span> <span class="n">nb_2</span><span class="p">)</span>
+<span class="n">t_12</span> <span class="o">=</span> <span class="n">t_test</span><span class="p">(</span><span class="n">avg_1</span><span class="p">,</span> <span class="n">avg_2</span><span class="p">,</span> <span class="n">std_1</span><span class="p">,</span> <span class="n">std_2</span><span class="p">,</span> <span class="n">nb_1</span><span class="p">,</span> <span class="n">nb_2</span><span class="p">)</span>
 
-print(f&quot;T test between species 0 and specie 1: {np.round(t_01, 2)}.  Reject null hypothesis: {abs(t_01) &gt; CRITICAL_VALUE}.&quot;)
-print(f&quot;T test between species 0 and specie 2: {np.round(t_02, 2)}. Reject null hypothesis: {abs(t_02) &gt; CRITICAL_VALUE}.&quot;)
-print(f&quot;T test between species 1 and specie 2: {np.round(t_12, 2)}.   Reject null hypothesis: {abs(t_12) &gt; CRITICAL_VALUE}.&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;T test between species 0 and specie 1: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">t_01</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">.  Reject null hypothesis: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">t_01</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">CRITICAL_VALUE</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;T test between species 0 and specie 2: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">t_02</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">. Reject null hypothesis: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">t_02</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">CRITICAL_VALUE</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;T test between species 1 and specie 2: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">t_12</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">.   Reject null hypothesis: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">t_12</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">CRITICAL_VALUE</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1076,11 +1076,11 @@ T test between species 1 and specie 2: 2.29.   Reject null hypothesis: True.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ZSCORE = 1.96
-df_flipper[&#39;standard_error&#39;] = df_flipper[&#39;std_bill_length_mm&#39;]/np.sqrt(df_flipper[&#39;nb_penguin&#39;])
-df_flipper[&#39;ci_95_lower_bound&#39;] = df_flipper[&#39;avg_bill_length_mm&#39;] - ZSCORE * df_flipper[&#39;standard_error&#39;]
-df_flipper[&#39;ci_95_upper_bound&#39;] = df_flipper[&#39;avg_bill_length_mm&#39;] + ZSCORE * df_flipper[&#39;standard_error&#39;]
-df_flipper
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ZSCORE</span> <span class="o">=</span> <span class="mf">1.96</span>
+<span class="n">df_flipper</span><span class="p">[</span><span class="s1">&#39;standard_error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_flipper</span><span class="p">[</span><span class="s1">&#39;std_bill_length_mm&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">df_flipper</span><span class="p">[</span><span class="s1">&#39;nb_penguin&#39;</span><span class="p">])</span>
+<span class="n">df_flipper</span><span class="p">[</span><span class="s1">&#39;ci_95_lower_bound&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_flipper</span><span class="p">[</span><span class="s1">&#39;avg_bill_length_mm&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">ZSCORE</span> <span class="o">*</span> <span class="n">df_flipper</span><span class="p">[</span><span class="s1">&#39;standard_error&#39;</span><span class="p">]</span>
+<span class="n">df_flipper</span><span class="p">[</span><span class="s1">&#39;ci_95_upper_bound&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_flipper</span><span class="p">[</span><span class="s1">&#39;avg_bill_length_mm&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ZSCORE</span> <span class="o">*</span> <span class="n">df_flipper</span><span class="p">[</span><span class="s1">&#39;standard_error&#39;</span><span class="p">]</span>
+<span class="n">df_flipper</span>
 </pre></div>
 </div>
 </div>
@@ -1227,8 +1227,6 @@ df_flipper
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
-        
-          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.0/en/index.html">v0.4.0</a></dd>
         
       </dl>
       
