@@ -1,0 +1,1136 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lomas_server.routes package &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="lomas_server.tests package" href="lomas_server.tests.html" />
+    <link rel="prev" title="lomas_server.dp_queries.dp_libraries package" href="lomas_server.dp_queries.dp_libraries.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Lomas
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="core_api.html">Core API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="server_api.html">Server API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="server_modules.html">lomas_server</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="lomas_server.html">lomas_server package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="client_api.html">Client API</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poster.html">Poster</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="poster.html">Poster</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">API Documentation</a></li>
+          <li class="breadcrumb-item"><a href="server_api.html">Server API</a></li>
+          <li class="breadcrumb-item"><a href="server_modules.html">lomas_server</a></li>
+          <li class="breadcrumb-item"><a href="lomas_server.html">lomas_server package</a></li>
+      <li class="breadcrumb-item active">lomas_server.routes package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/lomas_server.routes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lomas-server-routes-package">
+<h1>lomas_server.routes package<a class="headerlink" href="#lomas-server-routes-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-lomas_server.routes.middlewares">
+<span id="lomas-server-routes-middlewares-module"></span><h2>lomas_server.routes.middlewares module<a class="headerlink" href="#module-lomas_server.routes.middlewares" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="lomas_server.routes.middlewares.FastAPIMetricMiddleware">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.routes.middlewares.</span></span><span class="sig-name descname"><span class="pre">FastAPIMetricMiddleware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">MutableMapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">MutableMapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">MutableMapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lomas-server-app'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/routes/middlewares.html#FastAPIMetricMiddleware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.middlewares.FastAPIMetricMiddleware" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHTTPMiddleware</span></code></p>
+<p>Middleware to collect and expose Prometheus metrics for a FastAPI application.</p>
+<p>This middleware tracks various metrics related to HTTP requests, including:
+- Total requests (<cite>fastapi_requests_total</cite>)
+- Total responses (<cite>fastapi_responses_total</cite>)
+- Exceptions raised (<cite>fastapi_exceptions_total</cite>)
+- Request processing duration (<cite>fastapi_requests_duration_seconds</cite>)
+- Current requests in progress (<cite>fastapi_requests_in_progress</cite>)</p>
+<p>It also supports integration with an OpenTelemetry exporter for exporting metrics
+to a metrics collector (e.g., Prometheus or any other OTLP-compatible collector).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.routes.middlewares.FastAPIMetricMiddleware.dispatch">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_next</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Request</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">Response</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="reference internal" href="_modules/lomas_server/routes/middlewares.html#FastAPIMetricMiddleware.dispatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.middlewares.FastAPIMetricMiddleware.dispatch" title="Link to this definition"></a></dt>
+<dd><p>Processes HTTP request, records metrics and returns the HTTP response.</p>
+<p>This method performs the following steps:
+1. Tracks the current request in progress using the</p>
+<blockquote>
+<div><p><cite>fastapi_requests_in_progress</cite> gauge.</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Records the request count with the <cite>fastapi_requests_total</cite> counter.</p></li>
+<li><dl class="simple">
+<dt>Records the time taken to process the request using the</dt><dd><p><cite>fastapi_requests_duration_seconds</cite> histogram.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Handles exceptions, if raised, and records the exception details using the</dt><dd><p><cite>fastapi_exceptions_total</cite> counter.</p>
+</dd>
+</dl>
+</li>
+<li><p>Records the response status code with the <cite>fastapi_responses_total</cite> counter.</p></li>
+<li><p>Decrements the in-progress request gauge after processing.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – The incoming HTTP request to be processed.</p></li>
+<li><p><strong>call_next</strong> (<em>RequestResponseEndpoint</em>) – The endpoint function that processes
+the request and returns a response.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The HTTP response after processing the request.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>BaseException</strong> – If an exception occurs during request processing, it is
+    raised after logging it.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.routes.middlewares.FastAPIMetricMiddleware.get_path">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/lomas_server/routes/middlewares.html#FastAPIMetricMiddleware.get_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.middlewares.FastAPIMetricMiddleware.get_path" title="Link to this definition"></a></dt>
+<dd><p>Attempts to match the request’ route to a defined route.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – The HTTP request to check for a matching path.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>The matched path (str) from the request URL.</p></li>
+<li><p>Boolean (True if the path was handled by one of the routes).</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[str, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lomas_server.routes.middlewares.LoggingAndTracingMiddleware">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.routes.middlewares.</span></span><span class="sig-name descname"><span class="pre">LoggingAndTracingMiddleware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">MutableMapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">MutableMapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">MutableMapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dispatch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Request</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Request</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">Response</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">Response</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/routes/middlewares.html#LoggingAndTracingMiddleware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.middlewares.LoggingAndTracingMiddleware" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHTTPMiddleware</span></code></p>
+<p>Middleware for logging and tracing incoming HTTP requests.</p>
+<p>This middleware logs the incoming requests, including the user name
+the route being accessed, and any query parameters.
+Additionally, it creates a trace span to trace the user’s request and
+adds attributes to the span related to the user name and query parameters.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.routes.middlewares.LoggingAndTracingMiddleware.dispatch">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_next</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/routes/middlewares.html#LoggingAndTracingMiddleware.dispatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.middlewares.LoggingAndTracingMiddleware.dispatch" title="Link to this definition"></a></dt>
+<dd><p>Handles the request and performs logging and tracing.</p>
+<p>Logs the user name, the route and the query parameters.
+Creates a trace span to monitor the request and adds relevant attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – The incoming request object.</p></li>
+<li><p><strong>call_next</strong> (<em>Callable</em>) – A function that, when called, passes the request
+to the next middleware or request handler.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The HTTP response generated by calling <cite>call_next(request)</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-lomas_server.routes.routes_admin">
+<span id="lomas-server-routes-routes-admin-module"></span><h2>lomas_server.routes.routes_admin module<a class="headerlink" href="#module-lomas_server.routes.routes_admin" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_admin.get_dataset_metadata">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_admin.</span></span><span class="sig-name descname"><span class="pre">get_dataset_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><span class="pre">LomasRequestModel</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Body({'dataset_name':</span> <span class="pre">'PENGUIN'})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Header(None)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.Metadata" title="lomas_core.models.collections.Metadata"><span class="pre">Metadata</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_admin.html#get_dataset_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_admin.get_dataset_metadata" title="Link to this definition"></a></dt>
+<dd><p>Retrieves metadata for a given dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><em>LomasRequestModel</em></a><em>, </em><em>optional</em>) – A JSON object containing
+the dataset_name key for indicating the dataset.
+Defaults to Body(example_get_admin_db_data).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>The metadata object for the specified</dt><dd><p>dataset_name.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.Metadata" title="lomas_core.models.collections.Metadata">Metadata</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_admin.get_dummy_dataset">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_admin.</span></span><span class="sig-name descname"><span class="pre">get_dummy_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.GetDummyDataset" title="lomas_core.models.requests.GetDummyDataset"><span class="pre">GetDummyDataset</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Body({'dataset_name':</span> <span class="pre">'PENGUIN',</span> <span class="pre">'dummy_nb_rows':</span> <span class="pre">100,</span> <span class="pre">'dummy_seed':</span> <span class="pre">42})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Header(None)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.DummyDsResponse" title="lomas_core.models.responses.DummyDsResponse"><span class="pre">DummyDsResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_admin.html#get_dummy_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_admin.get_dummy_dataset" title="Link to this definition"></a></dt>
+<dd><p>Generates and returns a dummy dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.GetDummyDataset" title="lomas_core.models.requests.GetDummyDataset"><em>GetDummyDataset</em></a><em>, </em><em>optional</em>) – <dl class="simple">
+<dt>A JSON object containing the following:</dt><dd><ul>
+<li><p>nb_rows (int, optional): The number of rows in the
+dummy dataset (default: 100).</p></li>
+<li><p>seed (int, optional): The random seed for generating
+the dummy dataset (default: 42).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to Body(example_get_dummy_dataset).</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>a dict with the dataframe as a dict, the column types</dt><dd><p>and the list of datetime columns.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSONResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_admin.get_initial_budget">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_admin.</span></span><span class="sig-name descname"><span class="pre">get_initial_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><span class="pre">LomasRequestModel</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Body({'dataset_name':</span> <span class="pre">'PENGUIN'})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Header(None)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.InitialBudgetResponse" title="lomas_core.models.responses.InitialBudgetResponse"><span class="pre">InitialBudgetResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_admin.html#get_initial_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_admin.get_initial_budget" title="Link to this definition"></a></dt>
+<dd><p>Returns the initial budget for a user and dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><em>LomasRequestModel</em></a><em>, </em><em>optional</em>) – <p>A JSON object containing:
+- dataset_name (str): The name of the dataset.</p>
+<p>Defaults to Body(example_get_admin_db_data).</p>
+</p></li>
+<li><p><strong>user_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The user name.
+Defaults to Header(None).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – The dataset does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – The user does not exist or
+    the user does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>a JSON object with:</dt><dd><ul class="simple">
+<li><p>initial_epsilon (float): initial epsilon budget.</p></li>
+<li><p>initial_delta (float): initial delta budget.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSONResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_admin.get_remaining_budget">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_admin.</span></span><span class="sig-name descname"><span class="pre">get_remaining_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><span class="pre">LomasRequestModel</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Body({'dataset_name':</span> <span class="pre">'PENGUIN'})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Header(None)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.RemainingBudgetResponse" title="lomas_core.models.responses.RemainingBudgetResponse"><span class="pre">RemainingBudgetResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_admin.html#get_remaining_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_admin.get_remaining_budget" title="Link to this definition"></a></dt>
+<dd><p>Returns the remaining budget for a user and dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><em>LomasRequestModel</em></a><em>, </em><em>optional</em>) – <p>A JSON object containing:
+- dataset_name (str): The name of the dataset.</p>
+<p>Defaults to Body(example_get_admin_db_data).</p>
+</p></li>
+<li><p><strong>user_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The user name.
+Defaults to Header(None).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – The dataset does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – The user does not exist or
+    the user does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>a JSON object with:</dt><dd><ul class="simple">
+<li><p>remaining_epsilon (float): remaining epsilon budget.</p></li>
+<li><p>remaining_delta (float): remaining delta budget.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSONResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_admin.get_state">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_admin.</span></span><span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Header(None)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">JSONResponse</span></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_admin.html#get_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_admin.get_state" title="Link to this definition"></a></dt>
+<dd><p>Returns the current state dict of this server instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>user_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The user name. Defaults to Header(None).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The state of the server instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JSONResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_admin.get_total_spent_budget">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_admin.</span></span><span class="sig-name descname"><span class="pre">get_total_spent_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><span class="pre">LomasRequestModel</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Body({'dataset_name':</span> <span class="pre">'PENGUIN'})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Header(None)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.SpentBudgetResponse" title="lomas_core.models.responses.SpentBudgetResponse"><span class="pre">SpentBudgetResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_admin.html#get_total_spent_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_admin.get_total_spent_budget" title="Link to this definition"></a></dt>
+<dd><p>Returns the spent budget for a user and dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><em>LomasRequestModel</em></a><em>, </em><em>optional</em>) – <p>A JSON object containing:
+- dataset_name (str): The name of the dataset.</p>
+<p>Defaults to Body(example_get_admin_db_data).</p>
+</p></li>
+<li><p><strong>user_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The user name.
+Defaults to Header(None).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – The dataset does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – The user does not exist or
+    the user does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>a JSON object with:</dt><dd><ul class="simple">
+<li><p>total_spent_epsilon (float): total spent epsilon budget.</p></li>
+<li><p>total_spent_delta (float): total spent delta budget.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSONResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_admin.get_user_previous_queries">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_admin.</span></span><span class="sig-name descname"><span class="pre">get_user_previous_queries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><span class="pre">LomasRequestModel</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Body({'dataset_name':</span> <span class="pre">'PENGUIN'})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Header(None)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">JSONResponse</span></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_admin.html#get_user_previous_queries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_admin.get_user_previous_queries" title="Link to this definition"></a></dt>
+<dd><p>Returns the query history of a user on a specific dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><em>LomasRequestModel</em></a><em>, </em><em>optional</em>) – <p>A JSON object containing:
+- dataset_name (str): The name of the dataset.</p>
+<p>Defaults to Body(example_get_admin_db_data).</p>
+</p></li>
+<li><p><strong>user_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The user name.
+Defaults to Header(None).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – The dataset does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – The user does not exist or
+    the user does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A JSON object containing:</dt><dd><ul class="simple">
+<li><p>previous_queries (list[dict]): a list of dictionaries
+containing the previous queries.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSONResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_admin.root">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_admin.</span></span><span class="sig-name descname"><span class="pre">root</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/routes/routes_admin.html#root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_admin.root" title="Link to this definition"></a></dt>
+<dd><p>Redirect root endpoint to the state endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The state of the server instance.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSONResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-lomas_server.routes.routes_dp">
+<span id="lomas-server-routes-routes-dp-module"></span><h2>lomas_server.routes.routes_dp module<a class="headerlink" href="#module-lomas_server.routes.routes_dp" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_dp.diffprivlib_query_handler">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_dp.</span></span><span class="sig-name descname"><span class="pre">diffprivlib_query_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Header</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diffprivlib_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibQueryModel" title="lomas_core.models.requests.DiffPrivLibQueryModel"><span class="pre">DiffPrivLibQueryModel</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/routes/routes_dp.html#diffprivlib_query_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_dp.diffprivlib_query_handler" title="Link to this definition"></a></dt>
+<dd><p>Handles queries for the DiffPrivLib Library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name.</p></li>
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>diffprivlib_query</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibQueryModel" title="lomas_core.models.requests.DiffPrivLibQueryModel"><em>DiffPrivLibQueryModel</em></a>) – The diffprivlib query body.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If there is not enough budget or the dataset
+    does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A query response containing a DiffPrivLibQueryResult.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse">QueryResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_dp.dummy_diffprivlib_query_handler">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_dp.</span></span><span class="sig-name descname"><span class="pre">dummy_diffprivlib_query_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Header</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibDummyQueryModel" title="lomas_core.models.requests.DiffPrivLibDummyQueryModel"><span class="pre">DiffPrivLibDummyQueryModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse"><span class="pre">QueryResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_dp.html#dummy_diffprivlib_query_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_dp.dummy_diffprivlib_query_handler" title="Link to this definition"></a></dt>
+<dd><p>Handles queries on dummy datasets for the DiffPrivLib library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name.</p></li>
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>diffprivlib_query</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibDummyQueryModel" title="lomas_core.models.requests.DiffPrivLibDummyQueryModel"><em>DiffPrivLibDummyQueryModel</em></a>) – The diffprivlib query body.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If there is not enough budget or the dataset
+    does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A query response containing a DiffPrivLibQueryResult.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse">QueryResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_dp.dummy_opendp_query_handler">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_dp.</span></span><span class="sig-name descname"><span class="pre">dummy_opendp_query_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Header</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opendp_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.OpenDPDummyQueryModel" title="lomas_core.models.requests.OpenDPDummyQueryModel"><span class="pre">OpenDPDummyQueryModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse"><span class="pre">QueryResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_dp.html#dummy_opendp_query_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_dp.dummy_opendp_query_handler" title="Link to this definition"></a></dt>
+<dd><p>Handles queries on dummy datasets for the OpenDP library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name.</p></li>
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object.</p></li>
+<li><p><strong>opendp_query</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.OpenDPQueryModel" title="lomas_core.models.requests.OpenDPQueryModel"><em>OpenDPQueryModel</em></a>) – The opendp query object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – The pipeline does not contain a “measurement”,
+    there is not enough budget or the dataset does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A query response containing an OpenDPQueryResult.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse">QueryResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_dp.dummy_smartnoise_sql_handler">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_dp.</span></span><span class="sig-name descname"><span class="pre">dummy_smartnoise_sql_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Header</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smartnoise_sql_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.SmartnoiseSQLDummyQueryModel" title="lomas_core.models.requests.SmartnoiseSQLDummyQueryModel"><span class="pre">SmartnoiseSQLDummyQueryModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse"><span class="pre">QueryResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_dp.html#dummy_smartnoise_sql_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_dp.dummy_smartnoise_sql_handler" title="Link to this definition"></a></dt>
+<dd><p>Handles queries on dummy datasets for the SmartNoiseSQL library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name.</p></li>
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>smartnoise_sql_query</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.SmartnoiseSQLDummyQueryModel" title="lomas_core.models.requests.SmartnoiseSQLDummyQueryModel"><em>SmartnoiseSQLDummyQueryModel</em></a>) – The smartnoise_sql query body.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If there is not enough budget or the dataset
+    does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A query response containing a SmartnoiseSQLQueryResult.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse">QueryResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_dp.dummy_smartnoise_synth_handler">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_dp.</span></span><span class="sig-name descname"><span class="pre">dummy_smartnoise_synth_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Header</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smartnoise_synth_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.SmartnoiseSynthDummyQueryModel" title="lomas_core.models.requests.SmartnoiseSynthDummyQueryModel"><span class="pre">SmartnoiseSynthDummyQueryModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse"><span class="pre">QueryResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_dp.html#dummy_smartnoise_synth_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_dp.dummy_smartnoise_synth_handler" title="Link to this definition"></a></dt>
+<dd><p>Handles queries on dummy datasets for the SmartNoiseSynth library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name.</p></li>
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>smartnoise_synth_query</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.SmartnoiseSynthDummyQueryModel" title="lomas_core.models.requests.SmartnoiseSynthDummyQueryModel"><em>SmartnoiseSynthDummyQueryModel</em></a>) – The smartnoise_synth query body.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If there is not enough budget or the dataset
+    does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A query response containing a SmartnoiseSynthModel
+or SmartnoiseSynthSamples.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse">QueryResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_dp.estimate_diffprivlib_cost">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_dp.</span></span><span class="sig-name descname"><span class="pre">estimate_diffprivlib_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Header</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diffprivlib_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibRequestModel" title="lomas_core.models.requests.DiffPrivLibRequestModel"><span class="pre">DiffPrivLibRequestModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.CostResponse" title="lomas_core.models.responses.CostResponse"><span class="pre">CostResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_dp.html#estimate_diffprivlib_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_dp.estimate_diffprivlib_cost" title="Link to this definition"></a></dt>
+<dd><p>Estimates the privacy loss budget cost of an DiffPrivLib query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name.</p></li>
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>diffprivlib_query</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibRequestModel" title="lomas_core.models.requests.DiffPrivLibRequestModel"><em>DiffPrivLibRequestModel</em></a>) – The diffprivlib query body.</p></li>
+<li><p><strong>following</strong> (<em>A JSON object containing the</em>) – <ul>
+<li><p>pipeline: The DiffPrivLib pipeline for the query.</p></li>
+<li><p>feature_columns: the list of feature column to train</p></li>
+<li><p>target_columns: the list of target column to predict</p></li>
+<li><p>test_size: proportion of the test set</p></li>
+<li><p>test_train_split_seed: seed for the random train test split,</p></li>
+<li><p>imputer_strategy: imputation strategy</p></li>
+</ul>
+<p>Defaults to Body(example_dummy_diffprivlib).</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If there is not enough budget or the dataset
+    does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The privacy loss cost of the input query.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.CostResponse" title="lomas_core.models.responses.CostResponse">CostResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_dp.estimate_opendp_cost">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_dp.</span></span><span class="sig-name descname"><span class="pre">estimate_opendp_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Header</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opendp_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.OpenDPRequestModel" title="lomas_core.models.requests.OpenDPRequestModel"><span class="pre">OpenDPRequestModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.CostResponse" title="lomas_core.models.responses.CostResponse"><span class="pre">CostResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_dp.html#estimate_opendp_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_dp.estimate_opendp_cost" title="Link to this definition"></a></dt>
+<dd><p>Estimates the privacy loss budget cost of an OpenDP query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name.</p></li>
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object.</p></li>
+<li><p><strong>opendp_query</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.OpenDPRequestModel" title="lomas_core.models.requests.OpenDPRequestModel"><em>OpenDPRequestModel</em></a>) – The opendp query object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – The pipeline does not contain a “measurement”,
+    there is not enough budget or the dataset does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The privacy loss cost of the input query.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.CostResponse" title="lomas_core.models.responses.CostResponse">CostResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_dp.estimate_smartnoise_sql_cost">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_dp.</span></span><span class="sig-name descname"><span class="pre">estimate_smartnoise_sql_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Header</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smartnoise_sql_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.SmartnoiseSQLRequestModel" title="lomas_core.models.requests.SmartnoiseSQLRequestModel"><span class="pre">SmartnoiseSQLRequestModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.CostResponse" title="lomas_core.models.responses.CostResponse"><span class="pre">CostResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_dp.html#estimate_smartnoise_sql_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_dp.estimate_smartnoise_sql_cost" title="Link to this definition"></a></dt>
+<dd><p>Estimates the privacy loss budget cost of a SmartNoiseSQL query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name.</p></li>
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>smartnoise_sql_query</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.SmartnoiseSQLRequestModel" title="lomas_core.models.requests.SmartnoiseSQLRequestModel"><em>SmartnoiseSQLRequestModel</em></a>) – The smartnoise_sql request body.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – The dataset does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The privacy loss cost of the input query.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.CostResponse" title="lomas_core.models.responses.CostResponse">CostResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_dp.estimate_smartnoise_synth_cost">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_dp.</span></span><span class="sig-name descname"><span class="pre">estimate_smartnoise_synth_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Header</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smartnoise_synth_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.SmartnoiseSynthRequestModel" title="lomas_core.models.requests.SmartnoiseSynthRequestModel"><span class="pre">SmartnoiseSynthRequestModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.CostResponse" title="lomas_core.models.responses.CostResponse"><span class="pre">CostResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_dp.html#estimate_smartnoise_synth_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_dp.estimate_smartnoise_synth_cost" title="Link to this definition"></a></dt>
+<dd><p>Computes the privacy loss budget cost of a SmartNoiseSynth query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name.</p></li>
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>smartnoise_synth_query</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.SmartnoiseSynthRequestModel" title="lomas_core.models.requests.SmartnoiseSynthRequestModel"><em>SmartnoiseSynthRequestModel</em></a>) – The smartnoise_synth query body.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If there is not enough budget or the dataset
+    does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The privacy loss cost of the input query.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.CostResponse" title="lomas_core.models.responses.CostResponse">CostResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_dp.opendp_query_handler">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_dp.</span></span><span class="sig-name descname"><span class="pre">opendp_query_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Header</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opendp_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.OpenDPQueryModel" title="lomas_core.models.requests.OpenDPQueryModel"><span class="pre">OpenDPQueryModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse"><span class="pre">QueryResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_dp.html#opendp_query_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_dp.opendp_query_handler" title="Link to this definition"></a></dt>
+<dd><p>Handles queries for the OpenDP Library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name.</p></li>
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object.</p></li>
+<li><p><strong>opendp_query</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.OpenDPQueryModel" title="lomas_core.models.requests.OpenDPQueryModel"><em>OpenDPQueryModel</em></a>) – The opendp query object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – The pipeline does not contain a “measurement”,
+    there is not enough budget or the dataset does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A query response containing an OpenDPQueryResult.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse">QueryResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_dp.smartnoise_sql_handler">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_dp.</span></span><span class="sig-name descname"><span class="pre">smartnoise_sql_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Header</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smartnoise_sql_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.SmartnoiseSQLQueryModel" title="lomas_core.models.requests.SmartnoiseSQLQueryModel"><span class="pre">SmartnoiseSQLQueryModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse"><span class="pre">QueryResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_dp.html#smartnoise_sql_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_dp.smartnoise_sql_handler" title="Link to this definition"></a></dt>
+<dd><p>Handles queries for the SmartNoiseSQL library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name.</p></li>
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>smartnoise_sql_query</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.SmartnoiseSQLQueryModel" title="lomas_core.models.requests.SmartnoiseSQLQueryModel"><em>SmartnoiseSQLQueryModel</em></a>) – The smartnoise_sql query body.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If there is not enough budget or the dataset
+    does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A query response containing a SmartnoiseSQLQueryResult.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse">QueryResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.routes_dp.smartnoise_synth_handler">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.routes_dp.</span></span><span class="sig-name descname"><span class="pre">smartnoise_synth_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Header</span><span class="p"><span class="pre">(</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smartnoise_synth_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.SmartnoiseSynthQueryModel" title="lomas_core.models.requests.SmartnoiseSynthQueryModel"><span class="pre">SmartnoiseSynthQueryModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse"><span class="pre">QueryResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/routes_dp.html#smartnoise_synth_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.routes_dp.smartnoise_synth_handler" title="Link to this definition"></a></dt>
+<dd><p>Handles queries for the SmartNoiseSynth library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name.</p></li>
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>smartnoise_synth_query</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.SmartnoiseSynthQueryModel" title="lomas_core.models.requests.SmartnoiseSynthQueryModel"><em>SmartnoiseSynthQueryModel</em></a>) – The smartnoise_synth query body.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If there is not enough budget or the dataset
+    does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A query response containing a SmartnoiseSynthModel
+or SmartnoiseSynthSamples.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse">QueryResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-lomas_server.routes.utils">
+<span id="lomas-server-routes-utils-module"></span><h2>lomas_server.routes.utils module<a class="headerlink" href="#module-lomas_server.routes.utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.utils.handle_cost_query">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.utils.</span></span><span class="sig-name descname"><span class="pre">handle_cost_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><span class="pre">LomasRequestModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dp_library</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.html#lomas_core.constants.DPLibraries" title="lomas_core.constants.DPLibraries"><span class="pre">DPLibraries</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.CostResponse" title="lomas_core.models.responses.CostResponse"><span class="pre">CostResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/utils.html#handle_cost_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.utils.handle_cost_query" title="Link to this definition"></a></dt>
+<dd><p>Handles cost queries for DP libraries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>request_model</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><em>LomasRequestModel</em></a>) – An instance of LomasRequestModel,
+specific to the library.</p></li>
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name</p></li>
+<li><p><strong>dp_library</strong> (<a class="reference internal" href="lomas_core.html#lomas_core.constants.DPLibraries" title="lomas_core.constants.DPLibraries"><em>DPLibraries</em></a>) – Name of the DP library to use for the request</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If there is not enough budget or the dataset
+    does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A cost response containing the epsilon and delta</dt><dd><p>privacy-loss budget cost for the request.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.CostResponse" title="lomas_core.models.responses.CostResponse">CostResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.utils.handle_query_on_dummy_dataset">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.utils.</span></span><span class="sig-name descname"><span class="pre">handle_query_on_dummy_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DummyQueryModel" title="lomas_core.models.requests.DummyQueryModel"><span class="pre">DummyQueryModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dp_library</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.html#lomas_core.constants.DPLibraries" title="lomas_core.constants.DPLibraries"><span class="pre">DPLibraries</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse"><span class="pre">QueryResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/utils.html#handle_query_on_dummy_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.utils.handle_query_on_dummy_dataset" title="Link to this definition"></a></dt>
+<dd><p>Handles queries on dummy datasets for all supported libraries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>query_model</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DummyQueryModel" title="lomas_core.models.requests.DummyQueryModel"><em>DummyQueryModel</em></a>) – An instance of DummyQueryModel,
+specific to the library.</p></li>
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name</p></li>
+<li><p><strong>dp_library</strong> (<a class="reference internal" href="lomas_core.html#lomas_core.constants.DPLibraries" title="lomas_core.constants.DPLibraries"><em>DPLibraries</em></a>) – Name of the DP library to use for the request</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If there is not enough budget or the dataset
+    does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A QueryResponse model containing the result of the query</dt><dd><p>(specific to the library) as well as the cost of such a query if it was
+executed on a private dataset.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse">QueryResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.utils.handle_query_on_private_dataset">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.utils.</span></span><span class="sig-name descname"><span class="pre">handle_query_on_private_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.QueryModel" title="lomas_core.models.requests.QueryModel"><span class="pre">QueryModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dp_library</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.html#lomas_core.constants.DPLibraries" title="lomas_core.constants.DPLibraries"><span class="pre">DPLibraries</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse"><span class="pre">QueryResponse</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/utils.html#handle_query_on_private_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.utils.handle_query_on_private_dataset" title="Link to this definition"></a></dt>
+<dd><p>Handles queries on private datasets for all supported libraries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – Raw request object</p></li>
+<li><p><strong>query_model</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DummyQueryModel" title="lomas_core.models.requests.DummyQueryModel"><em>DummyQueryModel</em></a>) – An instance of DummyQueryModel,
+specific to the library.</p></li>
+<li><p><strong>user_name</strong> (<em>str</em>) – The user name</p></li>
+<li><p><strong>dp_library</strong> (<a class="reference internal" href="lomas_core.html#lomas_core.constants.DPLibraries" title="lomas_core.constants.DPLibraries"><em>DPLibraries</em></a>) – Name of the DP library to use for the request</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
+    external to this package.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – For any other unforseen exceptions.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If there is not enough budget or the dataset
+    does not exist.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.UnauthorizedAccessException" title="lomas_core.error_handler.UnauthorizedAccessException"><strong>UnauthorizedAccessException</strong></a> – A query is already ongoing for this user,
+    the user does not exist or does not have access to the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A QueryResponse model containing the result of the query</dt><dd><p>(specific to the library) as well as the cost of the query.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.QueryResponse" title="lomas_core.models.responses.QueryResponse">QueryResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.utils.server_live">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.routes.utils.</span></span><span class="sig-name descname"><span class="pre">server_live</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AsyncGenerator</span></span></span><a class="reference internal" href="_modules/lomas_server/routes/utils.html#server_live"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.utils.server_live" title="Link to this definition"></a></dt>
+<dd><p>Checks the server is live and throws an exception otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – Raw request</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – If the server is not live.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>AsyncGenerator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.utils.timing_protection">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.utils.</span></span><span class="sig-name descname"><span class="pre">timing_protection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/routes/utils.html#timing_protection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.utils.timing_protection" title="Link to this definition"></a></dt>
+<dd><p>Adds delays to requests response to protect against timing attack.</p>
+</dd></dl>
+
+</section>
+<section id="module-lomas_server.routes">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-lomas_server.routes" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lomas_server.dp_queries.dp_libraries.html" class="btn btn-neutral float-left" title="lomas_server.dp_queries.dp_libraries package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lomas_server.tests.html" class="btn btn-neutral float-right" title="lomas_server.tests package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: v0.4.1
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.1/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.1/en/index.html">v0.4.1</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

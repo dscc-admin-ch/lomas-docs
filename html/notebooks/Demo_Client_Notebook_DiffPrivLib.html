@@ -91,12 +91,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../poster.html">Poster</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
 <ul>
@@ -142,7 +145,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install lomas_client</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># !pip install lomas_client
 </pre></div>
 </div>
 </div>
@@ -151,9 +154,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(&#39;..&#39;)))
 </pre></div>
 </div>
 </div>
@@ -161,8 +164,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_client import Client
+import numpy as np
 </pre></div>
 </div>
 </div>
@@ -181,10 +184,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">APP_URL</span> <span class="o">=</span> <span class="s2">&quot;http://lomas_server&quot;</span>
-<span class="n">USER_NAME</span> <span class="o">=</span> <span class="s2">&quot;Dr. Antartica&quot;</span>
-<span class="n">DATASET_NAME</span> <span class="o">=</span> <span class="s2">&quot;PENGUIN&quot;</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">APP_URL</span><span class="p">,</span> <span class="n">user_name</span> <span class="o">=</span> <span class="n">USER_NAME</span><span class="p">,</span> <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">DATASET_NAME</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>APP_URL = &quot;http://lomas_server&quot;
+USER_NAME = &quot;Dr. Antartica&quot;
+DATASET_NAME = &quot;PENGUIN&quot;
+client = Client(url=APP_URL, user_name = USER_NAME, dataset_name = DATASET_NAME)
 </pre></div>
 </div>
 </div>
@@ -199,8 +202,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguin_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
-<span class="n">penguin_metadata</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata = client.get_dataset_metadata()
+penguin_metadata
 </pre></div>
 </div>
 </div>
@@ -290,9 +293,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">diffprivlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sklearn.pipeline import Pipeline
+from diffprivlib import models
+import pandas as pd
 </pre></div>
 </div>
 </div>
@@ -303,8 +306,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bill_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;body_mass_g&#39;</span><span class="p">]</span>
-<span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
+target_columns = [&#39;species&#39;]
 </pre></div>
 </div>
 </div>
@@ -315,11 +318,11 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># DiffprivlibCompatibilityWarning Error expected</span>
-<span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-    <span class="p">(</span><span class="s1">&#39;scaler&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;classifier&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">svd_solver</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">))</span>
-<span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># DiffprivlibCompatibilityWarning Error expected
+dpl_pipeline = Pipeline([
+    (&#39;scaler&#39;, models.StandardScaler(epsilon = 0.5)),
+    (&#39;classifier&#39;, models.LogisticRegression(epsilon = 1.0, svd_solver=&#39;full&#39;))
+])
 </pre></div>
 </div>
 </div>
@@ -338,10 +341,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-    <span class="p">(</span><span class="s1">&#39;scaler&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;classifier&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">))</span>
-<span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (&#39;scaler&#39;, models.StandardScaler(epsilon = 0.5)),
+    (&#39;classifier&#39;, models.LogisticRegression(epsilon = 1.0))
+])
 </pre></div>
 </div>
 </div>
@@ -349,13 +352,13 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Expect PrivacyLeakWarning Error</span>
-<span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span>  <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Expect PrivacyLeakWarning Error
+dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns =  feature_columns,
+    target_columns = target_columns,
+    dummy = True
+)
 </pre></div>
 </div>
 </div>
@@ -398,10 +401,10 @@ File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_bounds</span><span class="p">(</span><span class="n">cols_metadata</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
-    <span class="n">lower</span> <span class="o">=</span> <span class="p">[</span><span class="n">cols_metadata</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
-    <span class="n">upper</span> <span class="o">=</span> <span class="p">[</span><span class="n">cols_metadata</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def get_bounds(cols_metadata, columns):
+    lower = [cols_metadata[col][&quot;lower&quot;] for col in columns]
+    upper = [cols_metadata[col][&quot;upper&quot;] for col in columns]
+    return (lower, upper)
 </pre></div>
 </div>
 </div>
@@ -409,8 +412,8 @@ File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bounds</span> <span class="o">=</span> <span class="n">get_bounds</span><span class="p">(</span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_columns</span><span class="p">)</span>
-<span class="n">bounds</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
+bounds
 </pre></div>
 </div>
 </div>
@@ -427,10 +430,10 @@ File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-    <span class="p">(</span><span class="s1">&#39;scaler&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;classifier&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">))</span>
-<span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (&#39;scaler&#39;, models.StandardScaler(epsilon = 0.5, bounds=bounds)),
+    (&#39;classifier&#39;, models.LogisticRegression(epsilon = 1.0))
+])
 </pre></div>
 </div>
 </div>
@@ -438,13 +441,13 @@ File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Expect PrivacyLeakWarning Error</span>
-<span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Expect PrivacyLeakWarning Error
+dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    dummy = True
+)
 </pre></div>
 </div>
 </div>
@@ -487,8 +490,8 @@ File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The max l2 norm of any row of the data. This defines the spread of data that will be protected by differential privacy.</span>
-<span class="n">data_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The max l2 norm of any row of the data. This defines the spread of data that will be protected by differential privacy.
+data_norm = np.sqrt(np.linalg.norm(bounds[1]))
 </pre></div>
 </div>
 </div>
@@ -496,10 +499,10 @@ File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-    <span class="p">(</span><span class="s1">&#39;scaler&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;classifier&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">data_norm</span> <span class="o">=</span> <span class="n">data_norm</span><span class="p">))</span>
-<span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (&#39;scaler&#39;, models.StandardScaler(epsilon = 0.5, bounds=bounds)),
+    (&#39;classifier&#39;, models.LogisticRegression(epsilon = 1.0, data_norm = data_norm))
+])
 </pre></div>
 </div>
 </div>
@@ -507,12 +510,12 @@ File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    dummy = True
+)
 </pre></div>
 </div>
 </div>
@@ -521,7 +524,7 @@ File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response.result.model
 </pre></div>
 </div>
 </div>
@@ -959,13 +962,13 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">imputer_strategy</span> <span class="o">=</span> <span class="s2">&quot;mean&quot;</span><span class="p">,</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    imputer_strategy = &quot;mean&quot;,
+    dummy = True
+)
 </pre></div>
 </div>
 </div>
@@ -975,15 +978,15 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
-    <span class="n">test_train_split_seed</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="n">imputer_strategy</span> <span class="o">=</span> <span class="s2">&quot;mean&quot;</span><span class="p">,</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.1,
+    test_train_split_seed = 4,
+    imputer_strategy = &quot;mean&quot;,
+    dummy = True
+)
 </pre></div>
 </div>
 </div>
@@ -994,15 +997,15 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
-    <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
-    <span class="n">test_train_split_seed</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="n">imputer_strategy</span> <span class="o">=</span> <span class="s2">&quot;mean&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">res</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res = client.diffprivlib.cost(
+    dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.1,
+    test_train_split_seed = 4,
+    imputer_strategy = &quot;mean&quot;,
+)
+res
 </pre></div>
 </div>
 </div>
@@ -1019,7 +1022,7 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sa">f</span><span class="s2">&quot;The cost will be </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">epsilon</span><span class="si">}</span><span class="s2"> epsilon and </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">delta</span><span class="si">}</span><span class="s2"> delta.&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f&quot;The cost will be {res.epsilon} epsilon and {res.delta} delta.&quot;
 </pre></div>
 </div>
 </div>
@@ -1037,14 +1040,14 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
-    <span class="n">test_train_split_seed</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="n">imputer_strategy</span> <span class="o">=</span> <span class="s2">&quot;mean&quot;</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.1,
+    test_train_split_seed = 4,
+    imputer_strategy = &quot;mean&quot;,
+)
 </pre></div>
 </div>
 </div>
@@ -1052,7 +1055,7 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sa">f</span><span class="s2">&quot;The accuracy score of the model trained on real data is </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2">.&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f&quot;The accuracy score of the model trained on real data is {res.result.score}.&quot;
 </pre></div>
 </div>
 </div>
@@ -1070,7 +1073,7 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = res.result.model
 </pre></div>
 </div>
 </div>
@@ -1079,16 +1082,16 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_to_predict</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;bill_length_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span>
-    <span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="p">,</span>
-    <span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]],</span>
-    <span class="s1">&#39;body_mass_g&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]]</span>
-<span class="p">})</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x_to_predict = pd.DataFrame({
+    &#39;bill_length_mm&#39;: [bounds[0][0], bounds[1][0]],
+    &#39;bill_depth_mm&#39;: [bounds[0][1], bounds[1][1]] ,
+    &#39;flipper_length_mm&#39;: [bounds[0][2], bounds[1][2]],
+    &#39;body_mass_g&#39;: [bounds[0][3], bounds[1][3]]
+})
 
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_to_predict</span><span class="p">)</span>
-<span class="n">x_to_predict</span><span class="p">[</span><span class="s2">&quot;predictions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span>
-<span class="n">x_to_predict</span>
+predictions = model.predict(x_to_predict)
+x_to_predict[&quot;predictions&quot;] = predictions
+x_to_predict
 </pre></div>
 </div>
 </div>
@@ -1156,8 +1159,8 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bill_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">]</span>
-<span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;]
+target_columns = [&#39;species&#39;]
 </pre></div>
 </div>
 </div>
@@ -1165,7 +1168,7 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bounds</span> <span class="o">=</span> <span class="n">get_bounds</span><span class="p">(</span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_columns</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
 </pre></div>
 </div>
 </div>
@@ -1173,10 +1176,10 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-    <span class="p">(</span><span class="s1">&#39;scaler&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;gaussian&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">GaussianNB</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">priors</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">))),</span>
-<span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (&#39;scaler&#39;, models.StandardScaler(epsilon = 0.5, bounds=bounds)),
+    (&#39;gaussian&#39;, models.GaussianNB(epsilon = 1.0, bounds=bounds, priors = (0.3, 0.3, 0.4))),
+])
 </pre></div>
 </div>
 </div>
@@ -1184,14 +1187,14 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
-    <span class="n">imputer_strategy</span> <span class="o">=</span> <span class="s2">&quot;median&quot;</span><span class="p">,</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.15,
+    imputer_strategy = &quot;median&quot;,
+    dummy = True
+)
 </pre></div>
 </div>
 </div>
@@ -1199,14 +1202,14 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
-    <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
-    <span class="n">imputer_strategy</span> <span class="o">=</span> <span class="s2">&quot;median&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">cost_res</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost_res = client.diffprivlib.cost(
+    dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.15,
+    imputer_strategy = &quot;median&quot;,
+)
+cost_res
 </pre></div>
 </div>
 </div>
@@ -1223,13 +1226,13 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">imputer_strategy</span> <span class="o">=</span> <span class="s2">&quot;median&quot;</span><span class="p">,</span>
-    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    imputer_strategy = &quot;median&quot;,
+    test_size = 0.15,
+)
 </pre></div>
 </div>
 </div>
@@ -1237,11 +1240,11 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_to_predict</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;bill_length_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span>
-    <span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="p">,</span>
-    <span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]],</span>
-<span class="p">})</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x_to_predict = pd.DataFrame({
+    &#39;bill_length_mm&#39;: [bounds[0][0], bounds[1][0]],
+    &#39;bill_depth_mm&#39;: [bounds[0][1], bounds[1][1]] ,
+    &#39;flipper_length_mm&#39;: [bounds[0][2], bounds[1][2]],
+})
 </pre></div>
 </div>
 </div>
@@ -1249,9 +1252,9 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_to_predict</span><span class="p">)</span>
-<span class="n">x_to_predict</span><span class="p">[</span><span class="s2">&quot;predictions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span>
-<span class="n">x_to_predict</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>predictions = response.result.model.predict(x_to_predict)
+x_to_predict[&quot;predictions&quot;] = predictions
+x_to_predict
 </pre></div>
 </div>
 </div>
@@ -1310,8 +1313,8 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bill_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;body_mass_g&#39;</span><span class="p">]</span>
-<span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;island&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;body_mass_g&#39;]
+target_columns = [&#39;island&#39;]
 </pre></div>
 </div>
 </div>
@@ -1319,7 +1322,7 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bounds</span> <span class="o">=</span> <span class="n">get_bounds</span><span class="p">(</span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_columns</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
 </pre></div>
 </div>
 </div>
@@ -1327,17 +1330,17 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-    <span class="p">(</span>
-        <span class="s1">&#39;rf&#39;</span><span class="p">,</span>
-        <span class="n">models</span><span class="o">.</span><span class="n">RandomForestClassifier</span><span class="p">(</span>
-            <span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-            <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
-            <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
-            <span class="n">classes</span><span class="o">=</span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s1">&#39;island&#39;</span><span class="p">][</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span>
-        <span class="p">)</span>
-    <span class="p">),</span>
-<span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (
+        &#39;rf&#39;,
+        models.RandomForestClassifier(
+            n_estimators=10,
+            epsilon = 2.0,
+            bounds=bounds,
+            classes=penguin_metadata[&#39;columns&#39;][&#39;island&#39;][&#39;categories&#39;]
+        )
+    ),
+])
 </pre></div>
 </div>
 </div>
@@ -1345,13 +1348,13 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">imputer_strategy</span> <span class="o">=</span> <span class="s2">&quot;drop&quot;</span><span class="p">,</span> <span class="c1">#default</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    imputer_strategy = &quot;drop&quot;, #default
+    dummy = True
+)
 </pre></div>
 </div>
 </div>
@@ -1359,13 +1362,13 @@ CostResponse(epsilon=1.5, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
-    <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">imputer_strategy</span> <span class="o">=</span> <span class="s2">&quot;drop&quot;</span><span class="p">,</span> <span class="c1">#default</span>
-<span class="p">)</span>
-<span class="n">cost_res</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost_res = client.diffprivlib.cost(
+    dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    imputer_strategy = &quot;drop&quot;, #default
+)
+cost_res
 </pre></div>
 </div>
 </div>
@@ -1382,12 +1385,12 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">imputer_strategy</span> <span class="o">=</span> <span class="s2">&quot;drop&quot;</span><span class="p">,</span> <span class="c1">#default</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    imputer_strategy = &quot;drop&quot;, #default
+)
 </pre></div>
 </div>
 </div>
@@ -1395,7 +1398,7 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = response.result.model
 </pre></div>
 </div>
 </div>
@@ -1403,14 +1406,14 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_to_predict</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;bill_length_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span>
-    <span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="p">,</span>
-    <span class="s1">&#39;body_mass_g&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]]</span>
-<span class="p">})</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_to_predict</span><span class="p">)</span>
-<span class="n">x_to_predict</span><span class="p">[</span><span class="s2">&quot;predictions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span>
-<span class="n">x_to_predict</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x_to_predict = pd.DataFrame({
+    &#39;bill_length_mm&#39;: [bounds[0][0], bounds[1][0]],
+    &#39;bill_depth_mm&#39;: [bounds[0][1], bounds[1][1]] ,
+    &#39;body_mass_g&#39;: [bounds[0][2], bounds[1][2]]
+})
+predictions = model.predict(x_to_predict)
+x_to_predict[&quot;predictions&quot;] = predictions
+x_to_predict
 </pre></div>
 </div>
 </div>
@@ -1469,8 +1472,8 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bill_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;body_mass_g&#39;</span><span class="p">]</span>
-<span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;body_mass_g&#39;]
+target_columns = [&#39;species&#39;]
 </pre></div>
 </div>
 </div>
@@ -1478,7 +1481,7 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bounds</span> <span class="o">=</span> <span class="n">get_bounds</span><span class="p">(</span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_columns</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
 </pre></div>
 </div>
 </div>
@@ -1486,16 +1489,16 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-    <span class="p">(</span>
-        <span class="s1">&#39;dtc&#39;</span><span class="p">,</span>
-        <span class="n">models</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span>
-            <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
-            <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
-            <span class="n">classes</span><span class="o">=</span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s1">&#39;species&#39;</span><span class="p">][</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span>
-        <span class="p">)</span>
-    <span class="p">),</span>
-<span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (
+        &#39;dtc&#39;,
+        models.DecisionTreeClassifier(
+            epsilon = 2.0,
+            bounds=bounds,
+            classes=penguin_metadata[&#39;columns&#39;][&#39;species&#39;][&#39;categories&#39;]
+        )
+    ),
+])
 </pre></div>
 </div>
 </div>
@@ -1503,16 +1506,16 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
-    <span class="n">test_train_split_seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">nb_rows</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="n">seed</span> <span class="o">=</span> <span class="mi">42</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.2,
+    test_train_split_seed = 1,
+    dummy = True,
+    nb_rows = 100,
+    seed = 42
+)
 </pre></div>
 </div>
 </div>
@@ -1520,12 +1523,12 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.2,
+)
 </pre></div>
 </div>
 </div>
@@ -1533,7 +1536,7 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = response.result.model
 </pre></div>
 </div>
 </div>
@@ -1541,12 +1544,12 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_to_predict</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;bill_length_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span>
-    <span class="s1">&#39;body_mass_g&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="p">,</span>
-<span class="p">})</span>
-<span class="n">x_to_predict</span><span class="p">[</span><span class="s2">&quot;predictions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_to_predict</span><span class="p">)</span>
-<span class="n">x_to_predict</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x_to_predict = pd.DataFrame({
+    &#39;bill_length_mm&#39;: [bounds[0][0], bounds[1][0]],
+    &#39;body_mass_g&#39;: [bounds[0][1], bounds[1][1]] ,
+})
+x_to_predict[&quot;predictions&quot;] = model.predict(x_to_predict)
+x_to_predict
 </pre></div>
 </div>
 </div>
@@ -1602,8 +1605,8 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bill_length_mm&#39;</span><span class="p">]</span>
-<span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;]
+target_columns = [&#39;bill_depth_mm&#39;]
 </pre></div>
 </div>
 </div>
@@ -1611,8 +1614,8 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bill_length_meta</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s1">&#39;bill_length_mm&#39;</span><span class="p">]</span>
-<span class="n">bill_depth_meta</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bill_length_meta = penguin_metadata[&#39;columns&#39;][&#39;bill_length_mm&#39;]
+bill_depth_meta = penguin_metadata[&#39;columns&#39;][&#39;bill_depth_mm&#39;]
 </pre></div>
 </div>
 </div>
@@ -1620,16 +1623,16 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-    <span class="p">(</span>
-        <span class="s1">&#39;lr&#39;</span><span class="p">,</span>
-        <span class="n">models</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">(</span>
-            <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
-            <span class="n">bounds_X</span><span class="o">=</span><span class="p">(</span><span class="n">bill_length_meta</span><span class="p">[</span><span class="s1">&#39;lower&#39;</span><span class="p">],</span> <span class="n">bill_length_meta</span><span class="p">[</span><span class="s1">&#39;upper&#39;</span><span class="p">]),</span>
-            <span class="n">bounds_y</span><span class="o">=</span><span class="p">(</span><span class="n">bill_depth_meta</span><span class="p">[</span><span class="s1">&#39;lower&#39;</span><span class="p">],</span> <span class="n">bill_depth_meta</span><span class="p">[</span><span class="s1">&#39;upper&#39;</span><span class="p">])</span>
-        <span class="p">)</span>
-    <span class="p">),</span>
-<span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (
+        &#39;lr&#39;,
+        models.LinearRegression(
+            epsilon = 2.0,
+            bounds_X=(bill_length_meta[&#39;lower&#39;], bill_length_meta[&#39;upper&#39;]),
+            bounds_y=(bill_depth_meta[&#39;lower&#39;], bill_depth_meta[&#39;upper&#39;])
+        )
+    ),
+])
 </pre></div>
 </div>
 </div>
@@ -1637,13 +1640,13 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">dummy_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    dummy = True
+)
+model = dummy_response.result.model
 </pre></div>
 </div>
 </div>
@@ -1651,12 +1654,12 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dummy model predictions</span>
-<span class="n">x_to_predict</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;bill_length_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bill_length_meta</span><span class="p">[</span><span class="s1">&#39;lower&#39;</span><span class="p">],</span> <span class="n">bill_length_meta</span><span class="p">[</span><span class="s1">&#39;upper&#39;</span><span class="p">]],</span>
-<span class="p">})</span>
-<span class="n">x_to_predict</span><span class="p">[</span><span class="s2">&quot;predictions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_to_predict</span><span class="p">)</span>
-<span class="n">x_to_predict</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Dummy model predictions
+x_to_predict = pd.DataFrame({
+    &#39;bill_length_mm&#39;: [bill_length_meta[&#39;lower&#39;], bill_length_meta[&#39;upper&#39;]],
+})
+x_to_predict[&quot;predictions&quot;] = model.predict(x_to_predict)
+x_to_predict
 </pre></div>
 </div>
 </div>
@@ -1709,7 +1712,7 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bill_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;body_mass_g&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
 </pre></div>
 </div>
 </div>
@@ -1717,7 +1720,7 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bounds</span> <span class="o">=</span> <span class="n">get_bounds</span><span class="p">(</span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_columns</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
 </pre></div>
 </div>
 </div>
@@ -1725,9 +1728,9 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-    <span class="p">(</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)),</span>
-<span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (&#39;kmeans&#39;, models.KMeans(n_clusters = 8, epsilon = 2.0, bounds=bounds)),
+])
 </pre></div>
 </div>
 </div>
@@ -1735,13 +1738,13 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">dummy_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
-<span class="n">model</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    dummy = True
+)
+model = dummy_response.result.model
+model
 </pre></div>
 </div>
 </div>
@@ -2171,15 +2174,15 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dummy model predictions</span>
-<span class="n">x_to_predict</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;bill_length_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span>
-    <span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="p">,</span>
-    <span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]],</span>
-    <span class="s1">&#39;body_mass_g&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]]</span>
-<span class="p">})</span>
-<span class="n">x_to_predict</span><span class="p">[</span><span class="s2">&quot;predictions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_to_predict</span><span class="p">)</span>
-<span class="n">x_to_predict</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Dummy model predictions
+x_to_predict = pd.DataFrame({
+    &#39;bill_length_mm&#39;: [bounds[0][0], bounds[1][0]],
+    &#39;bill_depth_mm&#39;: [bounds[0][1], bounds[1][1]] ,
+    &#39;flipper_length_mm&#39;: [bounds[0][2], bounds[1][2]],
+    &#39;body_mass_g&#39;: [bounds[0][3], bounds[1][3]]
+})
+x_to_predict[&quot;predictions&quot;] = model.predict(x_to_predict)
+x_to_predict
 </pre></div>
 </div>
 </div>
@@ -2241,8 +2244,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bill_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;body_mass_g&#39;</span><span class="p">]</span>
-<span class="n">bounds</span> <span class="o">=</span> <span class="n">get_bounds</span><span class="p">(</span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_columns</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
+bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
 </pre></div>
 </div>
 </div>
@@ -2250,18 +2253,18 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-    <span class="p">(</span>
-        <span class="s1">&#39;pca&#39;</span><span class="p">,</span>
-        <span class="n">models</span><span class="o">.</span><span class="n">PCA</span><span class="p">(</span>
-            <span class="n">n_components</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-            <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
-            <span class="n">data_norm</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-            <span class="n">centered</span><span class="o">=</span><span class="kc">False</span>
-        <span class="p">)</span>
-    <span class="p">),</span>
-<span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (
+        &#39;pca&#39;,
+        models.PCA(
+            n_components=None,
+            epsilon = 1.0,
+            bounds=bounds,
+            data_norm=100,
+            centered=False
+        )
+    ),
+])
 </pre></div>
 </div>
 </div>
@@ -2269,12 +2272,12 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">dummy_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    dummy = True
+)
+model = dummy_response.result.model
 </pre></div>
 </div>
 </div>
@@ -2282,11 +2285,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
-    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+)
+model = response.result.model
 </pre></div>
 </div>
 </div>
@@ -2294,8 +2297,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca_model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">pca_model</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model = model.steps[0][1]
+pca_model
 </pre></div>
 </div>
 </div>
@@ -2720,7 +2723,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca_model</span><span class="o">.</span><span class="n">components_</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.components_
 </pre></div>
 </div>
 </div>
@@ -2740,7 +2743,7 @@ array([[-0.08124548, -0.11603131, -0.06907006,  0.98750455],
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca_model</span><span class="o">.</span><span class="n">explained_variance_</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.explained_variance_
 </pre></div>
 </div>
 </div>
@@ -2757,7 +2760,7 @@ array([8914.48046055, 1029.95283494,  241.10575291,   94.79455338])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca_model</span><span class="o">.</span><span class="n">explained_variance_ratio_</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.explained_variance_ratio_
 </pre></div>
 </div>
 </div>
@@ -2774,7 +2777,7 @@ array([0.86713922, 0.10018671, 0.02345311, 0.00922096])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca_model</span><span class="o">.</span><span class="n">singular_values_</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.singular_values_
 </pre></div>
 </div>
 </div>
@@ -2791,7 +2794,7 @@ array([1536.98969484,  252.77069553,  158.4946581 ,  522.43420759])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca_model</span><span class="o">.</span><span class="n">mean_</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.mean_
 </pre></div>
 </div>
 </div>
@@ -2808,7 +2811,7 @@ array([  43.71211178,   16.5604082 ,  189.09819947, 4237.9468197 ])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca_model</span><span class="o">.</span><span class="n">n_components_</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.n_components_
 </pre></div>
 </div>
 </div>
@@ -2825,7 +2828,7 @@ array([  43.71211178,   16.5604082 ,  189.09819947, 4237.9468197 ])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca_model</span><span class="o">.</span><span class="n">noise_variance_</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.noise_variance_
 </pre></div>
 </div>
 </div>
@@ -2847,7 +2850,7 @@ array([  43.71211178,   16.5604082 ,  189.09819947, 4237.9468197 ])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">previous_queries</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_previous_queries</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>previous_queries = client.get_previous_queries()
 </pre></div>
 </div>
 </div>
@@ -2855,8 +2858,8 @@ array([  43.71211178,   16.5604082 ,  189.09819947, 4237.9468197 ])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query_1</span> <span class="o">=</span> <span class="n">previous_queries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">query_1</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>query_1 = previous_queries[0]
+query_1
 </pre></div>
 </div>
 </div>
@@ -2899,8 +2902,8 @@ array([  43.71211178,   16.5604082 ,  189.09819947, 4237.9468197 ])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query_2</span> <span class="o">=</span> <span class="n">previous_queries</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">query_2</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>query_2 = previous_queries[1]
+query_2
 </pre></div>
 </div>
 </div>
@@ -2942,8 +2945,8 @@ array([  43.71211178,   16.5604082 ,  189.09819947, 4237.9468197 ])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query_3</span> <span class="o">=</span> <span class="n">previous_queries</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">query_3</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>query_3 = previous_queries[2]
+query_3
 </pre></div>
 </div>
 </div>
@@ -3048,6 +3051,8 @@ array([  43.71211178,   16.5604082 ,  189.09819947, 4237.9468197 ])
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.1/en/index.html">v0.4.1</a></dd>
         
       </dl>
       

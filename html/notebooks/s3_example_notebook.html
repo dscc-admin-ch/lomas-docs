@@ -86,12 +86,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Notes for Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../poster.html">Poster</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
 <ul>
@@ -133,7 +136,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>lomas-client
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!pip install lomas-client
 </pre></div>
 </div>
 </div>
@@ -204,8 +207,8 @@ Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in /usr/local/lib/python
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_client.client import Client
+import numpy as np
 </pre></div>
 </div>
 </div>
@@ -223,10 +226,10 @@ Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in /usr/local/lib/python
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">APP_URL</span> <span class="o">=</span> <span class="s2">&quot;http://lomas_server&quot;</span>
-<span class="n">USER_NAME</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>
-<span class="n">DATASET_NAME</span> <span class="o">=</span> <span class="s2">&quot;TITANIC&quot;</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">APP_URL</span><span class="p">,</span> <span class="n">user_name</span> <span class="o">=</span> <span class="n">USER_NAME</span><span class="p">,</span> <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">DATASET_NAME</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>APP_URL = &quot;http://lomas_server&quot;
+USER_NAME = &quot;Jack&quot;
+DATASET_NAME = &quot;TITANIC&quot;
+client = Client(url=APP_URL, user_name = USER_NAME, dataset_name = DATASET_NAME)
 </pre></div>
 </div>
 </div>
@@ -239,8 +242,8 @@ Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in /usr/local/lib/python
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
-<span class="n">titanic_metadata</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>titanic_metadata = client.get_dataset_metadata()
+titanic_metadata
 </pre></div>
 </div>
 </div>
@@ -348,8 +351,8 @@ Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in /usr/local/lib/python
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NB_ROWS</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="n">SEED</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>NB_ROWS = 200
+SEED = 0
 </pre></div>
 </div>
 </div>
@@ -357,13 +360,13 @@ Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in /usr/local/lib/python
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span>
-    <span class="n">nb_rows</span> <span class="o">=</span> <span class="n">NB_ROWS</span><span class="p">,</span>
-    <span class="n">seed</span> <span class="o">=</span> <span class="n">SEED</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_dummy = client.get_dummy_dataset(
+    nb_rows = NB_ROWS,
+    seed = SEED
+)
 
-<span class="nb">print</span><span class="p">(</span><span class="n">df_dummy</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">df_dummy</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+print(df_dummy.shape)
+df_dummy.head()
 </pre></div>
 </div>
 </div>
@@ -495,10 +498,10 @@ Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in /usr/local/lib/python
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Average Age</span>
-<span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT COUNT(*) AS nb_passengers, </span><span class="se">\</span>
-<span class="s2">        AVG(Age) AS avg_age </span><span class="se">\</span>
-<span class="s2">        FROM df&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Average Age
+QUERY = &quot;SELECT COUNT(*) AS nb_passengers, \
+        AVG(Age) AS avg_age \
+        FROM df&quot;
 </pre></div>
 </div>
 </div>
@@ -506,15 +509,15 @@ Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in /usr/local/lib/python
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On the remote server dummy dataframe</span>
-<span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
-    <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">100.0</span><span class="p">,</span> <span class="c1"># make sure to select high values of epsilon and delta to have small differences</span>
-    <span class="n">delta</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>     <span class="c1"># make sure to select high values of epsilon and delta to have small differences</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">nb_rows</span> <span class="o">=</span> <span class="n">NB_ROWS</span><span class="p">,</span>
-    <span class="n">seed</span> <span class="o">=</span> <span class="n">SEED</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># On the remote server dummy dataframe
+dummy_res = client.smartnoise_sql.query(
+    query = QUERY,
+    epsilon = 100.0, # make sure to select high values of epsilon and delta to have small differences
+    delta = 2.0,     # make sure to select high values of epsilon and delta to have small differences
+    dummy = True,
+    nb_rows = NB_ROWS,
+    seed = SEED
+)
 </pre></div>
 </div>
 </div>
@@ -522,8 +525,8 @@ Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in /usr/local/lib/python
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average age in remote dummy: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;avg_age&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> years old.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of rows in remote dummy: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;nb_passengers&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;Average age in remote dummy: {np.round(dummy_res.result.df[&#39;avg_age&#39;][0], 2)} years old.&quot;)
+print(f&quot;Number of rows in remote dummy: {np.round(dummy_res.result.df[&#39;nb_passengers&#39;][0], 2)}.&quot;)
 </pre></div>
 </div>
 </div>
@@ -544,7 +547,7 @@ Number of rows in remote dummy: 199.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_initial_budget</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_initial_budget()
 </pre></div>
 </div>
 </div>
@@ -561,7 +564,7 @@ InitialBudgetResponse(initial_epsilon=45.0, initial_delta=0.2)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_total_spent_budget()
 </pre></div>
 </div>
 </div>
@@ -579,7 +582,7 @@ SpentBudgetResponse(total_spent_epsilon=0.0, total_spent_delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
 </pre></div>
 </div>
 </div>
@@ -602,8 +605,8 @@ RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EPSILON</span> <span class="o">=</span> <span class="mf">0.5</span>
-<span class="n">DELTA</span> <span class="o">=</span> <span class="mf">1e-4</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>EPSILON = 0.5
+DELTA = 1e-4
 </pre></div>
 </div>
 </div>
@@ -611,11 +614,11 @@ RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
-    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
-    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
-    <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.smartnoise_sql.cost(
+    query = QUERY,
+    epsilon = EPSILON,
+    delta = DELTA
+)
 </pre></div>
 </div>
 </div>
@@ -635,7 +638,7 @@ CostResponse(epsilon=1.5, delta=0.00014999500000001387)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
 </pre></div>
 </div>
 </div>
@@ -652,12 +655,12 @@ RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
-    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
-    <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Optionnal</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.smartnoise_sql.query(
+    query = QUERY,
+    epsilon = EPSILON,
+    delta = DELTA,
+    dummy = False # Optionnal
+)
 </pre></div>
 </div>
 </div>
@@ -673,11 +676,11 @@ RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nb_passengers</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;nb_passengers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of passengers in real data: </span><span class="si">{</span><span class="n">nb_passengers</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nb_passengers = response.result.df[&#39;nb_passengers&#39;].iloc[0]
+print(f&quot;Number of passengers in real data: {nb_passengers}.&quot;)
 
-<span class="n">avg_age</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;avg_age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average age in real data: </span><span class="si">{</span><span class="n">avg_age</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+avg_age = np.round(response.result.df[&#39;avg_age&#39;].iloc[0], 2)
+print(f&quot;Average age in real data: {avg_age}.&quot;)
 </pre></div>
 </div>
 </div>
@@ -695,7 +698,7 @@ Average age in real data: 29.34.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
 </pre></div>
 </div>
 </div>
@@ -713,7 +716,7 @@ RemainingBudgetResponse(remaining_epsilon=43.5, remaining_delta=0.199850005)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_total_spent_budget()
 </pre></div>
 </div>
 </div>
@@ -734,9 +737,9 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">opendp</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dp</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">opendp.transformations</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">trans</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">opendp.measurements</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">meas</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import opendp as dp
+import opendp.transformations as trans
+import opendp.measurements as meas
 </pre></div>
 </div>
 </div>
@@ -746,7 +749,7 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic_metadata</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>titanic_metadata
 </pre></div>
 </div>
 </div>
@@ -851,7 +854,7 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;PassengerId&quot;</span><span class="p">,</span> <span class="s2">&quot;Pclass&quot;</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Sex&quot;</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="s2">&quot;SibSp&quot;</span><span class="p">,</span> <span class="s2">&quot;Parch&quot;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>columns = [&quot;PassengerId&quot;, &quot;Pclass&quot;, &quot;Name&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;SibSp&quot;, &quot;Parch&quot;]
 </pre></div>
 </div>
 </div>
@@ -859,9 +862,9 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">age_min</span> <span class="o">=</span> <span class="n">titanic_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s1">&#39;Age&#39;</span><span class="p">][</span><span class="s1">&#39;lower&#39;</span><span class="p">]</span>
-<span class="n">age_max</span> <span class="o">=</span> <span class="n">titanic_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s1">&#39;Age&#39;</span><span class="p">][</span><span class="s1">&#39;upper&#39;</span><span class="p">]</span>
-<span class="n">age_min</span><span class="p">,</span> <span class="n">age_max</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>age_min = titanic_metadata[&#39;columns&#39;][&#39;Age&#39;][&#39;lower&#39;]
+age_max = titanic_metadata[&#39;columns&#39;][&#39;Age&#39;][&#39;upper&#39;]
+age_min, age_max
 </pre></div>
 </div>
 </div>
@@ -878,14 +881,14 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">age_transformation_pipeline</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">trans</span><span class="o">.</span><span class="n">make_split_dataframe</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
-    <span class="n">trans</span><span class="o">.</span><span class="n">make_select_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="n">TOA</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
-    <span class="n">trans</span><span class="o">.</span><span class="n">then_cast_default</span><span class="p">(</span><span class="n">TOA</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
-    <span class="n">trans</span><span class="o">.</span><span class="n">then_clamp</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="n">age_min</span><span class="p">,</span> <span class="n">age_max</span><span class="p">))</span> <span class="o">&gt;&gt;</span>
-    <span class="n">trans</span><span class="o">.</span><span class="n">then_resize</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">nb_passengers</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">constant</span><span class="o">=</span><span class="n">avg_age</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
-    <span class="n">trans</span><span class="o">.</span><span class="n">then_variance</span><span class="p">()</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>age_transformation_pipeline = (
+    trans.make_split_dataframe(separator=&quot;,&quot;, col_names=columns) &gt;&gt;
+    trans.make_select_column(key=&quot;Age&quot;, TOA=str) &gt;&gt;
+    trans.then_cast_default(TOA=float) &gt;&gt;
+    trans.then_clamp(bounds=(age_min, age_max)) &gt;&gt;
+    trans.then_resize(size=nb_passengers.tolist(), constant=avg_age) &gt;&gt;
+    trans.then_variance()
+)
 </pre></div>
 </div>
 </div>
@@ -893,11 +896,11 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Expect to fail !!!</span>
-<span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">age_transformation_pipeline</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Expect to fail !!!
+client.opendp.query(
+    opendp_pipeline = age_transformation_pipeline,
+    dummy=True
+)
 </pre></div>
 </div>
 </div>
@@ -943,10 +946,10 @@ File <span class="ansi-green-fg">/code/lomas_client/utils.py:26</span>, in <span
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_age_transformation_pipeline</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">age_transformation_pipeline</span> <span class="o">&gt;&gt;</span>
-    <span class="n">meas</span><span class="o">.</span><span class="n">then_laplace</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_age_transformation_pipeline = (
+    age_transformation_pipeline &gt;&gt;
+    meas.then_laplace(scale=5.0)
+)
 </pre></div>
 </div>
 </div>
@@ -955,11 +958,11 @@ File <span class="ansi-green-fg">/code/lomas_client/utils.py:26</span>, in <span
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_var_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">var_age_transformation_pipeline</span><span class="p">,</span>
-    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dummy result for variance: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_var_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_var_res = client.opendp.query(
+    opendp_pipeline = var_age_transformation_pipeline,
+    dummy=True
+)
+print(f&quot;Dummy result for variance: {np.round(dummy_var_res.result.value, 2)}&quot;)
 </pre></div>
 </div>
 </div>
@@ -976,10 +979,10 @@ Dummy result for variance: 59.75
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
-    <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">var_age_transformation_pipeline</span>
-<span class="p">)</span>
-<span class="n">cost_res</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost_res = client.opendp.cost(
+    opendp_pipeline = var_age_transformation_pipeline
+)
+cost_res
 </pre></div>
 </div>
 </div>
@@ -997,9 +1000,9 @@ CostResponse(epsilon=2.2502841037292076, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-    <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">var_age_transformation_pipeline</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_res = client.opendp.query(
+    opendp_pipeline = var_age_transformation_pipeline,
+)
 </pre></div>
 </div>
 </div>
@@ -1007,12 +1010,12 @@ CostResponse(epsilon=2.2502841037292076, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of passengers: </span><span class="si">{</span><span class="n">nb_passengers</span><span class="si">}</span><span class="s2"> (from previous smartnoise-sql query).&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;Number of passengers: {nb_passengers} (from previous smartnoise-sql query).&quot;)
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average age: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">avg_age</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> (from previous smartnoise-sql query).&quot;</span><span class="p">)</span>
+print(f&quot;Average age: {np.round(avg_age, 2)} (from previous smartnoise-sql query).&quot;)
 
-<span class="n">var_age</span> <span class="o">=</span> <span class="n">var_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">value</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance of age: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">var_age</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2"> (from opendp query).&quot;</span><span class="p">)</span>
+var_age = var_res.result.value
+print(f&quot;Variance of age: {np.round(var_age, 3)} (from opendp query).&quot;)
 </pre></div>
 </div>
 </div>
@@ -1030,9 +1033,9 @@ Variance of age: 182.132 (from opendp query).
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get standard error</span>
-<span class="n">standard_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var_age</span><span class="o">/</span><span class="n">nb_passengers</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Standard error of age: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">standard_error</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get standard error
+standard_error = np.sqrt(var_age/nb_passengers)
+print(f&quot;Standard error of age: {np.round(standard_error, 2)}.&quot;)
 </pre></div>
 </div>
 </div>
@@ -1048,11 +1051,11 @@ Standard error of age: 0.45.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Compute the 95% confidence interval</span>
-<span class="n">ZSCORE</span> <span class="o">=</span> <span class="mf">1.96</span>
-<span class="n">lower_bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">avg_age</span> <span class="o">-</span> <span class="n">ZSCORE</span><span class="o">*</span><span class="n">standard_error</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">upper_bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">avg_age</span> <span class="o">+</span> <span class="n">ZSCORE</span><span class="o">*</span><span class="n">standard_error</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The 95% confidence interval of the age of all passengers is [</span><span class="si">{</span><span class="n">lower_bound</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">upper_bound</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> # Compute the 95% confidence interval
+ZSCORE = 1.96
+lower_bound = np.round(avg_age - ZSCORE*standard_error, 2)
+upper_bound = np.round(avg_age + ZSCORE*standard_error, 2)
+print(f&quot;The 95% confidence interval of the age of all passengers is [{lower_bound}, {upper_bound}].&quot;)
 </pre></div>
 </div>
 </div>
@@ -1135,6 +1138,8 @@ The 95% confidence interval of the age of all passengers is [28.45, 30.23].
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
         
           <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.1/en/index.html">v0.4.1</a></dd>
         
       </dl>
       
