@@ -102,6 +102,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.instrumentation.fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPIInstrumentor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.instrumentation.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoggingInstrumentor</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">InternalServerException</span><span class="p">,</span>
@@ -216,6 +217,7 @@
 
 
 <span class="c1"># Initalise telemetry</span>
+<span class="n">LoggingInstrumentor</span><span class="p">()</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="n">set_logging_format</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">resource</span> <span class="o">=</span> <span class="n">get_ressource</span><span class="p">(</span><span class="n">SERVER_SERVICE_NAME</span><span class="p">,</span> <span class="n">SERVICE_ID</span><span class="p">)</span>
 <span class="n">init_telemetry</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
 
