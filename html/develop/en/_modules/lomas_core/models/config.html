@@ -1,0 +1,301 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lomas_core.models.config &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Lomas
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lomas_core.models.config</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lomas_core.models.config</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AdminDBType</span><span class="p">,</span>
+    <span class="n">PrivateDatabaseType</span><span class="p">,</span>
+    <span class="n">TimeAttackMethod</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="TimeAttack">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.config.TimeAttack">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TimeAttack</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for configs to prevent timing attacks.&quot;&quot;&quot;</span>
+
+    <span class="n">method</span><span class="p">:</span> <span class="n">TimeAttackMethod</span>
+    <span class="n">magnitude</span><span class="p">:</span> <span class="nb">float</span></div>
+
+
+
+<div class="viewcode-block" id="Server">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.config.Server">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Server</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for uvicorn server configs.&quot;&quot;&quot;</span>
+
+    <span class="n">time_attack</span><span class="p">:</span> <span class="n">TimeAttack</span>
+    <span class="n">host_ip</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">host_port</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">log_level</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">reload</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">workers</span><span class="p">:</span> <span class="nb">int</span></div>
+
+
+
+<div class="viewcode-block" id="DBConfig">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.config.DBConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DBConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for database type config.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="YamlDBConfig">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.config.YamlDBConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">YamlDBConfig</span><span class="p">(</span><span class="n">DBConfig</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for dataset store configs  in case of a Yaml database.&quot;&quot;&quot;</span>
+
+    <span class="n">db_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">AdminDBType</span><span class="o">.</span><span class="n">YAML</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
+    <span class="n">db_file</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<div class="viewcode-block" id="MongoDBConfig">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.config.MongoDBConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MongoDBConfig</span><span class="p">(</span><span class="n">DBConfig</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for dataset store configs  in case of a  MongoDB database.&quot;&quot;&quot;</span>
+
+    <span class="n">db_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">AdminDBType</span><span class="o">.</span><span class="n">MONGODB</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
+    <span class="n">address</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">port</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">password</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">db_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">max_pool_size</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">min_pool_size</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">max_connecting</span><span class="p">:</span> <span class="nb">int</span></div>
+
+
+
+<div class="viewcode-block" id="PrivateDBCredentials">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.config.PrivateDBCredentials">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PrivateDBCredentials</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for private database credentials.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="S3CredentialsConfig">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.config.S3CredentialsConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">S3CredentialsConfig</span><span class="p">(</span><span class="n">PrivateDBCredentials</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for S3 database credentials.&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;allow&quot;</span><span class="p">)</span>
+
+    <span class="n">db_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
+    <span class="n">credentials_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">access_key_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">secret_access_key</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<div class="viewcode-block" id="OpenDPConfig">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.config.OpenDPConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OpenDPConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for openDP library config.&quot;&quot;&quot;</span>
+
+    <span class="n">contrib</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">floating_point</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">honest_but_curious</span><span class="p">:</span> <span class="nb">bool</span></div>
+
+
+
+<div class="viewcode-block" id="DPLibraryConfig">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.config.DPLibraryConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DPLibraryConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for DP librairies config.&quot;&quot;&quot;</span>
+
+    <span class="n">opendp</span><span class="p">:</span> <span class="n">OpenDPConfig</span></div>
+
+
+
+<div class="viewcode-block" id="Config">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.config.Config">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Server runtime config.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Develop mode</span>
+    <span class="n">develop_mode</span><span class="p">:</span> <span class="nb">bool</span>
+
+    <span class="c1"># Server configs</span>
+    <span class="n">server</span><span class="p">:</span> <span class="n">Server</span>
+
+    <span class="c1"># A limit on the rate which users can submit answers</span>
+    <span class="n">submit_limit</span><span class="p">:</span> <span class="nb">float</span>
+
+    <span class="n">admin_database</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">MongoDBConfig</span><span class="p">,</span> <span class="n">YamlDBConfig</span><span class="p">],</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;db_type&quot;</span><span class="p">)]</span>
+
+    <span class="n">private_db_credentials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">S3CredentialsConfig</span><span class="p">],</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;db_type&quot;</span><span class="p">)]]</span>
+
+    <span class="n">dp_libraries</span><span class="p">:</span> <span class="n">DPLibraryConfig</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: develop
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.1/en/index.html">v0.4.1</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
