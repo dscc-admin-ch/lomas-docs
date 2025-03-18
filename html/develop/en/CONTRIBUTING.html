@@ -187,21 +187,14 @@ Once the release process is complete (see below), the release branch is merged t
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>pydocstringformatter<span class="w"> </span>.
 </pre></div>
 </div>
-<p>To streamline the process, you can use the <code class="docutils literal notranslate"><span class="pre">run_linter.sh</span></code> script in ``lomas`. The first time you run this script, use the following command to install dependencies:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>run_linter.sh
-./run_linter.sh<span class="w">  </span>--install-deps
-</pre></div>
-</div>
-<p>For subsequent runs, to run all linters (on server, client and core) simply execute:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./run_linter.sh
-</pre></div>
-</div>
-<p>To run the linter in a specific package, the package can be specified as argument:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./run_linter.sh<span class="w"> </span>--client
-</pre></div>
-</div>
-<p>will only run the linter for the client. And similarly for <code class="docutils literal notranslate"><span class="pre">./run_linter.sh</span> <span class="pre">--core</span></code> and <code class="docutils literal notranslate"><span class="pre">./run_linter.sh</span> <span class="pre">--server</span></code>.</p>
-<p>There should be no error or warning, otherwise the linting github action will fail. All configurations are in <code class="docutils literal notranslate"><span class="pre">lomas/server/pyproject.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/client/pyproject.toml</span></code>.</p>
+<p>To streamline the process, you can use the <code class="docutils literal notranslate"><span class="pre">run-linter</span></code> command inside the Devenv.</p>
+<p>There should be no error or warning, otherwise the linting github action will fail. All configurations are in</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lomas/pyproject.toml</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lomas/core/pyproject.toml</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lomas/server/pyproject.toml</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lomas/client/pyproject.toml</span></code>.</p></li>
+</ul>
 <p>As detailed below, we rely on GitHub workflows to automatically run these checks on pull requests, ensuring consistency and quality across all contributions.</p>
 </section>
 <section id="github-workflows">
@@ -272,7 +265,7 @@ The table below gives an overview of which workflows are triggered by what event
 </table>
 <p>Of these workflows, three of them need manual intervention to adjust the version number:</p>
 <ul class="simple">
-<li><p><strong>Client library push</strong>: The ‘version’ and the ‘install_requires’ must be set in <code class="docutils literal notranslate"><span class="pre">core/setup.py</span></code>, <code class="docutils literal notranslate"><span class="pre">server/setup.py</span></code> and <code class="docutils literal notranslate"><span class="pre">client/setup.py</span></code> (‘install_requires’ should match the list of library in requirements.txt and the new version of <code class="docutils literal notranslate"><span class="pre">core</span></code>).</p></li>
+<li><p><strong>Client library push</strong>: The ‘version’ and the ‘install_requires’ must be set in <code class="docutils literal notranslate"><span class="pre">core/pyproject.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">server/pyproject.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">client/pyproject.toml</span></code> (‘install_requires’ should match the list of library in requirements.txt and the new version of <code class="docutils literal notranslate"><span class="pre">core</span></code>).</p></li>
 <li><p><strong>Helm chart push</strong>: The chart version (<code class="docutils literal notranslate"><span class="pre">version</span></code>) and app version (<code class="docutils literal notranslate"><span class="pre">AppVersion</span></code>) of the server and the client must be updated in <code class="docutils literal notranslate"><span class="pre">server/deploy/helm/charts/lomas_server/Chart.yml</span></code>and <code class="docutils literal notranslate"><span class="pre">client/deploy/helm/charts/lomas_client/Chart.yaml</span></code>.</p></li>
 <li><p><strong>Documentation push</strong>: If a new version is released, it must be added to the <code class="docutils literal notranslate"><span class="pre">docs/versions.yaml</span></code> file. For more details on the generation of the documentation, please refer to <code class="docutils literal notranslate"><span class="pre">docs</span></code> and the <code class="docutils literal notranslate"><span class="pre">docs/build_docs.py</span></code> script.</p></li>
 </ul>
@@ -284,7 +277,7 @@ The table below gives an overview of which workflows are triggered by what event
 <ol class="arabic simple">
 <li><p>Create a <code class="docutils literal notranslate"><span class="pre">release/vx.y.z</span></code> branch from develop.</p></li>
 <li><p>Fix remaining issues.</p></li>
-<li><p>Adjust versions for the client, core and server libraries (in the different setup.py), the helm charts, as well as for the documentation.</p></li>
+<li><p>Adjust versions for the client, core and server libraries (in the different pyproject.toml), the helm charts, as well as for the documentation.</p></li>
 <li><p>Create a GitHub PR from this branch to develop AND master (make sure you are up to date with develop by rebasing on it)</p></li>
 <li><p>Once merged, manually create a release on GitHub with the tag <code class="docutils literal notranslate"><span class="pre">vx.y.z</span></code>.</p></li>
 </ol>
