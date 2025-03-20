@@ -161,7 +161,7 @@ sys.path.append(os.path.abspath(os.path.join(&#39;..&#39;)))
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_client import Client
@@ -181,13 +181,36 @@ import numpy as np
 </ul>
 <p>She will only be able to query on the real dataset if the queen Icergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit (as is done in the Admin Notebook for Users and Datasets management).</p>
 <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>DATASET_NAME = &quot;PENGUIN&quot;
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The following would usually be set in the environment by a system administrator
+# and be tranparent to lomas users.
+APP_URL = &quot;http://lomas_server&quot;
+USER_NAME = &quot;Dr.Antartica&quot;
+import os
+os.environ[&quot;LOMAS_CLIENT_ID&quot;] = USER_NAME
+os.environ[&quot;LOMAS_CLIENT_SECRET&quot;] = USER_NAME.lower()
+os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;keycloak&quot;
+os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;8080&quot;
+os.environ[&quot;LOMAS_KEYCLOAL_USE_TLS&quot;] = &quot;0&quot;
+os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>APP_URL = &quot;http://lomas_server&quot;
-USER_NAME = &quot;Dr. Antartica&quot;
-DATASET_NAME = &quot;PENGUIN&quot;
-client = Client(url=APP_URL, user_name = USER_NAME, dataset_name = DATASET_NAME)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client(url=APP_URL, dataset_name=DATASET_NAME)
 </pre></div>
 </div>
 </div>

@@ -223,13 +223,36 @@ import numpy as np
 <li><p>dataset_name: the name of the dataset that we want to query (TITANIC)</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>APP_URL = &quot;http://lomas_server&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>DATASET_NAME = &quot;TITANIC&quot;
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The following would usually be set in the environment by a system administrator
+# and be tranparent to lomas users.
+APP_URL = &quot;http://lomas_server&quot;
 USER_NAME = &quot;Jack&quot;
-DATASET_NAME = &quot;TITANIC&quot;
-client = Client(url=APP_URL, user_name = USER_NAME, dataset_name = DATASET_NAME)
+import os
+os.environ[&quot;LOMAS_CLIENT_ID&quot;] = USER_NAME
+os.environ[&quot;LOMAS_CLIENT_SECRET&quot;] = USER_NAME.lower()
+os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;keycloak&quot;
+os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;8080&quot;
+os.environ[&quot;LOMAS_KEYCLOAL_USE_TLS&quot;] = &quot;0&quot;
+os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client(url=APP_URL, dataset_name=DATASET_NAME)
 </pre></div>
 </div>
 </div>
