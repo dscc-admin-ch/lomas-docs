@@ -247,7 +247,7 @@ Collecting nvidia-cusparselt-cu12==0.6.2
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%load_ext autoreload
@@ -270,7 +270,7 @@ import numpy as np
 </ul>
 <p>She will only be able to query on the real dataset if the queen Icergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit (as is done in the Admin Notebook for Users and Datasets management).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>DATASET_NAME = &quot;PENGUIN&quot;
@@ -278,18 +278,18 @@ import numpy as np
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The following would usually be set in the environment by a system administrator
 # and be tranparent to lomas users.
-APP_URL = &quot;http://localhost:48080&quot;
+APP_URL = &quot;http://lomas_server:48080&quot;
 USER_NAME = &quot;Dr.Antartica&quot;
 
 import os
 os.environ[&quot;LOMAS_CLIENT_ID&quot;] = USER_NAME
 os.environ[&quot;LOMAS_CLIENT_SECRET&quot;] = USER_NAME.lower()
-os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;localhost&quot;
+os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;keycloak&quot;
 os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;4442&quot;
 os.environ[&quot;LOMAS_KEYCLOAL_USE_TLS&quot;] = &quot;0&quot;
 os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
@@ -297,7 +297,7 @@ os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client(url=APP_URL, dataset_name=DATASET_NAME)
@@ -313,7 +313,7 @@ os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
 <p>Dr. Antartica has never seen the data and as a first step to understand what is available to her, she would like to check the metadata of the dataset. Therefore, she just needs to call the <code class="docutils literal notranslate"><span class="pre">get_dataset_metadata()</span></code> function of the client. As this is public information, this does not cost any budget.</p>
 <p>This function returns metadata information in a format based on <a class="reference external" href="https://docs.smartnoise.org/sql/metadata.html#dictionary-format">SmartnoiseSQL dictionary format</a>, where among other, there is information about all the available columns, their type, bound values (see Smartnoise page for more details). Any metadata is required for Smartnoise-SQL is also required here and additional information such that the different categories in a string type column column can be added.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata = client.get_dataset_metadata()
@@ -322,7 +322,7 @@ penguin_metadata
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -396,7 +396,7 @@ penguin_metadata
 <p>Based on this Dr. Antartica knows that there are 7 columns, 3 of string type (species, island, sex) with their associated categories (i.e. the species column has 3 possibilities: ‘Adelie’, ‘Chinstrap’, ‘Gentoo’) and 4 of float type (bill length, bill depth, flipper length and body mass) with their associated bounds (i.e. the body mass of penguin ranges from 2000 to 7000 gramms). She also knows based on the field <code class="docutils literal notranslate"><span class="pre">max_ids:</span> <span class="pre">1</span></code> that each penguin can only be once in the dataset and on the field
 <code class="docutils literal notranslate"><span class="pre">row_privacy:</span> <span class="pre">True</span></code> that each row represents a single penguin. Finally, she learns that there are 344 rows in the dataset and hence 344 penguins.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>NB_PENGUINS = penguin_metadata[&quot;rows&quot;]
@@ -411,7 +411,7 @@ penguin_metadata
 metadata).</p>
 <p>Dr. Antartica first create a dummy dataset with 100 rows and chooses a seed of 0.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>NB_ROWS = 100
@@ -420,7 +420,7 @@ SEED = 0
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_dummy = client.get_dummy_dataset(
@@ -442,7 +442,7 @@ df_dummy.head()
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -533,7 +533,7 @@ df_dummy.head()
 <h3>c. Check privacy loss budget ε, δ (initial, current, remaining)<a class="headerlink" href="#c.-Check-privacy-loss-budget-ε,-δ-(initial,-current,-remaining)" title="Link to this heading"></a></h3>
 <p>It is the first time that Dr. Antartica connects to the server and she wants to know how much buget has beeen assigned to her. Therefore, she calls the fonction <code class="docutils literal notranslate"><span class="pre">get_initial_budget</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_initial_budget()
@@ -541,7 +541,7 @@ df_dummy.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -552,7 +552,7 @@ InitialBudgetResponse(initial_epsilon=10.0, initial_delta=0.005)
 <p>She sees that she has 10.0 epsilon and 0.005 epsilon at her disposal.</p>
 <p>Then she checks her total spent budget <code class="docutils literal notranslate"><span class="pre">get_total_spent_budget</span></code>. As she only did queries on metadata on dummy dataframes, this should still be 0.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_total_spent_budget()
@@ -560,7 +560,7 @@ InitialBudgetResponse(initial_epsilon=10.0, initial_delta=0.005)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -570,7 +570,7 @@ SpentBudgetResponse(total_spent_epsilon=0.0, total_spent_delta=0.0)
 </div>
 <p>It will also be useful to know what the remaining budget is. Therefore, she calls the function <code class="docutils literal notranslate"><span class="pre">get_remaining_budget</span></code>. It just substarcts the total spent budget from the initial budget.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
@@ -578,7 +578,7 @@ SpentBudgetResponse(total_spent_epsilon=0.0, total_spent_delta=0.0)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -608,7 +608,7 @@ RemainingBudgetResponse(remaining_epsilon=10.0, remaining_delta=0.005)
 <h3>a. Compute average bill length with Smartnoise-SQL<a class="headerlink" href="#a.-Compute-average-bill-length-with-Smartnoise-SQL" title="Link to this heading"></a></h3>
 <p>Dr. Antartica wants to know the average bill length of penguins. Therefore, she will use <code class="docutils literal notranslate"><span class="pre">smartnoise-sql</span></code> library and write the associated SQL command.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Average bill length in mm
@@ -622,7 +622,7 @@ QUERY = &quot;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&quot;
 <p>The user can then decide to use the budget or modify it. Again, of course, this will not impact the user’s budget.</p>
 <p>Dr. Antartica checks the budget that computing the average bill length will really cost her if she asks the query with an <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and a <code class="docutils literal notranslate"><span class="pre">delta</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>EPSILON = 0.5
@@ -631,7 +631,7 @@ DELTA = 1e-4
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost = client.smartnoise_sql.cost(
@@ -644,7 +644,7 @@ cost
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -653,7 +653,7 @@ CostResponse(epsilon=1.0, delta=4.999999999999449e-05)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;This query would actually cost her {cost.epsilon} epsilon and {cost.delta} delta.&quot;)
@@ -689,7 +689,7 @@ real dataset. This functionnal testing on the dummy does not have any impact on 
 <li><p>set very high budget values to be able to compare results with a similar local dummy (with the same seed and number of rows) if she wants to verify that the function do what is expected. Here she will just check that the number of rows is close to what she sets as parameter.</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># On the remote server dummy dataframe
@@ -705,7 +705,7 @@ dummy_res = client.smartnoise_sql.query(
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;Average bill length in remote dummy: {np.round(dummy_res.result.df[&#39;avg_bill_length_mm&#39;][0], 2)}mm.&quot;)
@@ -727,7 +727,7 @@ Average bill length in remote dummy: 48.57mm.
 <p>Now that all the safeguard functions were tested, Dr. Antartica is ready to query on the real dataset and get a differentially private response of the number of penguins and average bill length. By default, the flag <code class="docutils literal notranslate"><span class="pre">dummy</span></code> is False so setting it is optional. She uses the values of <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and <code class="docutils literal notranslate"><span class="pre">delta</span></code> that she selected just before.</p>
 <p>Careful: This command DOES spend the budget of the user and the remaining budget is updated for every query.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
@@ -735,7 +735,7 @@ Average bill length in remote dummy: 48.57mm.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -744,7 +744,7 @@ RemainingBudgetResponse(remaining_epsilon=10.0, remaining_delta=0.005)
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.smartnoise_sql.query(
@@ -757,7 +757,7 @@ RemainingBudgetResponse(remaining_epsilon=10.0, remaining_delta=0.005)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_bill_length = np.round(response.result.df[&#39;avg_bill_length_mm&#39;].iloc[0], 2)
@@ -770,12 +770,12 @@ print(f&quot;Average bill length of penguins in real data: {avg_bill_length}mm.&
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average bill length of penguins in real data: 43.78mm.
+Average bill length of penguins in real data: 44.18mm.
 </pre></div></div>
 </div>
 <p>After each query on the real dataset, the budget informations are also returned to the researcher. It is possible possible to check the remaining budget again afterwards:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
@@ -783,7 +783,7 @@ Average bill length of penguins in real data: 43.78mm.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -793,7 +793,7 @@ RemainingBudgetResponse(remaining_epsilon=9.0, remaining_delta=0.004950000000000
 </div>
 <p>As can be seen in <code class="docutils literal notranslate"><span class="pre">get_total_spent_budget()</span></code>, it is the budget estimated with <code class="docutils literal notranslate"><span class="pre">estimate_smartnoise_cost()</span></code> that was spent.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_total_spent_budget()
@@ -801,7 +801,7 @@ RemainingBudgetResponse(remaining_epsilon=9.0, remaining_delta=0.004950000000000
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -815,7 +815,7 @@ SpentBudgetResponse(total_spent_epsilon=1.0, total_spent_delta=4.999999999999449
 <section id="b.-Compute-confidence-interval-with-opendp">
 <h3>b. Compute confidence interval with opendp<a class="headerlink" href="#b.-Compute-confidence-interval-with-opendp" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import opendp as dp
@@ -829,7 +829,7 @@ import opendp.measurements as meas
 <h4>Prepare opendp pipeline and verify on dummy<a class="headerlink" href="#Prepare-opendp-pipeline-and-verify-on-dummy" title="Link to this heading"></a></h4>
 <p>She checks the metadata of the columns again to use the relevant values in the pipeline.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata[&quot;columns&quot;]
@@ -837,7 +837,7 @@ import opendp.measurements as meas
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -906,7 +906,7 @@ import opendp.measurements as meas
 </div>
 <p>She can define the columns names and the bounds of the relevant column.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>columns = list(penguin_metadata[&quot;columns&quot;].keys())
@@ -914,7 +914,7 @@ import opendp.measurements as meas
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bill_length_min = penguin_metadata[&#39;columns&#39;][&#39;bill_length_mm&#39;][&#39;lower&#39;]
@@ -924,7 +924,7 @@ bill_length_min, bill_length_max
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -934,7 +934,7 @@ bill_length_min, bill_length_max
 </div>
 <p>She can now define the pipeline of the transformation to have the variance that she wants on the data:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bill_length_transformation_pipeline = (
@@ -950,7 +950,7 @@ bill_length_min, bill_length_max
 </div>
 <p>However, when she tries to execute it on the server, she has an error (see below).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># No instruction for noise addition mechanism: Expect to fail !!!
@@ -968,14 +968,14 @@ client.opendp.query(
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[29]</span><span class="ansi-green-fg">, line 2</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[28]</span><span class="ansi-green-fg">, line 2</span>
 <span class="ansi-green-fg">      1</span> <span style="color: rgb(95,135,135)"># No instruction for noise addition mechanism: Expect to fail !!!</span>
 <span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">2</span> <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">opendp</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
 <span class="ansi-green-fg">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">opendp_pipeline</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">bill_length_transformation_pipeline</span><span class="ansi-yellow-bg">,</span>
 <span class="ansi-green-fg">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span>
 <span class="ansi-green-fg">      5</span> <span class="ansi-yellow-bg">)</span>
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/libraries/opendp.py:143</span>, in <span class="ansi-cyan-fg">OpenDPClient.query</span><span class="ansi-blue-fg">(self, opendp_pipeline, fixed_delta, mechanism, dummy, nb_rows, seed)</span>
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">/code/client/lomas_client/libraries/opendp.py:143</span>, in <span class="ansi-cyan-fg">OpenDPClient.query</span><span class="ansi-blue-fg">(self, opendp_pipeline, fixed_delta, mechanism, dummy, nb_rows, seed)</span>
 <span class="ansi-green-fg">    106</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-fg">query</span>(
 <span class="ansi-green-fg">    107</span>     <span style="color: rgb(0,135,0)">self</span>,
 <span class="ansi-green-fg">    108</span>     opendp_pipeline: dp.Measurement | pl.LazyFrame,
@@ -994,7 +994,7 @@ client.opendp.query(
 <span class="ansi-green-fg">    149</span>     request_model: Type[OpenDPRequestModel]
 <span class="ansi-green-fg">    150</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> dummy:
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/libraries/opendp.py:63</span>, in <span class="ansi-cyan-fg">OpenDPClient._get_opendp_request_body</span><span class="ansi-blue-fg">(self, opendp_pipeline, fixed_delta, mechanism)</span>
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">/code/client/lomas_client/libraries/opendp.py:63</span>, in <span class="ansi-cyan-fg">OpenDPClient._get_opendp_request_body</span><span class="ansi-blue-fg">(self, opendp_pipeline, fixed_delta, mechanism)</span>
 <span class="ansi-green-fg">     61</span>     body_json[<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">pipeline_type</span><span class="ansi-yellow-fg">&#34;</span>] = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">polars</span><span class="ansi-yellow-fg">&#34;</span>
 <span class="ansi-green-fg">     62</span> <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
 <span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">63</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">TypeError</span>(
@@ -1008,7 +1008,7 @@ client.opendp.query(
 </div>
 <p>This is because the server will only allow measurement pipeline with differentially private results. She adds Laplacian noise to the pipeline and should be able to instantiate the pipeline.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_bill_length_measurement_pipeline = (
@@ -1020,7 +1020,7 @@ client.opendp.query(
 </div>
 <p>Now that there is a measurement, she is able to apply the pipeline on the dummy dataset of the server.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_var_res = client.opendp.query(
@@ -1036,7 +1036,7 @@ print(f&quot;Dummy result for variance: {np.round(dummy_var_res.result.value, 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Dummy result for variance: 39.56
+Dummy result for variance: 28.59
 </pre></div></div>
 </div>
 </section>
@@ -1044,7 +1044,7 @@ Dummy result for variance: 39.56
 <h4>Estimate cost with opendp<a class="headerlink" href="#Estimate-cost-with-opendp" title="Link to this heading"></a></h4>
 <p>With opendp, the function <code class="docutils literal notranslate"><span class="pre">opendp.cost</span></code> is particularly useful to estimate the used <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and <code class="docutils literal notranslate"><span class="pre">delta</span></code> based on the <code class="docutils literal notranslate"><span class="pre">scale</span></code> value.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost_res = client.opendp.cost(
@@ -1055,7 +1055,7 @@ cost_res
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1068,7 +1068,7 @@ CostResponse(epsilon=0.7122093023265229, delta=0.0)
 <h4>Execute pipeline on real dataset with opendp<a class="headerlink" href="#Execute-pipeline-on-real-dataset-with-opendp" title="Link to this heading"></a></h4>
 <p>She can now execute the query on the real dataset.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_res = client.opendp.query(
@@ -1078,7 +1078,7 @@ CostResponse(epsilon=0.7122093023265229, delta=0.0)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_bill_length = np.round(var_res.result.value, 2)
@@ -1091,7 +1091,7 @@ print(f&quot;Variance of bill length: {var_bill_length} (from opendp query).&quo
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Variance of bill length: 26.52 (from opendp query).
+Variance of bill length: 28.71 (from opendp query).
 </pre></div></div>
 </div>
 </section>
@@ -1099,7 +1099,7 @@ Variance of bill length: 26.52 (from opendp query).
 <h4>Postprocessing: no additional privacy risk with DP<a class="headerlink" href="#Postprocessing:-no-additional-privacy-risk-with-DP" title="Link to this heading"></a></h4>
 <p>She can now do all the postprocessing that she wants with the returned data without adding any privacy risk.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get standard error
@@ -1113,11 +1113,11 @@ print(f&quot;Standard error of bill length: {np.round(standard_error, 2)}.&quot;
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Standard error of bill length: 0.28.
+Standard error of bill length: 0.29.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> # Compute the 95% confidence interval
@@ -1133,7 +1133,7 @@ print(f&quot;The 95% confidence interval of the bill length of all penguins is [
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The 95% confidence interval of the bill length of all penguins is [43.24, 44.32].
+The 95% confidence interval of the bill length of all penguins is [43.61, 44.75].
 </pre></div></div>
 </div>
 </section>
@@ -1141,7 +1141,7 @@ The 95% confidence interval of the bill length of all penguins is [43.24, 44.32]
 <section id="c.-Train-a-DP-Machine-Learning-model-with-DiffPrivLib">
 <h3>c. Train a DP Machine Learning model with DiffPrivLib<a class="headerlink" href="#c.-Train-a-DP-Machine-Learning-model-with-DiffPrivLib" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sklearn.pipeline import Pipeline
@@ -1154,7 +1154,7 @@ import pandas as pd
 <section id="Prepare-Random-Forest-Classifier-pipeline-on-dummy-with-DiffPrivLib">
 <h4>Prepare Random Forest Classifier pipeline on dummy with DiffPrivLib<a class="headerlink" href="#Prepare-Random-Forest-Classifier-pipeline-on-dummy-with-DiffPrivLib" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
@@ -1163,7 +1163,7 @@ target_columns = [&#39;species&#39;]
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def get_bounds(cols_metadata, columns):
@@ -1174,7 +1174,7 @@ target_columns = [&#39;species&#39;]
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
@@ -1183,7 +1183,7 @@ bounds
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1192,7 +1192,7 @@ bounds
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
@@ -1207,7 +1207,7 @@ bounds
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
@@ -1224,13 +1224,14 @@ model
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <style>#sk-container-id-1 {
   /* Definition of color scheme common for light and dark mode */
-  --sklearn-color-text: black;
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
   --sklearn-color-line: gray;
   /* Definition of color scheme for unfitted estimators */
   --sklearn-color-unfitted-level-0: #fff5e6;
@@ -1375,12 +1376,21 @@ clickable and can be expanded/collapsed.
 /* Toggleable label */
 #sk-container-id-1 label.sk-toggleable__label {
   cursor: pointer;
-  display: block;
+  display: flex;
   width: 100%;
   margin-bottom: 0;
   padding: 0.5em;
   box-sizing: border-box;
   text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-1 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
 }
 
 #sk-container-id-1 label.sk-toggleable__label-arrow:before {
@@ -1533,7 +1543,8 @@ a:visited.sk-estimator-doc-link {
   height: 1em;
   width: 1em;
   text-decoration: none !important;
-  margin-left: 1ex;
+  margin-left: 0.5em;
+  text-align: center;
   /* unfitted */
   border: var(--sklearn-color-unfitted-level-1) 1pt solid;
   color: var(--sklearn-color-unfitted-level-1);
@@ -1638,13 +1649,13 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                 array([  65.,   23.,  250., 7000.])),
                                         classes=[&#x27;Adelie&#x27;, &#x27;Chinstrap&#x27;,
                                                  &#x27;Gentoo&#x27;],
-                                        epsilon=2.0))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;Pipeline<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.4/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;rf&#x27;,
+                                        epsilon=2.0))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;rf&#x27;,
                  RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
                                         bounds=(array([  30.,   13.,  150., 2000.]),
                                                 array([  65.,   23.,  250., 7000.])),
                                         classes=[&#x27;Adelie&#x27;, &#x27;Chinstrap&#x27;,
                                                  &#x27;Gentoo&#x27;],
-                                        epsilon=2.0))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" ><label for="sk-estimator-id-2" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">RandomForestClassifier</label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
+                                        epsilon=2.0))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" ><label for="sk-estimator-id-2" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>RandomForestClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
                        bounds=(array([  30.,   13.,  150., 2000.]),
                                array([  65.,   23.,  250., 7000.])),
                        classes=[&#x27;Adelie&#x27;, &#x27;Chinstrap&#x27;, &#x27;Gentoo&#x27;], epsilon=2.0)</pre></div> </div></div></div></div></div></div></div>
@@ -1653,7 +1664,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="Estimate-budget-of-Linear-Regression-with-DiffPrivLib">
 <h4>Estimate budget of Linear Regression with DiffPrivLib<a class="headerlink" href="#Estimate-budget-of-Linear-Regression-with-DiffPrivLib" title="Link to this heading"></a></h4>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost_res = client.diffprivlib.cost(
@@ -1668,7 +1679,7 @@ cost_res
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1680,7 +1691,7 @@ CostResponse(epsilon=2.0, delta=0.0)
 <section id="Train-random-forest-classifier-on-sensitive-data-with-DiffPrivLib">
 <h4>Train random forest classifier on sensitive data with DiffPrivLib<a class="headerlink" href="#Train-random-forest-classifier-on-sensitive-data-with-DiffPrivLib" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.diffprivlib.query(
@@ -1695,7 +1706,7 @@ CostResponse(epsilon=2.0, delta=0.0)
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Return the mean accuracy.
@@ -1704,7 +1715,7 @@ model_score = response.result.score
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f&quot;The model has a mean accuracy of {np.round(model_score, 2)}. It is a harsh metric because we are in a multi-label classification case.&quot;
@@ -1712,16 +1723,16 @@ model_score = response.result.score
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;The model has a mean accuracy of 0.15. It is a harsh metric because we are in a multi-label classification case.&#39;
+&#39;The model has a mean accuracy of 0.41. It is a harsh metric because we are in a multi-label classification case.&#39;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = response.result.model
@@ -1730,13 +1741,14 @@ model
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <style>#sk-container-id-2 {
   /* Definition of color scheme common for light and dark mode */
-  --sklearn-color-text: black;
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
   --sklearn-color-line: gray;
   /* Definition of color scheme for unfitted estimators */
   --sklearn-color-unfitted-level-0: #fff5e6;
@@ -1881,12 +1893,21 @@ clickable and can be expanded/collapsed.
 /* Toggleable label */
 #sk-container-id-2 label.sk-toggleable__label {
   cursor: pointer;
-  display: block;
+  display: flex;
   width: 100%;
   margin-bottom: 0;
   padding: 0.5em;
   box-sizing: border-box;
   text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-2 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
 }
 
 #sk-container-id-2 label.sk-toggleable__label-arrow:before {
@@ -2039,7 +2060,8 @@ a:visited.sk-estimator-doc-link {
   height: 1em;
   width: 1em;
   text-decoration: none !important;
-  margin-left: 1ex;
+  margin-left: 0.5em;
+  text-align: center;
   /* unfitted */
   border: var(--sklearn-color-unfitted-level-1) 1pt solid;
   color: var(--sklearn-color-unfitted-level-1);
@@ -2144,19 +2166,19 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                 array([  65.,   23.,  250., 7000.])),
                                         classes=[&#x27;Adelie&#x27;, &#x27;Chinstrap&#x27;,
                                                  &#x27;Gentoo&#x27;],
-                                        epsilon=2.0))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;Pipeline<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.4/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;rf&#x27;,
+                                        epsilon=2.0))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;rf&#x27;,
                  RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
                                         bounds=(array([  30.,   13.,  150., 2000.]),
                                                 array([  65.,   23.,  250., 7000.])),
                                         classes=[&#x27;Adelie&#x27;, &#x27;Chinstrap&#x27;,
                                                  &#x27;Gentoo&#x27;],
-                                        epsilon=2.0))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox" ><label for="sk-estimator-id-4" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">RandomForestClassifier</label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
+                                        epsilon=2.0))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox" ><label for="sk-estimator-id-4" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>RandomForestClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
                        bounds=(array([  30.,   13.,  150., 2000.]),
                                array([  65.,   23.,  250., 7000.])),
                        classes=[&#x27;Adelie&#x27;, &#x27;Chinstrap&#x27;, &#x27;Gentoo&#x27;], epsilon=2.0)</pre></div> </div></div></div></div></div></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x_to_predict = pd.DataFrame({
@@ -2168,12 +2190,12 @@ f&quot;For these feature values, the predicted species is is {predictions}.&quot
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;For these feature values, the predicted species is is Gentoo.&#39;
+&#39;For these feature values, the predicted species is is Adelie.&#39;
 </pre></div></div>
 </div>
 </section>
@@ -2183,8 +2205,8 @@ f&quot;For these feature values, the predicted species is is {predictions}.&quot
 <p>Finally she gets a synthetic dataset to do the rest of her analysis. She chooses to only train on a subset on 3 columns: “island”, “bill_length_mm” and “bill_depth_mm” but if we wanted she could train on the whole dataset. She also decides to use the <code class="docutils literal notranslate"><span class="pre">patectgan</span></code> synthesizer and keep all other default parameters.</p>
 <section id="Train-patectgan-synthesizer-on-dummy-data-with-Smartnoise-Synth">
 <h4>Train patectgan synthesizer on dummy data with Smartnoise-Synth<a class="headerlink" href="#Train-patectgan-synthesizer-on-dummy-data-with-Smartnoise-Synth" title="Link to this heading"></a></h4>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -2197,240 +2219,8 @@ dummy_synth_df = res_dummy.result.df_samples
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ConnectionRefusedError</span>                    Traceback (most recent call last)
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/urllib3/connection.py:198</span>, in <span class="ansi-cyan-fg">HTTPConnection._new_conn</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-fg">    197</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">198</span>     sock = <span class="ansi-yellow-bg">connection</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">create_connection</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">    199</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_dns_host</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">port</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    200</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">timeout</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    201</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">source_address</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">source_address</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    202</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">socket_options</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">socket_options</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    203</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    204</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> socket.gaierror <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> e:
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/urllib3/util/connection.py:85</span>, in <span class="ansi-cyan-fg">create_connection</span><span class="ansi-blue-fg">(address, timeout, source_address, socket_options)</span>
-<span class="ansi-green-fg">     84</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">85</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> err
-<span class="ansi-green-fg">     86</span> <span class="ansi-bold" style="color: rgb(0,135,0)">finally</span>:
-<span class="ansi-green-fg">     87</span>     <span style="color: rgb(95,135,135)"># Break explicitly a reference cycle</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/urllib3/util/connection.py:73</span>, in <span class="ansi-cyan-fg">create_connection</span><span class="ansi-blue-fg">(address, timeout, source_address, socket_options)</span>
-<span class="ansi-green-fg">     72</span>     sock.bind(source_address)
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">73</span> <span class="ansi-yellow-bg">sock</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">connect</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">sa</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">     74</span> <span style="color: rgb(95,135,135)"># Break explicitly a reference cycle</span>
-
-<span class="ansi-red-fg">ConnectionRefusedError</span>: [Errno 111] Connection refused
-
-The above exception was the direct cause of the following exception:
-
-<span class="ansi-red-fg">NewConnectionError</span>                        Traceback (most recent call last)
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/urllib3/connectionpool.py:787</span>, in <span class="ansi-cyan-fg">HTTPConnectionPool.urlopen</span><span class="ansi-blue-fg">(self, method, url, body, headers, retries, redirect, assert_same_host, timeout, pool_timeout, release_conn, chunked, body_pos, preload_content, decode_content, **response_kw)</span>
-<span class="ansi-green-fg">    786</span> <span style="color: rgb(95,135,135)"># Make the request on the HTTPConnection object</span>
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">787</span> response = <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_make_request</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">    788</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">conn</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    789</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    790</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    791</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">timeout</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">timeout_obj</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    792</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">body</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">body</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    793</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">headers</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">headers</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    794</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">chunked</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">chunked</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    795</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">retries</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">retries</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    796</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">response_conn</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">response_conn</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    797</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">preload_content</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">preload_content</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    798</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">decode_content</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">decode_content</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    799</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">response_kw</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    800</span> <span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    802</span> <span style="color: rgb(95,135,135)"># Everything went great!</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/urllib3/connectionpool.py:493</span>, in <span class="ansi-cyan-fg">HTTPConnectionPool._make_request</span><span class="ansi-blue-fg">(self, conn, method, url, body, headers, retries, timeout, chunked, response_conn, preload_content, decode_content, enforce_content_length)</span>
-<span class="ansi-green-fg">    492</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">493</span>     <span class="ansi-yellow-bg">conn</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">request</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">    494</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    495</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    496</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">body</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">body</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    497</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">headers</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">headers</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    498</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">chunked</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">chunked</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    499</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">preload_content</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">preload_content</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    500</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">decode_content</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">decode_content</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    501</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">enforce_content_length</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">enforce_content_length</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    502</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    504</span> <span style="color: rgb(95,135,135)"># We are swallowing BrokenPipeError (errno.EPIPE) since the server is</span>
-<span class="ansi-green-fg">    505</span> <span style="color: rgb(95,135,135)"># legitimately able to close the connection after sending a valid response.</span>
-<span class="ansi-green-fg">    506</span> <span style="color: rgb(95,135,135)"># With this behaviour, the received response is still readable.</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/urllib3/connection.py:445</span>, in <span class="ansi-cyan-fg">HTTPConnection.request</span><span class="ansi-blue-fg">(self, method, url, body, headers, chunked, preload_content, decode_content, enforce_content_length)</span>
-<span class="ansi-green-fg">    444</span>     <span style="color: rgb(0,135,0)">self</span>.putheader(header, value)
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">445</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">endheaders</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    447</span> <span style="color: rgb(95,135,135)"># If we&#39;re given a body we start sending that in chunks.</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">/nix/store/2df3vw2j6awx1qdgc53d7010006ggxsf-python3-3.12.7-env/lib/python3.12/http/client.py:1331</span>, in <span class="ansi-cyan-fg">HTTPConnection.endheaders</span><span class="ansi-blue-fg">(self, message_body, encode_chunked)</span>
-<span class="ansi-green-fg">   1330</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> CannotSendHeader()
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">1331</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_send_output</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">message_body</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">encode_chunked</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">encode_chunked</span><span class="ansi-yellow-bg">)</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">/nix/store/2df3vw2j6awx1qdgc53d7010006ggxsf-python3-3.12.7-env/lib/python3.12/http/client.py:1091</span>, in <span class="ansi-cyan-fg">HTTPConnection._send_output</span><span class="ansi-blue-fg">(self, message_body, encode_chunked)</span>
-<span class="ansi-green-fg">   1090</span> <span class="ansi-bold" style="color: rgb(0,135,0)">del</span> <span style="color: rgb(0,135,0)">self</span>._buffer[:]
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">1091</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">send</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">msg</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">   1093</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> message_body <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
-<span class="ansi-green-fg">   1094</span>
-<span class="ansi-green-fg">   1095</span>     <span style="color: rgb(95,135,135)"># create a consistent interface to message_body</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">/nix/store/2df3vw2j6awx1qdgc53d7010006ggxsf-python3-3.12.7-env/lib/python3.12/http/client.py:1035</span>, in <span class="ansi-cyan-fg">HTTPConnection.send</span><span class="ansi-blue-fg">(self, data)</span>
-<span class="ansi-green-fg">   1034</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">self</span>.auto_open:
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">1035</span>     <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">connect</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">   1036</span> <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/urllib3/connection.py:276</span>, in <span class="ansi-cyan-fg">HTTPConnection.connect</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-fg">    275</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-fg">connect</span>(<span style="color: rgb(0,135,0)">self</span>) -&gt; <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">276</span>     <span style="color: rgb(0,135,0)">self</span>.sock = <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_new_conn</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    277</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">self</span>._tunnel_host:
-<span class="ansi-green-fg">    278</span>         <span style="color: rgb(95,135,135)"># If we&#39;re tunneling it means we&#39;re connected to our proxy.</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/urllib3/connection.py:213</span>, in <span class="ansi-cyan-fg">HTTPConnection._new_conn</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-fg">    212</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> <span class="ansi-bold" style="color: rgb(215,95,95)">OSError</span> <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> e:
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">213</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> NewConnectionError(
-<span class="ansi-green-fg">    214</span>         <span style="color: rgb(0,135,0)">self</span>, <span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">Failed to establish a new connection: </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>e<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">&#34;</span>
-<span class="ansi-green-fg">    215</span>     ) <span class="ansi-bold" style="color: rgb(0,135,0)">from</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-intense-fg ansi-bold">e</span>
-<span class="ansi-green-fg">    217</span> sys.audit(<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">http.client.connect</span><span class="ansi-yellow-fg">&#34;</span>, <span style="color: rgb(0,135,0)">self</span>, <span style="color: rgb(0,135,0)">self</span>.host, <span style="color: rgb(0,135,0)">self</span>.port)
-
-<span class="ansi-red-fg">NewConnectionError</span>: &lt;urllib3.connection.HTTPConnection object at 0x7a731f0cfc20&gt;: Failed to establish a new connection: [Errno 111] Connection refused
-
-The above exception was the direct cause of the following exception:
-
-<span class="ansi-red-fg">MaxRetryError</span>                             Traceback (most recent call last)
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/requests/adapters.py:564</span>, in <span class="ansi-cyan-fg">HTTPAdapter.send</span><span class="ansi-blue-fg">(self, request, stream, timeout, verify, cert, proxies)</span>
-<span class="ansi-green-fg">    563</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">564</span>     resp = <span class="ansi-yellow-bg">conn</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">urlopen</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">    565</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">request</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    566</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    567</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">body</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">request</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">body</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    568</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">headers</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">request</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">headers</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    569</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">redirect</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">False</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    570</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">assert_same_host</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">False</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    571</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">preload_content</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">False</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    572</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">decode_content</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">False</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    573</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">retries</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">max_retries</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    574</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">timeout</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">timeout</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    575</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">chunked</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">chunked</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    576</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    578</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> (ProtocolError, <span class="ansi-bold" style="color: rgb(215,95,95)">OSError</span>) <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> err:
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/urllib3/connectionpool.py:841</span>, in <span class="ansi-cyan-fg">HTTPConnectionPool.urlopen</span><span class="ansi-blue-fg">(self, method, url, body, headers, retries, redirect, assert_same_host, timeout, pool_timeout, release_conn, chunked, body_pos, preload_content, decode_content, **response_kw)</span>
-<span class="ansi-green-fg">    839</span>     new_e = ProtocolError(<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">Connection aborted.</span><span class="ansi-yellow-fg">&#34;</span>, new_e)
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">841</span> retries = <span class="ansi-yellow-bg">retries</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">increment</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">    842</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">error</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">new_e</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">_pool</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">_stacktrace</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">sys</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">exc_info</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">[</span><span class="ansi-green-fg ansi-yellow-bg">2</span><span class="ansi-yellow-bg">]</span>
-<span class="ansi-green-fg">    843</span> <span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    844</span> retries.sleep()
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/urllib3/util/retry.py:519</span>, in <span class="ansi-cyan-fg">Retry.increment</span><span class="ansi-blue-fg">(self, method, url, response, error, _pool, _stacktrace)</span>
-<span class="ansi-green-fg">    518</span>     reason = error <span class="ansi-bold" style="color: rgb(175,0,255)">or</span> ResponseError(cause)
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">519</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> MaxRetryError(_pool, url, reason) <span class="ansi-bold" style="color: rgb(0,135,0)">from</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-intense-fg ansi-bold">reason</span>  <span style="color: rgb(95,135,135)"># type: ignore[arg-type]</span>
-<span class="ansi-green-fg">    521</span> log.debug(<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">Incremented Retry for (url=</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-bold" style="color: rgb(175,95,135)">%s</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">): </span><span class="ansi-bold" style="color: rgb(175,95,135)">%r</span><span class="ansi-yellow-fg">&#34;</span>, url, new_retry)
-
-<span class="ansi-red-fg">MaxRetryError</span>: HTTPConnectionPool(host=&#39;localhost&#39;, port=48080): Max retries exceeded with url: /status/83378256-b06e-45a5-9972-b8027ee88325 (Caused by NewConnectionError(&#39;&lt;urllib3.connection.HTTPConnection object at 0x7a731f0cfc20&gt;: Failed to establish a new connection: [Errno 111] Connection refused&#39;))
-
-During handling of the above exception, another exception occurred:
-
-<span class="ansi-red-fg">ConnectionError</span>                           Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[49]</span><span class="ansi-green-fg">, line 1</span>
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> res_dummy = <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">smartnoise_synth</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">      2</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">synth_name</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">patectgan</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">select_cols</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">island</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">bill_length_mm</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">bill_depth_mm</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">epsilon</span><span class="ansi-yellow-bg">=</span><span class="ansi-green-fg ansi-yellow-bg">1.0</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      5</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      6</span> <span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">      7</span> dummy_synth_df = res_dummy.result.df_samples
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/libraries/smartnoise_synth.py:197</span>, in <span class="ansi-cyan-fg">SmartnoiseSynthClient.query</span><span class="ansi-blue-fg">(self, synth_name, epsilon, delta, select_cols, synth_params, nullable, constraints, dummy, return_model, condition, nb_samples, nb_rows, seed)</span>
-<span class="ansi-green-fg">    194</span> body = request_model.model_validate(body_dict)
-<span class="ansi-green-fg">    195</span> res = <span style="color: rgb(0,135,0)">self</span>.http_client.post(endpoint, body, SMARTNOISE_SYNTH_READ_TIMEOUT)
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">197</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">validate_model_response</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">http_client</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">res</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">QueryResponse</span><span class="ansi-yellow-bg">)</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/utils.py:90</span>, in <span class="ansi-cyan-fg">validate_model_response</span><span class="ansi-blue-fg">(client, response, response_model)</span>
-<span class="ansi-green-fg">     87</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
-<span class="ansi-green-fg">     89</span> job_uid = response.json()[<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">uid</span><span class="ansi-yellow-fg">&#34;</span>]
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">90</span> job = <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">wait_for_job</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">job_uid</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">     91</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> job.status == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">failed</span><span class="ansi-yellow-fg">&#34;</span>:
-<span class="ansi-green-fg">     92</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">assert</span> job.error <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>, <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">job </span><span class="ansi-bold" style="color: rgb(175,95,135)">{job_uid}</span><span class="ansi-yellow-fg"> failed without error !</span><span class="ansi-yellow-fg">&#34;</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/http_client.py:157</span>, in <span class="ansi-cyan-fg">LomasHttpClient.wait_for_job</span><span class="ansi-blue-fg">(self, job_uid, n_retry, sleep_sec)</span>
-<span class="ansi-green-fg">    154</span> <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> _ <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> <span style="color: rgb(0,135,0)">range</span>(n_retry):
-<span class="ansi-green-fg">    156</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">157</span>         job_query = <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_oauth2_session</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">    158</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-fg ansi-yellow-bg">f</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,135)">{</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg ansi-yellow-bg">/status/</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,135)">{</span><span class="ansi-yellow-bg">job_uid</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">headers</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">headers</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">timeout</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">CONNECT_TIMEOUT</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    159</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">)</span>.json()
-<span class="ansi-green-fg">    160</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> TokenExpiredError:
-<span class="ansi-green-fg">    161</span>         <span style="color: rgb(95,135,135)"># This also catches if there is no token at first try.</span>
-<span class="ansi-green-fg">    162</span>         <span style="color: rgb(0,135,0)">self</span>._fetch_token()
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/requests/sessions.py:602</span>, in <span class="ansi-cyan-fg">Session.get</span><span class="ansi-blue-fg">(self, url, **kwargs)</span>
-<span class="ansi-green-fg">    594</span> <span class="ansi-yellow-fg">r</span><span class="ansi-yellow-fg">&#34;&#34;&#34;Sends a GET request. Returns :class:`Response` object.</span>
-<span class="ansi-green-fg">    595</span>
-<span class="ansi-green-fg">    596</span> <span class="ansi-yellow-fg">:param url: URL for the new :class:`Request` object.</span>
-<span class="ansi-green-fg">    597</span> <span class="ansi-yellow-fg">:param \*\*kwargs: Optional arguments that ``request`` takes.</span>
-<span class="ansi-green-fg">    598</span> <span class="ansi-yellow-fg">:rtype: requests.Response</span>
-<span class="ansi-green-fg">    599</span> <span class="ansi-yellow-fg">&#34;&#34;&#34;</span>
-<span class="ansi-green-fg">    601</span> kwargs.setdefault(<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">allow_redirects</span><span class="ansi-yellow-fg">&#34;</span>, <span class="ansi-bold" style="color: rgb(0,135,0)">True</span>)
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">602</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">request</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">GET</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/requests_oauthlib/oauth2_session.py:566</span>, in <span class="ansi-cyan-fg">OAuth2Session.request</span><span class="ansi-blue-fg">(self, method, url, data, headers, withhold_token, client_id, client_secret, files, **kwargs)</span>
-<span class="ansi-green-fg">    564</span> log.debug(<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">Supplying headers </span><span class="ansi-bold" style="color: rgb(175,95,135)">%s</span><span class="ansi-yellow-fg"> and data </span><span class="ansi-bold" style="color: rgb(175,95,135)">%s</span><span class="ansi-yellow-fg">&#34;</span>, headers, data)
-<span class="ansi-green-fg">    565</span> log.debug(<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">Passing through key word arguments </span><span class="ansi-bold" style="color: rgb(175,95,135)">%s</span><span class="ansi-yellow-fg">.</span><span class="ansi-yellow-fg">&#34;</span>, kwargs)
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">566</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">super</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">OAuth2Session</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">request</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">    567</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">headers</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">headers</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">data</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">data</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">files</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">files</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">kwargs</span>
-<span class="ansi-green-fg">    568</span> <span class="ansi-yellow-bg">)</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/requests/sessions.py:589</span>, in <span class="ansi-cyan-fg">Session.request</span><span class="ansi-blue-fg">(self, method, url, params, data, headers, cookies, files, auth, timeout, allow_redirects, proxies, hooks, stream, verify, cert, json)</span>
-<span class="ansi-green-fg">    584</span> send_kwargs = {
-<span class="ansi-green-fg">    585</span>     <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">timeout</span><span class="ansi-yellow-fg">&#34;</span>: timeout,
-<span class="ansi-green-fg">    586</span>     <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">allow_redirects</span><span class="ansi-yellow-fg">&#34;</span>: allow_redirects,
-<span class="ansi-green-fg">    587</span> }
-<span class="ansi-green-fg">    588</span> send_kwargs.update(settings)
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">589</span> resp = <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">send</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">prep</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">send_kwargs</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    591</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> resp
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/opentelemetry/instrumentation/requests/__init__.py:333</span>, in <span class="ansi-cyan-fg">_instrument.&lt;locals&gt;.instrumented_send</span><span class="ansi-blue-fg">(self, request, **kwargs)</span>
-<span class="ansi-green-fg">    328</span>         duration_histogram_new.record(
-<span class="ansi-green-fg">    329</span>             elapsed_time, attributes=duration_attrs_new
-<span class="ansi-green-fg">    330</span>         )
-<span class="ansi-green-fg">    332</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> exception <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">333</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> exception.with_traceback(exception.__traceback__)
-<span class="ansi-green-fg">    335</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> result
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/opentelemetry/instrumentation/requests/__init__.py:255</span>, in <span class="ansi-cyan-fg">_instrument.&lt;locals&gt;.instrumented_send</span><span class="ansi-blue-fg">(self, request, **kwargs)</span>
-<span class="ansi-green-fg">    253</span> start_time = default_timer()
-<span class="ansi-green-fg">    254</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">255</span>     result = <span class="ansi-yellow-bg">wrapped_send</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">    256</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">request</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">kwargs</span>
-<span class="ansi-green-fg">    257</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>  <span style="color: rgb(95,135,135)"># *** PROCEED</span>
-<span class="ansi-green-fg">    258</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> <span class="ansi-bold" style="color: rgb(215,95,95)">Exception</span> <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> exc:  <span style="color: rgb(95,135,135)"># pylint: disable=W0703</span>
-<span class="ansi-green-fg">    259</span>     exception = exc
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/requests/sessions.py:703</span>, in <span class="ansi-cyan-fg">Session.send</span><span class="ansi-blue-fg">(self, request, **kwargs)</span>
-<span class="ansi-green-fg">    700</span> start = preferred_clock()
-<span class="ansi-green-fg">    702</span> <span style="color: rgb(95,135,135)"># Send the request</span>
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">703</span> r = <span class="ansi-yellow-bg">adapter</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">send</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">request</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    705</span> <span style="color: rgb(95,135,135)"># Total elapsed time of the request (approximately)</span>
-<span class="ansi-green-fg">    706</span> elapsed = preferred_clock() - start
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/.devenv/state/venv/lib/python3.12/site-packages/requests/adapters.py:597</span>, in <span class="ansi-cyan-fg">HTTPAdapter.send</span><span class="ansi-blue-fg">(self, request, stream, timeout, verify, cert, proxies)</span>
-<span class="ansi-green-fg">    593</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">isinstance</span>(e.reason, _SSLError):
-<span class="ansi-green-fg">    594</span>         <span style="color: rgb(95,135,135)"># This branch is for urllib3 v1.22 and later.</span>
-<span class="ansi-green-fg">    595</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> SSLError(e, request=request)
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">597</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">ConnectionError</span>(e, request=request)
-<span class="ansi-green-fg">    599</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> ClosedPoolError <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> e:
-<span class="ansi-green-fg">    600</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">ConnectionError</span>(e, request=request)
-
-<span class="ansi-red-fg">ConnectionError</span>: HTTPConnectionPool(host=&#39;localhost&#39;, port=48080): Max retries exceeded with url: /status/83378256-b06e-45a5-9972-b8027ee88325 (Caused by NewConnectionError(&#39;&lt;urllib3.connection.HTTPConnection object at 0x7a731f0cfc20&gt;: Failed to establish a new connection: [Errno 111] Connection refused&#39;))
-</pre></div></div>
-</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_synth_df.head()
@@ -2438,7 +2228,8 @@ During handling of the above exception, another exception occurred:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -2468,32 +2259,32 @@ During handling of the above exception, another exception occurred:
     <tr>
       <th>0</th>
       <td>Dream</td>
-      <td>59.189283</td>
-      <td>18.603612</td>
+      <td>41.061497</td>
+      <td>17.365594</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Dream</td>
-      <td>45.893746</td>
-      <td>17.438823</td>
+      <td>40.916102</td>
+      <td>17.589716</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Dream</td>
-      <td>48.175088</td>
-      <td>16.088652</td>
+      <td>55.325435</td>
+      <td>19.580978</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Dream</td>
-      <td>57.958338</td>
-      <td>17.529872</td>
+      <td>48.574025</td>
+      <td>19.169669</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Dream</td>
-      <td>51.722943</td>
-      <td>19.493872</td>
+      <td>Biscoe</td>
+      <td>48.334023</td>
+      <td>16.253219</td>
     </tr>
   </tbody>
 </table>
@@ -2503,7 +2294,7 @@ During handling of the above exception, another exception occurred:
 <section id="Estimate-cost-of-training-patectgan-synthesizer-with-Smartnoise-Synth">
 <h4>Estimate cost of training patectgan synthesizer with Smartnoise-Synth<a class="headerlink" href="#Estimate-cost-of-training-patectgan-synthesizer-with-Smartnoise-Synth" title="Link to this heading"></a></h4>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_cost = client.smartnoise_synth.cost(
@@ -2516,7 +2307,8 @@ res_cost
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -2527,7 +2319,7 @@ CostResponse(epsilon=1.0, delta=0.00015673368198174188)
 <section id="Train-patectgan-synthesizer-on-private-data-with-Smartnoise-Synth">
 <h4>Train patectgan synthesizer on private data with Smartnoise-Synth<a class="headerlink" href="#Train-patectgan-synthesizer-on-private-data-with-Smartnoise-Synth" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res = client.smartnoise_synth.query(
@@ -2541,7 +2333,7 @@ synth_df = res.result.df_samples
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth_df.head()
@@ -2549,7 +2341,8 @@ synth_df = res.result.df_samples
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -2579,32 +2372,32 @@ synth_df = res.result.df_samples
     <tr>
       <th>0</th>
       <td>Dream</td>
-      <td>52.053493</td>
-      <td>15.699640</td>
+      <td>51.670442</td>
+      <td>15.726217</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Dream</td>
-      <td>47.705728</td>
-      <td>17.678879</td>
+      <td>47.505829</td>
+      <td>17.223182</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Torgersen</td>
-      <td>56.875727</td>
-      <td>16.196799</td>
+      <td>56.446309</td>
+      <td>15.642720</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Biscoe</td>
-      <td>38.807937</td>
-      <td>19.253387</td>
+      <td>37.442804</td>
+      <td>19.550416</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Dream</td>
-      <td>46.332477</td>
-      <td>15.361980</td>
+      <td>46.181431</td>
+      <td>15.531504</td>
     </tr>
   </tbody>
 </table>
@@ -2612,7 +2405,7 @@ synth_df = res.result.df_samples
 </div>
 <p>Out of curiosity, she checks the average bill length and variance of bill length on this dataset.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth_mean = np.round(synth_df[&quot;bill_length_mm&quot;].mean(), 2)
@@ -2621,7 +2414,7 @@ synth_variance = np.round(synth_df[&quot;bill_length_mm&quot;].var(), 2)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(
@@ -2636,12 +2429,12 @@ synth_variance = np.round(synth_df[&quot;bill_length_mm&quot;].var(), 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The average with Smartnoise-SQL on private data was 43.52.
-The average with Smartnoise-Synth on synthetic data is 44.53.
+The average with Smartnoise-SQL on private data was 44.18.
+The average with Smartnoise-Synth on synthetic data is 44.34.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(
@@ -2656,8 +2449,8 @@ The average with Smartnoise-Synth on synthetic data is 44.53.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The variance with opendp on private data was 35.06.
-The variance with Smartnoise-Synth on synthetic data is 36.25.
+The variance with opendp on private data was 28.71.
+The variance with Smartnoise-Synth on synthetic data is 35.99.
 </pre></div></div>
 </div>
 </section>
@@ -2667,7 +2460,7 @@ The variance with Smartnoise-Synth on synthetic data is 36.25.
 <h2>Step 4: See archives of queries<a class="headerlink" href="#Step-4:-See-archives-of-queries" title="Link to this heading"></a></h2>
 <p>She now wants to verify all the queries that she did on the real data. It is possible because an archive of all queries is kept in a secure database. With a function call she can see her queries, budget and associated responses.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>previous_queries = client.get_previous_queries()
@@ -2676,15 +2469,16 @@ len(previous_queries)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-5
+4
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Smartnoise-SQL
@@ -2694,11 +2488,12 @@ avg_bill_length_query
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
+{&#39;user_name&#39;: &#39;Dr.Antartica&#39;,
  &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
  &#39;dp_library&#39;: &#39;smartnoise_sql&#39;,
  &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
@@ -2709,18 +2504,18 @@ avg_bill_length_query
   &#39;postprocess&#39;: True},
  &#39;response&#39;: {&#39;epsilon&#39;: 1.0,
   &#39;delta&#39;: 4.999999999999449e-05,
-  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
+  &#39;requested_by&#39;: &#39;Dr.Antartica&#39;,
   &#39;result&#39;: {&#39;res_type&#39;: &#39;smartnoise_sql&#39;,
    &#39;df&#39;: {&#39;index&#39;: [0],
     &#39;columns&#39;: [&#39;avg_bill_length_mm&#39;],
-    &#39;data&#39;: [[43.75587056284081]],
+    &#39;data&#39;: [[44.182555797356954]],
     &#39;index_names&#39;: [None],
     &#39;column_names&#39;: [None]}}},
- &#39;timestamp&#39;: 1732024136.80644}
+ &#39;timestamp&#39;: 1743433931.8376415}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># OpenDP
@@ -2730,33 +2525,31 @@ var_bill_length_query
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
+{&#39;user_name&#39;: &#39;Dr.Antartica&#39;,
  &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
- &#39;dp_library&#39;: &#39;smartnoise_sql&#39;,
+ &#39;dp_library&#39;: &#39;opendp&#39;,
  &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
-  &#39;query_str&#39;: &#39;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&#39;,
-  &#39;epsilon&#39;: 0.5,
-  &#39;delta&#39;: 0.0001,
-  &#39;mechanisms&#39;: {},
-  &#39;postprocess&#39;: True},
- &#39;response&#39;: {&#39;epsilon&#39;: 1.0,
-  &#39;delta&#39;: 4.999999999999449e-05,
-  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
-  &#39;result&#39;: {&#39;res_type&#39;: &#39;smartnoise_sql&#39;,
-   &#39;df&#39;: {&#39;index&#39;: [0],
-    &#39;columns&#39;: [&#39;avg_bill_length_mm&#39;],
-    &#39;data&#39;: [[43.52246114623609]],
-    &#39;index_names&#39;: [None],
-    &#39;column_names&#39;: [None]}}},
- &#39;timestamp&#39;: 1732024185.9737833}
+  &#39;opendp_json&#39;: Measurement(
+      input_domain   = AtomDomain(T=String),
+      input_metric   = SymmetricDistance(),
+      output_measure = MaxDivergence),
+  &#39;fixed_delta&#39;: None,
+  &#39;pipeline_type&#39;: &#39;legacy&#39;,
+  &#39;mechanism&#39;: &#39;laplace&#39;},
+ &#39;response&#39;: {&#39;epsilon&#39;: 0.7122093023265229,
+  &#39;delta&#39;: 0.0,
+  &#39;requested_by&#39;: &#39;Dr.Antartica&#39;,
+  &#39;result&#39;: {&#39;res_type&#39;: &#39;opendp&#39;, &#39;value&#39;: 28.71172413523004}},
+ &#39;timestamp&#39;: 1743433951.408251}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># DiffPrivLib
@@ -2766,42 +2559,12 @@ reg_bill_length_query
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
- &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
- &#39;dp_library&#39;: &#39;opendp&#39;,
- &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
-  &#39;opendp_json&#39;: Measurement(
-      input_domain   = AtomDomain(T=String),
-      input_metric   = SymmetricDistance(),
-      output_measure = MaxDivergence(f64)),
-  &#39;fixed_delta&#39;: None},
- &#39;response&#39;: {&#39;epsilon&#39;: 0.7122093023265228,
-  &#39;delta&#39;: 0.0,
-  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
-  &#39;result&#39;: {&#39;res_type&#39;: &#39;opendp&#39;, &#39;value&#39;: 35.063144457712596}},
- &#39;timestamp&#39;: 1732024233.7957816}
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Smartnoise-Synth
-sysynth_query = previous_queries[3]
-sysynth_query
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
+{&#39;user_name&#39;: &#39;Dr.Antartica&#39;,
  &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
  &#39;dp_library&#39;: &#39;diffprivlib&#39;,
  &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
@@ -2816,9 +2579,9 @@ sysynth_query
   &#39;imputer_strategy&#39;: &#39;drop&#39;},
  &#39;response&#39;: {&#39;epsilon&#39;: 2.0,
   &#39;delta&#39;: 0.0,
-  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
+  &#39;requested_by&#39;: &#39;Dr.Antartica&#39;,
   &#39;result&#39;: {&#39;res_type&#39;: &#39;diffprivlib&#39;,
-   &#39;score&#39;: 0.3235294117647059,
+   &#39;score&#39;: 0.4117647058823529,
    &#39;model&#39;: Pipeline(steps=[(&#39;rf&#39;,
                     RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
                                            bounds=(array([  30.,   13.,  150., 2000.]),
@@ -2826,7 +2589,56 @@ sysynth_query
                                            classes=[&#39;Adelie&#39;, &#39;Chinstrap&#39;,
                                                     &#39;Gentoo&#39;],
                                            epsilon=2.0))])}},
- &#39;timestamp&#39;: 1732024235.0577705}
+ &#39;timestamp&#39;: 1743433958.616408}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Smartnoise-Synth
+sysynth_query = previous_queries[3]
+sysynth_query
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;user_name&#39;: &#39;Dr.Antartica&#39;,
+ &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+ &#39;dp_library&#39;: &#39;smartnoise_synth&#39;,
+ &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+  &#39;synth_name&#39;: &#39;patectgan&#39;,
+  &#39;epsilon&#39;: 1.0,
+  &#39;delta&#39;: None,
+  &#39;select_cols&#39;: [&#39;island&#39;, &#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;],
+  &#39;synth_params&#39;: {},
+  &#39;nullable&#39;: True,
+  &#39;constraints&#39;: &#39;&#39;,
+  &#39;return_model&#39;: False,
+  &#39;condition&#39;: &#39;&#39;,
+  &#39;nb_samples&#39;: 200},
+ &#39;response&#39;: {&#39;epsilon&#39;: 1.0,
+  &#39;delta&#39;: 0.00015673368198174188,
+  &#39;requested_by&#39;: &#39;Dr.Antartica&#39;,
+  &#39;result&#39;:                       res_type  \
+  index         sn_synth_samples
+  columns       sn_synth_samples
+  data          sn_synth_samples
+  index_names   sn_synth_samples
+  column_names  sn_synth_samples
+
+                                                       df_samples
+  index         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...
+  columns                 [island, bill_length_mm, bill_depth_mm]
+  data          [[Dream, 51.67044159024954, 15.726217210292816...
+  index_names                                              [None]
+  column_names                                             [None]  },
+ &#39;timestamp&#39;: 1743433982.805871}
 </pre></div></div>
 </div>
 </section>
