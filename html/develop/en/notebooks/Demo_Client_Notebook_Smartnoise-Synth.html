@@ -190,14 +190,21 @@ import numpy as np
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The following would usually be set in the environment by a system administrator
 # and be tranparent to lomas users.
-APP_URL = &quot;http://lomas_server&quot;
+APP_URL = &quot;http://localhost:48080&quot;                                    # For local devenv setup
+# APP_URL = &quot;http://lomas_server:48080&quot;                               # For local docker compose setup
+# APP_URL = &quot;http://lomas-server.example.com:80&quot;                 # For Kubernetes deployment
 USER_NAME = &quot;Dr.Antartica&quot;
+
 import os
 os.environ[&quot;LOMAS_CLIENT_ID&quot;] = USER_NAME
 os.environ[&quot;LOMAS_CLIENT_SECRET&quot;] = USER_NAME.lower()
-os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;keycloak&quot;
-os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;8080&quot;
-os.environ[&quot;LOMAS_KEYCLOAL_USE_TLS&quot;] = &quot;0&quot;
+os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;localhost&quot;                    # For local devenv setup
+# os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;keycloak&quot;                   # For local docker compose setup
+# os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;lomas-keycloak.example.com&quot; # For Kubernetes deployment
+os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;80&quot;                              # For local deployments
+# os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;443&quot;                           # For Kubernetes deployment
+os.environ[&quot;LOMAS_KEYCLOAK_USE_TLS&quot;] = &quot;0&quot;                            # For local deployments
+# os.environ[&quot;LOMAS_KEYCLOAK_USE_TLS&quot;] = &quot;1&quot;                          # For Kubernetes deployments
 os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
 </pre></div>
 </div>

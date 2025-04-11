@@ -246,8 +246,8 @@ Collecting nvidia-cusparselt-cu12==0.6.2
 ^C
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%load_ext autoreload
@@ -257,6 +257,15 @@ from lomas_client import Client
 import numpy as np
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+</pre></div></div>
 </div>
 </section>
 <section id="Step-2:-Initialise-the-client">
@@ -270,7 +279,7 @@ import numpy as np
 </ul>
 <p>She will only be able to query on the real dataset if the queen Icergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit (as is done in the Admin Notebook for Users and Datasets management).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>DATASET_NAME = &quot;PENGUIN&quot;
@@ -278,27 +287,32 @@ import numpy as np
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The following would usually be set in the environment by a system administrator
 # and be tranparent to lomas users.
-APP_URL = &quot;http://lomas_server:48080&quot;
-APP_URL = &quot;http://localhost:48080&quot;
+APP_URL = &quot;http://localhost:48080&quot;                                    # For local devenv setup
+# APP_URL = &quot;http://lomas_server:48080&quot;                               # For local docker compose setup
+# APP_URL = &quot;http://lomas-server.example.com:80&quot;                 # For Kubernetes deployment
 USER_NAME = &quot;Dr.Antartica&quot;
 
 import os
 os.environ[&quot;LOMAS_CLIENT_ID&quot;] = USER_NAME
 os.environ[&quot;LOMAS_CLIENT_SECRET&quot;] = USER_NAME.lower()
-os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;localhost&quot;
-os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;4442&quot;
-os.environ[&quot;LOMAS_KEYCLOAL_USE_TLS&quot;] = &quot;0&quot;
+os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;localhost&quot;                    # For local devenv setup
+# os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;keycloak&quot;                   # For local docker compose setup
+# os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;lomas-keycloak.example.com&quot; # For Kubernetes deployment
+os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;80&quot;                              # For local deployments
+# os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;443&quot;                           # For Kubernetes deployment
+os.environ[&quot;LOMAS_KEYCLOAK_USE_TLS&quot;] = &quot;0&quot;                            # For local deployments
+# os.environ[&quot;LOMAS_KEYCLOAK_USE_TLS&quot;] = &quot;1&quot;                          # For Kubernetes deployments
 os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client(url=APP_URL, dataset_name=DATASET_NAME)
@@ -314,7 +328,7 @@ os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
 <p>Dr. Antartica has never seen the data and as a first step to understand what is available to her, she would like to check the metadata of the dataset. Therefore, she just needs to call the <code class="docutils literal notranslate"><span class="pre">get_dataset_metadata()</span></code> function of the client. As this is public information, this does not cost any budget.</p>
 <p>This function returns metadata information in a format based on <a class="reference external" href="https://docs.smartnoise.org/sql/metadata.html#dictionary-format">SmartnoiseSQL dictionary format</a>, where among other, there is information about all the available columns, their type, bound values (see Smartnoise page for more details). Any metadata is required for Smartnoise-SQL is also required here and additional information such that the different categories in a string type column column can be added.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata = client.get_dataset_metadata()
@@ -323,7 +337,7 @@ penguin_metadata
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -397,7 +411,7 @@ penguin_metadata
 <p>Based on this Dr. Antartica knows that there are 7 columns, 3 of string type (species, island, sex) with their associated categories (i.e. the species column has 3 possibilities: ‘Adelie’, ‘Chinstrap’, ‘Gentoo’) and 4 of float type (bill length, bill depth, flipper length and body mass) with their associated bounds (i.e. the body mass of penguin ranges from 2000 to 7000 gramms). She also knows based on the field <code class="docutils literal notranslate"><span class="pre">max_ids:</span> <span class="pre">1</span></code> that each penguin can only be once in the dataset and on the field
 <code class="docutils literal notranslate"><span class="pre">row_privacy:</span> <span class="pre">True</span></code> that each row represents a single penguin. Finally, she learns that there are 344 rows in the dataset and hence 344 penguins.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>NB_PENGUINS = penguin_metadata[&quot;rows&quot;]
@@ -412,7 +426,7 @@ penguin_metadata
 metadata).</p>
 <p>Dr. Antartica first create a dummy dataset with 100 rows and chooses a seed of 0.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>NB_ROWS = 100
@@ -421,7 +435,7 @@ SEED = 0
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_dummy = client.get_dummy_dataset(
@@ -443,7 +457,7 @@ df_dummy.head()
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -534,7 +548,7 @@ df_dummy.head()
 <h3>c. Check privacy loss budget ε, δ (initial, current, remaining)<a class="headerlink" href="#c.-Check-privacy-loss-budget-ε,-δ-(initial,-current,-remaining)" title="Link to this heading"></a></h3>
 <p>It is the first time that Dr. Antartica connects to the server and she wants to know how much buget has beeen assigned to her. Therefore, she calls the fonction <code class="docutils literal notranslate"><span class="pre">get_initial_budget</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_initial_budget()
@@ -542,7 +556,7 @@ df_dummy.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -553,7 +567,7 @@ InitialBudgetResponse(initial_epsilon=10.0, initial_delta=0.005)
 <p>She sees that she has 10.0 epsilon and 0.005 epsilon at her disposal.</p>
 <p>Then she checks her total spent budget <code class="docutils literal notranslate"><span class="pre">get_total_spent_budget</span></code>. As she only did queries on metadata on dummy dataframes, this should still be 0.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_total_spent_budget()
@@ -561,7 +575,7 @@ InitialBudgetResponse(initial_epsilon=10.0, initial_delta=0.005)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -571,7 +585,7 @@ SpentBudgetResponse(total_spent_epsilon=0.0, total_spent_delta=0.0)
 </div>
 <p>It will also be useful to know what the remaining budget is. Therefore, she calls the function <code class="docutils literal notranslate"><span class="pre">get_remaining_budget</span></code>. It just substarcts the total spent budget from the initial budget.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
@@ -579,7 +593,7 @@ SpentBudgetResponse(total_spent_epsilon=0.0, total_spent_delta=0.0)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -609,7 +623,7 @@ RemainingBudgetResponse(remaining_epsilon=10.0, remaining_delta=0.005)
 <h3>a. Compute average bill length with Smartnoise-SQL<a class="headerlink" href="#a.-Compute-average-bill-length-with-Smartnoise-SQL" title="Link to this heading"></a></h3>
 <p>Dr. Antartica wants to know the average bill length of penguins. Therefore, she will use <code class="docutils literal notranslate"><span class="pre">smartnoise-sql</span></code> library and write the associated SQL command.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Average bill length in mm
@@ -623,7 +637,7 @@ QUERY = &quot;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&quot;
 <p>The user can then decide to use the budget or modify it. Again, of course, this will not impact the user’s budget.</p>
 <p>Dr. Antartica checks the budget that computing the average bill length will really cost her if she asks the query with an <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and a <code class="docutils literal notranslate"><span class="pre">delta</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>EPSILON = 0.5
@@ -632,7 +646,7 @@ DELTA = 1e-4
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost = client.smartnoise_sql.cost(
@@ -645,7 +659,7 @@ cost
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
