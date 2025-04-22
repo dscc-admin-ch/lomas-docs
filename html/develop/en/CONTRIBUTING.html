@@ -20,7 +20,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Notes for Client Contributors" href="CONTRIBUTING_CLIENT.html" />
+    <link rel="next" title="Notes for Server Contributors" href="CONTRIBUTING_SERVER.html" />
     <link rel="prev" title="Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus" href="observability.html" /> 
 </head>
 
@@ -68,6 +68,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Notes for Contributors</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#git-branches">Git Branches</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#devenv">Devenv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-package-management">Python package management</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#linting-and-other-checks">Linting and Other Checks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#github-workflows">GitHub Workflows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#release-workflow">Release Workflow</a></li>
@@ -78,7 +79,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-data-connector-for-private-dataset-in-various-databases">Adding a Data Connector (for private dataset in various databases)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
@@ -133,7 +133,7 @@ Once the release process is complete (see below), the release branch is merged t
 </section>
 <section id="devenv">
 <h2>Devenv<a class="headerlink" href="#devenv" title="Link to this heading"></a></h2>
-<p>Settings up the environment with <a class="reference external" href="https://devenv.sh/">devenv</a>:</p>
+<p>Setting up the environment with <a class="reference external" href="https://devenv.sh/">devenv</a>:</p>
 <ol class="arabic simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">./scripts/bootstrap.sh</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">nix</span> <span class="pre">profile</span> <span class="pre">install</span> <span class="pre">nixpkgs#{dev,dir}env</span></code></p></li>
@@ -145,50 +145,44 @@ Once the release process is complete (see below), the release branch is merged t
 </ol>
 </li>
 </ol>
-<p>Once in lomas repo: <code class="docutils literal notranslate"><span class="pre">devenv</span> <span class="pre">shell</span></code></p>
-<p>To spin-up necessary services: <code class="docutils literal notranslate"><span class="pre">devenv</span> <span class="pre">processes</span> <span class="pre">up</span></code></p>
-<p>Some utilities are provided inside the environment such as:</p>
+<p>Once in lomas repo run the following to activate the devenv: <code class="docutils literal notranslate"><span class="pre">devenv</span> <span class="pre">shell</span></code>.</p>
+<p>The following utilities are now available in your shell:</p>
 <ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">yelp</span></code> will print a similar help page.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">devenv</span> <span class="pre">up</span></code> will start up the environment (lomas server, worker, keycloak, mongodb, rabbitmq) and set up the components. Demo users and datasets will also be added to the service.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">devenv</span> <span class="pre">up</span> <span class="pre">--</span> <span class="pre">--namespace=telemetry</span></code> or <code class="docutils literal notranslate"><span class="pre">process-compose</span> <span class="pre">up</span></code> will do the same as above but with telemetry enabled.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">yq</span> <span class="pre">$PC_CONFIG_FILES</span></code> will show what process-compose is doing.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ut</span> <span class="pre">/</span> <span class="pre">pytest</span> <span class="pre">-k</span> <span class="pre">&lt;name</span> <span class="pre">of</span> <span class="pre">your</span> <span class="pre">test&gt;</span></code> will run individual tests, no need to setup the python path. If your tests require the services to be up, run <code class="docutils literal notranslate"><span class="pre">devenv</span> <span class="pre">up</span></code> before.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ut-coverage</span></code> will run tests and coverage.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span> <span class="pre">--all-extras</span> <span class="pre">[-U]</span></code> will fix broken/out of sync/missing packages.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">add</span> <span class="pre">&lt;packages&gt;</span></code> will add new packages.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">run-linter</span></code> will run all the Linting suit (isort/black/flake8/pylint/pydocstringformatter/mypy)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ut</span></code> runs the server pytest suit</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ut-coverage</span></code> runs the server coverage &amp; report generation</p></li>
 </ul>
-<p>Note that some of them (fast enough) are integrated as git pre-commit hook (namely isort/black/flake8/pylint)</p>
+<p>Note that some of the utilities (fast enough) are integrated as git pre-commit hook (namely isort/black/flake8/pylint).</p>
+</section>
+<section id="python-package-management">
+<h2>Python package management<a class="headerlink" href="#python-package-management" title="Link to this heading"></a></h2>
+<p>We use <a class="reference external" href="https://docs.astral.sh/uv/reference/cli/"><code class="docutils literal notranslate"><span class="pre">uv</span></code></a> for managing Python dependencies and package builds. The repo is setup using the workspaces layout, see <a class="reference external" href="https://docs.astral.sh/uv/concepts/projects/workspaces/">here for reference</a>.</p>
+<p>Here are some of the more common commands:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span></code> syncs the virtual environment with the uv.lock file. This also removes installed packages that are not listed in that file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span> <span class="pre">--all-extras</span></code> does the same as above but with all extra dependencies.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">add</span> <span class="pre">&lt;package&gt;</span></code> adds a package to the project. The pyproject.toml file as well as the uv.lock file are updated.</p></li>
+</ul>
+<p>Activating the devenv already activates the python venv with uv.</p>
 </section>
 <section id="linting-and-other-checks">
 <h2>Linting and Other Checks<a class="headerlink" href="#linting-and-other-checks" title="Link to this heading"></a></h2>
-<p>To ensure code quality and consistency, we perform several checks using various tools. Below is a list of the checks that should be performed:</p>
-<ul>
-<li><p><strong>Code Formatting:</strong> Use <code class="docutils literal notranslate"><span class="pre">black</span></code> to automatically format the code. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code>, <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core/lomas_core</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>black<span class="w"> </span>.
-</pre></div>
-</div>
-</li>
-<li><p><strong>Code Style and Static Analysis</strong>: Use flake8 to verify formatting and perform static code analysis. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code> , <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core/lomas_core</span></code>:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>flake8<span class="w"> </span>.
-</pre></div>
-</div>
+<p>To ensure code quality and consistency, we perform several checks using various tools. Below is a list of the checks that are performed by the <code class="docutils literal notranslate"><span class="pre">run-linter</span></code> command:</p>
 <ul class="simple">
-<li><p><strong>Static Type Checking</strong>: Use mypy for static type checking. Note that both the server and the client have their own mypi.ini files to ignore specific warnings. In <code class="docutils literal notranslate"><span class="pre">lomas/server</span></code>, <code class="docutils literal notranslate"><span class="pre">lomas/client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core</span></code>:</p></li>
+<li><p><strong>Code Formatting:</strong> We use <code class="docutils literal notranslate"><span class="pre">black</span></code> to automatically format the code.</p></li>
+<li><p><strong>Code Style and Static Analysis</strong>: We use flake8 to verify formatting and perform static code.</p></li>
+<li><p><strong>Static Type Checking</strong>: We use mypy for static type checking. Note that both the server and the client have their own pyproject.toml files with configs to ignore specific warnings.</p></li>
+<li><p><strong>Additional Static Analysis</strong>: We use pylint for further static analysis. Note that both the server and the client have their own config in their respective pyproject.toml files to ignore specific warnings.</p></li>
+<li><p><strong>Automatic docstring linter formatting</strong>: We use pydocstringformatter for automatically formatting docstring following PEP257 recommandations.</p></li>
+<li><p><strong>Import statement reordering</strong>: We use isort to perform this task.</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>mypy<span class="w"> </span>.
-</pre></div>
-</div>
-<ul class="simple">
-<li><p><strong>Additional Static Analysis</strong>: Use pylint for further static analysis. Note that both the server and the client have their own .pylintrc files to ignore specific warnings. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code>, <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core/lomas_core</span></code>:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>pylint<span class="w"> </span>.
-</pre></div>
-</div>
-<ul class="simple">
-<li><p><strong>Automatic docstring linter formatting</strong>: Use pydocstringformatter for automatically formatting docstring following PEP257 recommandations. In <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server</span></code>, <code class="docutils literal notranslate"><span class="pre">lomas/client/lomas_client</span></code> and <code class="docutils literal notranslate"><span class="pre">lomas/core/lomas_core</span></code>:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>pydocstringformatter<span class="w"> </span>.
-</pre></div>
-</div>
-<p>To streamline the process, you can use the <code class="docutils literal notranslate"><span class="pre">run-linter</span></code> command inside the Devenv.</p>
-<p>There should be no error or warning, otherwise the linting github action will fail. All configurations are in</p>
+<p>There should be no error or warning when calling <code class="docutils literal notranslate"><span class="pre">run-linter</span></code>, otherwise the linting github action will fail. All configurations are in</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">lomas/pyproject.toml</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">lomas/core/pyproject.toml</span></code></p></li>
@@ -222,14 +216,14 @@ The table below gives an overview of which workflows are triggered by what event
 <td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>Docker build and push</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
+<td><p>Yes (no push)</p></td>
+<td><p>Yes (no push)</p></td>
 <td><p>Yes (tag = git sha)</p></td>
 <td><p>No</p></td>
 <td><p>Yes (tag = git sha)</p></td>
 <td><p>Yes (tags = latest and semver (x.y.z))</p></td>
 </tr>
-<tr class="row-even"><td><p>Client library push</p></td>
+<tr class="row-even"><td><p>Python libraries push</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
@@ -265,7 +259,7 @@ The table below gives an overview of which workflows are triggered by what event
 </table>
 <p>Of these workflows, three of them need manual intervention to adjust the version number:</p>
 <ul class="simple">
-<li><p><strong>Client library push</strong>: The ‘version’ and the ‘install_requires’ must be set in <code class="docutils literal notranslate"><span class="pre">core/pyproject.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">server/pyproject.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">client/pyproject.toml</span></code> (‘install_requires’ should match the list of library in requirements.txt and the new version of <code class="docutils literal notranslate"><span class="pre">core</span></code>).</p></li>
+<li><p><strong>Python libraries push</strong>: The ‘version’ and the ‘install_requires’ must be set in <code class="docutils literal notranslate"><span class="pre">core/pyproject.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">server/pyproject.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">client/pyproject.toml</span></code> (‘install_requires’ should match the list of library in requirements.txt and the new version of <code class="docutils literal notranslate"><span class="pre">core</span></code>).</p></li>
 <li><p><strong>Helm chart push</strong>: The chart version (<code class="docutils literal notranslate"><span class="pre">version</span></code>) and app version (<code class="docutils literal notranslate"><span class="pre">AppVersion</span></code>) of the server and the client must be updated in <code class="docutils literal notranslate"><span class="pre">server/deploy/helm/charts/lomas_server/Chart.yml</span></code>and <code class="docutils literal notranslate"><span class="pre">client/deploy/helm/charts/lomas_client/Chart.yaml</span></code>.</p></li>
 <li><p><strong>Documentation push</strong>: If a new version is released, it must be added to the <code class="docutils literal notranslate"><span class="pre">docs/versions.yaml</span></code> file. For more details on the generation of the documentation, please refer to <code class="docutils literal notranslate"><span class="pre">docs</span></code> and the <code class="docutils literal notranslate"><span class="pre">docs/build_docs.py</span></code> script.</p></li>
 </ul>
@@ -334,7 +328,7 @@ In those cases, a <code class="docutils literal notranslate"><span class="pre">l
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="observability.html" class="btn btn-neutral float-left" title="Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="CONTRIBUTING_CLIENT.html" class="btn btn-neutral float-right" title="Notes for Client Contributors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="CONTRIBUTING_SERVER.html" class="btn btn-neutral float-right" title="Notes for Server Contributors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
