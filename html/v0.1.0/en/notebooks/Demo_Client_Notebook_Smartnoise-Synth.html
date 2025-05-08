@@ -138,7 +138,7 @@
 <p>To interact with the secure server on which the data is stored, Dr.Antartica first needs to install the library <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> on her local developping environment.</p>
 <p>It can be installed via the pip command:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># !pip install lomas_client
@@ -147,7 +147,7 @@
 </div>
 <p>Or using a local version of the client</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
@@ -157,7 +157,7 @@ sys.path.append(os.path.abspath(os.path.join(&#39;..&#39;)))
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_client import Client
@@ -169,53 +169,48 @@ import numpy as np
 <section id="Step-2:-Initialise-the-client">
 <h2>Step 2: Initialise the client<a class="headerlink" href="#Step-2:-Initialise-the-client" title="Link to this heading"></a></h2>
 <p>Once the library is installed, a Client object must be created. It is responsible for sending sending requests to the server and processing responses in the local environment. It enables a seamless interaction with the server.</p>
-<p>To create the client, Dr. Antartica needs to give it a few parameters:</p>
-<ul class="simple">
-<li><p>a url: the root application endpoint to the remote secure server.</p></li>
-<li><p>user_name: her name as registered in the database (Dr. Alice Antartica)</p></li>
-<li><p>dataset_name: the name of the dataset that she wants to query (PENGUIN)</p></li>
-</ul>
-<p>She will only be able to query on the real dataset if the queen Icergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit (as is done in the Admin Notebook for Users and Datasets management).</p>
+<p>The client needs a few parameters to be created. Usually, these would be set in the environment by the system administrator (queen Icebergina) and be transparent to lomas users. In this instance, the following code snippet sets a few of these parameters that are specific to this notebook.</p>
+<p>She will only be able to query on the real dataset if the queen Icergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>DATASET_NAME = &quot;PENGUIN&quot;
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The following would usually be set in the environment by a system administrator
-# and be tranparent to lomas users.
-APP_URL = &quot;http://localhost:48080&quot;                                    # For local devenv setup
-# APP_URL = &quot;http://lomas_server:48080&quot;                               # For local docker compose setup
-# APP_URL = &quot;http://lomas-server.example.com:80&quot;                 # For Kubernetes deployment
-USER_NAME = &quot;Dr.Antartica&quot;
+# and be tranparent to lomas users. We reset these ones because they are specific to this notebook.
+
+# Note that all client settings can also be passed as keyword arguments to the Client constructor.
+# eg. client = Client(client_id = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_CLIENT_ID&quot;
+# environment variable.
 
 import os
-os.environ[&quot;LOMAS_CLIENT_ID&quot;] = USER_NAME
-os.environ[&quot;LOMAS_CLIENT_SECRET&quot;] = USER_NAME.lower()
-os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;localhost&quot;                    # For local devenv setup
-# os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;keycloak&quot;                   # For local docker compose setup
-# os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;lomas-keycloak.example.com&quot; # For Kubernetes deployment
-os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;4442&quot;                            # For local deployments
-# os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;443&quot;                           # For Kubernetes deployment
-os.environ[&quot;LOMAS_KEYCLOAK_USE_TLS&quot;] = &quot;0&quot;                            # For local deployments
-# os.environ[&quot;LOMAS_KEYCLOAK_USE_TLS&quot;] = &quot;1&quot;                          # For Kubernetes deployments
-os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
+
+USER_NAME = &quot;Dr.Antartica&quot;
+os.environ[&quot;LOMAS_CLIENT_CLIENT_ID&quot;] = USER_NAME
+os.environ[&quot;LOMAS_CLIENT_CLIENT_SECRET&quot;] = USER_NAME.lower()
+os.environ[&quot;LOMAS_CLIENT_DATASET_NAME&quot;] = &quot;PENGUIN&quot;
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client(url=APP_URL, dataset_name=DATASET_NAME)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client()
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[1]</span><span class="ansi-green-fg">, line 1</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> client = <span class="ansi-yellow-bg">Client</span>()
+
+<span class="ansi-red-fg">NameError</span>: name &#39;Client&#39; is not defined
+</pre></div></div>
 </div>
 <p>And that’s it for the preparation. She is now ready to use the various functionnalities offered by <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code>.</p>
 </section>
@@ -226,7 +221,7 @@ os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
 <p>Dr. Antartica has never seen the data and as a first step to understand what is available to her, she would like to check the metadata of the dataset. Therefore, she just needs to call the <code class="docutils literal notranslate"><span class="pre">get_dataset_metadata()</span></code> function of the client. As this is public information, this does not cost any budget.</p>
 <p>This function returns metadata information in a format based on <a class="reference external" href="https://docs.smartnoise.org/sql/metadata.html#dictionary-format">SmartnoiseSQL dictionary format</a>, where among other, there is information about all the available columns, their type, bound values (see Smartnoise page for more details). Any metadata is required for Smartnoise-SQL is also required here and additional information such that the different categories in a string type column column can be added.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata = client.get_dataset_metadata()
@@ -235,8 +230,7 @@ penguin_metadata
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -314,7 +308,7 @@ penguin_metadata
 <p>Therefore, we use a Smartnoise Synth Synthesizers.</p>
 <p>Let’s list the potential options. There respective paramaters are then available in Smarntoise Synth documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/index.html">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from snsynth import Synthesizer
@@ -323,8 +317,7 @@ Synthesizer.list_synthesizers()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -335,7 +328,7 @@ Synthesizer.list_synthesizers()
 <h3>AIM: Adaptive Iterative Mechanism<a class="headerlink" href="#AIM:-Adaptive-Iterative-Mechanism" title="Link to this heading"></a></h3>
 <p>We start by executing a query on the dummy dataset without specifying any special parameters for AIM (all optional kept as default). Also only works on categorical columns so we select “species” and “island” columns to create a synthetic dataset of these two columns.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -350,8 +343,7 @@ res_dummy.result.df_samples
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -439,7 +431,7 @@ res_dummy.result.df_samples
 </div>
 <p>The algorithm works and returned a synthetic dataset. We now estimate the cost of running this command:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_cost = client.smartnoise_synth.cost(
@@ -453,8 +445,7 @@ res_cost
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -464,7 +455,7 @@ CostResponse(epsilon=1.0, delta=0.0001)
 <p>Executing such a query on the private dataset would cost 1.0 epsilon and 0.0001 delta. Dr. Antartica decides to do it with now the flag <code class="docutils literal notranslate"><span class="pre">dummmy</span></code> to False and specifiying that the wants the aim synthesizer model in return (with <code class="docutils literal notranslate"><span class="pre">return_model</span> <span class="pre">=</span> <span class="pre">True</span></code>).</p>
 <p>NOTE: if she does not set the parameter <code class="docutils literal notranslate"><span class="pre">return_model</span> <span class="pre">=</span> <span class="pre">True</span></code>, then it is False by default and she will get a synthetic dataframe as response directly.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res = client.smartnoise_synth.query(
@@ -480,8 +471,7 @@ res.result.model
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -490,7 +480,7 @@ res.result.model
 </div>
 <p>She can now get the model and sample results with it. She choose to sample 10 samples.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth = res.result.model
@@ -499,8 +489,7 @@ synth.sample(10)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -582,7 +571,7 @@ synth.sample(10)
 </div>
 <p>She now wants to specify some specific parameters to the AIM model. Therefore, she needs to set some parameters in <code class="docutils literal notranslate"><span class="pre">synth_params</span></code> based on the Smartnoise-Synth documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/aim.html#parameters">here</a>. She decides that she wants to modify the <code class="docutils literal notranslate"><span class="pre">max_model_size</span></code> to 50 (the default was 80) and tries on the dummy.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -599,8 +588,7 @@ res_dummy.result.model
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -608,7 +596,7 @@ res_dummy.result.model
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth = res_dummy.result.model
@@ -617,8 +605,7 @@ synth.sample(5)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -679,7 +666,7 @@ synth.sample(5)
 <h3>MWEM: Multiplicative Weights Exponential Mechanism<a class="headerlink" href="#MWEM:-Multiplicative-Weights-Exponential-Mechanism" title="Link to this heading"></a></h3>
 <p>She tries MWEM on all columns with all default parameters. As <code class="docutils literal notranslate"><span class="pre">return_model</span></code> is not specified she will directly receive a synthetic dataframe back.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -692,8 +679,7 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -780,7 +766,7 @@ res_dummy.result.df_samples.head()
 </div>
 <p>She now specifies 3 columns and some parameters explained <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/mwem.html#snsynth.mwem.MWEMSynthesizer">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -795,8 +781,7 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -861,7 +846,7 @@ res_dummy.result.df_samples.head()
 <p>By default, if no constraints are specified, the server creates its automatically a data transformer based on selected columns, synthesizer and metadata.</p>
 <p>Here she wants to add a clamping transformation on the continuous columns before training the synthesizer. She add the bounds based on metadata.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bl_bounds = penguin_metadata[&quot;columns&quot;][&quot;bill_length_mm&quot;]
@@ -871,8 +856,7 @@ bl_bounds, bd_bounds
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -897,7 +881,7 @@ bl_bounds, bd_bounds
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from snsynth.transform import BinTransformer, ClampTransformer, ChainTransformer, LabelTransformer
@@ -921,7 +905,7 @@ my_own_constraints = {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -936,8 +920,7 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1000,7 +983,7 @@ res_dummy.result.df_samples.head()
 </div>
 <p>Also a subset of constraints can be specified for certain columns and the server will automatically generate those for the missing columns.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>my_own_constraints = {
@@ -1016,7 +999,7 @@ res_dummy.result.df_samples.head()
 </div>
 <p>In this case, only the bill_length will be clamped.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1031,8 +1014,7 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1098,7 +1080,7 @@ res_dummy.result.df_samples.head()
 <h3>MST: Maximum Spanning Tree<a class="headerlink" href="#MST:-Maximum-Spanning-Tree" title="Link to this heading"></a></h3>
 <p>She now experiments with MST. As the synthesizer is very needy in terms of computation, she selects a subset of column for it. See MST <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/mst.html">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1112,8 +1094,7 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1170,7 +1151,7 @@ res_dummy.result.df_samples.head()
 </div>
 <p>She can also specify a specific number of samples to get (if return_model is not True):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1185,8 +1166,7 @@ res_dummy.result.df_samples
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1238,7 +1218,7 @@ res_dummy.result.df_samples
 </div>
 <p>And a condition on these samples. For instance, here, she only wants female samples.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1254,8 +1234,7 @@ res_dummy.result.df_samples
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1311,7 +1290,7 @@ res_dummy.result.df_samples
 <h2>DPCTGAN: Differentially Private Conditional Tabular GAN<a class="headerlink" href="#DPCTGAN:-Differentially-Private-Conditional-Tabular-GAN" title="Link to this heading"></a></h2>
 <p>She now tries DPCTGAN. A first warning let her know that the random noise generation for this model is not cryptographically secure and if it is not ok for her, she can decode to stop using this synthesizer. Then she does not get a response but an error 422 with an explanation.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1370,7 +1349,7 @@ res_dummy
 </div>
 <p>The default parameters of DPCTGAN do not work for PENGUIN dataset. Hence, as advised in the error message, she decreases the batch_size (also she checks the documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/dpctgan.html">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1384,8 +1363,7 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1470,20 +1448,12 @@ res_dummy.result.df_samples.head()
 </table>
 </div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
 </section>
 <section id="PATEGAN:-Private-Aggregation-of-Teacher-Ensembles">
 <h2>PATEGAN: Private Aggregation of Teacher Ensembles<a class="headerlink" href="#PATEGAN:-Private-Aggregation-of-Teacher-Ensembles" title="Link to this heading"></a></h2>
 <p>Unfortunatelly, she is not able to train the pategan synthetizer on the PENGUIN dataset. Hence, she must try another one.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1535,7 +1505,7 @@ res_dummy
 <section id="PATECTGAN:-Conditional-tabular-GAN-using-Private-Aggregation-of-Teacher-Ensembles">
 <h2>PATECTGAN: Conditional tabular GAN using Private Aggregation of Teacher Ensembles<a class="headerlink" href="#PATECTGAN:-Conditional-tabular-GAN-using-Private-Aggregation-of-Teacher-Ensembles" title="Link to this heading"></a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1548,8 +1518,7 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1635,7 +1604,7 @@ res_dummy.result.df_samples.head()
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1660,8 +1629,7 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1727,7 +1695,7 @@ res_dummy.result.df_samples.head()
 <h2>DPGAN: DIfferentially Private GAN<a class="headerlink" href="#DPGAN:-DIfferentially-Private-GAN" title="Link to this heading"></a></h2>
 <p>For DPGAN, there is the same warning as for DPCTGAN with the cryptographically secure random noise generation.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1749,8 +1717,7 @@ res_dummy.result.df_samples.head()
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1837,7 +1804,7 @@ res_dummy.result.df_samples.head()
 </div>
 <p>One final time she samples with conditions:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1860,8 +1827,7 @@ res_dummy.result.df_samples.head()
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1948,7 +1914,7 @@ res_dummy.result.df_samples.head()
 </div>
 <p>And now on the real dataset</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1972,8 +1938,7 @@ res_dummy.result.df_samples
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -2113,7 +2078,7 @@ res_dummy.result.df_samples
 <h2>Step 6: See archives of queries<a class="headerlink" href="#Step-6:-See-archives-of-queries" title="Link to this heading"></a></h2>
 <p>She now wants to verify all the queries that she did on the real data. It is possible because an archive of all queries is kept in a secure database. With a function call she can see her queries, budget and associated responses.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>previous_queries = client.get_previous_queries()
@@ -2122,7 +2087,7 @@ res_dummy.result.df_samples
 </div>
 <p>Let’s check the last query</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>last_query = previous_queries[-1]
@@ -2131,8 +2096,7 @@ last_query
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>

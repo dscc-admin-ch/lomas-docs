@@ -132,33 +132,16 @@
 <h2>Step 1: Install the library<a class="headerlink" href="#Step-1:-Install-the-library" title="Link to this heading"></a></h2>
 <p>To interact with the secure server on which the data is stored, one first needs to install the library <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> on her local developping environment.</p>
 <p>It can be installed via the pip command:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!pip install lomas-client
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#!pip install lomas-client
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-yellow-fg">WARNING: pip is configured with locations that require TLS/SSL, however the ssl module in Python is not available.</span><span class="ansi-yellow-fg">
-</span><span class="ansi-yellow-fg">WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by &#39;SSLError(&#34;Can&#39;t connect to HTTPS URL because the SSL module is not available.&#34;)&#39;: /simple/lomas-client/</span><span class="ansi-yellow-fg">
-</span><span class="ansi-yellow-fg">WARNING: Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by &#39;SSLError(&#34;Can&#39;t connect to HTTPS URL because the SSL module is not available.&#34;)&#39;: /simple/lomas-client/</span><span class="ansi-yellow-fg">
-</span><span class="ansi-yellow-fg">WARNING: Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by &#39;SSLError(&#34;Can&#39;t connect to HTTPS URL because the SSL module is not available.&#34;)&#39;: /simple/lomas-client/</span><span class="ansi-yellow-fg">
-</span><span class="ansi-yellow-fg">WARNING: Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by &#39;SSLError(&#34;Can&#39;t connect to HTTPS URL because the SSL module is not available.&#34;)&#39;: /simple/lomas-client/</span><span class="ansi-yellow-fg">
-</span><span class="ansi-yellow-fg">WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by &#39;SSLError(&#34;Can&#39;t connect to HTTPS URL because the SSL module is not available.&#34;)&#39;: /simple/lomas-client/</span><span class="ansi-yellow-fg">
-</span>Could not fetch URL https://pypi.org/simple/lomas-client/: There was a problem confirming the ssl certificate: HTTPSConnectionPool(host=&#39;pypi.org&#39;, port=443): Max retries exceeded with url: /simple/lomas-client/ (Caused by SSLError(&#34;Can&#39;t connect to HTTPS URL because the SSL module is not available.&#34;)) - skipping
-<span class="ansi-red-fg">ERROR: Could not find a version that satisfies the requirement lomas-client (from versions: none)</span><span class="ansi-red-fg">
-</span><span class="ansi-red-fg">ERROR: No matching distribution found for lomas-client</span><span class="ansi-red-fg">
-</span>
-</pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_client.client import Client
@@ -170,50 +153,32 @@ import numpy as np
 <section id="Step-2:-Initialise-the-client">
 <h2>Step 2: Initialise the client<a class="headerlink" href="#Step-2:-Initialise-the-client" title="Link to this heading"></a></h2>
 <p>Once the library is installed, a Client object must be created. It is responsible for sending sending requests to the server and processing responses in the local environment. It enables a seamless interaction with the server.</p>
-<p>To create the client, one needs to give it a few parameters:</p>
-<ul class="simple">
-<li><p>a url: the root application endpoint to the remote secure server.</p></li>
-<li><p>user_name: her name as registered in the database (Jack)</p></li>
-<li><p>dataset_name: the name of the dataset that we want to query (TITANIC)</p></li>
-</ul>
+<p>The client needs a few parameters to be created. Usually, these would be set in the environment by the system administrator (queen Icebergina) and be transparent to lomas users. In this instance, the following code snippet sets a few of these parameters that are specific to this notebook.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>DATASET_NAME = &quot;TITANIC&quot;
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The following would usually be set in the environment by a system administrator
-# and be tranparent to lomas users.
-APP_URL = &quot;http://localhost:48080&quot;                                    # For local devenv setup
-# APP_URL = &quot;http://lomas_server:48080&quot;                               # For local docker compose setup
-# APP_URL = &quot;http://lomas-server.example.com:80&quot;                 # For Kubernetes deployment
-USER_NAME = &quot;Jack&quot;
+# and be tranparent to lomas users. We reset these ones because they are specific to this notebook.
+
+# Note that all client settings can also be passed as keyword arguments to the Client constructor.
+# eg. client = Client(client_id = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_CLIENT_ID&quot;
+# environment variable.
 
 import os
-os.environ[&quot;LOMAS_CLIENT_ID&quot;] = USER_NAME
-os.environ[&quot;LOMAS_CLIENT_SECRET&quot;] = USER_NAME.lower()
-os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;localhost&quot;                    # For local devenv setup
-# os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;keycloak&quot;                   # For local docker compose setup
-# os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;lomas-keycloak.example.com&quot; # For Kubernetes deployment
-os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;4442&quot;                              # For local deployments
-# os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;443&quot;                           # For Kubernetes deployment
-os.environ[&quot;LOMAS_KEYCLOAK_USE_TLS&quot;] = &quot;0&quot;                            # For local deployments
-# os.environ[&quot;LOMAS_KEYCLOAK_USE_TLS&quot;] = &quot;1&quot;                          # For Kubernetes deployments
-os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
+
+USER_NAME = &quot;Jack&quot;
+os.environ[&quot;LOMAS_CLIENT_CLIENT_ID&quot;] = USER_NAME
+os.environ[&quot;LOMAS_CLIENT_CLIENT_SECRET&quot;] = USER_NAME.lower()
+os.environ[&quot;LOMAS_CLIENT_DATASET_NAME&quot;] = &quot;TITANIC&quot;
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client(url=APP_URL, dataset_name=DATASET_NAME)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client()
 </pre></div>
 </div>
 </div>
@@ -223,7 +188,7 @@ os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
 <section id="Getting-dataset-metadata">
 <h3>Getting dataset metadata<a class="headerlink" href="#Getting-dataset-metadata" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>titanic_metadata = client.get_dataset_metadata()
@@ -232,8 +197,7 @@ titanic_metadata
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -332,7 +296,7 @@ titanic_metadata
 <section id="Get-a-dummy-dataset">
 <h3>Get a dummy dataset<a class="headerlink" href="#Get-a-dummy-dataset" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>NB_ROWS = 200
@@ -341,7 +305,7 @@ SEED = 0
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_dummy = client.get_dummy_dataset(
@@ -363,8 +327,7 @@ df_dummy.head()
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -479,7 +442,7 @@ df_dummy.head()
 <section id="Average-and-number-of-rows-with-smartnoise-sql-library-on-remote-dummy">
 <h4>Average and number of rows with smartnoise-sql library on remote dummy<a class="headerlink" href="#Average-and-number-of-rows-with-smartnoise-sql-library-on-remote-dummy" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Average Age
@@ -490,7 +453,7 @@ QUERY = &quot;SELECT COUNT(*) AS nb_passengers, \
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># On the remote server dummy dataframe
@@ -506,7 +469,7 @@ dummy_res = client.smartnoise_sql.query(
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;Average age in remote dummy: {np.round(dummy_res.result.df[&#39;avg_age&#39;][0], 2)} years old.&quot;)
@@ -519,7 +482,7 @@ print(f&quot;Number of rows in remote dummy: {np.round(dummy_res.result.df[&#39;
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average age in remote dummy: 51.69 years old.
+Average age in remote dummy: 51.71 years old.
 Number of rows in remote dummy: 199.
 </pre></div></div>
 </div>
@@ -528,7 +491,7 @@ Number of rows in remote dummy: 199.
 <section id="Get-current-budget">
 <h3>Get current budget<a class="headerlink" href="#Get-current-budget" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_initial_budget()
@@ -536,8 +499,7 @@ Number of rows in remote dummy: 199.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -545,7 +507,7 @@ InitialBudgetResponse(initial_epsilon=45.0, initial_delta=0.2)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_total_spent_budget()
@@ -553,8 +515,7 @@ InitialBudgetResponse(initial_epsilon=45.0, initial_delta=0.2)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -563,7 +524,7 @@ SpentBudgetResponse(total_spent_epsilon=0.0, total_spent_delta=0.0)
 </div>
 <p>It will also be useful to know what the remaining budget is. Therefore, we call the function <code class="docutils literal notranslate"><span class="pre">get_remaining_budget</span></code>. It just substarcts the total spent budget from the initial budget.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
@@ -571,8 +532,7 @@ SpentBudgetResponse(total_spent_epsilon=0.0, total_spent_delta=0.0)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -586,7 +546,7 @@ RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 <p>Another safeguard is the functionnality to estimate the cost of a query. As in OpenDP and SmartnoiseSQL, the budget that will by used by a query might be slightly different than what is asked by the user. The <code class="docutils literal notranslate"><span class="pre">estimate</span> <span class="pre">cost</span></code> function returns the estimated real cost of any query.</p>
 <p>Again, of course, this will not impact the user’s budget.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>EPSILON = 0.5
@@ -595,7 +555,7 @@ DELTA = 1e-4
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.smartnoise_sql.cost(
@@ -607,8 +567,7 @@ DELTA = 1e-4
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -619,7 +578,7 @@ CostResponse(epsilon=1.5, delta=0.00014999500000001387)
 <section id="Query-on-real-private-dataset-with-smartnoise-sql.">
 <h3>Query on real private dataset with smartnoise-sql.<a class="headerlink" href="#Query-on-real-private-dataset-with-smartnoise-sql." title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
@@ -627,8 +586,7 @@ CostResponse(epsilon=1.5, delta=0.00014999500000001387)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -636,7 +594,7 @@ RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.smartnoise_sql.query(
@@ -648,16 +606,8 @@ RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nb_passengers = response.result.df[&#39;nb_passengers&#39;].iloc[0]
@@ -673,13 +623,13 @@ print(f&quot;Average age in real data: {avg_age}.&quot;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Number of passengers in real data: 891.
-Average age in real data: 29.77.
+Number of passengers in real data: 887.
+Average age in real data: 29.47.
 </pre></div></div>
 </div>
 <p>After each query on the real dataset, the budget informations are also returned to the researcher. It is possible possible to check the remaining budget again afterwards:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
@@ -687,8 +637,7 @@ Average age in real data: 29.77.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -697,7 +646,7 @@ RemainingBudgetResponse(remaining_epsilon=43.5, remaining_delta=0.199850005)
 </div>
 <p>As can be seen in <code class="docutils literal notranslate"><span class="pre">get_total_spent_budget()</span></code>, it is the budget estimated with <code class="docutils literal notranslate"><span class="pre">estimate_smartnoise_sql_cost()</span></code> that was spent.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_total_spent_budget()
@@ -705,8 +654,7 @@ RemainingBudgetResponse(remaining_epsilon=43.5, remaining_delta=0.199850005)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -718,7 +666,7 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
 <section id="Step-4:-Titanic-statistics-with-opendp">
 <h2>Step 4: Titanic statistics with opendp<a class="headerlink" href="#Step-4:-Titanic-statistics-with-opendp" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import opendp as dp
@@ -730,7 +678,7 @@ import opendp.measurements as meas
 <section id="Confidence-intervals-for-age-over-the-whole-population">
 <h3>Confidence intervals for age over the whole population<a class="headerlink" href="#Confidence-intervals-for-age-over-the-whole-population" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>titanic_metadata
@@ -738,8 +686,7 @@ import opendp.measurements as meas
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -835,7 +782,7 @@ import opendp.measurements as meas
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>columns = [&quot;PassengerId&quot;, &quot;Pclass&quot;, &quot;Name&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;SibSp&quot;, &quot;Parch&quot;]
@@ -843,7 +790,7 @@ import opendp.measurements as meas
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>age_min = titanic_metadata[&#39;columns&#39;][&#39;Age&#39;][&#39;lower&#39;]
@@ -853,8 +800,7 @@ age_min, age_max
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -862,7 +808,7 @@ age_min, age_max
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>age_transformation_pipeline = (
@@ -877,7 +823,7 @@ age_min, age_max
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Expect to fail !!!
@@ -895,7 +841,7 @@ client.opendp.query(
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[27]</span><span class="ansi-green-fg">, line 2</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[26]</span><span class="ansi-green-fg">, line 2</span>
 <span class="ansi-green-fg">      1</span> <span style="color: rgb(95,135,135)"># Expect to fail !!!</span>
 <span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">2</span> <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">opendp</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
 <span class="ansi-green-fg">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">opendp_pipeline</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">age_transformation_pipeline</span><span class="ansi-yellow-bg">,</span>
@@ -935,7 +881,7 @@ client.opendp.query(
 </div>
 <p>This is because the server will only allow measurement pipeline with differentially private results. We add Laplacian noise to the pipeline and should be able to instantiate the pipeline.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_age_transformation_pipeline = (
@@ -947,7 +893,7 @@ client.opendp.query(
 </div>
 <p>Now that there is a measurement, one is able to apply the pipeline on the dummy dataset of the server.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_var_res = client.opendp.query(
@@ -963,12 +909,12 @@ print(f&quot;Dummy result for variance: {np.round(dummy_var_res.result.value, 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Dummy result for variance: 64.9
+Dummy result for variance: 56.99
 </pre></div></div>
 </div>
 <p>With opendp, the function <code class="docutils literal notranslate"><span class="pre">estimate_opendp_cost</span></code> is particularly useful to estimate the used <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and <code class="docutils literal notranslate"><span class="pre">delta</span></code> based on the <code class="docutils literal notranslate"><span class="pre">scale</span></code> value.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost_res = client.opendp.cost(
@@ -979,17 +925,16 @@ cost_res
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CostResponse(epsilon=2.240181818190626, delta=0.0)
+CostResponse(epsilon=2.2502841037292076, delta=0.0)
 </pre></div></div>
 </div>
 <p>One can now execute the query on the real dataset.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_res = client.opendp.query(
@@ -999,7 +944,7 @@ CostResponse(epsilon=2.240181818190626, delta=0.0)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;Number of passengers: {nb_passengers} (from previous smartnoise-sql query).&quot;)
@@ -1016,13 +961,13 @@ print(f&quot;Variance of age: {np.round(var_age, 3)} (from opendp query).&quot;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Number of passengers: 891 (from previous smartnoise-sql query).
-Average age: 29.77 (from previous smartnoise-sql query).
-Variance of age: 204.025 (from opendp query).
+Number of passengers: 887 (from previous smartnoise-sql query).
+Average age: 29.47 (from previous smartnoise-sql query).
+Variance of age: 194.603 (from opendp query).
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get standard error
@@ -1036,11 +981,11 @@ print(f&quot;Standard error of age: {np.round(standard_error, 2)}.&quot;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Standard error of age: 0.48.
+Standard error of age: 0.47.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> # Compute the 95% confidence interval
@@ -1056,16 +1001,8 @@ print(f&quot;The 95% confidence interval of the age of all passengers is [{lower
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The 95% confidence interval of the age of all passengers is [28.83, 30.71].
+The 95% confidence interval of the age of all passengers is [28.55, 30.39].
 </pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
 </div>
 </section>
 </section>

@@ -156,9 +156,9 @@ Once the release process is complete (see below), the release branch is merged t
 <li><p><code class="docutils literal notranslate"><span class="pre">ut-coverage</span></code> will run tests and coverage.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span> <span class="pre">--all-extras</span> <span class="pre">[-U]</span></code> will fix broken/out of sync/missing packages.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">add</span> <span class="pre">&lt;packages&gt;</span></code> will add new packages.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">run-linter</span></code> will run all the Linting suit (isort/black/flake8/pylint/pydocstringformatter/mypy)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run-linter</span></code> will run all the Linting suit (black/ruff/pylint/pydocstringformatter/mypy)</p></li>
 </ul>
-<p>Note that some of the utilities (fast enough) are integrated as git pre-commit hook (namely isort/black/flake8/pylint).</p>
+<p>Note that some of the utilities (fast enough) are integrated as git pre-commit hook (namely black/ruff/pylint).</p>
 </section>
 <section id="python-package-management">
 <h2>Python package management<a class="headerlink" href="#python-package-management" title="Link to this heading"></a></h2>
@@ -176,11 +176,11 @@ Once the release process is complete (see below), the release branch is merged t
 <p>To ensure code quality and consistency, we perform several checks using various tools. Below is a list of the checks that are performed by the <code class="docutils literal notranslate"><span class="pre">run-linter</span></code> command:</p>
 <ul class="simple">
 <li><p><strong>Code Formatting:</strong> We use <code class="docutils literal notranslate"><span class="pre">black</span></code> to automatically format the code.</p></li>
-<li><p><strong>Code Style and Static Analysis</strong>: We use flake8 to verify formatting and perform static code.</p></li>
+<li><p><strong>Code Style and Static Analysis</strong>: We use ruff to verify formatting and perform static code.</p></li>
 <li><p><strong>Static Type Checking</strong>: We use mypy for static type checking. Note that both the server and the client have their own pyproject.toml files with configs to ignore specific warnings.</p></li>
 <li><p><strong>Additional Static Analysis</strong>: We use pylint for further static analysis. Note that both the server and the client have their own config in their respective pyproject.toml files to ignore specific warnings.</p></li>
 <li><p><strong>Automatic docstring linter formatting</strong>: We use pydocstringformatter for automatically formatting docstring following PEP257 recommandations.</p></li>
-<li><p><strong>Import statement reordering</strong>: We use isort to perform this task.</p></li>
+<li><p><strong>Import statement reordering</strong>: We use ruff to perform this task.</p></li>
 </ul>
 <p>There should be no error or warning when calling <code class="docutils literal notranslate"><span class="pre">run-linter</span></code>, otherwise the linting github action will fail. All configurations are in</p>
 <ul class="simple">

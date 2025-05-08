@@ -141,7 +141,7 @@
 <p>To interact with the secure server on which the data is stored, Dr.Antartica first needs to install the library <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> on her local developping environment.</p>
 <p>It can be installed via the pip command:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># !pip install lomas_client
@@ -150,7 +150,7 @@
 </div>
 <p>Or using a local version of the client</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
@@ -160,7 +160,7 @@ sys.path.append(os.path.abspath(os.path.join(&#39;..&#39;)))
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_client.client import Client
@@ -172,51 +172,33 @@ import numpy as np
 <section id="Step-2:-Initialise-the-client">
 <h2>Step 2: Initialise the client<a class="headerlink" href="#Step-2:-Initialise-the-client" title="Link to this heading"></a></h2>
 <p>Once the library is installed, a Client object must be created. It is responsible for sending sending requests to the server and processing responses in the local environment. It enables a seamless interaction with the server.</p>
-<p>To create the client, Dr. Antartica needs to give it a few parameters:</p>
-<ul class="simple">
-<li><p>a url: the root application endpoint to the remote secure server.</p></li>
-<li><p>user_name: her name as registered in the database (Dr. Alice Antartica)</p></li>
-<li><p>dataset_name: the name of the dataset that she wants to query (PENGUIN)</p></li>
-</ul>
+<p>The client needs a few parameters to be created. Usually, these would be set in the environment by the system administrator (queen Icebergina) and be transparent to lomas users. In this instance, the following code snippet sets a few of these parameters that are specific to this notebook.</p>
 <p>She will only be able to query on the real dataset if the administrator has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some <span class="math notranslate nohighlight">\(\epsilon\)</span>, <span class="math notranslate nohighlight">\(\delta\)</span> privacy loss budget.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>DATASET_NAME = &quot;PENGUIN&quot;
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The following would usually be set in the environment by a system administrator
-# and be tranparent to lomas users.
-APP_URL = &quot;http://localhost:48080&quot;                                    # For local devenv setup
-# APP_URL = &quot;http://lomas_server:48080&quot;                               # For local docker compose setup
-# APP_URL = &quot;http://lomas-server.example.com:80&quot;                 # For Kubernetes deployment
-USER_NAME = &quot;Dr.Antartica&quot;
+# and be tranparent to lomas users. We reset these ones because they are specific to this notebook.
+
+# Note that all client settings can also be passed as keyword arguments to the Client constructor.
+# eg. client = Client(client_id = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_CLIENT_ID&quot;
+# environment variable.
 
 import os
-os.environ[&quot;LOMAS_CLIENT_ID&quot;] = USER_NAME
-os.environ[&quot;LOMAS_CLIENT_SECRET&quot;] = USER_NAME.lower()
-os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;localhost&quot;                    # For local devenv setup
-# os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;keycloak&quot;                   # For local docker compose setup
-# os.environ[&quot;LOMAS_KEYCLOAK_ADDRESS&quot;] = &quot;lomas-keycloak.example.com&quot; # For Kubernetes deployment
-os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;4442&quot;                              # For local deployments
-# os.environ[&quot;LOMAS_KEYCLOAK_PORT&quot;] = &quot;443&quot;                           # For Kubernetes deployment
-os.environ[&quot;LOMAS_KEYCLOAK_USE_TLS&quot;] = &quot;0&quot;                            # For local deployments
-# os.environ[&quot;LOMAS_KEYCLOAK_USE_TLS&quot;] = &quot;1&quot;                          # For Kubernetes deployments
-os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
+
+USER_NAME = &quot;Dr.Antartica&quot;
+os.environ[&quot;LOMAS_CLIENT_CLIENT_ID&quot;] = USER_NAME
+os.environ[&quot;LOMAS_CLIENT_CLIENT_SECRET&quot;] = USER_NAME.lower()
+os.environ[&quot;LOMAS_CLIENT_DATASET_NAME&quot;] = &quot;PENGUIN&quot;
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client(url=APP_URL, dataset_name=DATASET_NAME)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client()
 </pre></div>
 </div>
 </div>
@@ -225,7 +207,7 @@ os.environ[&quot;LOMAS_REALM&quot;] = &quot;lomas&quot;
 <section id="Step-3:-Getting-dataset-metadata">
 <h2>Step 3: Getting dataset metadata<a class="headerlink" href="#Step-3:-Getting-dataset-metadata" title="Link to this heading"></a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>metadata = client.get_dataset_metadata()
@@ -234,8 +216,7 @@ metadata
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -306,7 +287,7 @@ metadata
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nb_penguin = metadata[&#39;rows&#39;]
@@ -323,7 +304,7 @@ Number of penguins: 344.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>columns = metadata[&quot;columns&quot;].keys()
@@ -332,8 +313,7 @@ columns
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -348,7 +328,7 @@ dict_keys([&#39;species&#39;, &#39;island&#39;, &#39;bill_length_mm&#39;, &#39;b
 <p>Now that she has an idea of what the data looks like, she wants to start querying the real dataset to for her research. However, before this, other tools are at her disposal to reduce potential error risks and avoid spending budget on irrelevant queries. Of course, this does not have any impact on the budget.</p>
 <p>It is possible to specify the flag <code class="docutils literal notranslate"><span class="pre">dummy=True</span></code> in the various queries to perform the query on the dummy dataset instead of the real dataset and ensure that the queries are doing what is expected of them.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Average bill length in mm
@@ -357,7 +337,7 @@ QUERY = &quot;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&quot;
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>EPSILON = 0.5
@@ -366,7 +346,7 @@ DELTA = 1e-5
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># On the remote server dummy dataframe
@@ -380,7 +360,7 @@ dummy_res = client.smartnoise_sql.query(
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_bl_dummy = np.round(dummy_res.result.df[&quot;avg_bill_length_mm&quot;][0], 2)
@@ -389,12 +369,11 @@ f&quot;Average bill length on dummy: {avg_bl_dummy}mm.&quot;
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;Average bill length on dummy: 45.86mm.&#39;
+&#39;Average bill length on dummy: 49.52mm.&#39;
 </pre></div></div>
 </div>
 </section>
@@ -402,7 +381,7 @@ f&quot;Average bill length on dummy: {avg_bl_dummy}mm.&quot;
 <h3>Estimate cost of a query<a class="headerlink" href="#Estimate-cost-of-a-query" title="Link to this heading"></a></h3>
 <p>Dr. Antartica checks the budget that computing the average bill length will really cost her if she asks the query with an <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and a <code class="docutils literal notranslate"><span class="pre">delta</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost = client.smartnoise_sql.cost(
@@ -414,7 +393,7 @@ f&quot;Average bill length on dummy: {avg_bl_dummy}mm.&quot;
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f&#39;This query would actually cost her {cost.epsilon} epsilon and {cost.delta} delta.&#39;
@@ -422,8 +401,7 @@ f&quot;Average bill length on dummy: {avg_bl_dummy}mm.&quot;
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -436,7 +414,7 @@ f&quot;Average bill length on dummy: {avg_bl_dummy}mm.&quot;
 <h3>Overide DP mechanism<a class="headerlink" href="#Overide-DP-mechanism" title="Link to this heading"></a></h3>
 <p>She wants to use another DP-mechanism for this query. She can change it via the <code class="docutils literal notranslate"><span class="pre">mechanism</span></code> argument. See Smartnoise-SQL documentation <a class="reference external" href="https://docs.smartnoise.org/sql/advanced.html#overriding-mechanisms">here for overriding mechanisms</a>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># On the remote server dummy dataframe
@@ -451,7 +429,7 @@ dummy_res = client.smartnoise_sql.query(
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_bl_dummy = np.round(dummy_res.result.df[&quot;avg_bill_length_mm&quot;][0], 2)
@@ -460,16 +438,15 @@ f&quot;Average bill length on dummy: {avg_bl_dummy}mm.&quot;
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;Average bill length on dummy: 51.37mm.&#39;
+&#39;Average bill length on dummy: 46.37mm.&#39;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost = client.smartnoise_sql.cost(
@@ -483,8 +460,7 @@ cost
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -497,7 +473,7 @@ CostResponse(epsilon=1.0, delta=1.4999949999983109e-05)
 <p>Dr. Antartica is ready to query the real dataset and get a differentially private response for the average bill length. The <code class="docutils literal notranslate"><span class="pre">dummy</span></code> flag is False by default, so setting it is optional. She uses the values of <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and <code class="docutils literal notranslate"><span class="pre">delta</span></code> that she selected just before.</p>
 <p>Careful: This command DOES spend the budget of the user and the remaining budget is updated for every query.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_bill_length_response = client.smartnoise_sql.query(
@@ -511,7 +487,7 @@ CostResponse(epsilon=1.0, delta=1.4999949999983109e-05)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_bill_length = avg_bill_length_response.result.df[&#39;avg_bill_length_mm&#39;].iloc[0]
@@ -524,7 +500,7 @@ print(f&quot;Average bill length on private data: {np.round(avg_bill_length, 2)}
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average bill length on private data: 42.35mm.
+Average bill length on private data: 44.38mm.
 </pre></div></div>
 </div>
 <p>After each query on the real dataset, the budget informations are also returned to the researcher. It is possible possible to check the remaining budget again afterwards:</p>
@@ -533,7 +509,7 @@ Average bill length on private data: 42.35mm.
 <h3>Postprocess<a class="headerlink" href="#Postprocess" title="Link to this heading"></a></h3>
 <p>It is also possible to use the ‘postprocess’ argument from Smartnoise-SQL <a class="reference external" href="https://docs.smartnoise.org/sql/advanced.html#postprocess">see its documentation here</a> by specifying it in the query.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_res = client.smartnoise_sql.query(
@@ -548,17 +524,16 @@ dummy_res
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 QueryResponse(epsilon=1.0, delta=5.000000000032756e-06, requested_by=&#39;Dr.Antartica&#39;, result=SmartnoiseSQLQueryResult(res_type=&lt;DPLibraries.SMARTNOISE_SQL: &#39;smartnoise_sql&#39;&gt;, df=   avg_bill_length_mm
-0           48.360312))
+0           47.885062))
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_res = client.smartnoise_sql.query(
@@ -573,13 +548,12 @@ dummy_res
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 QueryResponse(epsilon=1.0, delta=5.000000000032756e-06, requested_by=&#39;Dr.Antartica&#39;, result=SmartnoiseSQLQueryResult(res_type=&lt;DPLibraries.SMARTNOISE_SQL: &#39;smartnoise_sql&#39;&gt;, df=         res_0      res_1
-0  4754.262865  98.241495))
+0  4722.851757  97.248487))
 </pre></div></div>
 </div>
 </section>
@@ -590,7 +564,7 @@ QueryResponse(epsilon=1.0, delta=5.000000000032756e-06, requested_by=&#39;Dr.Ant
 <h3>Confidence intervals for flipper length over the whole population<a class="headerlink" href="#Confidence-intervals-for-flipper-length-over-the-whole-population" title="Link to this heading"></a></h3>
 <p>She is first interested to have a better idea of the distribution of bill length of all species. She already has the number of penguins (=number of rows as <code class="docutils literal notranslate"><span class="pre">max_ids=1</span></code>) from the metadata and the average bill length from step 3, so she just needs to compute the standard deviation. As it is just an exploration step, she uses very little budget values.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUERY = &quot;SELECT STD(bill_length_mm) AS std_bill_length_mm FROM df&quot;
@@ -599,7 +573,7 @@ QueryResponse(epsilon=1.0, delta=5.000000000032756e-06, requested_by=&#39;Dr.Ant
 </div>
 <p>She again first verifies that her query works on the dummy dataset:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_res = client.smartnoise_sql.query(
@@ -612,7 +586,7 @@ QueryResponse(epsilon=1.0, delta=5.000000000032756e-06, requested_by=&#39;Dr.Ant
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_std = np.round(dummy_res.result.df[&#39;std_bill_length_mm&#39;].iloc[0], 2)
@@ -621,17 +595,16 @@ f&quot;The dummy standard variation is {dummy_std}.&quot;
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;The dummy standard variation is 9.15.&#39;
+&#39;The dummy standard variation is 17.73.&#39;
 </pre></div></div>
 </div>
 <p>The syntax of the query works, now she checks the budget:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost = client.smartnoise_sql.cost(
@@ -643,7 +616,7 @@ f&quot;The dummy standard variation is {dummy_std}.&quot;
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f&#39;This query would actually cost her {cost.epsilon} epsilon and {cost.delta} delta.&#39;
@@ -651,8 +624,7 @@ f&quot;The dummy standard variation is {dummy_std}.&quot;
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -661,7 +633,7 @@ f&quot;The dummy standard variation is {dummy_std}.&quot;
 </div>
 <p>This time it is three times the budget because the standard deviation needs the average, then a difference and a count again.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.smartnoise_sql.query(
@@ -673,7 +645,7 @@ f&quot;The dummy standard variation is {dummy_std}.&quot;
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>std_bill_length = response.result.df[&#39;std_bill_length_mm&#39;].iloc[0]
@@ -686,12 +658,12 @@ print(f&quot;Standard deviation of bill length: {np.round(std_bill_length, 2)}.&
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Standard deviation of bill length: 13.06.
+Standard deviation of bill length: 8.5.
 </pre></div></div>
 </div>
 <p>She can now do all the postprocessing that she wants with the returned data without increasing the privacy risk.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get standard error
@@ -705,11 +677,11 @@ print(f&quot;Standard error of bill length: {np.round(standard_error, 2)}.&quot;
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Standard error of bill length: 0.7.
+Standard error of bill length: 0.46.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> # Compute the 95% confidence interval
@@ -724,7 +696,7 @@ print(f&quot;The 95% confidence interval of the bill length of all penguins is [
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The 95% confidence interval of the bill length of all penguins is [40.97, 43.73].
+The 95% confidence interval of the bill length of all penguins is [43.49, 45.28].
 </pre></div></div>
 </div>
 </section>
@@ -733,7 +705,7 @@ The 95% confidence interval of the bill length of all penguins is [40.97, 43.73]
 <h2>Note on budget with Smartnoise-SQL (Advanced)<a class="headerlink" href="#Note-on-budget-with-Smartnoise-SQL-(Advanced)" title="Link to this heading"></a></h2>
 <p>All of these queries will cost the same budget in Smartnoise-SQL. The reason is that the smartnoise-sql translates the input query in sub queries, finds the answer for each sub query for the budget in input and then assembles the results. For the first ‘standard deviation’ query, it requires a count, an average, and only then the computation for the standard deviation. Hence, to save budget it is better to make a general query directly and retrieve all the ‘sub-answers’.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>epsilon = 1.0
@@ -742,7 +714,7 @@ delta = 1e-5
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUERY = &quot;SELECT STD(bill_length_mm) AS std_bill_length_mm FROM df&quot;
@@ -752,8 +724,7 @@ cost
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -761,7 +732,7 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUERY = &quot;SELECT AVG(bill_length_mm) AS avg_bl, STD(bill_length_mm) as std_bl FROM df&quot;
@@ -771,8 +742,7 @@ cost
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -780,7 +750,7 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUERY = &quot;SELECT COUNT(bill_length_mm) AS count_bl, AVG(bill_length_mm) AS avg_bl, STD(bill_length_mm) as std_bl FROM df&quot;
@@ -790,8 +760,7 @@ cost
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -800,7 +769,7 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 </div>
 <p>A way to know the sub-queries of a query is to use the following Smartnoise-SQL code:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert metadata to Smartnoise-SQL compliant metadata
@@ -812,7 +781,7 @@ snsql_metadata = {&quot;&quot;: {&quot;&quot;: {&quot;df&quot;: metadata}}}
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Write the query to inspect
@@ -822,7 +791,7 @@ QUERY = &quot;SELECT STD(bill_length_mm) as std_bl FROM df&quot;
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from snsql.sql.private_rewriter import Rewriter
@@ -835,17 +804,16 @@ dp_query
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;snsql._ast.ast.Query at 0x7da6f77a4dd0&gt;
+&lt;snsql._ast.ast.Query at 0x7a1767daa420&gt;
 </pre></div></div>
 </div>
 <p>The original dp query is represented as one query:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dp_query._named_symbols
@@ -853,12 +821,11 @@ dp_query
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;std_bl&#39;: &lt;snsql._ast.tokens.Symbol at 0x7da6f77a5e20&gt;}
+{&#39;std_bl&#39;: &lt;snsql._ast.tokens.Symbol at 0x7a1767dab800&gt;}
 </pre></div></div>
 </div>
 <p>But has 4 named symbols inside: 2 alias for the 2 SQL subqueries</p>
@@ -867,7 +834,7 @@ dp_query
 <li><p>‘sum_alias_0xxxx’ for ‘sum_bill_length_mm’</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>subquery = dp_query.source.relations[0].primary.query
@@ -877,20 +844,19 @@ syms
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;keycount&#39;: &lt;snsql._ast.tokens.Symbol at 0x7da6f778fe00&gt;,
- &#39;sum_alias_0xf3d7&#39;: &lt;snsql._ast.tokens.Symbol at 0x7da6f790bbf0&gt;,
- &#39;count_bill_length_mm&#39;: &lt;snsql._ast.tokens.Symbol at 0x7da74c238950&gt;,
- &#39;sum_bill_length_mm&#39;: &lt;snsql._ast.tokens.Symbol at 0x7da6f77a4c50&gt;}
+{&#39;keycount&#39;: &lt;snsql._ast.tokens.Symbol at 0x7a1767da8500&gt;,
+ &#39;sum_alias_0xf3d7&#39;: &lt;snsql._ast.tokens.Symbol at 0x7a1767d2ef90&gt;,
+ &#39;count_bill_length_mm&#39;: &lt;snsql._ast.tokens.Symbol at 0x7a1767dabe00&gt;,
+ &#39;sum_bill_length_mm&#39;: &lt;snsql._ast.tokens.Symbol at 0x7a1767dabec0&gt;}
 </pre></div></div>
 </div>
 <p>This last query with <code class="docutils literal notranslate"><span class="pre">group_by</span></code> will cost the same because <code class="docutils literal notranslate"><span class="pre">max_ids=1</span></code> (a penguin appears in the dataset at most once) and so the <code class="docutils literal notranslate"><span class="pre">group_by</span></code> is applied on different partitions of the population.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUERY = &quot;SELECT COUNT(bill_length_mm) AS count_bl, AVG(bill_length_mm) AS avg_bl, STD(bill_length_mm) as std_bl FROM df GROUP BY species&quot;
@@ -900,8 +866,7 @@ cost
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -919,7 +884,7 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 </ul>
 <p>She set the level of significance at 0.05.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>CRITICAL_VALUE = 0.05
@@ -927,7 +892,7 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>QUERY = &quot;SELECT \
@@ -941,7 +906,7 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 </div>
 <p>She checks the remaining budget:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
@@ -949,8 +914,7 @@ CostResponse(epsilon=3.0, delta=5.000000000032756e-06)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -959,7 +923,7 @@ RemainingBudgetResponse(remaining_epsilon=7.5, remaining_delta=0.004980000049999
 </div>
 <p>She estimates how much budget it would really cost:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.smartnoise_sql.cost(query = QUERY, epsilon = 1.0, delta = 1e-4)
@@ -967,8 +931,7 @@ RemainingBudgetResponse(remaining_epsilon=7.5, remaining_delta=0.004980000049999
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -977,7 +940,7 @@ CostResponse(epsilon=3.0, delta=4.999999999999449e-05)
 </div>
 <p>The real cost seems to be 3 times the epsilon that she sets. It is a lot but she tries on the dummy dataset to verify all is working properly.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_res = client.smartnoise_sql.query(query = QUERY, epsilon = 0.1, delta = 1e-8, dummy = True)
@@ -986,20 +949,19 @@ dummy_res
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 QueryResponse(epsilon=0.30000000000000004, delta=4.999999969612645e-09, requested_by=&#39;Dr.Antartica&#39;, result=SmartnoiseSQLQueryResult(res_type=&lt;DPLibraries.SMARTNOISE_SQL: &#39;smartnoise_sql&#39;&gt;, df=     species  nb_penguin  avg_bill_length_mm  std_bill_length_mm
-0     Adelie          34           34.363430           44.175056
-1  Chinstrap          43           36.950742           24.910419
-2     Gentoo          38           37.140333           28.000681))
+0     Adelie          35           19.897107           32.926807
+1  Chinstrap          31           40.241303           29.827556
+2     Gentoo          41           29.356467           35.889745))
 </pre></div></div>
 </div>
 <p>She did not give enough budget for the query to work. This is why there are ‘NANs’ in the output. She has to spend more budget for the query to work.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_res = client.smartnoise_sql.query(query = QUERY, epsilon = 7.5/3, delta = 1e-4, dummy = True)
@@ -1009,30 +971,42 @@ dummy_res
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 QueryResponse(epsilon=7.5, delta=4.999999999999449e-05, requested_by=&#39;Dr.Antartica&#39;, result=SmartnoiseSQLQueryResult(res_type=&lt;DPLibraries.SMARTNOISE_SQL: &#39;smartnoise_sql&#39;&gt;, df=     species  nb_penguin  avg_bill_length_mm  std_bill_length_mm
-0     Adelie          27           48.119200           14.204356
-1  Chinstrap          33           46.653429           12.639075
-2     Gentoo          39           45.713803           15.751456))
+0     Adelie          26           46.722025           17.977272
+1  Chinstrap          32           48.014863            8.274233
+2     Gentoo          39           47.811436            8.199086))
 </pre></div></div>
 </div>
 <p>If it errors, she might need to re-run the query a few times until it works. The budget is not affected by dummy queries anyway.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>flipper_length_response = client.smartnoise_sql.query(query = QUERY, epsilon = 7.5/3, delta = 1e-4)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_core.error_handler import InvalidQueryException
+
+flipper_length_response = None
+
+for i in range(0, 10):
+    try:
+        flipper_length_response = client.smartnoise_sql.query(query = QUERY, epsilon = 7.5/3, delta = 1e-4)
+        break
+    except InvalidQueryException:
+        print(f&quot;Attempt number {i} failed.&quot;)
+        continue
+
+if flipper_length_response is None:
+    print(&quot;10 unsuccessfull query attempts.&quot;)
 </pre></div>
 </div>
 </div>
 <p>And now she should not have any remaining budget:</p>
 <p>But she can do her post-processing and hypothesis analysis.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_flipper = flipper_length_response.result.df
@@ -1041,8 +1015,7 @@ df_flipper
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1073,23 +1046,23 @@ df_flipper
     <tr>
       <th>0</th>
       <td>Adelie</td>
-      <td>149</td>
-      <td>38.747564</td>
-      <td>4.800439</td>
+      <td>151</td>
+      <td>38.691709</td>
+      <td>4.810702</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Chinstrap</td>
       <td>68</td>
-      <td>48.233499</td>
-      <td>7.985367</td>
+      <td>48.492926</td>
+      <td>6.057414</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Gentoo</td>
-      <td>123</td>
-      <td>47.319944</td>
-      <td>5.516586</td>
+      <td>122</td>
+      <td>47.399119</td>
+      <td>4.581385</td>
     </tr>
   </tbody>
 </table>
@@ -1097,7 +1070,7 @@ df_flipper
 </div>
 <p>And finally the <span class="math notranslate nohighlight">\(t\)</span>-test:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def t_test(avg_1, avg_2, std_1, std_2, nb_1, nb_2):
@@ -1107,7 +1080,7 @@ df_flipper
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nb_0, avg_0, std_0 = df_flipper[[&#39;nb_penguin&#39;, &#39;avg_bill_length_mm&#39;, &#39;std_bill_length_mm&#39;]].iloc[0]
@@ -1117,7 +1090,7 @@ nb_2, avg_2, std_2 = df_flipper[[&#39;nb_penguin&#39;, &#39;avg_bill_length_mm&#
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>t_01 = t_test(avg_0, avg_1, std_0, std_1, nb_0, nb_1)
@@ -1135,15 +1108,15 @@ print(f&quot;T test between species 1 and specie 2: {np.round(t_12, 2)}.   Rejec
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-T test between species 0 and specie 1: -11.19.  Reject null hypothesis: True.
-T test between species 0 and specie 2: -13.73. Reject null hypothesis: True.
-T test between species 1 and specie 2: 0.95.   Reject null hypothesis: True.
+T test between species 0 and specie 1: -12.92.  Reject null hypothesis: True.
+T test between species 0 and specie 2: -15.19. Reject null hypothesis: True.
+T test between species 1 and specie 2: 1.42.   Reject null hypothesis: True.
 </pre></div></div>
 </div>
 <p>All t-tests are above the critical value of 0.5. She can reject the null hypothesis.</p>
 <p>She finally computes the confidence intervals for the flipper length of each species</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ZSCORE = 1.96
@@ -1155,8 +1128,7 @@ df_flipper
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1190,52 +1162,36 @@ df_flipper
     <tr>
       <th>0</th>
       <td>Adelie</td>
-      <td>149</td>
-      <td>38.747564</td>
-      <td>4.800439</td>
-      <td>0.393267</td>
-      <td>37.976761</td>
-      <td>39.518368</td>
+      <td>151</td>
+      <td>38.691709</td>
+      <td>4.810702</td>
+      <td>0.391489</td>
+      <td>37.924390</td>
+      <td>39.459028</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Chinstrap</td>
       <td>68</td>
-      <td>48.233499</td>
-      <td>7.985367</td>
-      <td>0.968368</td>
-      <td>46.335498</td>
-      <td>50.131501</td>
+      <td>48.492926</td>
+      <td>6.057414</td>
+      <td>0.734569</td>
+      <td>47.053170</td>
+      <td>49.932682</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Gentoo</td>
-      <td>123</td>
-      <td>47.319944</td>
-      <td>5.516586</td>
-      <td>0.497414</td>
-      <td>46.345013</td>
-      <td>48.294875</td>
+      <td>122</td>
+      <td>47.399119</td>
+      <td>4.581385</td>
+      <td>0.414779</td>
+      <td>46.586152</td>
+      <td>48.212086</td>
     </tr>
   </tbody>
 </table>
 </div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
 </div>
 </section>
 </section>

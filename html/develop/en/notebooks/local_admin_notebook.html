@@ -128,7 +128,7 @@
 </div>
 <p>We can now import the library, create the client allowing us to interact with Docker, and finally, access the server container.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import docker
@@ -139,7 +139,7 @@ server_container = client.containers.get(&quot;lomas_server_dev&quot;)
 </div>
 <p>To execute commands inside that Docker container, you can use the <code class="docutils literal notranslate"><span class="pre">exec_run</span></code> method which will return an ExecResult object, from which you can retrieve the output of the command. Let’s see in the following example:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = server_container.exec_run(&quot;ls&quot;)
@@ -179,7 +179,7 @@ uvicorn_serve.py
 <p>You can visualise all the options offered by the database by running the command <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">mongodb_admin_cli.py</span> <span class="pre">--help</span></code>. We will go through through each of them in the rest of the notebook.</p>
 <p>We prepare the function <code class="docutils literal notranslate"><span class="pre">run_command</span></code> to have a cleaner output of the commands in the notebook.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from ast import literal_eval
@@ -198,7 +198,7 @@ def run(command, to_dict=False):
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py --help&quot;)
@@ -253,7 +253,7 @@ subcommands:
 </div>
 <p>And finally, let’s delete all existing data from database to start clean:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py drop_collection --collection datasets&quot;)
@@ -284,7 +284,7 @@ Deleted collection users.
 <p>These information (dataset name, dataset type and metadata path) are stored in the <code class="docutils literal notranslate"><span class="pre">datasets</span></code> collection. Then for each dataset, its metadata is fetched from its <code class="docutils literal notranslate"><span class="pre">yaml</span></code> file and stored in a collection named <code class="docutils literal notranslate"><span class="pre">metadata</span></code>.</p>
 <p>We then check that there is indeed no data in the dataset and metadata collections yet:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_collection --collection datasets&quot;)
@@ -300,7 +300,7 @@ Deleted collection users.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_collection --collection metadata&quot;)
@@ -317,7 +317,7 @@ Deleted collection users.
 </div>
 <p>We can add <strong>one dataset</strong> with its name, database type and path to medata file:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_dataset -d IRIS -db PATH_DB -d_path https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv -m_db PATH_DB -mp ../data/collections/metadata/iris_metadata.yaml&quot;)
@@ -334,7 +334,7 @@ Added dataset IRIS with database PATH_DB and associated metadata.
 </div>
 <p>We can now see the dataset and metadata collection with the Iris dataset:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_collection --collection datasets&quot;, to_dict=True)
@@ -342,8 +342,7 @@ Added dataset IRIS with database PATH_DB and associated metadata.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -355,7 +354,7 @@ Added dataset IRIS with database PATH_DB and associated metadata.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_collection --collection metadata&quot;, to_dict=True)
@@ -363,8 +362,7 @@ Added dataset IRIS with database PATH_DB and associated metadata.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -381,7 +379,7 @@ Added dataset IRIS with database PATH_DB and associated metadata.
 </div>
 <p>Or a path to a yaml file which contains all these informations to do <strong>multiple datasets</strong> in one command:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_datasets_via_yaml -yf ../data/collections/dataset_collection.yaml -c&quot;)
@@ -401,7 +399,7 @@ Cleaning done.
 <p>The argument <em>-c</em> or <em>–clean</em> allow you to clear the current dataset collection before adding your collection.</p>
 <p>By default, <em>add_datasets</em> will only add new dataset found from the collection provided.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_datasets_via_yaml -yf ../data/collections/dataset_collection.yaml&quot;)
@@ -421,7 +419,7 @@ Metadata already exist. Use the command -om to overwrite with new values.
 <p><em>-od</em> / <em>–overwrite_datasets</em> : Overwrite the values for <strong>exisiting datasets</strong> with the values provided in the yaml.</p>
 <p><em>-om</em> / <em>–overwrite_metadata</em> : Overwrite the values for <strong>exisiting metadata</strong> with the values provided in the yaml.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Add new datasets/metadata, update existing datasets
@@ -439,7 +437,7 @@ Existing datasets updated with new collection
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Add new datasets/metadata, update existing metadata
@@ -457,7 +455,7 @@ Metadata updated for dataset : IRIS.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Add new datasets/metadata, update existing datasets &amp; metadata
@@ -476,7 +474,7 @@ Existing datasets updated with new collection
 </div>
 <p>Let’s see all the dataset collection:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_collection --collection datasets&quot;, to_dict=True)
@@ -484,8 +482,7 @@ Existing datasets updated with new collection
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -521,7 +518,7 @@ Existing datasets updated with new collection
 </div>
 <p>Finally let’s have a look at the stored metadata:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_collection --collection metadata&quot;, to_dict=True)
@@ -529,8 +526,7 @@ Existing datasets updated with new collection
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -590,7 +586,7 @@ Existing datasets updated with new collection
 </div>
 <p>If we are interested in a specific dataset, we can also show its collection:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_dataset --dataset IRIS&quot;, to_dict=True)
@@ -598,8 +594,7 @@ Existing datasets updated with new collection
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -612,7 +607,7 @@ Existing datasets updated with new collection
 </div>
 <p>And its associated metadata:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_metadata --dataset IRIS&quot;, to_dict=True)
@@ -620,8 +615,7 @@ Existing datasets updated with new collection
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -638,7 +632,7 @@ Existing datasets updated with new collection
 </div>
 <p>We can also get list of all datasets in the ‘datasets’ collection:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_datasets&quot;, to_dict=True)
@@ -646,8 +640,7 @@ Existing datasets updated with new collection
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -661,7 +654,7 @@ Existing datasets updated with new collection
 <h3>Add user<a class="headerlink" href="#Add-user" title="Link to this heading"></a></h3>
 <p>Let’s see which users are alreay loaded:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_collection --collection users&quot;)
@@ -678,7 +671,7 @@ Existing datasets updated with new collection
 </div>
 <p>And now let’s add few users.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_user_with_budget --user &#39;Mrs. Daisy&#39; --dataset &#39;IRIS&#39; --epsilon 10.0 --delta 0.001&quot;)
@@ -694,7 +687,7 @@ Added access to user Mrs. Daisy with dataset IRIS, budget epsilon 10.0 and delta
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_user_with_budget --user &#39;Mr. Coldheart&#39; --dataset &#39;PENGUIN&#39; --epsilon 10.0 --delta 0.001&quot;)
@@ -710,7 +703,7 @@ Added access to user Mr. Coldheart with dataset PENGUIN, budget epsilon 10.0 and
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_user_with_budget --user &#39;Lord McFreeze&#39; --dataset &#39;PENGUIN&#39; --epsilon 10.0 --delta 0.001&quot;)
@@ -727,7 +720,7 @@ Added access to user Lord McFreeze with dataset PENGUIN, budget epsilon 10.0 and
 </div>
 <p>Users must all have different names, otherwise you will have an error and nothing will be done:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_user_with_budget --user &#39;Lord McFreeze&#39; --dataset &#39;IRIS&#39; --epsilon 10.0 --delta 0.001&quot;)
@@ -753,7 +746,7 @@ ValueError: User Lord McFreeze already exists in user collection
 </div>
 <p>If you want to add another dataset access to an existing user, just use the function <code class="docutils literal notranslate"><span class="pre">add_dataset_to_user</span></code> command.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_dataset_to_user --user &#39;Lord McFreeze&#39; --dataset &#39;IRIS&#39; --epsilon 5.0 --delta 0.005&quot;)
@@ -770,7 +763,7 @@ Added access to dataset IRIS to user Lord McFreeze with budget epsilon 5.0 and d
 </div>
 <p>Alternatively, you can create a user without assigned dataset and then add dataset in another command.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_user --user &#39;Madame Frostina&#39;&quot;)
@@ -787,7 +780,7 @@ Added user Madame Frostina.
 </div>
 <p>Let’s see the default parameters after the user creation:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_user --user &#39;Madame Frostina&#39;&quot;, to_dict=True)
@@ -795,8 +788,7 @@ Added user Madame Frostina.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -805,7 +797,7 @@ Added user Madame Frostina.
 </div>
 <p>Let’s give her access to a dataset with a budget:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_dataset_to_user --user &#39;Madame Frostina&#39; --dataset &#39;IRIS&#39; --epsilon 5.0 --delta 0.005&quot;)
@@ -821,7 +813,7 @@ Added access to dataset IRIS to user Madame Frostina with budget epsilon 5.0 and
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_dataset_to_user --user &#39;Madame Frostina&#39; --dataset &#39;PENGUIN&#39; --epsilon 5.0 --delta 0.005&quot;)
@@ -838,7 +830,7 @@ Added access to dataset PENGUIN to user Madame Frostina with budget epsilon 5.0 
 </div>
 <p>Now let’s see the user Madame Frostina details to check all is in order:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_user --user &#39;Madame Frostina&#39;&quot;, to_dict=True)
@@ -846,8 +838,7 @@ Added access to dataset PENGUIN to user Madame Frostina with budget epsilon 5.0 
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -867,7 +858,7 @@ Added access to dataset PENGUIN to user Madame Frostina with budget epsilon 5.0 
 </div>
 <p>And we can also modify existing the total budget of a user:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_user_with_budget --user &#39;Dr. Antartica&#39; --dataset &#39;PENGUIN&#39; --epsilon 10.0 --delta 0.001&quot;)
@@ -883,7 +874,7 @@ Added access to user Dr. Antartica with dataset PENGUIN, budget epsilon 10.0 and
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py set_budget_field --user &#39;Dr. Antartica&#39; --dataset &#39;PENGUIN&#39; --field initial_epsilon --value 20.0&quot;)
@@ -900,7 +891,7 @@ Set budget of Dr. Antartica for dataset PENGUIN of initial_epsilon to 20.0.
 </div>
 <p>Let’s see the current state of the database:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_collection --collection users&quot;, to_dict=True)
@@ -908,8 +899,7 @@ Set budget of Dr. Antartica for dataset PENGUIN of initial_epsilon to 20.0.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -966,7 +956,7 @@ Set budget of Dr. Antartica for dataset PENGUIN of initial_epsilon to 20.0.
 <h3>Remove user<a class="headerlink" href="#Remove-user" title="Link to this heading"></a></h3>
 <p>You have just heard that the penguin named Coldheart might have malicious intentions and decide to remove his access until an investigation has been carried out. To ensure that he is not allowed to do any more queries, run the following command:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py set_may_query --user &#39;Mr. Coldheart&#39; --value False&quot;)
@@ -984,7 +974,7 @@ Set user Mr. Coldheart may query to False.
 <p>Now, he won’t be able to do any query (unless you re-run the query with –value True).</p>
 <p>A few days have passed and the investigation reveals that he was aiming to do unethical research, you can remove his dataset by doing:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py del_dataset_to_user --user &#39;Mr. Coldheart&#39; --dataset &#39;PENGUIN&#39;&quot;)
@@ -1001,7 +991,7 @@ Remove access to dataset PENGUIN from user Mr. Coldheart.
 </div>
 <p>Or delete him completely from the codebase:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py del_user --user &#39;Mr. Coldheart&#39;&quot;)
@@ -1018,7 +1008,7 @@ Deleted user Mr. Coldheart.
 </div>
 <p>Let’s see the resulting users:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_collection --collection users&quot;, to_dict=True)
@@ -1026,8 +1016,7 @@ Deleted user Mr. Coldheart.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -1076,7 +1065,7 @@ Deleted user Mr. Coldheart.
 <h3>Change budget<a class="headerlink" href="#Change-budget" title="Link to this heading"></a></h3>
 <p>You also change your mind about the budget allowed to Lord McFreeze and give him a bit more on the penguin dataset.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py set_budget_field --user &#39;Lord McFreeze&#39; --dataset &#39;PENGUIN&#39; --field initial_epsilon --value 15.0&quot;)
@@ -1092,7 +1081,7 @@ Set budget of Lord McFreeze for dataset PENGUIN of initial_epsilon to 15.0.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py set_budget_field --user &#39;Lord McFreeze&#39; --dataset &#39;PENGUIN&#39; --field initial_delta --value 0.005&quot;)
@@ -1109,7 +1098,7 @@ Set budget of Lord McFreeze for dataset PENGUIN of initial_delta to 0.005.
 </div>
 <p>Let’s check all our changes by looking at the state of the database:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_collection --collection users&quot;, to_dict=True)
@@ -1117,8 +1106,7 @@ Set budget of Lord McFreeze for dataset PENGUIN of initial_delta to 0.005.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -1167,7 +1155,7 @@ Set budget of Lord McFreeze for dataset PENGUIN of initial_delta to 0.005.
 <h3>Finally all can be loaded fom a file direcly<a class="headerlink" href="#Finally-all-can-be-loaded-fom-a-file-direcly" title="Link to this heading"></a></h3>
 <p>Let’s delete the existing user collection first:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py drop_collection --collection users&quot;)
@@ -1184,7 +1172,7 @@ Deleted collection users.
 </div>
 <p>Is is now empty:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_collection --collection users&quot;)
@@ -1201,7 +1189,7 @@ Deleted collection users.
 </div>
 <p>We add the data based on a yaml file:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_users_via_yaml -yf ../data/collections/user_collection.yaml&quot;)
@@ -1218,7 +1206,7 @@ Added user data from yaml.
 </div>
 <p>By default, <em>add_users_via_yaml</em> will only add new users to the database.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_users_via_yaml -yf ../data/collections/user_collection.yaml&quot;)
@@ -1235,7 +1223,7 @@ No new users added, they already exist in the server
 </div>
 <p>If you want to clean the current users collection and replace it, you can use the argument <em>–clean</em>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_users_via_yaml -yf ../data/collections/user_collection.yaml --clean&quot;)
@@ -1254,7 +1242,7 @@ Cleaning done.
 </div>
 <p>If you want to add new users and update the existing ones in your collection, you can use the argument <em>–overwrite</em>. This will make sure to add new users if they do not exist and replace values from existing users with the collection provided.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py add_users_via_yaml -yf ../data/collections/user_collection.yaml --overwrite&quot;)
@@ -1272,7 +1260,7 @@ Existing users updated.
 </div>
 <p>And let’s see the resulting collection:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_collection --collection users&quot;, to_dict=True)
@@ -1280,8 +1268,7 @@ Existing users updated.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -1329,7 +1316,7 @@ Existing users updated.
 </div>
 <p>To get a list of all users in the ‘users’ collection:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_users&quot;)
@@ -1346,7 +1333,7 @@ Existing users updated.
 </div>
 <p>We can also get a list of all datasets allocated to an user:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_user_datasets --user Alice&quot;)
@@ -1366,7 +1353,7 @@ Existing users updated.
 <section id="Archives-of-queries">
 <h2>Archives of queries<a class="headerlink" href="#Archives-of-queries" title="Link to this heading"></a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>run(&quot;python mongodb_admin_cli.py get_archives --user Alice&quot;)
