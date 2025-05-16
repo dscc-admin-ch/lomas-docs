@@ -186,18 +186,29 @@ import numpy as np
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The following would usually be set in the environment by a system administrator
-# and be tranparent to lomas users. We reset these ones because they are specific to this notebook.
-
-# Note that all client settings can also be passed as keyword arguments to the Client constructor.
-# eg. client = Client(client_id = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_CLIENT_ID&quot;
-# environment variable.
+# and be tranparent to lomas users.
+# Uncomment them if you are running against a Kubernetes deployment.
+# They have already been set for you if you are running locally within a devenv or the Jupyter lab set up by Docker compose.
 
 import os
+# os.environ[&quot;LOMAS_CLIENT_APP_URL&quot;] = &quot;https://lomas.example.com:443&quot;
+# os.environ[&quot;LOMAS_CLIENT_KEYCLOAK_URL&quot;] = &quot;https://keycloak.example.com:443&quot;
+# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__ENABLED&quot;] = &quot;false&quot;
+# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_ENDPOINT&quot;] = &quot;http://otel.example.com:445&quot;
+# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_INSECURE&quot;] = &quot;true&quot;
+# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__SERVICE_ID&quot;] = &quot;my-app-client&quot;
+# os.environ[&quot;LOMAS_CLIENT_REALM&quot;] = &quot;lomas&quot;
+
+# We set these ones because they are specific to this notebook.
 
 USER_NAME = &quot;Dr.Antartica&quot;
 os.environ[&quot;LOMAS_CLIENT_CLIENT_ID&quot;] = USER_NAME
 os.environ[&quot;LOMAS_CLIENT_CLIENT_SECRET&quot;] = USER_NAME.lower()
 os.environ[&quot;LOMAS_CLIENT_DATASET_NAME&quot;] = &quot;PENGUIN&quot;
+
+# Note that all client settings can also be passed as keyword arguments to the Client constructor.
+# eg. client = Client(client_id = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_CLIENT_ID&quot;
+# environment variable.
 </pre></div>
 </div>
 </div>
@@ -668,7 +679,7 @@ print(f&quot;Average bill length of penguins in real data: {avg_bill_length}mm.&
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average bill length of penguins in real data: 44.42mm.
+Average bill length of penguins in real data: 43.84mm.
 </pre></div></div>
 </div>
 <p>After each query on the real dataset, the budget informations are also returned to the researcher. It is possible possible to check the remaining budget again afterwards:</p>
@@ -930,7 +941,7 @@ print(f&quot;Dummy result for variance: {np.round(dummy_var_res.result.value, 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Dummy result for variance: 35.67
+Dummy result for variance: 37.73
 </pre></div></div>
 </div>
 </section>
@@ -984,7 +995,7 @@ print(f&quot;Variance of bill length: {var_bill_length} (from opendp query).&quo
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Variance of bill length: 33.04 (from opendp query).
+Variance of bill length: 30.39 (from opendp query).
 </pre></div></div>
 </div>
 </section>
@@ -1006,7 +1017,7 @@ print(f&quot;Standard error of bill length: {np.round(standard_error, 2)}.&quot;
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Standard error of bill length: 0.31.
+Standard error of bill length: 0.3.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1026,7 +1037,7 @@ print(f&quot;The 95% confidence interval of the bill length of all penguins is [
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The 95% confidence interval of the bill length of all penguins is [43.81, 45.03].
+The 95% confidence interval of the bill length of all penguins is [43.26, 44.42].
 </pre></div></div>
 </div>
 </section>
@@ -1617,7 +1628,7 @@ model_score = response.result.score
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;The model has a mean accuracy of 0.38. It is a harsh metric because we are in a multi-label classification case.&#39;
+&#39;The model has a mean accuracy of 0.41. It is a harsh metric because we are in a multi-label classification case.&#39;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -2145,32 +2156,32 @@ dummy_synth_df = res_dummy.result.df_samples
     <tr>
       <th>0</th>
       <td>Dream</td>
-      <td>51.834871</td>
-      <td>14.953320</td>
+      <td>61.950759</td>
+      <td>17.878770</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Dream</td>
-      <td>57.283922</td>
-      <td>18.331687</td>
+      <td>47.067320</td>
+      <td>19.849841</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Dream</td>
-      <td>50.855572</td>
-      <td>18.125182</td>
+      <td>51.256389</td>
+      <td>17.655042</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Dream</td>
-      <td>40.572197</td>
-      <td>20.620106</td>
+      <td>40.077648</td>
+      <td>16.382866</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Dream</td>
-      <td>43.396040</td>
-      <td>16.629287</td>
+      <td>50.464656</td>
+      <td>18.662312</td>
     </tr>
   </tbody>
 </table>
@@ -2256,32 +2267,32 @@ synth_df = res.result.df_samples
     <tr>
       <th>0</th>
       <td>Dream</td>
-      <td>42.845906</td>
-      <td>16.589437</td>
+      <td>50.729191</td>
+      <td>15.562869</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Dream</td>
-      <td>40.731751</td>
-      <td>19.902779</td>
+      <td>46.954195</td>
+      <td>17.685156</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Biscoe</td>
-      <td>46.551291</td>
-      <td>17.755153</td>
+      <td>Torgersen</td>
+      <td>56.189913</td>
+      <td>16.205805</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Biscoe</td>
-      <td>37.890217</td>
-      <td>16.641988</td>
+      <td>37.039505</td>
+      <td>19.509147</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Dream</td>
-      <td>53.508365</td>
-      <td>18.864851</td>
+      <td>45.286699</td>
+      <td>15.310100</td>
     </tr>
   </tbody>
 </table>
@@ -2313,8 +2324,8 @@ synth_variance = np.round(synth_df[&quot;bill_length_mm&quot;].var(), 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The average with Smartnoise-SQL on private data was 44.42.
-The average with Smartnoise-Synth on synthetic data is 43.64.
+The average with Smartnoise-SQL on private data was 43.84.
+The average with Smartnoise-Synth on synthetic data is 43.88.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -2333,8 +2344,8 @@ The average with Smartnoise-Synth on synthetic data is 43.64.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The variance with opendp on private data was 33.04.
-The variance with Smartnoise-Synth on synthetic data is 33.55.
+The variance with opendp on private data was 30.39.
+The variance with Smartnoise-Synth on synthetic data is 35.01.
 </pre></div></div>
 </div>
 </section>
@@ -2390,10 +2401,10 @@ avg_bill_length_query
   &#39;result&#39;: {&#39;res_type&#39;: &#39;smartnoise_sql&#39;,
    &#39;df&#39;: {&#39;index&#39;: [0],
     &#39;columns&#39;: [&#39;avg_bill_length_mm&#39;],
-    &#39;data&#39;: [[44.42366777971542]],
+    &#39;data&#39;: [[43.841392891598105]],
     &#39;index_names&#39;: [None],
     &#39;column_names&#39;: [None]}}},
- &#39;timestamp&#39;: 1746622639.5171945}
+ &#39;timestamp&#39;: 1747224122.37658}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -2425,8 +2436,8 @@ var_bill_length_query
  &#39;response&#39;: {&#39;epsilon&#39;: 0.7122093023265229,
   &#39;delta&#39;: 0.0,
   &#39;requested_by&#39;: &#39;Dr.Antartica&#39;,
-  &#39;result&#39;: {&#39;res_type&#39;: &#39;opendp&#39;, &#39;value&#39;: 33.043842375282765}},
- &#39;timestamp&#39;: 1746622643.8407726}
+  &#39;result&#39;: {&#39;res_type&#39;: &#39;opendp&#39;, &#39;value&#39;: 30.385959602069526}},
+ &#39;timestamp&#39;: 1747224126.9574347}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -2461,7 +2472,7 @@ reg_bill_length_query
   &#39;delta&#39;: 0.0,
   &#39;requested_by&#39;: &#39;Dr.Antartica&#39;,
   &#39;result&#39;: {&#39;res_type&#39;: &#39;diffprivlib&#39;,
-   &#39;score&#39;: 0.38235294117647056,
+   &#39;score&#39;: 0.4117647058823529,
    &#39;model&#39;: Pipeline(steps=[(&#39;rf&#39;,
                     RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
                                            bounds=(array([  30.,   13.,  150., 2000.]),
@@ -2469,7 +2480,7 @@ reg_bill_length_query
                                            classes=[&#39;Adelie&#39;, &#39;Chinstrap&#39;,
                                                     &#39;Gentoo&#39;],
                                            epsilon=2.0))])}},
- &#39;timestamp&#39;: 1746622648.4958181}
+ &#39;timestamp&#39;: 1747224131.9495468}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -2514,10 +2525,10 @@ sysynth_query
                                                        df_samples
   index         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...
   columns                 [island, bill_length_mm, bill_depth_mm]
-  data          [[Dream, 42.8459058701992, 16.589437007904053]...
+  data          [[Dream, 50.72919085621834, 15.562869191169739...
   index_names                                              [None]
   column_names                                             [None]  },
- &#39;timestamp&#39;: 1746622667.6122177}
+ &#39;timestamp&#39;: 1747224154.2680252}
 </pre></div></div>
 </div>
 </section>
