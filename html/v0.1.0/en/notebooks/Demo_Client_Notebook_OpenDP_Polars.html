@@ -513,7 +513,7 @@ income_lower_bound, income_upper_bound = income_metadata[&quot;columns&quot;][&q
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plan = dummy_lf.select(
-    pl.col(&quot;income&quot;).dp.mean(bounds=(income_lower_bound, income_upper_bound), scale=(100,1)
+    pl.col(&quot;income&quot;).dp.mean(bounds=(income_lower_bound, income_upper_bound), scale=(100_000,1)
 ))
 </pre></div>
 </div>
@@ -686,7 +686,7 @@ shape: (1, 1)
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Grouped by &quot;sex&quot;
 plan = dummy_lf.group_by(&quot;sex&quot;).agg([
-    pl.col(&quot;income&quot;).dp.mean(bounds=(income_lower_bound, income_upper_bound), scale=(100.0,1))
+    pl.col(&quot;income&quot;).dp.mean(bounds=(income_lower_bound, income_upper_bound), scale=(100_000.0,1))
 ])
 </pre></div>
 </div>
@@ -721,7 +721,7 @@ shape: (2, 2)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plan = dummy_lf.group_by([&quot;sex&quot;,&quot;region&quot;]).agg([
-    pl.col(&quot;income&quot;).dp.mean(bounds=(income_lower_bound, income_upper_bound), scale=(100.0,1))
+    pl.col(&quot;income&quot;).dp.mean(bounds=(income_lower_bound, income_upper_bound), scale=(100_000.0,1))
 ])
 </pre></div>
 </div>
@@ -832,7 +832,7 @@ shape: (1, 1)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plan = dummy_lf.group_by(&quot;sex&quot;).agg([
-    pl.col(&quot;income&quot;).dp.quantile(alpha=.25, candidates=candidates, scale=(1.)),
+    pl.col(&quot;income&quot;).dp.quantile(alpha=.25, candidates=candidates, scale=(100.)),
 ])
 </pre></div>
 </div>
@@ -871,7 +871,7 @@ shape: (2, 2)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plan = dummy_lf.group_by([&quot;sex&quot;, &quot;region&quot;]).agg([
-    pl.col(&quot;income&quot;).dp.quantile(alpha=.75, candidates=candidates, scale=(1.)),
+    pl.col(&quot;income&quot;).dp.quantile(alpha=.75, candidates=candidates, scale=(100.)),
 ])
 </pre></div>
 </div>
