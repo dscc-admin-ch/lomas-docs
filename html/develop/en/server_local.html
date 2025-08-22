@@ -63,7 +63,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="server_administration.html">Administration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="server_managing_dataset.html">Adding and referencing new dataset</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -76,6 +75,7 @@
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
@@ -110,8 +110,8 @@
              
   <section id="local">
 <h1>Local<a class="headerlink" href="#local" title="Link to this heading"></a></h1>
-<p>This chapter provides instructions on how to deploy the service locally.
-Follow these steps to get your server and all the components up and running on your local machine.</p>
+<p>This chapter provides instructions on how to deploy the server locally.
+Follow these steps to get your server up and running on your local machine.</p>
 <section id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
 <ul class="simple">
@@ -133,35 +133,35 @@ Follow these steps to get your server and all the components up and running on y
 </pre></div>
 </div>
 </li>
+<li><p>Create Docker Volumes for MongoDB and MinIO</p>
+<p>You need to create a Docker volume for MongoDB and MinIO data persistence.
+Run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>volume<span class="w"> </span>create<span class="w"> </span>mongodata
+docker<span class="w"> </span>volume<span class="w"> </span>create<span class="w"> </span>minio-data
+</pre></div>
+</div>
+</li>
 <li><p>Start the Server</p>
 <p>With Docker and Docker Compose set up, you can now start the server.
 In the same directory, run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>--env-file<span class="w"> </span>./configs/.env.docker-compose<span class="w"> </span>up
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>up
 </pre></div>
 </div>
-<p>If using devenv, this command is also provided as a utility script with <cite>docker-compose-up</cite>.</p>
 <p>Depending on the number of Docker images that must be pulled or built, the deployment process can take some time.
 The server is only started last, so please be patient!</p>
-<p>Note for developpers: The docker compose file is parametrized with an .env file via variable interpolation. We generate all configuration files using devenv before checking them into Git. This is specified with a note at the beginning of each of these automatically generated files.</p>
 </li>
 <li><p>Access the Server</p>
 <p>Once the server is up and running, it should be accessible on <cite>localhost</cite>. Open your web browser and go to:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>http://localhost:48080
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>http://localhost
 </pre></div>
 </div>
 </li>
 <li><p>Additional Services</p>
-<p>Running <cite>docker compose up</cite> will also start a few additional services automatically:</p>
-<ul class="simple">
-<li><p>The local administration MongoDB, that relies on the docker volume <cite>mongodata</cite>.</p></li>
-<li><p>The identity provider, Keycloak, as well as a setup container to initialize the service.</p></li>
-<li><p>The messaging system, RabbitMQ.</p></li>
-<li><p>A setup container that will fill up Keycloak and the administration database with demo users.</p></li>
-<li><p>All the observability components (see observability). If the develop mode is not ON (by default in the config), the server state will be maintained across restarts.</p></li>
-<li><p>A local instance of a Minio server with an <cite>example</cite> bucket containing the “titanic” dataset and its metadata. The dataset is automatically added to the service if the develop mode is ON (by default in the config.). One can also add data to the Minio server through its api endpoint (<cite>http://localhost:19000</cite>) or through the web console (<cite>http://localhost:19001</cite> in your browser). Make sure to use <cite>http:minio:19000</cite> in your config files since that is the address of the Minio server inside the local docker lomas-network network.</p></li>
-<li><p>A Jupyter notebook environment that will be available at the address <a class="reference external" href="http://127.0.0.1:8888/">http://127.0.0.1:8888/</a> to interact as a user with the server</p></li>
-<li><p>A streamlit application that will be available at the address <a class="reference external" href="http://localhost:8501/">http://localhost:8501/</a> to interact with the server and the administration database as an administrator.</p></li>
-</ul>
+<p>Running <cite>docker compose up</cite> will also start a few additional services automatically:
+* The local administration MongoDB, that relies on the docker volume <cite>mongodata</cite>. If the develop mode is not ON (by default in the config), the server state will be maintained across restarts.
+* A local instance of a Minio server with an <cite>example</cite> bucket containing the “titanic” dataset and its metadata. The dataset is automatically added to the service if the develop mode is ON (by default in the config.). One can also add data to the Minio server through its api endpoint (<cite>http://localhost:9000</cite>) or through the web console (<cite>http://localhost:9001</cite> in your browser). Make sure to use <cite>http:minio:9000</cite> in your config files since that is the address of the Minio server inside the local docker lomas-network network.
+* A Jupyter notebook environment that will be available at the address <a class="reference external" href="http://127.0.0.1:8888/">http://127.0.0.1:8888/</a> to interact as a user with the server
+* A streamlit application that will be available at the address <a class="reference external" href="http://localhost:8501/">http://localhost:8501/</a> to interact with the server and the administration database as an administrator.</p>
 </li>
 </ol>
 </section>

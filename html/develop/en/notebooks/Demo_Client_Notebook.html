@@ -82,7 +82,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../server_administration.html">Administration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../server_managing_dataset.html">Adding and referencing new dataset</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -95,6 +94,7 @@
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
@@ -133,7 +133,7 @@
 <p>The secure data are never visible by researchers. They can only access to differentially private responses via queries to the server.</p>
 <p>Each user has access to one or multiple projects and for each dataset has a limited budget with <span class="math notranslate nohighlight">\(\epsilon\)</span> and <span class="math notranslate nohighlight">\(\delta\)</span> values.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from IPython.display import Image
@@ -142,7 +142,8 @@ Image(filename=&quot;images/image_demo_client.png&quot;, width=800)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Demo_Client_Notebook_2_0.png" class="no-scaled-link" src="../_images/notebooks_Demo_Client_Notebook_2_0.png" style="width: 800px;" />
@@ -155,22 +156,82 @@ Image(filename=&quot;images/image_demo_client.png&quot;, width=800)
 <h2>Step 1: Install the library<a class="headerlink" href="#Step-1:-Install-the-library" title="Link to this heading"></a></h2>
 <p>To interact with the secure server on which the data is stored, Dr.Antartica first needs to install the library <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> on her local developping environment.</p>
 <p>It can be installed via the pip command:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!pip install lomas-client
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Requirement already satisfied: lomas-client in /usr/local/lib/python3.12/site-packages (0.3.3)
+Requirement already satisfied: diffprivlib&gt;=0.6.4 in /usr/local/lib/python3.12/site-packages (from lomas-client) (0.6.4)
+Requirement already satisfied: diffprivlib-logger&gt;=0.0.3 in /usr/local/lib/python3.12/site-packages (from lomas-client) (0.0.3)
+Requirement already satisfied: numpy&gt;=1.26.2 in /usr/local/lib/python3.12/site-packages (from lomas-client) (1.26.2)
+Requirement already satisfied: opendp==0.10.0 in /usr/local/lib/python3.12/site-packages (from lomas-client) (0.10.0)
+Requirement already satisfied: opendp-logger==0.3.0 in /usr/local/lib/python3.12/site-packages (from lomas-client) (0.3.0)
+Requirement already satisfied: pandas&gt;=2.2.2 in /usr/local/lib/python3.12/site-packages (from lomas-client) (2.2.2)
+Requirement already satisfied: requests&gt;=2.32.0 in /usr/local/lib/python3.12/site-packages (from lomas-client) (2.32.0)
+Requirement already satisfied: scikit-learn==1.4.0 in /usr/local/lib/python3.12/site-packages (from lomas-client) (1.4.0)
+Requirement already satisfied: smartnoise-synth==1.0.4 in /usr/local/lib/python3.12/site-packages (from lomas-client) (1.0.4)
+Requirement already satisfied: smartnoise-synth-logger==0.0.3 in /usr/local/lib/python3.12/site-packages (from lomas-client) (0.0.3)
+Requirement already satisfied: scipy&gt;=1.6.0 in /usr/local/lib/python3.12/site-packages (from scikit-learn==1.4.0-&gt;lomas-client) (1.14.1)
+Requirement already satisfied: joblib&gt;=1.2.0 in /usr/local/lib/python3.12/site-packages (from scikit-learn==1.4.0-&gt;lomas-client) (1.4.2)
+Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /usr/local/lib/python3.12/site-packages (from scikit-learn==1.4.0-&gt;lomas-client) (3.5.0)
+Requirement already satisfied: Faker&gt;=17.0.0 in /usr/local/lib/python3.12/site-packages (from smartnoise-synth==1.0.4-&gt;lomas-client) (30.6.0)
+Requirement already satisfied: opacus&lt;0.15.0,&gt;=0.14.0 in /usr/local/lib/python3.12/site-packages (from smartnoise-synth==1.0.4-&gt;lomas-client) (0.14.0)
+Requirement already satisfied: pac-synth&lt;0.0.9,&gt;=0.0.8 in /usr/local/lib/python3.12/site-packages (from smartnoise-synth==1.0.4-&gt;lomas-client) (0.0.8)
+Requirement already satisfied: smartnoise-sql&lt;2.0.0,&gt;=1.0.4 in /usr/local/lib/python3.12/site-packages (from smartnoise-synth==1.0.4-&gt;lomas-client) (1.0.4)
+Requirement already satisfied: torch&gt;=2.2.0 in /usr/local/lib/python3.12/site-packages (from smartnoise-synth==1.0.4-&gt;lomas-client) (2.4.1)
+Requirement already satisfied: setuptools&gt;=49.0.0 in /usr/local/lib/python3.12/site-packages (from diffprivlib&gt;=0.6.4-&gt;lomas-client) (75.2.0)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in /usr/local/lib/python3.12/site-packages (from pandas&gt;=2.2.2-&gt;lomas-client) (2.9.0.post0)
+Requirement already satisfied: pytz&gt;=2020.1 in /usr/local/lib/python3.12/site-packages (from pandas&gt;=2.2.2-&gt;lomas-client) (2024.2)
+Requirement already satisfied: tzdata&gt;=2022.7 in /usr/local/lib/python3.12/site-packages (from pandas&gt;=2.2.2-&gt;lomas-client) (2024.2)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in /usr/local/lib/python3.12/site-packages (from requests&gt;=2.32.0-&gt;lomas-client) (3.4.0)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in /usr/local/lib/python3.12/site-packages (from requests&gt;=2.32.0-&gt;lomas-client) (3.10)
+Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in /usr/local/lib/python3.12/site-packages (from requests&gt;=2.32.0-&gt;lomas-client) (2.2.3)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.12/site-packages (from requests&gt;=2.32.0-&gt;lomas-client) (2024.8.30)
+Requirement already satisfied: typing-extensions in /usr/local/lib/python3.12/site-packages (from Faker&gt;=17.0.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (4.12.2)
+Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.12/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas&gt;=2.2.2-&gt;lomas-client) (1.16.0)
+Requirement already satisfied: PyYAML&lt;7.0.0,&gt;=6.0.1 in /usr/local/lib/python3.12/site-packages (from smartnoise-sql&lt;2.0.0,&gt;=1.0.4-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (6.0.2)
+Requirement already satisfied: antlr4-python3-runtime==4.9.3 in /usr/local/lib/python3.12/site-packages (from smartnoise-sql&lt;2.0.0,&gt;=1.0.4-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (4.9.3)
+Requirement already satisfied: graphviz&lt;0.18,&gt;=0.17 in /usr/local/lib/python3.12/site-packages (from smartnoise-sql&lt;2.0.0,&gt;=1.0.4-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (0.17)
+Requirement already satisfied: sqlalchemy&lt;3.0.0,&gt;=2.0.0 in /usr/local/lib/python3.12/site-packages (from smartnoise-sql&lt;2.0.0,&gt;=1.0.4-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (2.0.36)
+Requirement already satisfied: filelock in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (3.16.1)
+Requirement already satisfied: sympy in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (1.13.3)
+Requirement already satisfied: networkx in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (3.4.1)
+Requirement already satisfied: jinja2 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (3.1.4)
+Requirement already satisfied: fsspec in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (2024.9.0)
+Requirement already satisfied: nvidia-cuda-nvrtc-cu12==12.1.105 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.1.105)
+Requirement already satisfied: nvidia-cuda-runtime-cu12==12.1.105 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.1.105)
+Requirement already satisfied: nvidia-cuda-cupti-cu12==12.1.105 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.1.105)
+Requirement already satisfied: nvidia-cudnn-cu12==9.1.0.70 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (9.1.0.70)
+Requirement already satisfied: nvidia-cublas-cu12==12.1.3.1 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.1.3.1)
+Requirement already satisfied: nvidia-cufft-cu12==11.0.2.54 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (11.0.2.54)
+Requirement already satisfied: nvidia-curand-cu12==10.3.2.106 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (10.3.2.106)
+Requirement already satisfied: nvidia-cusolver-cu12==11.4.5.107 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (11.4.5.107)
+Requirement already satisfied: nvidia-cusparse-cu12==12.1.0.106 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.1.0.106)
+Requirement already satisfied: nvidia-nccl-cu12==2.20.5 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (2.20.5)
+Requirement already satisfied: nvidia-nvtx-cu12==12.1.105 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.1.105)
+Requirement already satisfied: triton==3.0.0 in /usr/local/lib/python3.12/site-packages (from torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (3.0.0)
+Requirement already satisfied: nvidia-nvjitlink-cu12 in /usr/local/lib/python3.12/site-packages (from nvidia-cusolver-cu12==11.4.5.107-&gt;torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (12.6.77)
+Requirement already satisfied: greenlet!=0.4.17 in /usr/local/lib/python3.12/site-packages (from sqlalchemy&lt;3.0.0,&gt;=2.0.0-&gt;smartnoise-sql&lt;2.0.0,&gt;=1.0.4-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (3.1.1)
+Requirement already satisfied: MarkupSafe&gt;=2.0 in /usr/local/lib/python3.12/site-packages (from jinja2-&gt;torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (3.0.1)
+Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in /usr/local/lib/python3.12/site-packages (from sympy-&gt;torch&gt;=2.2.0-&gt;smartnoise-synth==1.0.4-&gt;lomas-client) (1.3.0)
+<span class="ansi-yellow-fg">WARNING: Running pip as the &#39;root&#39; user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.</span><span class="ansi-yellow-fg">
+</span>
+</pre></div></div>
+</div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># !pip install lomas-client
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%load_ext autoreload
-%autoreload 2
-
-from lomas_client import Client
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_client import Client
 import numpy as np
 </pre></div>
 </div>
@@ -179,44 +240,21 @@ import numpy as np
 <section id="Step-2:-Initialise-the-client">
 <h2>Step 2: Initialise the client<a class="headerlink" href="#Step-2:-Initialise-the-client" title="Link to this heading"></a></h2>
 <p>Once the library is installed, a Client object must be created. It is responsible for sending sending requests to the server and processing responses in the local environment. It enables a seamless interaction with the server.</p>
-<p>The client needs a few parameters to be created. Usually, these would be set in the environment by the system administrator (queen Icebergina) and be transparent to lomas users. In this instance, the following code snippet sets a few of these parameters that are specific to this notebook.</p>
-<p>She will only be able to query on the real dataset if the queen Icebergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit.</p>
+<p>To create the client, Dr. Antartica needs to give it a few parameters:</p>
+<ul class="simple">
+<li><p>a url: the root application endpoint to the remote secure server.</p></li>
+<li><p>user_name: her name as registered in the database (Dr. Alice Antartica)</p></li>
+<li><p>dataset_name: the name of the dataset that she wants to query (PENGUIN)</p></li>
+</ul>
+<p>She will only be able to query on the real dataset if the queen Icergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit (as is done in the Admin Notebook for Users and Datasets management).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The following would usually be set in the environment by a system administrator
-# and be tranparent to lomas users.
-# Uncomment them if you are running against a Kubernetes deployment.
-# They have already been set for you if you are running locally within a devenv or the Jupyter lab set up by Docker compose.
-
-import os
-# os.environ[&quot;LOMAS_CLIENT_APP_URL&quot;] = &quot;https://lomas.example.com:443&quot;
-# os.environ[&quot;LOMAS_CLIENT_KEYCLOAK_URL&quot;] = &quot;https://keycloak.example.com:443&quot;
-# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__ENABLED&quot;] = &quot;false&quot;
-# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_ENDPOINT&quot;] = &quot;http://otel.example.com:445&quot;
-# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_INSECURE&quot;] = &quot;true&quot;
-# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__SERVICE_ID&quot;] = &quot;my-app-client&quot;
-# os.environ[&quot;LOMAS_CLIENT_REALM&quot;] = &quot;lomas&quot;
-
-# We set these ones because they are specific to this notebook.
-
-USER_NAME = &quot;Dr.Antartica&quot;
-os.environ[&quot;LOMAS_CLIENT_CLIENT_ID&quot;] = USER_NAME
-os.environ[&quot;LOMAS_CLIENT_CLIENT_SECRET&quot;] = USER_NAME.lower()
-os.environ[&quot;LOMAS_CLIENT_DATASET_NAME&quot;] = &quot;PENGUIN&quot;
-
-# Note that all client settings can also be passed as keyword arguments to the Client constructor.
-# eg. client = Client(client_id = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_CLIENT_ID&quot;
-# environment variable.
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>APP_URL = &quot;http://lomas_server&quot;
+USER_NAME = &quot;Dr. Antartica&quot;
+DATASET_NAME = &quot;PENGUIN&quot;
+client = Client(url=APP_URL, user_name = USER_NAME, dataset_name = DATASET_NAME)
 </pre></div>
 </div>
 </div>
@@ -229,7 +267,7 @@ os.environ[&quot;LOMAS_CLIENT_DATASET_NAME&quot;] = &quot;PENGUIN&quot;
 <p>Dr. Antartica has never seen the data and as a first step to understand what is available to her, she would like to check the metadata of the dataset. Therefore, she just needs to call the <code class="docutils literal notranslate"><span class="pre">get_dataset_metadata()</span></code> function of the client. As this is public information, this does not cost any budget.</p>
 <p>This function returns metadata information in a format based on <a class="reference external" href="https://docs.smartnoise.org/sql/metadata.html#dictionary-format">SmartnoiseSQL dictionary format</a>, where among other, there is information about all the available columns, their type, bound values (see Smartnoise page for more details). Any metadata is required for Smartnoise-SQL is also required here and additional information such that the different categories in a string type column column can be added.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata = client.get_dataset_metadata()
@@ -238,7 +276,8 @@ penguin_metadata
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -311,7 +350,7 @@ penguin_metadata
 <p>Based on this Dr. Antartica knows that there are 7 columns, 3 of string type (species, island, sex) with their associated categories (i.e. the species column has 3 possibilities: ‘Adelie’, ‘Chinstrap’, ‘Gentoo’) and 4 of float type (bill length, bill depth, flipper length and body mass) with their associated bounds (i.e. the body mass of penguin ranges from 2000 to 7000 gramms). She also knows based on the field <code class="docutils literal notranslate"><span class="pre">max_ids:</span> <span class="pre">1</span></code> that each penguin can only be once in the dataset and on the field
 <code class="docutils literal notranslate"><span class="pre">row_privacy:</span> <span class="pre">True</span></code> that each row represents a single penguin. Finally, she learns that there are 344 rows in the dataset and hence 344 penguins.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>NB_PENGUINS = penguin_metadata[&quot;rows&quot;]
@@ -326,7 +365,7 @@ penguin_metadata
 metadata).</p>
 <p>Dr. Antartica first create a dummy dataset with 100 rows and chooses a seed of 0.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>NB_ROWS = 100
@@ -335,7 +374,7 @@ SEED = 0
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_dummy = client.get_dummy_dataset(
@@ -357,7 +396,8 @@ df_dummy.head()
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -447,7 +487,7 @@ df_dummy.head()
 <h3>c. Check privacy loss budget ε, δ (initial, current, remaining)<a class="headerlink" href="#c.-Check-privacy-loss-budget-ε,-δ-(initial,-current,-remaining)" title="Link to this heading"></a></h3>
 <p>It is the first time that Dr. Antartica connects to the server and she wants to know how much buget has beeen assigned to her. Therefore, she calls the fonction <code class="docutils literal notranslate"><span class="pre">get_initial_budget</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_initial_budget()
@@ -455,7 +495,8 @@ df_dummy.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -465,7 +506,7 @@ InitialBudgetResponse(initial_epsilon=10.0, initial_delta=0.005)
 <p>She sees that she has 10.0 epsilon and 0.005 epsilon at her disposal.</p>
 <p>Then she checks her total spent budget <code class="docutils literal notranslate"><span class="pre">get_total_spent_budget</span></code>. As she only did queries on metadata on dummy dataframes, this should still be 0.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_total_spent_budget()
@@ -473,16 +514,17 @@ InitialBudgetResponse(initial_epsilon=10.0, initial_delta=0.005)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-SpentBudgetResponse(total_spent_epsilon=0.0, total_spent_delta=0.0)
+SpentBudgetResponse(total_spent_epsilon=1.0, total_spent_delta=4.999999999999449e-05)
 </pre></div></div>
 </div>
 <p>It will also be useful to know what the remaining budget is. Therefore, she calls the function <code class="docutils literal notranslate"><span class="pre">get_remaining_budget</span></code>. It just substarcts the total spent budget from the initial budget.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
@@ -490,11 +532,12 @@ SpentBudgetResponse(total_spent_epsilon=0.0, total_spent_delta=0.0)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-RemainingBudgetResponse(remaining_epsilon=10.0, remaining_delta=0.005)
+RemainingBudgetResponse(remaining_epsilon=9.0, remaining_delta=0.004950000000000006)
 </pre></div></div>
 </div>
 <p>As expected, for now the remaining budget is equal to the inital budget.</p>
@@ -519,7 +562,7 @@ RemainingBudgetResponse(remaining_epsilon=10.0, remaining_delta=0.005)
 <h3>a. Compute average bill length with Smartnoise-SQL<a class="headerlink" href="#a.-Compute-average-bill-length-with-Smartnoise-SQL" title="Link to this heading"></a></h3>
 <p>Dr. Antartica wants to know the average bill length of penguins. Therefore, she will use <code class="docutils literal notranslate"><span class="pre">smartnoise-sql</span></code> library and write the associated SQL command.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Average bill length in mm
@@ -533,7 +576,7 @@ QUERY = &quot;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&quot;
 <p>The user can then decide to use the budget or modify it. Again, of course, this will not impact the user’s budget.</p>
 <p>Dr. Antartica checks the budget that computing the average bill length will really cost her if she asks the query with an <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and a <code class="docutils literal notranslate"><span class="pre">delta</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>EPSILON = 0.5
@@ -542,7 +585,7 @@ DELTA = 1e-4
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost = client.smartnoise_sql.cost(
@@ -555,7 +598,8 @@ cost
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -563,7 +607,7 @@ CostResponse(epsilon=1.0, delta=4.999999999999449e-05)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;This query would actually cost her {cost.epsilon} epsilon and {cost.delta} delta.&quot;)
@@ -599,7 +643,7 @@ real dataset. This functionnal testing on the dummy does not have any impact on 
 <li><p>set very high budget values to be able to compare results with a similar local dummy (with the same seed and number of rows) if she wants to verify that the function do what is expected. Here she will just check that the number of rows is close to what she sets as parameter.</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># On the remote server dummy dataframe
@@ -615,7 +659,7 @@ dummy_res = client.smartnoise_sql.query(
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;Average bill length in remote dummy: {np.round(dummy_res.result.df[&#39;avg_bill_length_mm&#39;][0], 2)}mm.&quot;)
@@ -627,7 +671,7 @@ dummy_res = client.smartnoise_sql.query(
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average bill length in remote dummy: 48.59mm.
+Average bill length in remote dummy: 48.58mm.
 </pre></div></div>
 </div>
 <p>No functionnal errors happened and the average bill length is within reasonable bounds. She is now even more confident in using her query on the server.</p>
@@ -637,7 +681,7 @@ Average bill length in remote dummy: 48.59mm.
 <p>Now that all the safeguard functions were tested, Dr. Antartica is ready to query on the real dataset and get a differentially private response of the number of penguins and average bill length. By default, the flag <code class="docutils literal notranslate"><span class="pre">dummy</span></code> is False so setting it is optional. She uses the values of <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and <code class="docutils literal notranslate"><span class="pre">delta</span></code> that she selected just before.</p>
 <p>Careful: This command DOES spend the budget of the user and the remaining budget is updated for every query.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
@@ -645,15 +689,16 @@ Average bill length in remote dummy: 48.59mm.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-RemainingBudgetResponse(remaining_epsilon=10.0, remaining_delta=0.005)
+RemainingBudgetResponse(remaining_epsilon=9.0, remaining_delta=0.004950000000000006)
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.smartnoise_sql.query(
@@ -666,7 +711,7 @@ RemainingBudgetResponse(remaining_epsilon=10.0, remaining_delta=0.005)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_bill_length = np.round(response.result.df[&#39;avg_bill_length_mm&#39;].iloc[0], 2)
@@ -679,12 +724,12 @@ print(f&quot;Average bill length of penguins in real data: {avg_bill_length}mm.&
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average bill length of penguins in real data: 43.84mm.
+Average bill length of penguins in real data: 43.52mm.
 </pre></div></div>
 </div>
 <p>After each query on the real dataset, the budget informations are also returned to the researcher. It is possible possible to check the remaining budget again afterwards:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
@@ -692,16 +737,17 @@ Average bill length of penguins in real data: 43.84mm.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-RemainingBudgetResponse(remaining_epsilon=9.0, remaining_delta=0.004950000000000006)
+RemainingBudgetResponse(remaining_epsilon=8.0, remaining_delta=0.004900000000000011)
 </pre></div></div>
 </div>
 <p>As can be seen in <code class="docutils literal notranslate"><span class="pre">get_total_spent_budget()</span></code>, it is the budget estimated with <code class="docutils literal notranslate"><span class="pre">estimate_smartnoise_cost()</span></code> that was spent.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_total_spent_budget()
@@ -709,11 +755,12 @@ RemainingBudgetResponse(remaining_epsilon=9.0, remaining_delta=0.004950000000000
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-SpentBudgetResponse(total_spent_epsilon=1.0, total_spent_delta=4.999999999999449e-05)
+SpentBudgetResponse(total_spent_epsilon=2.0, total_spent_delta=9.999999999998899e-05)
 </pre></div></div>
 </div>
 <p>Dr. Antartica has now a differentially private estimation of the number of penguins in the dataset and is confident to use the library for the rest of her analyses.</p>
@@ -722,7 +769,7 @@ SpentBudgetResponse(total_spent_epsilon=1.0, total_spent_delta=4.999999999999449
 <section id="b.-Compute-confidence-interval-with-opendp">
 <h3>b. Compute confidence interval with opendp<a class="headerlink" href="#b.-Compute-confidence-interval-with-opendp" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import opendp as dp
@@ -736,7 +783,7 @@ import opendp.measurements as meas
 <h4>Prepare opendp pipeline and verify on dummy<a class="headerlink" href="#Prepare-opendp-pipeline-and-verify-on-dummy" title="Link to this heading"></a></h4>
 <p>She checks the metadata of the columns again to use the relevant values in the pipeline.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata[&quot;columns&quot;]
@@ -744,7 +791,8 @@ import opendp.measurements as meas
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -812,7 +860,7 @@ import opendp.measurements as meas
 </div>
 <p>She can define the columns names and the bounds of the relevant column.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>columns = list(penguin_metadata[&quot;columns&quot;].keys())
@@ -820,7 +868,7 @@ import opendp.measurements as meas
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bill_length_min = penguin_metadata[&#39;columns&#39;][&#39;bill_length_mm&#39;][&#39;lower&#39;]
@@ -830,7 +878,8 @@ bill_length_min, bill_length_max
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -839,7 +888,7 @@ bill_length_min, bill_length_max
 </div>
 <p>She can now define the pipeline of the transformation to have the variance that she wants on the data:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bill_length_transformation_pipeline = (
@@ -855,7 +904,7 @@ bill_length_min, bill_length_max
 </div>
 <p>However, when she tries to execute it on the server, she has an error (see below).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># No instruction for noise addition mechanism: Expect to fail !!!
@@ -872,48 +921,64 @@ client.opendp.query(
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[29]</span><span class="ansi-green-fg">, line 2</span>
-<span class="ansi-green-fg">      1</span> <span style="color: rgb(95,135,135)"># No instruction for noise addition mechanism: Expect to fail !!!</span>
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">2</span> <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">opendp</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">opendp_pipeline</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">bill_length_transformation_pipeline</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span>
-<span class="ansi-green-fg">      5</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-red-fg">ValidationError</span>                           Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[27], line 2</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span style="color: rgb(95,135,135)"># No instruction for noise addition mechanism: Expect to fail !!!</span>
+<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">opendp</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">opendp_pipeline</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">bill_length_transformation_pipeline</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-yellow-bg">)</span>
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/libraries/opendp.py:141</span>, in <span class="ansi-cyan-fg">OpenDPClient.query</span><span class="ansi-blue-fg">(self, opendp_pipeline, fixed_delta, mechanism, dummy, nb_rows, seed)</span>
-<span class="ansi-green-fg">    104</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-fg">query</span>(
-<span class="ansi-green-fg">    105</span>     <span style="color: rgb(0,135,0)">self</span>,
-<span class="ansi-green-fg">    106</span>     opendp_pipeline: dp.Measurement | pl.LazyFrame,
-<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">    111</span>     seed: <span style="color: rgb(0,135,0)">int</span> = DUMMY_SEED,
-<span class="ansi-green-fg">    112</span> ) -&gt; QueryResponse | <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
-<span class="ansi-green-fg">    113</span> <span style="color: rgb(188,188,188)">    </span><span class="ansi-yellow-fg">&#34;&#34;&#34;This function executes an OpenDP query.</span>
-<span class="ansi-green-fg">    114</span>
-<span class="ansi-green-fg">    115</span> <span class="ansi-yellow-fg">    Args:</span>
-<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">    139</span> <span class="ansi-yellow-fg">            containing the deserialized pipeline result.</span>
-<span class="ansi-green-fg">    140</span> <span class="ansi-yellow-fg">    &#34;&#34;&#34;</span>
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">141</span>     body_json = <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_get_opendp_request_body</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">    142</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">opendp_pipeline</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    143</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">fixed_delta</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">fixed_delta</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    144</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">mechanism</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">mechanism</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    145</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    147</span>     request_model: <span style="color: rgb(0,135,0)">type</span>[OpenDPRequestModel]
-<span class="ansi-green-fg">    148</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> dummy:
+File <span class="ansi-green-fg">/code/lomas_client/libraries/opendp.py:105</span>, in <span class="ansi-cyan-fg">OpenDPClient.query</span><span class="ansi-blue-fg">(self, opendp_pipeline, fixed_delta, dummy, nb_rows, seed)</span>
+<span class="ansi-green-intense-fg ansi-bold">    102</span> body <span style="color: rgb(98,98,98)">=</span> request_model<span style="color: rgb(98,98,98)">.</span>model_validate(body_dict)
+<span class="ansi-green-intense-fg ansi-bold">    103</span> res <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>http_client<span style="color: rgb(98,98,98)">.</span>post(endpoint, body)
+<span class="ansi-green-fg">--&gt; 105</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">validate_model_response</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">res</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">QueryResponse</span><span class="ansi-yellow-bg">)</span>
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/libraries/opendp.py:61</span>, in <span class="ansi-cyan-fg">OpenDPClient._get_opendp_request_body</span><span class="ansi-blue-fg">(self, opendp_pipeline, fixed_delta, mechanism)</span>
-<span class="ansi-green-fg">     59</span>     body_json[<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">pipeline_type</span><span class="ansi-yellow-fg">&#34;</span>] = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">polars</span><span class="ansi-yellow-fg">&#34;</span>
-<span class="ansi-green-fg">     60</span> <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">61</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">TypeError</span>(
-<span class="ansi-green-fg">     62</span>         <span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">Opendp_pipeline must either of type Measurement</span><span class="ansi-yellow-fg">&#34;</span>
-<span class="ansi-green-fg">     63</span>         <span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg"> or LazyFrame, found </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span><span style="color: rgb(0,135,0)">type</span>(opendp_pipeline)<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">&#34;</span>
-<span class="ansi-green-fg">     64</span>     )
-<span class="ansi-green-fg">     66</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> body_json
+File <span class="ansi-green-fg">/code/lomas_client/utils.py:90</span>, in <span class="ansi-cyan-fg">validate_model_response</span><span class="ansi-blue-fg">(response, response_model)</span>
+<span class="ansi-green-intense-fg ansi-bold">     87</span>     r_model <span style="color: rgb(98,98,98)">=</span> response_model<span style="color: rgb(98,98,98)">.</span>model_validate_json(data)
+<span class="ansi-green-intense-fg ansi-bold">     88</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> r_model
+<span class="ansi-green-fg">---&gt; 90</span> <span class="ansi-yellow-bg">raise_error</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">response</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     91</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
 
-<span class="ansi-red-fg">TypeError</span>: Opendp_pipeline must either of type Measurement or LazyFrame, found &lt;class &#39;opendp.mod.Transformation&#39;&gt;
+File <span class="ansi-green-fg">/code/lomas_client/utils.py:31</span>, in <span class="ansi-cyan-fg">raise_error</span><span class="ansi-blue-fg">(response)</span>
+<span class="ansi-green-intense-fg ansi-bold">     22</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">raise_error</span>(response: requests<span style="color: rgb(98,98,98)">.</span>Response) <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">&gt;</span> <span style="color: rgb(0,135,0)">str</span>:
+<span class="ansi-green-intense-fg ansi-bold">     23</span> <span style="color: rgb(188,188,188)">    </span><span style="color: rgb(175,0,0)">&#34;&#34;&#34;Raise error message based on the HTTP response.</span>
+<span class="ansi-green-intense-fg ansi-bold">     24</span>
+<span class="ansi-green-intense-fg ansi-bold">     25</span> <span style="color: rgb(175,0,0)">    Args:</span>
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-intense-fg ansi-bold">     29</span> <span style="color: rgb(175,0,0)">        Server Error</span>
+<span class="ansi-green-intense-fg ansi-bold">     30</span> <span style="color: rgb(175,0,0)">    &#34;&#34;&#34;</span>
+<span class="ansi-green-fg">---&gt; 31</span>     error_model <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">LomasServerExceptionTypeAdapter</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">validate_json</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">response</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">json</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     32</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">match</span> error_model:
+<span class="ansi-green-intense-fg ansi-bold">     33</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">case</span> InvalidQueryExceptionModel():
+
+File <span class="ansi-green-fg">/usr/local/lib/python3.12/site-packages/pydantic/type_adapter.py:135</span>, in <span class="ansi-cyan-fg">_frame_depth.&lt;locals&gt;.wrapper.&lt;locals&gt;.wrapped</span><span class="ansi-blue-fg">(self, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    132</span> <span style="color: rgb(175,0,255)">@wraps</span>(func)
+<span class="ansi-green-intense-fg ansi-bold">    133</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">wrapped</span>(<span style="color: rgb(0,135,0)">self</span>: TypeAdapterT, <span style="color: rgb(98,98,98)">*</span>args: P<span style="color: rgb(98,98,98)">.</span>args, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs: P<span style="color: rgb(98,98,98)">.</span>kwargs) <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">&gt;</span> R:
+<span class="ansi-green-intense-fg ansi-bold">    134</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_with_frame_depth(depth <span style="color: rgb(98,98,98)">+</span> <span style="color: rgb(98,98,98)">1</span>):  <span style="color: rgb(95,135,135)"># depth + 1 for the wrapper function</span>
+<span class="ansi-green-fg">--&gt; 135</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">func</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">args</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">/usr/local/lib/python3.12/site-packages/pydantic/type_adapter.py:384</span>, in <span class="ansi-cyan-fg">TypeAdapter.validate_json</span><span class="ansi-blue-fg">(self, data, strict, context)</span>
+<span class="ansi-green-intense-fg ansi-bold">    368</span> <span style="color: rgb(175,0,255)">@_frame_depth</span>(<span style="color: rgb(98,98,98)">1</span>)
+<span class="ansi-green-intense-fg ansi-bold">    369</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">validate_json</span>(
+<span class="ansi-green-intense-fg ansi-bold">    370</span>     <span style="color: rgb(0,135,0)">self</span>, data: <span style="color: rgb(0,135,0)">str</span> <span style="color: rgb(98,98,98)">|</span> <span style="color: rgb(0,135,0)">bytes</span>, <span style="color: rgb(98,98,98)">/</span>, <span style="color: rgb(98,98,98)">*</span>, strict: <span style="color: rgb(0,135,0)">bool</span> <span style="color: rgb(98,98,98)">|</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span> <span style="color: rgb(98,98,98)">=</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>, context: <span style="color: rgb(0,135,0)">dict</span>[<span style="color: rgb(0,135,0)">str</span>, Any] <span style="color: rgb(98,98,98)">|</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span> <span style="color: rgb(98,98,98)">=</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-intense-fg ansi-bold">    371</span> ) <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">&gt;</span> T:
+<span class="ansi-green-intense-fg ansi-bold">    372</span> <span style="color: rgb(188,188,188)">    </span><span style="color: rgb(175,0,0)">&#34;&#34;&#34;Usage docs: https://docs.pydantic.dev/2.9/concepts/json/#json-parsing</span>
+<span class="ansi-green-intense-fg ansi-bold">    373</span>
+<span class="ansi-green-intense-fg ansi-bold">    374</span> <span style="color: rgb(175,0,0)">    Validate a JSON string or bytes against the model.</span>
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-intense-fg ansi-bold">    382</span> <span style="color: rgb(175,0,0)">        The validated object.</span>
+<span class="ansi-green-intense-fg ansi-bold">    383</span> <span style="color: rgb(175,0,0)">    &#34;&#34;&#34;</span>
+<span class="ansi-green-fg">--&gt; 384</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">validator</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">validate_json</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">data</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">strict</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">strict</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">context</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">context</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-red-fg">ValidationError</span>: 1 validation error for tagged-union[InvalidQueryExceptionModel,ExternalLibraryExceptionModel,UnauthorizedAccessExceptionModel,InternalServerExceptionModel]
+  JSON input should be string, bytes or bytearray [type=json_type, input_value={&#39;type&#39;: &#39;InvalidQueryExc...cessed in this server.&#39;}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.9/v/json_type
 </pre></div></div>
 </div>
 <p>This is because the server will only allow measurement pipeline with differentially private results. She adds Laplacian noise to the pipeline and should be able to instantiate the pipeline.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_bill_length_measurement_pipeline = (
@@ -925,7 +990,7 @@ client.opendp.query(
 </div>
 <p>Now that there is a measurement, she is able to apply the pipeline on the dummy dataset of the server.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_var_res = client.opendp.query(
@@ -941,7 +1006,7 @@ print(f&quot;Dummy result for variance: {np.round(dummy_var_res.result.value, 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Dummy result for variance: 37.73
+Dummy result for variance: 42.6
 </pre></div></div>
 </div>
 </section>
@@ -949,7 +1014,7 @@ Dummy result for variance: 37.73
 <h4>Estimate cost with opendp<a class="headerlink" href="#Estimate-cost-with-opendp" title="Link to this heading"></a></h4>
 <p>With opendp, the function <code class="docutils literal notranslate"><span class="pre">opendp.cost</span></code> is particularly useful to estimate the used <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and <code class="docutils literal notranslate"><span class="pre">delta</span></code> based on the <code class="docutils literal notranslate"><span class="pre">scale</span></code> value.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost_res = client.opendp.cost(
@@ -960,11 +1025,12 @@ cost_res
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CostResponse(epsilon=0.7122093023265229, delta=0.0)
+CostResponse(epsilon=0.7122093023265228, delta=0.0)
 </pre></div></div>
 </div>
 </section>
@@ -972,7 +1038,7 @@ CostResponse(epsilon=0.7122093023265229, delta=0.0)
 <h4>Execute pipeline on real dataset with opendp<a class="headerlink" href="#Execute-pipeline-on-real-dataset-with-opendp" title="Link to this heading"></a></h4>
 <p>She can now execute the query on the real dataset.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_res = client.opendp.query(
@@ -982,7 +1048,7 @@ CostResponse(epsilon=0.7122093023265229, delta=0.0)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_bill_length = np.round(var_res.result.value, 2)
@@ -995,7 +1061,7 @@ print(f&quot;Variance of bill length: {var_bill_length} (from opendp query).&quo
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Variance of bill length: 30.39 (from opendp query).
+Variance of bill length: 35.06 (from opendp query).
 </pre></div></div>
 </div>
 </section>
@@ -1003,7 +1069,7 @@ Variance of bill length: 30.39 (from opendp query).
 <h4>Postprocessing: no additional privacy risk with DP<a class="headerlink" href="#Postprocessing:-no-additional-privacy-risk-with-DP" title="Link to this heading"></a></h4>
 <p>She can now do all the postprocessing that she wants with the returned data without adding any privacy risk.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get standard error
@@ -1017,11 +1083,11 @@ print(f&quot;Standard error of bill length: {np.round(standard_error, 2)}.&quot;
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Standard error of bill length: 0.3.
+Standard error of bill length: 0.32.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> # Compute the 95% confidence interval
@@ -1037,7 +1103,7 @@ print(f&quot;The 95% confidence interval of the bill length of all penguins is [
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The 95% confidence interval of the bill length of all penguins is [43.26, 44.42].
+The 95% confidence interval of the bill length of all penguins is [42.89, 44.15].
 </pre></div></div>
 </div>
 </section>
@@ -1045,7 +1111,7 @@ The 95% confidence interval of the bill length of all penguins is [43.26, 44.42]
 <section id="c.-Train-a-DP-Machine-Learning-model-with-DiffPrivLib">
 <h3>c. Train a DP Machine Learning model with DiffPrivLib<a class="headerlink" href="#c.-Train-a-DP-Machine-Learning-model-with-DiffPrivLib" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sklearn.pipeline import Pipeline
@@ -1058,7 +1124,7 @@ import pandas as pd
 <section id="Prepare-Random-Forest-Classifier-pipeline-on-dummy-with-DiffPrivLib">
 <h4>Prepare Random Forest Classifier pipeline on dummy with DiffPrivLib<a class="headerlink" href="#Prepare-Random-Forest-Classifier-pipeline-on-dummy-with-DiffPrivLib" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
@@ -1067,7 +1133,7 @@ target_columns = [&#39;species&#39;]
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def get_bounds(cols_metadata, columns):
@@ -1078,7 +1144,7 @@ target_columns = [&#39;species&#39;]
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
@@ -1087,7 +1153,8 @@ bounds
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -1095,7 +1162,7 @@ bounds
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
@@ -1110,7 +1177,7 @@ bounds
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
@@ -1127,13 +1194,13 @@ model
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <style>#sk-container-id-1 {
   /* Definition of color scheme common for light and dark mode */
-  --sklearn-color-text: #000;
-  --sklearn-color-text-muted: #666;
+  --sklearn-color-text: black;
   --sklearn-color-line: gray;
   /* Definition of color scheme for unfitted estimators */
   --sklearn-color-unfitted-level-0: #fff5e6;
@@ -1278,21 +1345,12 @@ clickable and can be expanded/collapsed.
 /* Toggleable label */
 #sk-container-id-1 label.sk-toggleable__label {
   cursor: pointer;
-  display: flex;
+  display: block;
   width: 100%;
   margin-bottom: 0;
   padding: 0.5em;
   box-sizing: border-box;
   text-align: center;
-  align-items: start;
-  justify-content: space-between;
-  gap: 0.5em;
-}
-
-#sk-container-id-1 label.sk-toggleable__label .caption {
-  font-size: 0.6rem;
-  font-weight: lighter;
-  color: var(--sklearn-color-text-muted);
 }
 
 #sk-container-id-1 label.sk-toggleable__label-arrow:before {
@@ -1445,8 +1503,7 @@ a:visited.sk-estimator-doc-link {
   height: 1em;
   width: 1em;
   text-decoration: none !important;
-  margin-left: 0.5em;
-  text-align: center;
+  margin-left: 1ex;
   /* unfitted */
   border: var(--sklearn-color-unfitted-level-1) 1pt solid;
   color: var(--sklearn-color-unfitted-level-1);
@@ -1551,13 +1608,13 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                 array([  65.,   23.,  250., 7000.])),
                                         classes=[&#x27;Adelie&#x27;, &#x27;Chinstrap&#x27;,
                                                  &#x27;Gentoo&#x27;],
-                                        epsilon=2.0))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;rf&#x27;,
+                                        epsilon=2.0))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;Pipeline<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.4/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;rf&#x27;,
                  RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
                                         bounds=(array([  30.,   13.,  150., 2000.]),
                                                 array([  65.,   23.,  250., 7000.])),
                                         classes=[&#x27;Adelie&#x27;, &#x27;Chinstrap&#x27;,
                                                  &#x27;Gentoo&#x27;],
-                                        epsilon=2.0))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" ><label for="sk-estimator-id-2" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>RandomForestClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
+                                        epsilon=2.0))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" ><label for="sk-estimator-id-2" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">RandomForestClassifier</label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
                        bounds=(array([  30.,   13.,  150., 2000.]),
                                array([  65.,   23.,  250., 7000.])),
                        classes=[&#x27;Adelie&#x27;, &#x27;Chinstrap&#x27;, &#x27;Gentoo&#x27;], epsilon=2.0)</pre></div> </div></div></div></div></div></div></div>
@@ -1566,7 +1623,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="Estimate-budget-of-Linear-Regression-with-DiffPrivLib">
 <h4>Estimate budget of Linear Regression with DiffPrivLib<a class="headerlink" href="#Estimate-budget-of-Linear-Regression-with-DiffPrivLib" title="Link to this heading"></a></h4>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost_res = client.diffprivlib.cost(
@@ -1581,7 +1638,8 @@ cost_res
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -1592,7 +1650,7 @@ CostResponse(epsilon=2.0, delta=0.0)
 <section id="Train-random-forest-classifier-on-sensitive-data-with-DiffPrivLib">
 <h4>Train random forest classifier on sensitive data with DiffPrivLib<a class="headerlink" href="#Train-random-forest-classifier-on-sensitive-data-with-DiffPrivLib" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.diffprivlib.query(
@@ -1607,7 +1665,7 @@ CostResponse(epsilon=2.0, delta=0.0)
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Return the mean accuracy.
@@ -1616,7 +1674,7 @@ model_score = response.result.score
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f&quot;The model has a mean accuracy of {np.round(model_score, 2)}. It is a harsh metric because we are in a multi-label classification case.&quot;
@@ -1624,15 +1682,16 @@ model_score = response.result.score
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;The model has a mean accuracy of 0.41. It is a harsh metric because we are in a multi-label classification case.&#39;
+&#39;The model has a mean accuracy of 0.32. It is a harsh metric because we are in a multi-label classification case.&#39;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = response.result.model
@@ -1641,13 +1700,13 @@ model
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <style>#sk-container-id-2 {
   /* Definition of color scheme common for light and dark mode */
-  --sklearn-color-text: #000;
-  --sklearn-color-text-muted: #666;
+  --sklearn-color-text: black;
   --sklearn-color-line: gray;
   /* Definition of color scheme for unfitted estimators */
   --sklearn-color-unfitted-level-0: #fff5e6;
@@ -1792,21 +1851,12 @@ clickable and can be expanded/collapsed.
 /* Toggleable label */
 #sk-container-id-2 label.sk-toggleable__label {
   cursor: pointer;
-  display: flex;
+  display: block;
   width: 100%;
   margin-bottom: 0;
   padding: 0.5em;
   box-sizing: border-box;
   text-align: center;
-  align-items: start;
-  justify-content: space-between;
-  gap: 0.5em;
-}
-
-#sk-container-id-2 label.sk-toggleable__label .caption {
-  font-size: 0.6rem;
-  font-weight: lighter;
-  color: var(--sklearn-color-text-muted);
 }
 
 #sk-container-id-2 label.sk-toggleable__label-arrow:before {
@@ -1959,8 +2009,7 @@ a:visited.sk-estimator-doc-link {
   height: 1em;
   width: 1em;
   text-decoration: none !important;
-  margin-left: 0.5em;
-  text-align: center;
+  margin-left: 1ex;
   /* unfitted */
   border: var(--sklearn-color-unfitted-level-1) 1pt solid;
   color: var(--sklearn-color-unfitted-level-1);
@@ -2065,19 +2114,19 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                 array([  65.,   23.,  250., 7000.])),
                                         classes=[&#x27;Adelie&#x27;, &#x27;Chinstrap&#x27;,
                                                  &#x27;Gentoo&#x27;],
-                                        epsilon=2.0))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;rf&#x27;,
+                                        epsilon=2.0))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;Pipeline<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.4/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;rf&#x27;,
                  RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
                                         bounds=(array([  30.,   13.,  150., 2000.]),
                                                 array([  65.,   23.,  250., 7000.])),
                                         classes=[&#x27;Adelie&#x27;, &#x27;Chinstrap&#x27;,
                                                  &#x27;Gentoo&#x27;],
-                                        epsilon=2.0))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox" ><label for="sk-estimator-id-4" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>RandomForestClassifier</div></div></label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
+                                        epsilon=2.0))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox" ><label for="sk-estimator-id-4" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">RandomForestClassifier</label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
                        bounds=(array([  30.,   13.,  150., 2000.]),
                                array([  65.,   23.,  250., 7000.])),
                        classes=[&#x27;Adelie&#x27;, &#x27;Chinstrap&#x27;, &#x27;Gentoo&#x27;], epsilon=2.0)</pre></div> </div></div></div></div></div></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x_to_predict = pd.DataFrame({
@@ -2089,7 +2138,8 @@ f&quot;For these feature values, the predicted species is is {predictions}.&quot
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -2104,7 +2154,7 @@ f&quot;For these feature values, the predicted species is is {predictions}.&quot
 <section id="Train-patectgan-synthesizer-on-dummy-data-with-Smartnoise-Synth">
 <h4>Train patectgan synthesizer on dummy data with Smartnoise-Synth<a class="headerlink" href="#Train-patectgan-synthesizer-on-dummy-data-with-Smartnoise-Synth" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -2118,7 +2168,7 @@ dummy_synth_df = res_dummy.result.df_samples
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_synth_df.head()
@@ -2126,7 +2176,8 @@ dummy_synth_df = res_dummy.result.df_samples
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -2156,32 +2207,32 @@ dummy_synth_df = res_dummy.result.df_samples
     <tr>
       <th>0</th>
       <td>Dream</td>
-      <td>61.950759</td>
-      <td>17.878770</td>
+      <td>59.189283</td>
+      <td>18.603612</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Dream</td>
-      <td>47.067320</td>
-      <td>19.849841</td>
+      <td>45.893746</td>
+      <td>17.438823</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Dream</td>
-      <td>51.256389</td>
-      <td>17.655042</td>
+      <td>48.175088</td>
+      <td>16.088652</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Dream</td>
-      <td>40.077648</td>
-      <td>16.382866</td>
+      <td>57.958338</td>
+      <td>17.529872</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Dream</td>
-      <td>50.464656</td>
-      <td>18.662312</td>
+      <td>51.722943</td>
+      <td>19.493872</td>
     </tr>
   </tbody>
 </table>
@@ -2191,7 +2242,7 @@ dummy_synth_df = res_dummy.result.df_samples
 <section id="Estimate-cost-of-training-patectgan-synthesizer-with-Smartnoise-Synth">
 <h4>Estimate cost of training patectgan synthesizer with Smartnoise-Synth<a class="headerlink" href="#Estimate-cost-of-training-patectgan-synthesizer-with-Smartnoise-Synth" title="Link to this heading"></a></h4>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_cost = client.smartnoise_synth.cost(
@@ -2204,7 +2255,8 @@ res_cost
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -2215,7 +2267,7 @@ CostResponse(epsilon=1.0, delta=0.00015673368198174188)
 <section id="Train-patectgan-synthesizer-on-private-data-with-Smartnoise-Synth">
 <h4>Train patectgan synthesizer on private data with Smartnoise-Synth<a class="headerlink" href="#Train-patectgan-synthesizer-on-private-data-with-Smartnoise-Synth" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res = client.smartnoise_synth.query(
@@ -2229,7 +2281,7 @@ synth_df = res.result.df_samples
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth_df.head()
@@ -2237,7 +2289,8 @@ synth_df = res.result.df_samples
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -2267,32 +2320,32 @@ synth_df = res.result.df_samples
     <tr>
       <th>0</th>
       <td>Dream</td>
-      <td>50.729191</td>
-      <td>15.562869</td>
+      <td>52.053493</td>
+      <td>15.699640</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Dream</td>
-      <td>46.954195</td>
-      <td>17.685156</td>
+      <td>47.705728</td>
+      <td>17.678879</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Torgersen</td>
-      <td>56.189913</td>
-      <td>16.205805</td>
+      <td>56.875727</td>
+      <td>16.196799</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Biscoe</td>
-      <td>37.039505</td>
-      <td>19.509147</td>
+      <td>38.807937</td>
+      <td>19.253387</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Dream</td>
-      <td>45.286699</td>
-      <td>15.310100</td>
+      <td>46.332477</td>
+      <td>15.361980</td>
     </tr>
   </tbody>
 </table>
@@ -2300,7 +2353,7 @@ synth_df = res.result.df_samples
 </div>
 <p>Out of curiosity, she checks the average bill length and variance of bill length on this dataset.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth_mean = np.round(synth_df[&quot;bill_length_mm&quot;].mean(), 2)
@@ -2309,7 +2362,7 @@ synth_variance = np.round(synth_df[&quot;bill_length_mm&quot;].var(), 2)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(
@@ -2324,12 +2377,12 @@ synth_variance = np.round(synth_df[&quot;bill_length_mm&quot;].var(), 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The average with Smartnoise-SQL on private data was 43.84.
-The average with Smartnoise-Synth on synthetic data is 43.88.
+The average with Smartnoise-SQL on private data was 43.52.
+The average with Smartnoise-Synth on synthetic data is 44.53.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(
@@ -2344,8 +2397,8 @@ The average with Smartnoise-Synth on synthetic data is 43.88.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The variance with opendp on private data was 30.39.
-The variance with Smartnoise-Synth on synthetic data is 35.01.
+The variance with opendp on private data was 35.06.
+The variance with Smartnoise-Synth on synthetic data is 36.25.
 </pre></div></div>
 </div>
 </section>
@@ -2355,7 +2408,7 @@ The variance with Smartnoise-Synth on synthetic data is 35.01.
 <h2>Step 4: See archives of queries<a class="headerlink" href="#Step-4:-See-archives-of-queries" title="Link to this heading"></a></h2>
 <p>She now wants to verify all the queries that she did on the real data. It is possible because an archive of all queries is kept in a secure database. With a function call she can see her queries, budget and associated responses.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>previous_queries = client.get_previous_queries()
@@ -2364,15 +2417,16 @@ len(previous_queries)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-4
+5
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Smartnoise-SQL
@@ -2382,13 +2436,14 @@ avg_bill_length_query
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;user_name&#39;: &#39;Dr.Antartica&#39;,
+{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
  &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
- &#39;dp_library&#39;: &#39;smartnoise_sql&#39;,
+ &#39;dp_librairy&#39;: &#39;smartnoise_sql&#39;,
  &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
   &#39;query_str&#39;: &#39;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&#39;,
   &#39;epsilon&#39;: 0.5,
@@ -2397,18 +2452,18 @@ avg_bill_length_query
   &#39;postprocess&#39;: True},
  &#39;response&#39;: {&#39;epsilon&#39;: 1.0,
   &#39;delta&#39;: 4.999999999999449e-05,
-  &#39;requested_by&#39;: &#39;Dr.Antartica&#39;,
+  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
   &#39;result&#39;: {&#39;res_type&#39;: &#39;smartnoise_sql&#39;,
    &#39;df&#39;: {&#39;index&#39;: [0],
     &#39;columns&#39;: [&#39;avg_bill_length_mm&#39;],
-    &#39;data&#39;: [[43.841392891598105]],
+    &#39;data&#39;: [[43.75587056284081]],
     &#39;index_names&#39;: [None],
     &#39;column_names&#39;: [None]}}},
- &#39;timestamp&#39;: 1747224122.37658}
+ &#39;timestamp&#39;: 1732024136.80644}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># OpenDP
@@ -2418,30 +2473,34 @@ var_bill_length_query
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;user_name&#39;: &#39;Dr.Antartica&#39;,
+{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
  &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
- &#39;dp_library&#39;: &#39;opendp&#39;,
+ &#39;dp_librairy&#39;: &#39;smartnoise_sql&#39;,
  &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
-  &#39;opendp_json&#39;: Measurement(
-      input_domain   = AtomDomain(T=String),
-      input_metric   = SymmetricDistance(),
-      output_measure = MaxDivergence),
-  &#39;fixed_delta&#39;: None,
-  &#39;pipeline_type&#39;: &#39;legacy&#39;,
-  &#39;mechanism&#39;: &#39;laplace&#39;},
- &#39;response&#39;: {&#39;epsilon&#39;: 0.7122093023265229,
-  &#39;delta&#39;: 0.0,
-  &#39;requested_by&#39;: &#39;Dr.Antartica&#39;,
-  &#39;result&#39;: {&#39;res_type&#39;: &#39;opendp&#39;, &#39;value&#39;: 30.385959602069526}},
- &#39;timestamp&#39;: 1747224126.9574347}
+  &#39;query_str&#39;: &#39;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&#39;,
+  &#39;epsilon&#39;: 0.5,
+  &#39;delta&#39;: 0.0001,
+  &#39;mechanisms&#39;: {},
+  &#39;postprocess&#39;: True},
+ &#39;response&#39;: {&#39;epsilon&#39;: 1.0,
+  &#39;delta&#39;: 4.999999999999449e-05,
+  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
+  &#39;result&#39;: {&#39;res_type&#39;: &#39;smartnoise_sql&#39;,
+   &#39;df&#39;: {&#39;index&#39;: [0],
+    &#39;columns&#39;: [&#39;avg_bill_length_mm&#39;],
+    &#39;data&#39;: [[43.52246114623609]],
+    &#39;index_names&#39;: [None],
+    &#39;column_names&#39;: [None]}}},
+ &#39;timestamp&#39;: 1732024185.9737833}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># DiffPrivLib
@@ -2451,13 +2510,46 @@ reg_bill_length_query
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;user_name&#39;: &#39;Dr.Antartica&#39;,
+{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
  &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
- &#39;dp_library&#39;: &#39;diffprivlib&#39;,
+ &#39;dp_librairy&#39;: &#39;opendp&#39;,
+ &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+  &#39;opendp_json&#39;: Measurement(
+      input_domain   = AtomDomain(T=String),
+      input_metric   = SymmetricDistance(),
+      output_measure = MaxDivergence(f64)),
+  &#39;fixed_delta&#39;: None},
+ &#39;response&#39;: {&#39;epsilon&#39;: 0.7122093023265228,
+  &#39;delta&#39;: 0.0,
+  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
+  &#39;result&#39;: {&#39;res_type&#39;: &#39;opendp&#39;, &#39;value&#39;: 35.063144457712596}},
+ &#39;timestamp&#39;: 1732024233.7957816}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Smartnoise-Synth
+sysynth_query = previous_queries[3]
+sysynth_query
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
+ &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+ &#39;dp_librairy&#39;: &#39;diffprivlib&#39;,
  &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
   &#39;diffprivlib_json&#39;: &#39;{&#34;module&#34;: &#34;diffprivlib&#34;, &#34;version&#34;: &#34;0.6.5&#34;, &#34;pipeline&#34;: [{&#34;type&#34;: &#34;_dpl_type:RandomForestClassifier&#34;, &#34;name&#34;: &#34;rf&#34;, &#34;params&#34;: {&#34;n_estimators&#34;: 10, &#34;n_jobs&#34;: 1, &#34;random_state&#34;: null, &#34;verbose&#34;: 0, &#34;warm_start&#34;: false, &#34;max_depth&#34;: 5, &#34;epsilon&#34;: 2.0, &#34;bounds&#34;: {&#34;_tuple&#34;: true, &#34;_items&#34;: [[30.0, 13.0, 150.0, 2000.0], [65.0, 23.0, 250.0, 7000.0]]}, &#34;classes&#34;: [&#34;Adelie&#34;, &#34;Chinstrap&#34;, &#34;Gentoo&#34;], &#34;shuffle&#34;: false, &#34;accountant&#34;: &#34;_dpl_instance:BudgetAccountant&#34;}}]}&#39;,
   &#39;feature_columns&#39;: [&#39;bill_length_mm&#39;,
@@ -2470,9 +2562,9 @@ reg_bill_length_query
   &#39;imputer_strategy&#39;: &#39;drop&#39;},
  &#39;response&#39;: {&#39;epsilon&#39;: 2.0,
   &#39;delta&#39;: 0.0,
-  &#39;requested_by&#39;: &#39;Dr.Antartica&#39;,
+  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
   &#39;result&#39;: {&#39;res_type&#39;: &#39;diffprivlib&#39;,
-   &#39;score&#39;: 0.4117647058823529,
+   &#39;score&#39;: 0.3235294117647059,
    &#39;model&#39;: Pipeline(steps=[(&#39;rf&#39;,
                     RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
                                            bounds=(array([  30.,   13.,  150., 2000.]),
@@ -2480,56 +2572,24 @@ reg_bill_length_query
                                            classes=[&#39;Adelie&#39;, &#39;Chinstrap&#39;,
                                                     &#39;Gentoo&#39;],
                                            epsilon=2.0))])}},
- &#39;timestamp&#39;: 1747224131.9495468}
+ &#39;timestamp&#39;: 1732024235.0577705}
 </pre></div></div>
 </div>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Smartnoise-Synth
-sysynth_query = previous_queries[3]
-sysynth_query
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-{&#39;user_name&#39;: &#39;Dr.Antartica&#39;,
- &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
- &#39;dp_library&#39;: &#39;smartnoise_synth&#39;,
- &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
-  &#39;synth_name&#39;: &#39;patectgan&#39;,
-  &#39;epsilon&#39;: 1.0,
-  &#39;delta&#39;: None,
-  &#39;select_cols&#39;: [&#39;island&#39;, &#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;],
-  &#39;synth_params&#39;: {},
-  &#39;nullable&#39;: True,
-  &#39;constraints&#39;: &#39;&#39;,
-  &#39;return_model&#39;: False,
-  &#39;condition&#39;: &#39;&#39;,
-  &#39;nb_samples&#39;: 200},
- &#39;response&#39;: {&#39;epsilon&#39;: 1.0,
-  &#39;delta&#39;: 0.00015673368198174188,
-  &#39;requested_by&#39;: &#39;Dr.Antartica&#39;,
-  &#39;result&#39;:                       res_type  \
-  index         sn_synth_samples
-  columns       sn_synth_samples
-  data          sn_synth_samples
-  index_names   sn_synth_samples
-  column_names  sn_synth_samples
-
-                                                       df_samples
-  index         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,...
-  columns                 [island, bill_length_mm, bill_depth_mm]
-  data          [[Dream, 50.72919085621834, 15.562869191169739...
-  index_names                                              [None]
-  column_names                                             [None]  },
- &#39;timestamp&#39;: 1747224154.2680252}
-</pre></div></div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 </div>
 </section>
 </section>

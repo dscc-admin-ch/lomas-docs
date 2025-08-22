@@ -83,7 +83,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../server_administration.html">Administration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../server_managing_dataset.html">Adding and referencing new dataset</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -96,6 +95,7 @@
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
@@ -138,7 +138,7 @@
 <p>To interact with the secure server on which the data is stored, Dr.Antartica first needs to install the library <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> on her local developping environment.</p>
 <p>It can be installed via the pip command:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># !pip install lomas_client
@@ -147,7 +147,7 @@
 </div>
 <p>Or using a local version of the client</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
@@ -157,7 +157,7 @@ sys.path.append(os.path.abspath(os.path.join(&#39;..&#39;)))
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_client import Client
@@ -169,44 +169,21 @@ import numpy as np
 <section id="Step-2:-Initialise-the-client">
 <h2>Step 2: Initialise the client<a class="headerlink" href="#Step-2:-Initialise-the-client" title="Link to this heading"></a></h2>
 <p>Once the library is installed, a Client object must be created. It is responsible for sending sending requests to the server and processing responses in the local environment. It enables a seamless interaction with the server.</p>
-<p>The client needs a few parameters to be created. Usually, these would be set in the environment by the system administrator (queen Icebergina) and be transparent to lomas users. In this instance, the following code snippet sets a few of these parameters that are specific to this notebook.</p>
-<p>She will only be able to query on the real dataset if the queen Icergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit.</p>
+<p>To create the client, Dr. Antartica needs to give it a few parameters:</p>
+<ul class="simple">
+<li><p>a url: the root application endpoint to the remote secure server.</p></li>
+<li><p>user_name: her name as registered in the database (Dr. Alice Antartica)</p></li>
+<li><p>dataset_name: the name of the dataset that she wants to query (PENGUIN)</p></li>
+</ul>
+<p>She will only be able to query on the real dataset if the queen Icergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit (as is done in the Admin Notebook for Users and Datasets management).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The following would usually be set in the environment by a system administrator
-# and be tranparent to lomas users.
-# Uncomment them if you are running against a Kubernetes deployment.
-# They have already been set for you if you are running locally within a devenv or the Jupyter lab set up by Docker compose.
-
-import os
-# os.environ[&quot;LOMAS_CLIENT_APP_URL&quot;] = &quot;https://lomas.example.com:443&quot;
-# os.environ[&quot;LOMAS_CLIENT_KEYCLOAK_URL&quot;] = &quot;https://keycloak.example.com:443&quot;
-# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__ENABLED&quot;] = &quot;false&quot;
-# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_ENDPOINT&quot;] = &quot;http://otel.example.com:445&quot;
-# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_INSECURE&quot;] = &quot;true&quot;
-# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__SERVICE_ID&quot;] = &quot;my-app-client&quot;
-# os.environ[&quot;LOMAS_CLIENT_REALM&quot;] = &quot;lomas&quot;
-
-# We set these ones because they are specific to this notebook.
-
-USER_NAME = &quot;Dr.Antartica&quot;
-os.environ[&quot;LOMAS_CLIENT_CLIENT_ID&quot;] = USER_NAME
-os.environ[&quot;LOMAS_CLIENT_CLIENT_SECRET&quot;] = USER_NAME.lower()
-os.environ[&quot;LOMAS_CLIENT_DATASET_NAME&quot;] = &quot;PENGUIN&quot;
-
-# Note that all client settings can also be passed as keyword arguments to the Client constructor.
-# eg. client = Client(client_id = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_CLIENT_ID&quot;
-# environment variable.
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>APP_URL = &quot;http://lomas_server&quot;
+USER_NAME = &quot;Dr. Antartica&quot;
+DATASET_NAME = &quot;PENGUIN&quot;
+client = Client(url=APP_URL, user_name = USER_NAME, dataset_name = DATASET_NAME)
 </pre></div>
 </div>
 </div>
@@ -219,7 +196,7 @@ os.environ[&quot;LOMAS_CLIENT_DATASET_NAME&quot;] = &quot;PENGUIN&quot;
 <p>Dr. Antartica has never seen the data and as a first step to understand what is available to her, she would like to check the metadata of the dataset. Therefore, she just needs to call the <code class="docutils literal notranslate"><span class="pre">get_dataset_metadata()</span></code> function of the client. As this is public information, this does not cost any budget.</p>
 <p>This function returns metadata information in a format based on <a class="reference external" href="https://docs.smartnoise.org/sql/metadata.html#dictionary-format">SmartnoiseSQL dictionary format</a>, where among other, there is information about all the available columns, their type, bound values (see Smartnoise page for more details). Any metadata is required for Smartnoise-SQL is also required here and additional information such that the different categories in a string type column column can be added.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata = client.get_dataset_metadata()
@@ -228,7 +205,8 @@ penguin_metadata
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -306,7 +284,7 @@ penguin_metadata
 <p>Therefore, we use a Smartnoise Synth Synthesizers.</p>
 <p>Let’s list the potential options. There respective paramaters are then available in Smarntoise Synth documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/index.html">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from snsynth import Synthesizer
@@ -315,7 +293,8 @@ Synthesizer.list_synthesizers()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -326,7 +305,7 @@ Synthesizer.list_synthesizers()
 <h3>AIM: Adaptive Iterative Mechanism<a class="headerlink" href="#AIM:-Adaptive-Iterative-Mechanism" title="Link to this heading"></a></h3>
 <p>We start by executing a query on the dummy dataset without specifying any special parameters for AIM (all optional kept as default). Also only works on categorical columns so we select “species” and “island” columns to create a synthetic dataset of these two columns.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -341,7 +320,8 @@ res_dummy.result.df_samples
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -369,12 +349,12 @@ res_dummy.result.df_samples
   <tbody>
     <tr>
       <th>0</th>
-      <td>Chinstrap</td>
+      <td>Gentoo</td>
       <td>Biscoe</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Gentoo</td>
+      <td>Adelie</td>
       <td>Biscoe</td>
     </tr>
     <tr>
@@ -384,7 +364,7 @@ res_dummy.result.df_samples
     </tr>
     <tr>
       <th>3</th>
-      <td>Adelie</td>
+      <td>Chinstrap</td>
       <td>Dream</td>
     </tr>
     <tr>
@@ -404,23 +384,23 @@ res_dummy.result.df_samples
     </tr>
     <tr>
       <th>196</th>
-      <td>Adelie</td>
-      <td>Biscoe</td>
+      <td>Chinstrap</td>
+      <td></td>
     </tr>
     <tr>
       <th>197</th>
-      <td>Gentoo</td>
-      <td>Biscoe</td>
+      <td>Chinstrap</td>
+      <td>Torgersen</td>
     </tr>
     <tr>
       <th>198</th>
       <td>Adelie</td>
-      <td>Torgersen</td>
+      <td>Biscoe</td>
     </tr>
     <tr>
       <th>199</th>
       <td>Gentoo</td>
-      <td>Torgersen</td>
+      <td>Dream</td>
     </tr>
   </tbody>
 </table>
@@ -429,7 +409,7 @@ res_dummy.result.df_samples
 </div>
 <p>The algorithm works and returned a synthetic dataset. We now estimate the cost of running this command:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_cost = client.smartnoise_synth.cost(
@@ -443,7 +423,8 @@ res_cost
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -453,7 +434,7 @@ CostResponse(epsilon=1.0, delta=0.0001)
 <p>Executing such a query on the private dataset would cost 1.0 epsilon and 0.0001 delta. Dr. Antartica decides to do it with now the flag <code class="docutils literal notranslate"><span class="pre">dummmy</span></code> to False and specifiying that the wants the aim synthesizer model in return (with <code class="docutils literal notranslate"><span class="pre">return_model</span> <span class="pre">=</span> <span class="pre">True</span></code>).</p>
 <p>NOTE: if she does not set the parameter <code class="docutils literal notranslate"><span class="pre">return_model</span> <span class="pre">=</span> <span class="pre">True</span></code>, then it is False by default and she will get a synthetic dataframe as response directly.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res = client.smartnoise_synth.query(
@@ -468,17 +449,27 @@ res.result.model
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/usr/local/lib/python3.12/site-packages/mbi/__init__.py:15: UserWarning: MixtureInference disabled, please install jax and jaxlib
+  warnings.warn(&#39;MixtureInference disabled, please install jax and jaxlib&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;snsynth.aim.aim.AIMSynthesizer at 0x75e5e1044500&gt;
+&lt;snsynth.aim.aim.AIMSynthesizer at 0x71b3586e6a80&gt;
 </pre></div></div>
 </div>
 <p>She can now get the model and sample results with it. She choose to sample 10 samples.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth = res.result.model
@@ -487,7 +478,8 @@ synth.sample(10)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -515,32 +507,32 @@ synth.sample(10)
   <tbody>
     <tr>
       <th>0</th>
-      <td>Chinstrap</td>
+      <td>Gentoo</td>
       <td>Torgersen</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Adelie</td>
-      <td>Torgersen</td>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Chinstrap</td>
-      <td>Torgersen</td>
+      <td>Biscoe</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Adelie</td>
+      <td>Gentoo</td>
       <td>Dream</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Chinstrap</td>
-      <td>Biscoe</td>
+      <td>Adelie</td>
+      <td>Dream</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>Gentoo</td>
+      <td>Chinstrap</td>
       <td>Biscoe</td>
     </tr>
     <tr>
@@ -550,17 +542,17 @@ synth.sample(10)
     </tr>
     <tr>
       <th>7</th>
-      <td>Gentoo</td>
-      <td>Biscoe</td>
+      <td>Adelie</td>
+      <td>Torgersen</td>
     </tr>
     <tr>
       <th>8</th>
       <td>Chinstrap</td>
-      <td>Biscoe</td>
+      <td>Dream</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>Chinstrap</td>
+      <td>Gentoo</td>
       <td>Torgersen</td>
     </tr>
   </tbody>
@@ -569,7 +561,7 @@ synth.sample(10)
 </div>
 <p>She now wants to specify some specific parameters to the AIM model. Therefore, she needs to set some parameters in <code class="docutils literal notranslate"><span class="pre">synth_params</span></code> based on the Smartnoise-Synth documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/aim.html#parameters">here</a>. She decides that she wants to modify the <code class="docutils literal notranslate"><span class="pre">max_model_size</span></code> to 50 (the default was 80) and tries on the dummy.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -586,15 +578,16 @@ res_dummy.result.model
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;snsynth.aim.aim.AIMSynthesizer at 0x75e5e106e930&gt;
+&lt;snsynth.aim.aim.AIMSynthesizer at 0x71b321d293d0&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth = res_dummy.result.model
@@ -603,7 +596,8 @@ synth.sample(5)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -631,27 +625,27 @@ synth.sample(5)
   <tbody>
     <tr>
       <th>0</th>
-      <td>Adelie</td>
-      <td>Biscoe</td>
-    </tr>
-    <tr>
-      <th>1</th>
       <td>Gentoo</td>
       <td>Torgersen</td>
     </tr>
     <tr>
-      <th>2</th>
+      <th>1</th>
       <td>Chinstrap</td>
+      <td>Dream</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Gentoo</td>
       <td>Biscoe</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Chinstrap</td>
-      <td>Torgersen</td>
+      <td>Biscoe</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Gentoo</td>
+      <td>Adelie</td>
       <td>Dream</td>
     </tr>
   </tbody>
@@ -664,7 +658,7 @@ synth.sample(5)
 <h3>MWEM: Multiplicative Weights Exponential Mechanism<a class="headerlink" href="#MWEM:-Multiplicative-Weights-Exponential-Mechanism" title="Link to this heading"></a></h3>
 <p>She tries MWEM on all columns with all default parameters. As <code class="docutils literal notranslate"><span class="pre">return_model</span></code> is not specified she will directly receive a synthetic dataframe back.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -677,7 +671,8 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -710,52 +705,52 @@ res_dummy.result.df_samples.head()
   <tbody>
     <tr>
       <th>0</th>
-      <td>Gentoo</td>
-      <td>Biscoe</td>
+      <td>Adelie</td>
+      <td>Dream</td>
       <td>56.25</td>
-      <td>20.5</td>
-      <td>155.0</td>
-      <td>6250.0</td>
-      <td>MALE</td>
+      <td>22.5</td>
+      <td>165.0</td>
+      <td>4750.0</td>
+      <td>FEMALE</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Gentoo</td>
-      <td>Biscoe</td>
-      <td>56.25</td>
-      <td>20.5</td>
-      <td>245.0</td>
-      <td>4750.0</td>
-      <td>MALE</td>
+      <td>Dream</td>
+      <td>35.25</td>
+      <td>18.5</td>
+      <td>205.0</td>
+      <td>2750.0</td>
+      <td>FEMALE</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Adelie</td>
-      <td>Dream</td>
-      <td>56.25</td>
-      <td>21.5</td>
-      <td>185.0</td>
-      <td>3250.0</td>
+      <td>Chinstrap</td>
+      <td>Biscoe</td>
+      <td>49.25</td>
+      <td>13.5</td>
+      <td>215.0</td>
+      <td>2250.0</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Gentoo</td>
-      <td>Dream</td>
-      <td>52.75</td>
+      <td>Adelie</td>
+      <td>Biscoe</td>
+      <td>35.25</td>
       <td>13.5</td>
-      <td>245.0</td>
-      <td>5250.0</td>
-      <td>FEMALE</td>
+      <td>225.0</td>
+      <td>4750.0</td>
+      <td>MALE</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Gentoo</td>
+      <td>Adelie</td>
       <td>Dream</td>
-      <td>63.25</td>
-      <td>13.5</td>
-      <td>245.0</td>
-      <td>3750.0</td>
+      <td>56.25</td>
+      <td>22.5</td>
+      <td>165.0</td>
+      <td>4750.0</td>
       <td>FEMALE</td>
     </tr>
   </tbody>
@@ -764,7 +759,7 @@ res_dummy.result.df_samples.head()
 </div>
 <p>She now specifies 3 columns and some parameters explained <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/mwem.html#snsynth.mwem.MWEMSynthesizer">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -779,7 +774,8 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -809,31 +805,31 @@ res_dummy.result.df_samples.head()
     <tr>
       <th>0</th>
       <td>Chinstrap</td>
-      <td>Dream</td>
+      <td>Torgersen</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Gentoo</td>
-      <td>Dream</td>
-      <td>MALE</td>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>FEMALE</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Chinstrap</td>
-      <td>Biscoe</td>
+      <td>Adelie</td>
+      <td>Torgersen</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Chinstrap</td>
-      <td>Biscoe</td>
+      <td>Torgersen</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Gentoo</td>
-      <td>Dream</td>
+      <td>Biscoe</td>
       <td>MALE</td>
     </tr>
   </tbody>
@@ -844,7 +840,7 @@ res_dummy.result.df_samples.head()
 <p>By default, if no constraints are specified, the server creates its automatically a data transformer based on selected columns, synthesizer and metadata.</p>
 <p>Here she wants to add a clamping transformation on the continuous columns before training the synthesizer. She add the bounds based on metadata.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bl_bounds = penguin_metadata[&quot;columns&quot;][&quot;bill_length_mm&quot;]
@@ -854,7 +850,8 @@ bl_bounds, bd_bounds
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -879,7 +876,7 @@ bl_bounds, bd_bounds
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from snsynth.transform import BinTransformer, ClampTransformer, ChainTransformer, LabelTransformer
@@ -903,7 +900,7 @@ my_own_constraints = {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -918,7 +915,8 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -947,33 +945,33 @@ res_dummy.result.df_samples.head()
   <tbody>
     <tr>
       <th>0</th>
-      <td>50.875</td>
-      <td>19.95</td>
+      <td>47.875</td>
+      <td>15.15</td>
       <td>Chinstrap</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>44.875</td>
-      <td>20.85</td>
+      <td>48.625</td>
+      <td>15.45</td>
       <td>Gentoo</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>41.875</td>
-      <td>16.05</td>
+      <td>55.000</td>
+      <td>20.85</td>
       <td>Adelie</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>47.125</td>
-      <td>21.00</td>
-      <td>Gentoo</td>
+      <td>47.875</td>
+      <td>15.15</td>
+      <td>Chinstrap</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>44.875</td>
-      <td>20.85</td>
-      <td>Gentoo</td>
+      <td>47.875</td>
+      <td>15.15</td>
+      <td>Chinstrap</td>
     </tr>
   </tbody>
 </table>
@@ -981,7 +979,7 @@ res_dummy.result.df_samples.head()
 </div>
 <p>Also a subset of constraints can be specified for certain columns and the server will automatically generate those for the missing columns.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>my_own_constraints = {
@@ -997,7 +995,7 @@ res_dummy.result.df_samples.head()
 </div>
 <p>In this case, only the bill_length will be clamped.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1012,7 +1010,8 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1041,33 +1040,33 @@ res_dummy.result.df_samples.head()
   <tbody>
     <tr>
       <th>0</th>
-      <td>53.125</td>
-      <td>20.5</td>
-      <td>Chinstrap</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>50.125</td>
-      <td>15.5</td>
+      <td>54.625</td>
+      <td>14.5</td>
       <td>Adelie</td>
     </tr>
     <tr>
+      <th>1</th>
+      <td>40.375</td>
+      <td>13.5</td>
+      <td>Gentoo</td>
+    </tr>
+    <tr>
       <th>2</th>
-      <td>50.125</td>
-      <td>15.5</td>
+      <td>54.625</td>
+      <td>14.5</td>
       <td>Adelie</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>50.125</td>
-      <td>15.5</td>
+      <td>54.625</td>
+      <td>14.5</td>
       <td>Adelie</td>
     </tr>
     <tr>
       <th>4</th>
       <td>54.625</td>
-      <td>17.5</td>
-      <td>Gentoo</td>
+      <td>14.5</td>
+      <td>Adelie</td>
     </tr>
   </tbody>
 </table>
@@ -1078,7 +1077,7 @@ res_dummy.result.df_samples.head()
 <h3>MST: Maximum Spanning Tree<a class="headerlink" href="#MST:-Maximum-Spanning-Tree" title="Link to this heading"></a></h3>
 <p>She now experiments with MST. As the synthesizer is very needy in terms of computation, she selects a subset of column for it. See MST <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/mst.html">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1092,7 +1091,8 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1120,28 +1120,28 @@ res_dummy.result.df_samples.head()
   <tbody>
     <tr>
       <th>0</th>
-      <td></td>
-      <td>MALE</td>
+      <td>Chinstrap</td>
+      <td>FEMALE</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Gentoo</td>
-      <td>FEMALE</td>
+      <td></td>
+      <td></td>
     </tr>
     <tr>
       <th>2</th>
+      <td>Chinstrap</td>
       <td></td>
-      <td>FEMALE</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Adelie</td>
-      <td>MALE</td>
+      <td></td>
+      <td></td>
     </tr>
     <tr>
       <th>4</th>
       <td>Gentoo</td>
-      <td>FEMALE</td>
+      <td>MALE</td>
     </tr>
   </tbody>
 </table>
@@ -1149,7 +1149,7 @@ res_dummy.result.df_samples.head()
 </div>
 <p>She can also specify a specific number of samples to get (if return_model is not True):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1164,7 +1164,8 @@ res_dummy.result.df_samples
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1197,18 +1198,18 @@ res_dummy.result.df_samples
     </tr>
     <tr>
       <th>1</th>
-      <td></td>
+      <td>Gentoo</td>
       <td>MALE</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Chinstrap</td>
-      <td>MALE</td>
+      <td>Gentoo</td>
+      <td>FEMALE</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Adelie</td>
-      <td>FEMALE</td>
+      <td>Chinstrap</td>
+      <td>MALE</td>
     </tr>
   </tbody>
 </table>
@@ -1216,7 +1217,7 @@ res_dummy.result.df_samples
 </div>
 <p>And a condition on these samples. For instance, here, she only wants female samples.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1232,7 +1233,8 @@ res_dummy.result.df_samples
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1266,12 +1268,12 @@ res_dummy.result.df_samples
     <tr>
       <th>1</th>
       <td></td>
-      <td></td>
+      <td>Gentoo</td>
     </tr>
     <tr>
       <th>2</th>
       <td></td>
-      <td>Adelie</td>
+      <td>Gentoo</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1288,7 +1290,7 @@ res_dummy.result.df_samples
 <h2>DPCTGAN: Differentially Private Conditional Tabular GAN<a class="headerlink" href="#DPCTGAN:-Differentially-Private-Conditional-Tabular-GAN" title="Link to this heading"></a></h2>
 <p>She now tries DPCTGAN. A first warning let her know that the random noise generation for this model is not cryptographically secure and if it is not ok for her, she can decode to stop using this synthesizer. Then she does not get a response but an error 422 with an explanation.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1305,7 +1307,7 @@ res_dummy
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/home/azureuser/work/sdd-poc-server/client/lomas_client/utils.py:48: UserWarning: Warning:dpctgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
+/code/lomas_client/utils.py:62: UserWarning: Warning:dpctgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
   warnings.warn(
 </pre></div></div>
 </div>
@@ -1316,38 +1318,35 @@ res_dummy
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">ExternalLibraryException</span>                  Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[24]</span><span class="ansi-green-fg">, line 1</span>
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> res_dummy = <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">smartnoise_synth</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">      2</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">synth_name</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">dpctgan</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">epsilon</span><span class="ansi-yellow-bg">=</span><span class="ansi-green-fg ansi-yellow-bg">1.0</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      5</span> <span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">      6</span> res_dummy
+Cell <span class="ansi-green-fg">In[23], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> res_dummy <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">smartnoise_synth</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">synth_name</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">dpctgan</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">epsilon</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">1.0</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span> res_dummy
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/libraries/smartnoise_synth.py:195</span>, in <span class="ansi-cyan-fg">SmartnoiseSynthClient.query</span><span class="ansi-blue-fg">(self, synth_name, epsilon, delta, select_cols, synth_params, nullable, constraints, dummy, return_model, condition, nb_samples, nb_rows, seed)</span>
-<span class="ansi-green-fg">    192</span> body = request_model.model_validate(body_dict)
-<span class="ansi-green-fg">    193</span> res = <span style="color: rgb(0,135,0)">self</span>.http_client.post(endpoint, body, SMARTNOISE_SYNTH_READ_TIMEOUT)
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">195</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">validate_model_response</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">http_client</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">res</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">QueryResponse</span><span class="ansi-yellow-bg">)</span>
+File <span class="ansi-green-fg">/code/lomas_client/libraries/smartnoise_synth.py:203</span>, in <span class="ansi-cyan-fg">SmartnoiseSynthClient.query</span><span class="ansi-blue-fg">(self, synth_name, epsilon, delta, select_cols, synth_params, nullable, constraints, dummy, return_model, condition, nb_samples, nb_rows, seed)</span>
+<span class="ansi-green-intense-fg ansi-bold">    200</span>     r_model <span style="color: rgb(98,98,98)">=</span> QueryResponse<span style="color: rgb(98,98,98)">.</span>model_validate_json(data)
+<span class="ansi-green-intense-fg ansi-bold">    201</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> r_model
+<span class="ansi-green-fg">--&gt; 203</span> <span class="ansi-yellow-bg">raise_error</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">res</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    204</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/utils.py:97</span>, in <span class="ansi-cyan-fg">validate_model_response</span><span class="ansi-blue-fg">(client, response, response_model)</span>
-<span class="ansi-green-fg">     95</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> job.status == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">failed</span><span class="ansi-yellow-fg">&#34;</span>:
-<span class="ansi-green-fg">     96</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">assert</span> job.error <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>, <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">job </span><span class="ansi-bold" style="color: rgb(175,95,135)">{job_uid}</span><span class="ansi-yellow-fg"> failed without error !</span><span class="ansi-yellow-fg">&#34;</span>
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">97</span>     <span class="ansi-yellow-bg">raise_error_from_model</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">job</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">error</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">     99</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> response_model.model_validate(job.result)
+File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span class="ansi-cyan-fg">raise_error</span><span class="ansi-blue-fg">(response)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> InvalidQueryException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">InvalidQueryException</span><span style="color: rgb(175,0,0)">&#34;</span>])
+<span class="ansi-green-intense-fg ansi-bold">     37</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_422_UNPROCESSABLE_ENTITY:
+<span class="ansi-green-fg">---&gt; 38</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> ExternalLibraryException(
+<span class="ansi-green-intense-fg ansi-bold">     39</span>         error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">library</span><span style="color: rgb(175,0,0)">&#34;</span>], error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">ExternalLibraryException</span><span style="color: rgb(175,0,0)">&#34;</span>]
+<span class="ansi-green-intense-fg ansi-bold">     40</span>     )
+<span class="ansi-green-intense-fg ansi-bold">     41</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_403_FORBIDDEN:
+<span class="ansi-green-intense-fg ansi-bold">     42</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> UnauthorizedAccessException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">UnauthorizedAccessException</span><span style="color: rgb(175,0,0)">&#34;</span>])
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/core/lomas_core/error_handler.py:150</span>, in <span class="ansi-cyan-fg">raise_error_from_model</span><span class="ansi-blue-fg">(error_model)</span>
-<span class="ansi-green-fg">    148</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> InvalidQueryException(error_model.message)
-<span class="ansi-green-fg">    149</span> <span class="ansi-bold" style="color: rgb(0,135,0)">case</span> ExternalLibraryExceptionModel():
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">150</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> ExternalLibraryException(error_model.library, error_model.message)
-<span class="ansi-green-fg">    151</span> <span class="ansi-bold" style="color: rgb(0,135,0)">case</span> UnauthorizedAccessExceptionModel():
-<span class="ansi-green-fg">    152</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> UnauthorizedAccessException(error_model.message)
-
-<span class="ansi-red-fg">ExternalLibraryException</span>: (&lt;DPLibraries.SMARTNOISE_SYNTH: &#39;smartnoise_synth&#39;&gt;, &#39;Error fitting model: sample_rate=5.0 is not a valid value. Please provide a float between 0 and 1. Try decreasing batch_size in synth_params (default batch_size=500).&#39;)
+<span class="ansi-red-fg">ExternalLibraryException</span>: (&#39;smartnoise_synth&#39;, &#39;Error fitting model: sample_rate=5.0 is not a valid value. Please provide a float between 0 and 1. Try decreasing batch_size in synth_params (default batch_size=500).&#39;)
 </pre></div></div>
 </div>
 <p>The default parameters of DPCTGAN do not work for PENGUIN dataset. Hence, as advised in the error message, she decreases the batch_size (also she checks the documentation <a class="reference external" href="https://docs.smartnoise.org/synth/synthesizers/dpctgan.html">here</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1361,7 +1360,8 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1395,63 +1395,71 @@ res_dummy.result.df_samples.head()
     <tr>
       <th>0</th>
       <td>Adelie</td>
-      <td>Biscoe</td>
-      <td>45.106190</td>
-      <td>16.716415</td>
-      <td>231.220016</td>
-      <td>4253.058255</td>
-      <td>MALE</td>
+      <td>Dream</td>
+      <td>43.414108</td>
+      <td>17.841402</td>
+      <td>180.284642</td>
+      <td>5016.072102</td>
+      <td>FEMALE</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Chinstrap</td>
-      <td>Torgersen</td>
-      <td>48.932801</td>
-      <td>17.334574</td>
-      <td>202.085213</td>
-      <td>4730.876580</td>
+      <td>Gentoo</td>
+      <td>Biscoe</td>
+      <td>43.298852</td>
+      <td>16.777365</td>
+      <td>222.225340</td>
+      <td>5162.192479</td>
       <td>MALE</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Chinstrap</td>
-      <td>Torgersen</td>
-      <td>45.390894</td>
-      <td>15.489699</td>
-      <td>198.972954</td>
-      <td>4027.705349</td>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>50.622394</td>
+      <td>19.280649</td>
+      <td>209.893867</td>
+      <td>5275.184557</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Chinstrap</td>
-      <td>Dream</td>
-      <td>56.003239</td>
-      <td>16.340220</td>
-      <td>210.331659</td>
-      <td>3981.057748</td>
-      <td>MALE</td>
+      <td>Biscoe</td>
+      <td>41.493216</td>
+      <td>17.206660</td>
+      <td>233.323157</td>
+      <td>2938.070863</td>
+      <td>FEMALE</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Adelie</td>
-      <td>Torgersen</td>
-      <td>41.854952</td>
-      <td>15.144781</td>
-      <td>215.535502</td>
-      <td>3810.137480</td>
-      <td>FEMALE</td>
+      <td>Biscoe</td>
+      <td>46.749278</td>
+      <td>17.139504</td>
+      <td>204.060608</td>
+      <td>5795.609772</td>
+      <td>MALE</td>
     </tr>
   </tbody>
 </table>
 </div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 </div>
 </section>
 <section id="PATEGAN:-Private-Aggregation-of-Teacher-Ensembles">
 <h2>PATEGAN: Private Aggregation of Teacher Ensembles<a class="headerlink" href="#PATEGAN:-Private-Aggregation-of-Teacher-Ensembles" title="Link to this heading"></a></h2>
 <p>Unfortunatelly, she is not able to train the pategan synthetizer on the PENGUIN dataset. Hence, she must try another one.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1470,40 +1478,37 @@ res_dummy
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">ExternalLibraryException</span>                  Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[26]</span><span class="ansi-green-fg">, line 1</span>
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> res_dummy = <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">smartnoise_synth</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">      2</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">synth_name</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">pategan</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">epsilon</span><span class="ansi-yellow-bg">=</span><span class="ansi-green-fg ansi-yellow-bg">1.0</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      5</span> <span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">      6</span> res_dummy
+Cell <span class="ansi-green-fg">In[25], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> res_dummy <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">smartnoise_synth</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">synth_name</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">pategan</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">epsilon</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">1.0</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span> res_dummy
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/libraries/smartnoise_synth.py:195</span>, in <span class="ansi-cyan-fg">SmartnoiseSynthClient.query</span><span class="ansi-blue-fg">(self, synth_name, epsilon, delta, select_cols, synth_params, nullable, constraints, dummy, return_model, condition, nb_samples, nb_rows, seed)</span>
-<span class="ansi-green-fg">    192</span> body = request_model.model_validate(body_dict)
-<span class="ansi-green-fg">    193</span> res = <span style="color: rgb(0,135,0)">self</span>.http_client.post(endpoint, body, SMARTNOISE_SYNTH_READ_TIMEOUT)
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">195</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">validate_model_response</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">http_client</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">res</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">QueryResponse</span><span class="ansi-yellow-bg">)</span>
+File <span class="ansi-green-fg">/code/lomas_client/libraries/smartnoise_synth.py:203</span>, in <span class="ansi-cyan-fg">SmartnoiseSynthClient.query</span><span class="ansi-blue-fg">(self, synth_name, epsilon, delta, select_cols, synth_params, nullable, constraints, dummy, return_model, condition, nb_samples, nb_rows, seed)</span>
+<span class="ansi-green-intense-fg ansi-bold">    200</span>     r_model <span style="color: rgb(98,98,98)">=</span> QueryResponse<span style="color: rgb(98,98,98)">.</span>model_validate_json(data)
+<span class="ansi-green-intense-fg ansi-bold">    201</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> r_model
+<span class="ansi-green-fg">--&gt; 203</span> <span class="ansi-yellow-bg">raise_error</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">res</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    204</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/utils.py:97</span>, in <span class="ansi-cyan-fg">validate_model_response</span><span class="ansi-blue-fg">(client, response, response_model)</span>
-<span class="ansi-green-fg">     95</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> job.status == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">failed</span><span class="ansi-yellow-fg">&#34;</span>:
-<span class="ansi-green-fg">     96</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">assert</span> job.error <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>, <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">job </span><span class="ansi-bold" style="color: rgb(175,95,135)">{job_uid}</span><span class="ansi-yellow-fg"> failed without error !</span><span class="ansi-yellow-fg">&#34;</span>
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">97</span>     <span class="ansi-yellow-bg">raise_error_from_model</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">job</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">error</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">     99</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> response_model.model_validate(job.result)
+File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span class="ansi-cyan-fg">raise_error</span><span class="ansi-blue-fg">(response)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> InvalidQueryException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">InvalidQueryException</span><span style="color: rgb(175,0,0)">&#34;</span>])
+<span class="ansi-green-intense-fg ansi-bold">     37</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_422_UNPROCESSABLE_ENTITY:
+<span class="ansi-green-fg">---&gt; 38</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> ExternalLibraryException(
+<span class="ansi-green-intense-fg ansi-bold">     39</span>         error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">library</span><span style="color: rgb(175,0,0)">&#34;</span>], error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">ExternalLibraryException</span><span style="color: rgb(175,0,0)">&#34;</span>]
+<span class="ansi-green-intense-fg ansi-bold">     40</span>     )
+<span class="ansi-green-intense-fg ansi-bold">     41</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_403_FORBIDDEN:
+<span class="ansi-green-intense-fg ansi-bold">     42</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> UnauthorizedAccessException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">UnauthorizedAccessException</span><span style="color: rgb(175,0,0)">&#34;</span>])
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/core/lomas_core/error_handler.py:150</span>, in <span class="ansi-cyan-fg">raise_error_from_model</span><span class="ansi-blue-fg">(error_model)</span>
-<span class="ansi-green-fg">    148</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> InvalidQueryException(error_model.message)
-<span class="ansi-green-fg">    149</span> <span class="ansi-bold" style="color: rgb(0,135,0)">case</span> ExternalLibraryExceptionModel():
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">150</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> ExternalLibraryException(error_model.library, error_model.message)
-<span class="ansi-green-fg">    151</span> <span class="ansi-bold" style="color: rgb(0,135,0)">case</span> UnauthorizedAccessExceptionModel():
-<span class="ansi-green-fg">    152</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> UnauthorizedAccessException(error_model.message)
-
-<span class="ansi-red-fg">ExternalLibraryException</span>: (&lt;DPLibraries.SMARTNOISE_SYNTH: &#39;smartnoise_synth&#39;&gt;, &#39;pategan not reliable with this dataset.&#39;)
+<span class="ansi-red-fg">ExternalLibraryException</span>: (&#39;smartnoise_synth&#39;, &#39;pategan not reliable with this dataset.&#39;)
 </pre></div></div>
 </div>
 </section>
 <section id="PATECTGAN:-Conditional-tabular-GAN-using-Private-Aggregation-of-Teacher-Ensembles">
 <h2>PATECTGAN: Conditional tabular GAN using Private Aggregation of Teacher Ensembles<a class="headerlink" href="#PATECTGAN:-Conditional-tabular-GAN-using-Private-Aggregation-of-Teacher-Ensembles" title="Link to this heading"></a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1516,7 +1521,8 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1550,51 +1556,51 @@ res_dummy.result.df_samples.head()
     <tr>
       <th>0</th>
       <td>Adelie</td>
-      <td>Biscoe</td>
-      <td>37.576655</td>
-      <td>16.970317</td>
-      <td>206.350563</td>
-      <td>4852.220871</td>
+      <td>Torgersen</td>
+      <td>44.965223</td>
+      <td>21.050138</td>
+      <td>197.011286</td>
+      <td>3798.269078</td>
       <td>MALE</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Chinstrap</td>
       <td>Biscoe</td>
-      <td>41.743625</td>
-      <td>18.780999</td>
-      <td>206.831843</td>
-      <td>5129.978105</td>
+      <td>54.784711</td>
+      <td>18.795483</td>
+      <td>189.339603</td>
+      <td>4936.383002</td>
       <td>MALE</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Chinstrap</td>
       <td>Biscoe</td>
-      <td>47.641487</td>
-      <td>18.473230</td>
-      <td>227.558169</td>
-      <td>3462.845579</td>
+      <td>58.836415</td>
+      <td>14.854715</td>
+      <td>201.541473</td>
+      <td>4849.516831</td>
       <td>MALE</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Gentoo</td>
       <td>Dream</td>
-      <td>54.314414</td>
-      <td>18.642316</td>
-      <td>225.657928</td>
-      <td>3326.226145</td>
+      <td>49.260641</td>
+      <td>19.661433</td>
+      <td>245.845395</td>
+      <td>4142.061740</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Gentoo</td>
       <td>Torgersen</td>
-      <td>46.694295</td>
-      <td>18.423236</td>
-      <td>195.639025</td>
-      <td>5145.398423</td>
+      <td>48.662708</td>
+      <td>17.788002</td>
+      <td>177.374248</td>
+      <td>5917.481452</td>
       <td>FEMALE</td>
     </tr>
   </tbody>
@@ -1602,7 +1608,7 @@ res_dummy.result.df_samples.head()
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1627,7 +1633,8 @@ res_dummy.result.df_samples.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1656,33 +1663,33 @@ res_dummy.result.df_samples.head()
   <tbody>
     <tr>
       <th>0</th>
-      <td>Torgersen</td>
-      <td>62.282526</td>
-      <td>3478.341073</td>
+      <td>Dream</td>
+      <td>51.295550</td>
+      <td>4649.196619</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Biscoe</td>
-      <td>59.720804</td>
-      <td>2531.271100</td>
+      <td>38.369172</td>
+      <td>4301.166393</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Biscoe</td>
-      <td>46.183680</td>
-      <td>5444.812819</td>
+      <td>52.136779</td>
+      <td>4498.011571</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Torgersen</td>
-      <td>54.461237</td>
-      <td>2595.776290</td>
+      <td>58.900825</td>
+      <td>4223.040946</td>
     </tr>
     <tr>
       <th>4</th>
       <td>Dream</td>
-      <td>41.082272</td>
-      <td>4234.085873</td>
+      <td>40.492166</td>
+      <td>3707.417592</td>
     </tr>
   </tbody>
 </table>
@@ -1693,7 +1700,7 @@ res_dummy.result.df_samples.head()
 <h2>DPGAN: DIfferentially Private GAN<a class="headerlink" href="#DPGAN:-DIfferentially-Private-GAN" title="Link to this heading"></a></h2>
 <p>For DPGAN, there is the same warning as for DPCTGAN with the cryptographically secure random noise generation.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1710,12 +1717,13 @@ res_dummy.result.df_samples.head()
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/home/azureuser/work/sdd-poc-server/client/lomas_client/utils.py:48: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
+/code/lomas_client/utils.py:62: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
   warnings.warn(
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1749,52 +1757,52 @@ res_dummy.result.df_samples.head()
     <tr>
       <th>0</th>
       <td>Gentoo</td>
-      <td>Dream</td>
-      <td>59.408093</td>
-      <td>21.774501</td>
-      <td>182.858433</td>
-      <td>3574.388221</td>
-      <td>FEMALE</td>
+      <td>Biscoe</td>
+      <td>61.084300</td>
+      <td>17.778250</td>
+      <td>202.404261</td>
+      <td>4074.338235</td>
+      <td>MALE</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Gentoo</td>
-      <td>Biscoe</td>
-      <td>45.653737</td>
-      <td>18.811784</td>
-      <td>197.755754</td>
-      <td>3584.595516</td>
-      <td>FEMALE</td>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>45.143127</td>
+      <td>23.000000</td>
+      <td>250.000000</td>
+      <td>4078.621872</td>
+      <td>MALE</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Gentoo</td>
-      <td>Dream</td>
-      <td>46.935709</td>
-      <td>22.695824</td>
-      <td>184.080292</td>
-      <td>4085.711025</td>
+      <td>Biscoe</td>
+      <td>63.310050</td>
+      <td>16.944589</td>
+      <td>215.155567</td>
+      <td>3999.723613</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Gentoo</td>
       <td>Dream</td>
-      <td>47.613375</td>
-      <td>20.382118</td>
-      <td>192.039980</td>
-      <td>3633.892506</td>
-      <td>FEMALE</td>
+      <td>65.000000</td>
+      <td>22.198413</td>
+      <td>218.926238</td>
+      <td>7000.000000</td>
+      <td>MALE</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Gentoo</td>
-      <td>Torgersen</td>
-      <td>47.486346</td>
-      <td>21.495789</td>
-      <td>244.985238</td>
-      <td>3500.759944</td>
-      <td>FEMALE</td>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>65.000000</td>
+      <td>23.000000</td>
+      <td>191.299780</td>
+      <td>4249.239404</td>
+      <td>MALE</td>
     </tr>
   </tbody>
 </table>
@@ -1802,7 +1810,7 @@ res_dummy.result.df_samples.head()
 </div>
 <p>One final time she samples with conditions:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1820,12 +1828,13 @@ res_dummy.result.df_samples.head()
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/home/azureuser/work/sdd-poc-server/client/lomas_client/utils.py:48: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
+/code/lomas_client/utils.py:62: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
   warnings.warn(
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1858,52 +1867,52 @@ res_dummy.result.df_samples.head()
   <tbody>
     <tr>
       <th>0</th>
-      <td>Adelie</td>
-      <td>Biscoe</td>
-      <td>64.592287</td>
-      <td>17.889545</td>
-      <td>196.430311</td>
-      <td>5547.378704</td>
+      <td>Gentoo</td>
+      <td>Torgersen</td>
+      <td>48.614252</td>
+      <td>17.252423</td>
+      <td>250.000000</td>
+      <td>7000.000000</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Gentoo</td>
       <td>Torgersen</td>
-      <td>56.610777</td>
-      <td>17.608110</td>
-      <td>198.295114</td>
-      <td>5344.676420</td>
-      <td>MALE</td>
+      <td>62.443527</td>
+      <td>17.991540</td>
+      <td>250.000000</td>
+      <td>7000.000000</td>
+      <td>FEMALE</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Adelie</td>
-      <td>Biscoe</td>
-      <td>47.453223</td>
-      <td>17.926415</td>
-      <td>246.210375</td>
-      <td>6746.744037</td>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>65.000000</td>
+      <td>23.000000</td>
+      <td>226.908019</td>
+      <td>7000.000000</td>
       <td>MALE</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Chinstrap</td>
-      <td>Biscoe</td>
-      <td>58.206975</td>
-      <td>17.540024</td>
-      <td>191.467018</td>
-      <td>6017.837495</td>
+      <td>Gentoo</td>
+      <td>Dream</td>
+      <td>60.141646</td>
+      <td>16.770572</td>
+      <td>246.724272</td>
+      <td>5726.566434</td>
       <td>MALE</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Chinstrap</td>
-      <td>Biscoe</td>
-      <td>47.606777</td>
-      <td>21.512008</td>
-      <td>188.292421</td>
-      <td>6610.772133</td>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>46.260255</td>
+      <td>16.974378</td>
+      <td>250.000000</td>
+      <td>6849.641472</td>
       <td>MALE</td>
     </tr>
   </tbody>
@@ -1912,7 +1921,7 @@ res_dummy.result.df_samples.head()
 </div>
 <p>And now on the real dataset</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
@@ -1931,12 +1940,13 @@ res_dummy.result.df_samples
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/home/azureuser/work/sdd-poc-server/client/lomas_client/utils.py:48: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
+/code/lomas_client/utils.py:62: UserWarning: Warning:dpgan synthesizer random generator for noise and shuffling is not cryptographically secure. (pseudo-rng in vanilla PyTorch).
   warnings.warn(
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1969,103 +1979,103 @@ res_dummy.result.df_samples
   <tbody>
     <tr>
       <th>0</th>
-      <td>Gentoo</td>
+      <td>Adelie</td>
       <td>Biscoe</td>
-      <td>65.000000</td>
-      <td>17.650500</td>
-      <td>250.000000</td>
-      <td>5846.368641</td>
-      <td>FEMALE</td>
+      <td>44.275917</td>
+      <td>23.000000</td>
+      <td>194.386986</td>
+      <td>5710.911572</td>
+      <td></td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Gentoo</td>
+      <td>Chinstrap</td>
       <td>Biscoe</td>
-      <td>46.755033</td>
-      <td>17.386022</td>
-      <td>243.762323</td>
-      <td>6292.863309</td>
+      <td>45.761536</td>
+      <td>19.180464</td>
+      <td>190.228606</td>
+      <td>5585.222661</td>
       <td>FEMALE</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Adelie</td>
+      <td>Chinstrap</td>
       <td>Biscoe</td>
-      <td>65.000000</td>
-      <td>19.964333</td>
-      <td>234.881747</td>
-      <td>6435.244948</td>
-      <td>MALE</td>
+      <td>51.918343</td>
+      <td>20.711846</td>
+      <td>250.000000</td>
+      <td>5547.108099</td>
+      <td></td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Gentoo</td>
-      <td>Biscoe</td>
+      <td>Adelie</td>
+      <td>Dream</td>
       <td>65.000000</td>
-      <td>16.515368</td>
-      <td>229.168162</td>
-      <td>5154.040873</td>
-      <td>FEMALE</td>
+      <td>23.000000</td>
+      <td>193.761142</td>
+      <td>7000.000000</td>
+      <td></td>
     </tr>
     <tr>
       <th>4</th>
       <td>Chinstrap</td>
-      <td>Biscoe</td>
+      <td>Dream</td>
       <td>65.000000</td>
-      <td>17.283090</td>
-      <td>250.000000</td>
-      <td>6809.538275</td>
+      <td>23.000000</td>
+      <td>244.220206</td>
+      <td>6518.389255</td>
       <td>MALE</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>Gentoo</td>
-      <td>Biscoe</td>
-      <td>61.373030</td>
-      <td>17.146575</td>
-      <td>229.227242</td>
-      <td>6436.501563</td>
-      <td>FEMALE</td>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>61.533132</td>
+      <td>20.927101</td>
+      <td>186.077987</td>
+      <td>5242.271543</td>
+      <td>MALE</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>Gentoo</td>
-      <td>Torgersen</td>
-      <td>49.680814</td>
-      <td>19.886045</td>
-      <td>218.070625</td>
-      <td>6159.562886</td>
-      <td>MALE</td>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>46.066000</td>
+      <td>20.364783</td>
+      <td>198.249876</td>
+      <td>5248.364478</td>
+      <td></td>
     </tr>
     <tr>
       <th>7</th>
       <td>Adelie</td>
       <td>Torgersen</td>
-      <td>52.848585</td>
-      <td>17.673031</td>
-      <td>203.913779</td>
+      <td>63.791512</td>
+      <td>17.969750</td>
+      <td>199.137564</td>
       <td>7000.000000</td>
-      <td>MALE</td>
+      <td></td>
     </tr>
     <tr>
       <th>8</th>
-      <td>Gentoo</td>
-      <td>Biscoe</td>
-      <td>46.311444</td>
-      <td>23.000000</td>
-      <td>241.793999</td>
-      <td>5256.193101</td>
-      <td>FEMALE</td>
+      <td>Adelie</td>
+      <td>Dream</td>
+      <td>65.000000</td>
+      <td>16.838814</td>
+      <td>180.955905</td>
+      <td>6145.199358</td>
+      <td></td>
     </tr>
     <tr>
       <th>9</th>
-      <td>Gentoo</td>
+      <td>Adelie</td>
       <td>Biscoe</td>
-      <td>55.132013</td>
-      <td>17.231155</td>
-      <td>233.941543</td>
-      <td>6587.419331</td>
-      <td>MALE</td>
+      <td>65.000000</td>
+      <td>19.727768</td>
+      <td>183.611000</td>
+      <td>7000.000000</td>
+      <td></td>
     </tr>
   </tbody>
 </table>
@@ -2076,7 +2086,7 @@ res_dummy.result.df_samples
 <h2>Step 6: See archives of queries<a class="headerlink" href="#Step-6:-See-archives-of-queries" title="Link to this heading"></a></h2>
 <p>She now wants to verify all the queries that she did on the real data. It is possible because an archive of all queries is kept in a secure database. With a function call she can see her queries, budget and associated responses.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>previous_queries = client.get_previous_queries()
@@ -2085,7 +2095,7 @@ res_dummy.result.df_samples
 </div>
 <p>Let’s check the last query</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>last_query = previous_queries[-1]
@@ -2094,13 +2104,14 @@ last_query
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;user_name&#39;: &#39;Dr.Antartica&#39;,
+{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
  &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
- &#39;dp_library&#39;: &#39;smartnoise_synth&#39;,
+ &#39;dp_librairy&#39;: &#39;smartnoise_synth&#39;,
  &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
   &#39;synth_name&#39;: &#39;dpgan&#39;,
   &#39;epsilon&#39;: 1.0,
@@ -2114,7 +2125,7 @@ last_query
   &#39;nb_samples&#39;: 10},
  &#39;response&#39;: {&#39;epsilon&#39;: 1.0,
   &#39;delta&#39;: 0.00015673368198174188,
-  &#39;requested_by&#39;: &#39;Dr.Antartica&#39;,
+  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
   &#39;result&#39;:                       res_type  \
   index         sn_synth_samples
   columns       sn_synth_samples
@@ -2125,11 +2136,19 @@ last_query
                                                        df_samples
   index                            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   columns       [species, island, bill_length_mm, bill_depth_m...
-  data          [[Gentoo, Biscoe, 65.0, 17.650499559938908, 25...
+  data          [[Adelie, Biscoe, 44.27591737359762, 23.0, 194...
   index_names                                              [None]
   column_names                                             [None]  },
- &#39;timestamp&#39;: 1747224709.1297455}
+ &#39;timestamp&#39;: 1728461702.0089684}
 </pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 </div>
 </section>
 </section>

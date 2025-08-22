@@ -54,7 +54,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="server_administration.html">Administration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="server_managing_dataset.html">Adding and referencing new dataset</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul class="current">
@@ -78,6 +77,7 @@
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
@@ -195,7 +195,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lomas_server.tests.html">lomas_server.tests package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="lomas_server.tests.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lomas_server.tests.html#lomas-server-tests-constants-module">lomas_server.tests.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lomas_server.tests.html#module-lomas_server.tests.constants">lomas_server.tests.constants module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lomas_server.tests.html#lomas-server-tests-test-api-module">lomas_server.tests.test_api module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lomas_server.tests.html#lomas-server-tests-test-api-diffprivlib-module">lomas_server.tests.test_api_diffprivlib module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lomas_server.tests.html#lomas-server-tests-test-api-smartnoise-synth-module">lomas_server.tests.test_api_smartnoise_synth module</a></li>
@@ -222,8 +222,114 @@
 <section id="lomas-server-app-module">
 <h2>lomas_server.app module<a class="headerlink" href="#lomas-server-app-module" title="Link to this heading"></a></h2>
 </section>
-<section id="lomas-server-constants-module">
-<h2>lomas_server.constants module<a class="headerlink" href="#lomas-server-constants-module" title="Link to this heading"></a></h2>
+<section id="module-lomas_server.constants">
+<span id="lomas-server-constants-module"></span><h2>lomas_server.constants module<a class="headerlink" href="#module-lomas_server.constants" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="lomas_server.constants.OpenDPDatasetInputMetric">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.constants.</span></span><span class="sig-name descname"><span class="pre">OpenDPDatasetInputMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names=&lt;not</span> <span class="pre">given&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/constants.html#OpenDPDatasetInputMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.constants.OpenDPDatasetInputMetric" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Type of opendp input metric for datasets.</p>
+<p>see <a class="reference external" href="https://docs.opendp.org/en/stable/api/python/opendp.metrics.html">https://docs.opendp.org/en/stable/api/python/opendp.metrics.html</a>
+see <a class="reference external" href="https://github.com/opendp/opendp/blob/main/rust/src/metrics/mod.rs">https://github.com/opendp/opendp/blob/main/rust/src/metrics/mod.rs</a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.OpenDPDatasetInputMetric.CHANGE_ONE_DISTANCE">
+<span class="sig-name descname"><span class="pre">CHANGE_ONE_DISTANCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ChangeOneDistance'</span></em><a class="headerlink" href="#lomas_server.constants.OpenDPDatasetInputMetric.CHANGE_ONE_DISTANCE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.OpenDPDatasetInputMetric.HAMMING_DISTANCE">
+<span class="sig-name descname"><span class="pre">HAMMING_DISTANCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'HammingDistance'</span></em><a class="headerlink" href="#lomas_server.constants.OpenDPDatasetInputMetric.HAMMING_DISTANCE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.OpenDPDatasetInputMetric.INSERT_DELETE_DISTANCE">
+<span class="sig-name descname"><span class="pre">INSERT_DELETE_DISTANCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'InsertDeleteDistance'</span></em><a class="headerlink" href="#lomas_server.constants.OpenDPDatasetInputMetric.INSERT_DELETE_DISTANCE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.OpenDPDatasetInputMetric.INT_DISTANCE">
+<span class="sig-name descname"><span class="pre">INT_DISTANCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'u32'</span></em><a class="headerlink" href="#lomas_server.constants.OpenDPDatasetInputMetric.INT_DISTANCE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.OpenDPDatasetInputMetric.SYMMETRIC_DISTANCE">
+<span class="sig-name descname"><span class="pre">SYMMETRIC_DISTANCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SymmetricDistance'</span></em><a class="headerlink" href="#lomas_server.constants.OpenDPDatasetInputMetric.SYMMETRIC_DISTANCE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lomas_server.constants.OpenDPMeasurement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.constants.</span></span><span class="sig-name descname"><span class="pre">OpenDPMeasurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names=&lt;not</span> <span class="pre">given&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/constants.html#OpenDPMeasurement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.constants.OpenDPMeasurement" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Type of divergence for opendp measurement.</p>
+<p>see <a class="reference external" href="https://docs.opendp.org/en/stable/api/python/opendp.measurements.html">https://docs.opendp.org/en/stable/api/python/opendp.measurements.html</a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.OpenDPMeasurement.FIXED_SMOOTHED_MAX_DIVERGENCE">
+<span class="sig-name descname"><span class="pre">FIXED_SMOOTHED_MAX_DIVERGENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'fixed_smoothed_max_divergence'</span></em><a class="headerlink" href="#lomas_server.constants.OpenDPMeasurement.FIXED_SMOOTHED_MAX_DIVERGENCE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.OpenDPMeasurement.MAX_DIVERGENCE">
+<span class="sig-name descname"><span class="pre">MAX_DIVERGENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'max_divergence'</span></em><a class="headerlink" href="#lomas_server.constants.OpenDPMeasurement.MAX_DIVERGENCE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.OpenDPMeasurement.SMOOTHED_MAX_DIVERGENCE">
+<span class="sig-name descname"><span class="pre">SMOOTHED_MAX_DIVERGENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'smoothed_max_divergence'</span></em><a class="headerlink" href="#lomas_server.constants.OpenDPMeasurement.SMOOTHED_MAX_DIVERGENCE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.OpenDPMeasurement.ZERO_CONCENTRATED_DIVERGENCE">
+<span class="sig-name descname"><span class="pre">ZERO_CONCENTRATED_DIVERGENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'zero_concentrated_divergence'</span></em><a class="headerlink" href="#lomas_server.constants.OpenDPMeasurement.ZERO_CONCENTRATED_DIVERGENCE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lomas_server.constants.SSynthColumnType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.constants.</span></span><span class="sig-name descname"><span class="pre">SSynthColumnType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names=&lt;not</span> <span class="pre">given&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/constants.html#SSynthColumnType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.constants.SSynthColumnType" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Type of columns for SmartnoiseSynth transformer pre-processing.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.SSynthColumnType.CATEGORICAL">
+<span class="sig-name descname"><span class="pre">CATEGORICAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'categorical'</span></em><a class="headerlink" href="#lomas_server.constants.SSynthColumnType.CATEGORICAL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.SSynthColumnType.CONTINUOUS">
+<span class="sig-name descname"><span class="pre">CONTINUOUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'continuous'</span></em><a class="headerlink" href="#lomas_server.constants.SSynthColumnType.CONTINUOUS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.SSynthColumnType.DATETIME">
+<span class="sig-name descname"><span class="pre">DATETIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'datetime'</span></em><a class="headerlink" href="#lomas_server.constants.SSynthColumnType.DATETIME" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.SSynthColumnType.PRIVATE_ID">
+<span class="sig-name descname"><span class="pre">PRIVATE_ID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'private_id'</span></em><a class="headerlink" href="#lomas_server.constants.SSynthColumnType.PRIVATE_ID" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lomas_server.constants.SSynthTableTransStyle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.constants.</span></span><span class="sig-name descname"><span class="pre">SSynthTableTransStyle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names=&lt;not</span> <span class="pre">given&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/constants.html#SSynthTableTransStyle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.constants.SSynthTableTransStyle" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Transformer style for smartnoise synth.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.SSynthTableTransStyle.CUBE">
+<span class="sig-name descname"><span class="pre">CUBE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cube'</span></em><a class="headerlink" href="#lomas_server.constants.SSynthTableTransStyle.CUBE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.constants.SSynthTableTransStyle.GAN">
+<span class="sig-name descname"><span class="pre">GAN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'gan'</span></em><a class="headerlink" href="#lomas_server.constants.SSynthTableTransStyle.GAN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="lomas-server-mongodb-admin-module">
 <h2>lomas_server.mongodb_admin module<a class="headerlink" href="#lomas-server-mongodb-admin-module" title="Link to this heading"></a></h2>

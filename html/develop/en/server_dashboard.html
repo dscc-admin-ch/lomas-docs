@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lomas_server.administration package &mdash; Lomas 0.0.1 documentation</title>
+  <title>Dashboard &mdash; Lomas 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -20,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="lomas_server.administration.tests package" href="lomas_server.administration.tests.html" />
-    <link rel="prev" title="lomas_server.admin_database package" href="lomas_server.admin_database.html" /> 
+    <link rel="next" title="API Documentation" href="api.html" />
+    <link rel="prev" title="Lomas-server: CLI administration" href="notebooks/local_admin_notebook.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,24 +51,22 @@
 <li class="toctree-l1"><a class="reference internal" href="client_errors.html">Errors</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Server</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="server_deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="server_administration.html">Administration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="server_administration.html">Administration</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="server_cli.html">CLI</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dashboard</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#local-access-via-docker">Local Access via Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#access-via-kubernetes">Access via Kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#access-via-onyxia-platform">Access via Onyxia Platform</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="core_api.html">Core API</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="server_api.html">Server API</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="server_modules.html">lomas_server</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="lomas_server.html">lomas_server package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="client_api.html">Client API</a></li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Observability</span></p>
 <ul>
@@ -77,6 +75,7 @@
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
@@ -98,13 +97,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="api.html">API Documentation</a></li>
-          <li class="breadcrumb-item"><a href="server_api.html">Server API</a></li>
-          <li class="breadcrumb-item"><a href="server_modules.html">lomas_server</a></li>
-          <li class="breadcrumb-item"><a href="lomas_server.html">lomas_server package</a></li>
-      <li class="breadcrumb-item active">lomas_server.administration package</li>
+          <li class="breadcrumb-item"><a href="server_administration.html">Administration</a></li>
+      <li class="breadcrumb-item active">Dashboard</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/lomas_server.administration.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/server_dashboard.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -112,25 +108,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="lomas-server-administration-package">
-<h1>lomas_server.administration package<a class="headerlink" href="#lomas-server-administration-package" title="Link to this heading"></a></h1>
-<section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="lomas_server.administration.tests.html">lomas_server.administration.tests package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="lomas_server.administration.tests.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lomas_server.administration.tests.html#lomas-server-administration-tests-test-streamlit-app-module">lomas_server.administration.tests.test_streamlit_app module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lomas_server.administration.tests.html#lomas-server-administration-tests-test-streamlit-app-page-b-module">lomas_server.administration.tests.test_streamlit_app_page_b module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lomas_server.administration.tests.html#lomas-server-administration-tests-utils-module">lomas_server.administration.tests.utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lomas_server.administration.tests.html#module-lomas_server.administration.tests">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</div>
+  <section id="dashboard">
+<h1>Dashboard<a class="headerlink" href="#dashboard" title="Link to this heading"></a></h1>
+<p>To simplify interaction with the server, users can access a dashboard. The availability and setup of this
+dashboard vary depending on the deployment method used.</p>
+<section id="local-access-via-docker">
+<h2>Local Access via Docker<a class="headerlink" href="#local-access-via-docker" title="Link to this heading"></a></h2>
+<p>When using Docker Compose, the dashboard is locally accessible. Simply run the Docker Compose setup, and the
+dashboard will be available at <code class="docutils literal notranslate"><span class="pre">localhost:8501</span></code>.</p>
 </section>
-<section id="module-lomas_server.administration">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-lomas_server.administration" title="Link to this heading"></a></h2>
+<section id="access-via-kubernetes">
+<h2>Access via Kubernetes<a class="headerlink" href="#access-via-kubernetes" title="Link to this heading"></a></h2>
+<p>If you are deploying with Kubernetes, ensure that the <code class="docutils literal notranslate"><span class="pre">dashboard.create</span></code> value is set to <code class="docutils literal notranslate"><span class="pre">true</span></code> in your values.yaml.
+If <code class="docutils literal notranslate"><span class="pre">dashboard.create</span></code> is not set to <code class="docutils literal notranslate"><span class="pre">true</span></code>, the server will only be accessible though the API, and the dashboard will not be available.</p>
+</section>
+<section id="access-via-onyxia-platform">
+<h2>Access via Onyxia Platform<a class="headerlink" href="#access-via-onyxia-platform" title="Link to this heading"></a></h2>
+<p>Users with access to the Onyxia platform can directly execute the dashboard here. In this platform,
+the <code class="docutils literal notranslate"><span class="pre">create</span></code> variable is activated by default in the dashboard configuration.</p>
 </section>
 </section>
 
@@ -138,8 +133,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="lomas_server.admin_database.html" class="btn btn-neutral float-left" title="lomas_server.admin_database package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="lomas_server.administration.tests.html" class="btn btn-neutral float-right" title="lomas_server.administration.tests package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="notebooks/local_admin_notebook.html" class="btn btn-neutral float-left" title="Lomas-server: CLI administration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
@@ -160,7 +155,7 @@
   </div>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
-      Version: stable
+      Version: develop
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -168,7 +163,7 @@
       <dl>
         <dt>Languages</dt>
           
-            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">en</a></dd>
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">en</a></dd>
           
       </dl>
       
