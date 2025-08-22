@@ -1,0 +1,3068 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lomas Client Side: Using DiffPrivlib &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lomas Client Side: Using Smartnoise-Synth" href="Demo_Client_Notebook_Smartnoise-Synth.html" />
+    <link rel="prev" title="Lomas Client Side: Using Smartnoise-SQL" href="Demo_Client_Notebook_Smartnoise-SQL.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Lomas
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../client_examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook.html">Lomas: Client demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_Smartnoise-SQL.html">Lomas Client Side: Using Smartnoise-SQL</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Lomas Client Side: Using DiffPrivlib</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Step-1:-Install-the-library">Step 1: Install the library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-2:-Initialise-the-client">Step 2: Initialise the client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-3:-Metadata-and-dummy-dataset">Step 3: Metadata and dummy dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Getting-dataset-metadata">Getting dataset metadata</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-4:-Train-Logistic-Regression-model-with-DiffPrivLib">Step 4: Train Logistic Regression model with DiffPrivLib</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classification:-Logistic-Regression">Classification: Logistic Regression</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-5:-Train-other-models-with-DiffPrivLib">Step 5: Train other models with DiffPrivLib</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classification:-Gaussian-Naive-Bayes">Classification: Gaussian Naive Bayes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Random-Forest">Random Forest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Decision-Tree-Classifier">Decision Tree Classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Regression:-Linear-Regression">Regression: Linear Regression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Clustering:-K-Means">Clustering: K-Means</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Dimensionality-Reduction:-PCA">Dimensionality Reduction: PCA</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-6:-See-archives-of-queries">Step 6: See archives of queries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_Smartnoise-Synth.html">Lomas Client Side: Using Smartnoise-Synth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="s3_example_notebook.html">S3 example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../server_administration.html">Administration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../poster.html">Poster</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../client_examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Lomas Client Side: Using DiffPrivlib</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/Demo_Client_Notebook_DiffPrivLib.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Lomas-Client-Side:-Using-DiffPrivlib">
+<h1>Lomas Client Side: Using DiffPrivlib<a class="headerlink" href="#Lomas-Client-Side:-Using-DiffPrivlib" title="Link to this heading"></a></h1>
+<p>This notebook showcases how researcher could use lomas platform with DiffPrivLib. It explains the different functionnalities provided by the <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> client library to interact with lomas server.</p>
+<p>The secure data are never visible by researchers. They can only access to differentially private responses via queries to the server.</p>
+<p>Each user has access to one or multiple projects and for each dataset has a limited budget with <span class="math notranslate nohighlight">\(\epsilon\)</span> and <span class="math notranslate nohighlight">\(\delta\)</span> values.</p>
+<p>In this notebook the researcher is a penguin researcher named Dr. Antarctica. She aims to do a grounbdbreaking research on various penguins data.</p>
+<section id="Step-1:-Install-the-library">
+<h2>Step 1: Install the library<a class="headerlink" href="#Step-1:-Install-the-library" title="Link to this heading"></a></h2>
+<p>To interact with the secure server on which the data is stored, Dr.Antartica first needs to install the library <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code> on her local developping environment.</p>
+<p>It can be installed via the pip command:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># !pip install lomas_client
+</pre></div>
+</div>
+</div>
+<p>Or using a local version of the client</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(&#39;..&#39;)))
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from lomas_client import Client
+import numpy as np
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Step-2:-Initialise-the-client">
+<h2>Step 2: Initialise the client<a class="headerlink" href="#Step-2:-Initialise-the-client" title="Link to this heading"></a></h2>
+<p>Once the library is installed, a Client object must be created. It is responsible for sending sending requests to the server and processing responses in the local environment. It enables a seamless interaction with the server.</p>
+<p>To create the client, Dr. Antartica needs to give it a few parameters:</p>
+<ul class="simple">
+<li><p>a url: the root application endpoint to the remote secure server.</p></li>
+<li><p>user_name: her name as registered in the database (Dr. Alice Antartica)</p></li>
+<li><p>dataset_name: the name of the dataset that she wants to query (PENGUIN)</p></li>
+</ul>
+<p>She will only be able to query on the real dataset if the queen Icergina has previously made her an account in the database, given her access to the PENGUIN dataset and has given her some epsilon and delta credit (as is done in the Admin Notebook for Users and Datasets management).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>APP_URL = &quot;http://lomas_server&quot;
+USER_NAME = &quot;Dr. Antartica&quot;
+DATASET_NAME = &quot;PENGUIN&quot;
+client = Client(url=APP_URL, user_name = USER_NAME, dataset_name = DATASET_NAME)
+</pre></div>
+</div>
+</div>
+<p>And that’s it for the preparation. She is now ready to use the various functionnalities offered by <code class="docutils literal notranslate"><span class="pre">lomas-client</span></code>.</p>
+</section>
+<section id="Step-3:-Metadata-and-dummy-dataset">
+<h2>Step 3: Metadata and dummy dataset<a class="headerlink" href="#Step-3:-Metadata-and-dummy-dataset" title="Link to this heading"></a></h2>
+<section id="Getting-dataset-metadata">
+<h3>Getting dataset metadata<a class="headerlink" href="#Getting-dataset-metadata" title="Link to this heading"></a></h3>
+<p>Dr. Antartica has never seen the data and as a first step to understand what is available to her, she would like to check the metadata of the dataset. Therefore, she just needs to call the <code class="docutils literal notranslate"><span class="pre">get_dataset_metadata()</span></code> function of the client. As this is public information, this does not cost any budget.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata = client.get_dataset_metadata()
+penguin_metadata
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;max_ids&#39;: 1,
+ &#39;rows&#39;: 344,
+ &#39;row_privacy&#39;: True,
+ &#39;censor_dims&#39;: False,
+ &#39;columns&#39;: {&#39;species&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
+   &#39;cardinality&#39;: 3,
+   &#39;categories&#39;: [&#39;Adelie&#39;, &#39;Chinstrap&#39;, &#39;Gentoo&#39;]},
+  &#39;island&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
+   &#39;cardinality&#39;: 3,
+   &#39;categories&#39;: [&#39;Torgersen&#39;, &#39;Biscoe&#39;, &#39;Dream&#39;]},
+  &#39;bill_length_mm&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 30.0,
+   &#39;upper&#39;: 65.0},
+  &#39;bill_depth_mm&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 13.0,
+   &#39;upper&#39;: 23.0},
+  &#39;flipper_length_mm&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 150.0,
+   &#39;upper&#39;: 250.0},
+  &#39;body_mass_g&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;float&#39;,
+   &#39;precision&#39;: 64,
+   &#39;lower&#39;: 2000.0,
+   &#39;upper&#39;: 7000.0},
+  &#39;sex&#39;: {&#39;private_id&#39;: False,
+   &#39;nullable&#39;: False,
+   &#39;max_partition_length&#39;: None,
+   &#39;max_influenced_partitions&#39;: None,
+   &#39;max_partition_contributions&#39;: None,
+   &#39;type&#39;: &#39;string&#39;,
+   &#39;cardinality&#39;: 2,
+   &#39;categories&#39;: [&#39;MALE&#39;, &#39;FEMALE&#39;]}}}
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Step-4:-Train-Logistic-Regression-model-with-DiffPrivLib">
+<h2>Step 4: Train Logistic Regression model with DiffPrivLib<a class="headerlink" href="#Step-4:-Train-Logistic-Regression-model-with-DiffPrivLib" title="Link to this heading"></a></h2>
+<p>We want to train an ML model to guess the species of penguins based on their bill length and depth, flipper length and body mass.</p>
+<p>Therefore, we use a DiffPrivLib pipeline which:</p>
+<ul class="simple">
+<li><p>standard scales the dimensions between the metadata bounds</p></li>
+<li><p>and then performs a logistic regression to predict the species of penguins.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sklearn.pipeline import Pipeline
+from diffprivlib import models
+import pandas as pd
+</pre></div>
+</div>
+</div>
+<section id="Classification:-Logistic-Regression">
+<h3>Classification: Logistic Regression<a class="headerlink" href="#Classification:-Logistic-Regression" title="Link to this heading"></a></h3>
+<p>Dr. Antartica wants to do a logistic regression on the feature columns ‘bill_length_mm’, ‘bill_depth_mm’, ‘flipper_length_mm’ and’body_mass_g’ to predict penguin species.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
+target_columns = [&#39;species&#39;]
+</pre></div>
+</div>
+</div>
+<section id="She-starts-to-write-the-associated-DiffPrivLib-pipeline-and-tries-it-on-the-dummy.">
+<h4>She starts to write the associated DiffPrivLib pipeline and tries it on the dummy.<a class="headerlink" href="#She-starts-to-write-the-associated-DiffPrivLib-pipeline-and-tries-it-on-the-dummy." title="Link to this heading"></a></h4>
+<p>If the DiffprivlibCompatibilityWarning is raised by DiffPrivLib library, an warning will be raised the first time (as in DiffPrivLib) then the ‘wrong’ parameters will be ignored within the server.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># DiffprivlibCompatibilityWarning Error expected
+dpl_pipeline = Pipeline([
+    (&#39;scaler&#39;, models.StandardScaler(epsilon = 0.5)),
+    (&#39;classifier&#39;, models.LogisticRegression(epsilon = 1.0, svd_solver=&#39;full&#39;))
+])
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/usr/local/lib/python3.12/site-packages/diffprivlib/utils.py:71: DiffprivlibCompatibilityWarning: Parameter &#39;svd_solver&#39; is not functional in diffprivlib.  Remove this parameter to suppress this warning.
+  warnings.warn(f&#34;Parameter &#39;{arg}&#39; is not functional in diffprivlib.  Remove this parameter to suppress this &#34;
+</pre></div></div>
+</div>
+<p>To resolve the DiffprivlibCompatibilityWarning issue, the svd_solver should not be set as it is incompatible with DiffPrivLib. If these warnings are ignore by the user, the default behaviour of DiffPrivLib will be applied.</p>
+<p>If PrivacyLeakWarning are encountered, then the query will not be processed by the server and will return an error.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (&#39;scaler&#39;, models.StandardScaler(epsilon = 0.5)),
+    (&#39;classifier&#39;, models.LogisticRegression(epsilon = 1.0))
+])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Expect PrivacyLeakWarning Error
+dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns =  feature_columns,
+    target_columns = target_columns,
+    dummy = True
+)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ExternalLibraryException</span>                  Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[10], line 2</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span style="color: rgb(95,135,135)"># Expect PrivacyLeakWarning Error</span>
+<span class="ansi-green-fg">----&gt; 2</span> dummy_response <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">diffprivlib</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">pipeline</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">dpl_pipeline</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">feature_columns</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">  </span><span class="ansi-yellow-bg">feature_columns</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">target_columns</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">target_columns</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span> <span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">/code/lomas_client/libraries/diffprivlib.py:153</span>, in <span class="ansi-cyan-fg">DiffPrivLibClient.query</span><span class="ansi-blue-fg">(self, pipeline, feature_columns, target_columns, test_size, test_train_split_seed, imputer_strategy, dummy, nb_rows, seed)</span>
+<span class="ansi-green-intense-fg ansi-bold">    150</span>     r_model <span style="color: rgb(98,98,98)">=</span> QueryResponse<span style="color: rgb(98,98,98)">.</span>model_validate_json(data)
+<span class="ansi-green-intense-fg ansi-bold">    151</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> r_model
+<span class="ansi-green-fg">--&gt; 153</span> <span class="ansi-yellow-bg">raise_error</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">res</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    154</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+
+File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span class="ansi-cyan-fg">raise_error</span><span class="ansi-blue-fg">(response)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> InvalidQueryException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">InvalidQueryException</span><span style="color: rgb(175,0,0)">&#34;</span>])
+<span class="ansi-green-intense-fg ansi-bold">     37</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_422_UNPROCESSABLE_ENTITY:
+<span class="ansi-green-fg">---&gt; 38</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> ExternalLibraryException(
+<span class="ansi-green-intense-fg ansi-bold">     39</span>         error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">library</span><span style="color: rgb(175,0,0)">&#34;</span>], error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">ExternalLibraryException</span><span style="color: rgb(175,0,0)">&#34;</span>]
+<span class="ansi-green-intense-fg ansi-bold">     40</span>     )
+<span class="ansi-green-intense-fg ansi-bold">     41</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_403_FORBIDDEN:
+<span class="ansi-green-intense-fg ansi-bold">     42</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> UnauthorizedAccessException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">UnauthorizedAccessException</span><span style="color: rgb(175,0,0)">&#34;</span>])
+
+<span class="ansi-red-fg">ExternalLibraryException</span>: (&#39;diffprivlib&#39;, &#34;PrivacyLeakWarning: Bounds parameter hasn&#39;t been specified, so falling back to determining bounds from the data.\n This will result in additional privacy leakage.  To ensure differential privacy with no additional privacy loss, specify `bounds` for each valued returned by np.mean().. Lomas server cannot fit pipeline on data, PrivacyLeakWarning is a blocker.&#34;)
+</pre></div></div>
+</div>
+<p>Diffprivlib requests that have <strong>PrivacyLeakWarning</strong> will not be processed in the server. In lomas, the bounds must always be specified. For most model, it is best to use <strong>the standard scaler must always be used as a first step</strong> and fill it based on the metadata values.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def get_bounds(cols_metadata, columns):
+    lower = [cols_metadata[col][&quot;lower&quot;] for col in columns]
+    upper = [cols_metadata[col][&quot;upper&quot;] for col in columns]
+    return (lower, upper)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
+bounds
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+([30.0, 13.0, 150.0, 2000.0], [65.0, 23.0, 250.0, 7000.0])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (&#39;scaler&#39;, models.StandardScaler(epsilon = 0.5, bounds=bounds)),
+    (&#39;classifier&#39;, models.LogisticRegression(epsilon = 1.0))
+])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Expect PrivacyLeakWarning Error
+dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    dummy = True
+)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ExternalLibraryException</span>                  Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[14], line 2</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span style="color: rgb(95,135,135)"># Expect PrivacyLeakWarning Error</span>
+<span class="ansi-green-fg">----&gt; 2</span> dummy_response <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">diffprivlib</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">pipeline</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">dpl_pipeline</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">feature_columns</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">feature_columns</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">target_columns</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">target_columns</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span> <span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">/code/lomas_client/libraries/diffprivlib.py:153</span>, in <span class="ansi-cyan-fg">DiffPrivLibClient.query</span><span class="ansi-blue-fg">(self, pipeline, feature_columns, target_columns, test_size, test_train_split_seed, imputer_strategy, dummy, nb_rows, seed)</span>
+<span class="ansi-green-intense-fg ansi-bold">    150</span>     r_model <span style="color: rgb(98,98,98)">=</span> QueryResponse<span style="color: rgb(98,98,98)">.</span>model_validate_json(data)
+<span class="ansi-green-intense-fg ansi-bold">    151</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> r_model
+<span class="ansi-green-fg">--&gt; 153</span> <span class="ansi-yellow-bg">raise_error</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">res</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    154</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+
+File <span class="ansi-green-fg">/code/lomas_client/utils.py:38</span>, in <span class="ansi-cyan-fg">raise_error</span><span class="ansi-blue-fg">(response)</span>
+<span class="ansi-green-intense-fg ansi-bold">     36</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> InvalidQueryException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">InvalidQueryException</span><span style="color: rgb(175,0,0)">&#34;</span>])
+<span class="ansi-green-intense-fg ansi-bold">     37</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_422_UNPROCESSABLE_ENTITY:
+<span class="ansi-green-fg">---&gt; 38</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> ExternalLibraryException(
+<span class="ansi-green-intense-fg ansi-bold">     39</span>         error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">library</span><span style="color: rgb(175,0,0)">&#34;</span>], error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">ExternalLibraryException</span><span style="color: rgb(175,0,0)">&#34;</span>]
+<span class="ansi-green-intense-fg ansi-bold">     40</span>     )
+<span class="ansi-green-intense-fg ansi-bold">     41</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> response<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> status<span style="color: rgb(98,98,98)">.</span>HTTP_403_FORBIDDEN:
+<span class="ansi-green-intense-fg ansi-bold">     42</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> UnauthorizedAccessException(error_message[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">UnauthorizedAccessException</span><span style="color: rgb(175,0,0)">&#34;</span>])
+
+<span class="ansi-red-fg">ExternalLibraryException</span>: (&#39;diffprivlib&#39;, &#39;PrivacyLeakWarning: Data norm has not been specified and will be calculated on the data provided.  This will result in additional privacy leakage. To ensure differential privacy and no additional privacy leakage, specify `data_norm` at initialisation.. Lomas server cannot fit pipeline on data, PrivacyLeakWarning is a blocker.&#39;)
+</pre></div></div>
+</div>
+<p>Again, we have a Privacy Leak. For the same reason, the data_norm should be computed based on metadata and given as argument as explained in the error message.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The max l2 norm of any row of the data. This defines the spread of data that will be protected by differential privacy.
+data_norm = np.sqrt(np.linalg.norm(bounds[1]))
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (&#39;scaler&#39;, models.StandardScaler(epsilon = 0.5, bounds=bounds)),
+    (&#39;classifier&#39;, models.LogisticRegression(epsilon = 1.0, data_norm = data_norm))
+])
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    dummy = True
+)
+</pre></div>
+</div>
+</div>
+<p>The pipeline worked, she can check that she has a dummy model and a dummy score associated. In the case of a Logistic Regression the score is a mean accuracy as specified <a class="reference external" href="https://diffprivlib.readthedocs.io/en/latest/modules/models.html#diffprivlib.models.LogisticRegression.score">here</a>. Each model return an associated score. The associated documentation is in the DiffPrivLib documentation in the <code class="docutils literal notranslate"><span class="pre">score</span></code> method of each model.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response.result.model
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: black;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-1 pre {
+  padding: 0;
+}
+
+#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-1 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 1ex;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[(&#x27;scaler&#x27;,
+                 StandardScaler(accountant=BudgetAccountant(spent_budget=[(0.5, 0)]),
+                                bounds=(array([  30.,   13.,  150., 2000.]),
+                                        array([  65.,   23.,  250., 7000.])),
+                                epsilon=0.5)),
+                (&#x27;classifier&#x27;,
+                 LogisticRegression(accountant=BudgetAccountant(spent_budget=[(1.0, 0)]),
+                                    data_norm=83.69469642643347))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;Pipeline<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.4/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;scaler&#x27;,
+                 StandardScaler(accountant=BudgetAccountant(spent_budget=[(0.5, 0)]),
+                                bounds=(array([  30.,   13.,  150., 2000.]),
+                                        array([  65.,   23.,  250., 7000.])),
+                                epsilon=0.5)),
+                (&#x27;classifier&#x27;,
+                 LogisticRegression(accountant=BudgetAccountant(spent_budget=[(1.0, 0)]),
+                                    data_norm=83.69469642643347))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" ><label for="sk-estimator-id-2" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">StandardScaler</label><div class="sk-toggleable__content fitted"><pre>StandardScaler(accountant=BudgetAccountant(spent_budget=[(0.5, 0)]),
+               bounds=(array([  30.,   13.,  150., 2000.]),
+                       array([  65.,   23.,  250., 7000.])),
+               epsilon=0.5)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">LogisticRegression</label><div class="sk-toggleable__content fitted"><pre>LogisticRegression(accountant=BudgetAccountant(spent_budget=[(1.0, 0)]),
+                   data_norm=83.69469642643347)</pre></div> </div></div></div></div></div></div></div>
+</div>
+<p>Now that the pipeline seems to work, she also wants to choose another data imputation method: be default the missing data are dropped but she wants the replace them with the mean. Therefore, she uses the <code class="docutils literal notranslate"><span class="pre">imputer_strategy</span></code> argument.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    imputer_strategy = &quot;mean&quot;,
+    dummy = True
+)
+</pre></div>
+</div>
+</div>
+<p>It also works. It she wanted she could replace by the mean value with <code class="docutils literal notranslate"><span class="pre">imputer_strategy</span> <span class="pre">=</span> <span class="pre">&quot;mean&quot;</span></code> or the most frequent value with <code class="docutils literal notranslate"><span class="pre">imputer_strategy</span> <span class="pre">=</span> <span class="pre">&quot;most_frequent&quot;</span></code> (most_frequent makes more sense in the case of categorical columns).</p>
+<p>Finally, she wants to use as much data as possible to train the model so she decides to reduce the <code class="docutils literal notranslate"><span class="pre">test_size</span></code> to 0.1 (meaning that 10% of the data will be used as the test set and 90% and the training set). Also she modifies the seed for the random split between training and testing data <code class="docutils literal notranslate"><span class="pre">test_train_split_seed</span></code> because why not. By default <code class="docutils literal notranslate"><span class="pre">test_size</span> <span class="pre">=</span> <span class="pre">0.2</span></code> and <code class="docutils literal notranslate"><span class="pre">test_train_split_seed</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.1,
+    test_train_split_seed = 4,
+    imputer_strategy = &quot;mean&quot;,
+    dummy = True
+)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="She-can-now-estimated-the-cost-of-this-pipeline">
+<h4>She can now estimated the cost of this pipeline<a class="headerlink" href="#She-can-now-estimated-the-cost-of-this-pipeline" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res = client.diffprivlib.cost(
+    dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.1,
+    test_train_split_seed = 4,
+    imputer_strategy = &quot;mean&quot;,
+)
+res
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CostResponse(epsilon=1.5, delta=0.0)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f&quot;The cost will be {res.epsilon} epsilon and {res.delta} delta.&quot;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;The cost will be 1.5 epsilon and 0.0 delta.&#39;
+</pre></div></div>
+</div>
+<p>Now we train the same pipeline on the real dataset.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.1,
+    test_train_split_seed = 4,
+    imputer_strategy = &quot;mean&quot;,
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f&quot;The accuracy score of the model trained on real data is {res.result.score}.&quot;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;The accuracy score of the model trained on real data is 0.6.&#39;
+</pre></div></div>
+</div>
+<p>The model is with different trained parameters is also available:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = res.result.model
+</pre></div>
+</div>
+</div>
+<p>We predict what would be the specie of the smallest possible penguin in all dimension versus to biggest possible penguin in all dimensions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x_to_predict = pd.DataFrame({
+    &#39;bill_length_mm&#39;: [bounds[0][0], bounds[1][0]],
+    &#39;bill_depth_mm&#39;: [bounds[0][1], bounds[1][1]] ,
+    &#39;flipper_length_mm&#39;: [bounds[0][2], bounds[1][2]],
+    &#39;body_mass_g&#39;: [bounds[0][3], bounds[1][3]]
+})
+
+predictions = model.predict(x_to_predict)
+x_to_predict[&quot;predictions&quot;] = predictions
+x_to_predict
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>predictions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>30.0</td>
+      <td>13.0</td>
+      <td>150.0</td>
+      <td>2000.0</td>
+      <td>Adelie</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>65.0</td>
+      <td>23.0</td>
+      <td>250.0</td>
+      <td>7000.0</td>
+      <td>Gentoo</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+</section>
+<section id="Step-5:-Train-other-models-with-DiffPrivLib">
+<h2>Step 5: Train other models with DiffPrivLib<a class="headerlink" href="#Step-5:-Train-other-models-with-DiffPrivLib" title="Link to this heading"></a></h2>
+<p>The logic is always the same for all the models. The <code class="docutils literal notranslate"><span class="pre">pipeline</span></code> and <code class="docutils literal notranslate"><span class="pre">feature_columns</span></code> arguments must always be specified for all models. The <code class="docutils literal notranslate"><span class="pre">target_columns</span></code> must be specified except for Clustering (K-Means) and Dimensinnality reduction (PCA).</p>
+<p>Here are examples of each on dummy dataframes.</p>
+<section id="Classification:-Gaussian-Naive-Bayes">
+<h3>Classification: Gaussian Naive Bayes<a class="headerlink" href="#Classification:-Gaussian-Naive-Bayes" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;]
+target_columns = [&#39;species&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (&#39;scaler&#39;, models.StandardScaler(epsilon = 0.5, bounds=bounds)),
+    (&#39;gaussian&#39;, models.GaussianNB(epsilon = 1.0, bounds=bounds, priors = (0.3, 0.3, 0.4))),
+])
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.15,
+    imputer_strategy = &quot;median&quot;,
+    dummy = True
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost_res = client.diffprivlib.cost(
+    dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.15,
+    imputer_strategy = &quot;median&quot;,
+)
+cost_res
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CostResponse(epsilon=1.5, delta=0.0)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    imputer_strategy = &quot;median&quot;,
+    test_size = 0.15,
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x_to_predict = pd.DataFrame({
+    &#39;bill_length_mm&#39;: [bounds[0][0], bounds[1][0]],
+    &#39;bill_depth_mm&#39;: [bounds[0][1], bounds[1][1]] ,
+    &#39;flipper_length_mm&#39;: [bounds[0][2], bounds[1][2]],
+})
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>predictions = response.result.model.predict(x_to_predict)
+x_to_predict[&quot;predictions&quot;] = predictions
+x_to_predict
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>predictions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>30.0</td>
+      <td>13.0</td>
+      <td>150.0</td>
+      <td>Chinstrap</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>65.0</td>
+      <td>23.0</td>
+      <td>250.0</td>
+      <td>Chinstrap</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Random-Forest">
+<h3>Random Forest<a class="headerlink" href="#Random-Forest" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;body_mass_g&#39;]
+target_columns = [&#39;island&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (
+        &#39;rf&#39;,
+        models.RandomForestClassifier(
+            n_estimators=10,
+            epsilon = 2.0,
+            bounds=bounds,
+            classes=penguin_metadata[&#39;columns&#39;][&#39;island&#39;][&#39;categories&#39;]
+        )
+    ),
+])
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    imputer_strategy = &quot;drop&quot;, #default
+    dummy = True
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost_res = client.diffprivlib.cost(
+    dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    imputer_strategy = &quot;drop&quot;, #default
+)
+cost_res
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CostResponse(epsilon=2.0, delta=0.0)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    imputer_strategy = &quot;drop&quot;, #default
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = response.result.model
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x_to_predict = pd.DataFrame({
+    &#39;bill_length_mm&#39;: [bounds[0][0], bounds[1][0]],
+    &#39;bill_depth_mm&#39;: [bounds[0][1], bounds[1][1]] ,
+    &#39;body_mass_g&#39;: [bounds[0][2], bounds[1][2]]
+})
+predictions = model.predict(x_to_predict)
+x_to_predict[&quot;predictions&quot;] = predictions
+x_to_predict
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>body_mass_g</th>
+      <th>predictions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>30.0</td>
+      <td>13.0</td>
+      <td>2000.0</td>
+      <td>Biscoe</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>65.0</td>
+      <td>23.0</td>
+      <td>7000.0</td>
+      <td>Torgersen</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Decision-Tree-Classifier">
+<h3>Decision Tree Classifier<a class="headerlink" href="#Decision-Tree-Classifier" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;body_mass_g&#39;]
+target_columns = [&#39;species&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (
+        &#39;dtc&#39;,
+        models.DecisionTreeClassifier(
+            epsilon = 2.0,
+            bounds=bounds,
+            classes=penguin_metadata[&#39;columns&#39;][&#39;species&#39;][&#39;categories&#39;]
+        )
+    ),
+])
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.2,
+    test_train_split_seed = 1,
+    dummy = True,
+    nb_rows = 100,
+    seed = 42
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    test_size = 0.2,
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = response.result.model
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x_to_predict = pd.DataFrame({
+    &#39;bill_length_mm&#39;: [bounds[0][0], bounds[1][0]],
+    &#39;body_mass_g&#39;: [bounds[0][1], bounds[1][1]] ,
+})
+x_to_predict[&quot;predictions&quot;] = model.predict(x_to_predict)
+x_to_predict
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>body_mass_g</th>
+      <th>predictions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>30.0</td>
+      <td>2000.0</td>
+      <td>Gentoo</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>65.0</td>
+      <td>7000.0</td>
+      <td>Chinstrap</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Regression:-Linear-Regression">
+<h3>Regression: Linear Regression<a class="headerlink" href="#Regression:-Linear-Regression" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;]
+target_columns = [&#39;bill_depth_mm&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bill_length_meta = penguin_metadata[&#39;columns&#39;][&#39;bill_length_mm&#39;]
+bill_depth_meta = penguin_metadata[&#39;columns&#39;][&#39;bill_depth_mm&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (
+        &#39;lr&#39;,
+        models.LinearRegression(
+            epsilon = 2.0,
+            bounds_X=(bill_length_meta[&#39;lower&#39;], bill_length_meta[&#39;upper&#39;]),
+            bounds_y=(bill_depth_meta[&#39;lower&#39;], bill_depth_meta[&#39;upper&#39;])
+        )
+    ),
+])
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    target_columns = target_columns,
+    dummy = True
+)
+model = dummy_response.result.model
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Dummy model predictions
+x_to_predict = pd.DataFrame({
+    &#39;bill_length_mm&#39;: [bill_length_meta[&#39;lower&#39;], bill_length_meta[&#39;upper&#39;]],
+})
+x_to_predict[&quot;predictions&quot;] = model.predict(x_to_predict)
+x_to_predict
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>predictions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>30.0</td>
+      <td>17.985419</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>65.0</td>
+      <td>17.489243</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Clustering:-K-Means">
+<h3>Clustering: K-Means<a class="headerlink" href="#Clustering:-K-Means" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (&#39;kmeans&#39;, models.KMeans(n_clusters = 8, epsilon = 2.0, bounds=bounds)),
+])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    dummy = True
+)
+model = dummy_response.result.model
+model
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<style>#sk-container-id-2 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: black;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-2 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-2 pre {
+  padding: 0;
+}
+
+#sk-container-id-2 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-2 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-2 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-2 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-2 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-2 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-2 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-2 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-2 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-2 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-2 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-2 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-2 label.sk-toggleable__label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#sk-container-id-2 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-2 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-2 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-2 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-2 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-2 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-2 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-2 div.sk-label label.sk-toggleable__label,
+#sk-container-id-2 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-2 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-2 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-2 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-2 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-2 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-2 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-2 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 1ex;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-2 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-2 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-2 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-2 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[(&#x27;kmeans&#x27;,
+                 KMeans(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
+                        bounds=(array([  30.,   13.,  150., 2000.]),
+                                array([  65.,   23.,  250., 7000.])),
+                        epsilon=2.0))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox" ><label for="sk-estimator-id-4" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;Pipeline<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.4/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#x27;kmeans&#x27;,
+                 KMeans(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
+                        bounds=(array([  30.,   13.,  150., 2000.]),
+                                array([  65.,   23.,  250., 7000.])),
+                        epsilon=2.0))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox" ><label for="sk-estimator-id-5" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">KMeans</label><div class="sk-toggleable__content fitted"><pre>KMeans(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
+       bounds=(array([  30.,   13.,  150., 2000.]),
+               array([  65.,   23.,  250., 7000.])),
+       epsilon=2.0)</pre></div> </div></div></div></div></div></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Dummy model predictions
+x_to_predict = pd.DataFrame({
+    &#39;bill_length_mm&#39;: [bounds[0][0], bounds[1][0]],
+    &#39;bill_depth_mm&#39;: [bounds[0][1], bounds[1][1]] ,
+    &#39;flipper_length_mm&#39;: [bounds[0][2], bounds[1][2]],
+    &#39;body_mass_g&#39;: [bounds[0][3], bounds[1][3]]
+})
+x_to_predict[&quot;predictions&quot;] = model.predict(x_to_predict)
+x_to_predict
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>predictions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>30.0</td>
+      <td>13.0</td>
+      <td>150.0</td>
+      <td>2000.0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>65.0</td>
+      <td>23.0</td>
+      <td>250.0</td>
+      <td>7000.0</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Dimensionality-Reduction:-PCA">
+<h3>Dimensionality Reduction: PCA<a class="headerlink" href="#Dimensionality-Reduction:-PCA" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
+bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
+    (
+        &#39;pca&#39;,
+        models.PCA(
+            n_components=None,
+            epsilon = 1.0,
+            bounds=bounds,
+            data_norm=100,
+            centered=False
+        )
+    ),
+])
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+    dummy = True
+)
+model = dummy_response.result.model
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.diffprivlib.query(
+    pipeline = dpl_pipeline,
+    feature_columns = feature_columns,
+)
+model = response.result.model
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model = model.steps[0][1]
+pca_model
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<style>#sk-container-id-3 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: black;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-3 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-3 pre {
+  padding: 0;
+}
+
+#sk-container-id-3 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-3 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-3 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-3 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-3 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-3 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-3 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-3 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-3 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-3 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-3 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-3 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-3 label.sk-toggleable__label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#sk-container-id-3 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-3 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-3 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-3 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-3 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-3 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-3 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-3 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-3 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-3 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-3 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-3 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-3 div.sk-label label.sk-toggleable__label,
+#sk-container-id-3 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-3 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-3 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-3 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-3 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-3 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-3 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-3 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-3 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 1ex;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-3 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-3 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-3 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-3 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-3" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>PCA(accountant=BudgetAccountant(spent_budget=[(1.0, 0)]),
+    bounds=(array([  30.,   13.,  150., 2000.]),
+            array([  65.,   23.,  250., 7000.])),
+    data_norm=100)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox" checked><label for="sk-estimator-id-6" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;PCA<span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>PCA(accountant=BudgetAccountant(spent_budget=[(1.0, 0)]),
+    bounds=(array([  30.,   13.,  150., 2000.]),
+            array([  65.,   23.,  250., 7000.])),
+    data_norm=100)</pre></div> </div></div></div></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.components_
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[-0.08124548, -0.11603131, -0.06907006,  0.98750455],
+       [-0.37988112,  0.74377432,  0.54189149,  0.09404104],
+       [-0.11526053, -0.62023805,  0.77538936, -0.0281267 ],
+       [ 0.91422345,  0.22054765,  0.31678744,  0.12328802]])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.explained_variance_
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([8914.48046055, 1029.95283494,  241.10575291,   94.79455338])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.explained_variance_ratio_
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.86713922, 0.10018671, 0.02345311, 0.00922096])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.singular_values_
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([1536.98969484,  252.77069553,  158.4946581 ,  522.43420759])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.mean_
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([  43.71211178,   16.5604082 ,  189.09819947, 4237.9468197 ])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.n_components_
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+4
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pca_model.noise_variance_
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.0
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Step-6:-See-archives-of-queries">
+<h2>Step 6: See archives of queries<a class="headerlink" href="#Step-6:-See-archives-of-queries" title="Link to this heading"></a></h2>
+<p>She now wants to verify all the queries that she did on the real data. It is possible because an archive of all queries is kept in a secure database. With a function call she can see her queries, budget and associated responses.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>previous_queries = client.get_previous_queries()
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>query_1 = previous_queries[0]
+query_1
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
+ &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+ &#39;dp_librairy&#39;: &#39;diffprivlib&#39;,
+ &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+  &#39;diffprivlib_json&#39;: &#39;{&#34;module&#34;: &#34;diffprivlib&#34;, &#34;version&#34;: &#34;0.6.4&#34;, &#34;pipeline&#34;: [{&#34;type&#34;: &#34;_dpl_type:StandardScaler&#34;, &#34;name&#34;: &#34;scaler&#34;, &#34;params&#34;: {&#34;with_mean&#34;: true, &#34;with_std&#34;: true, &#34;copy&#34;: true, &#34;epsilon&#34;: 0.5, &#34;bounds&#34;: {&#34;_tuple&#34;: true, &#34;_items&#34;: [[30.0, 13.0, 150.0, 2000.0], [65.0, 23.0, 250.0, 7000.0]]}, &#34;random_state&#34;: null, &#34;accountant&#34;: &#34;_dpl_instance:BudgetAccountant&#34;}}, {&#34;type&#34;: &#34;_dpl_type:LogisticRegression&#34;, &#34;name&#34;: &#34;classifier&#34;, &#34;params&#34;: {&#34;tol&#34;: 0.0001, &#34;C&#34;: 1.0, &#34;fit_intercept&#34;: true, &#34;random_state&#34;: null, &#34;max_iter&#34;: 100, &#34;verbose&#34;: 0, &#34;warm_start&#34;: false, &#34;n_jobs&#34;: null, &#34;epsilon&#34;: 1.0, &#34;data_norm&#34;: 83.69469642643347, &#34;accountant&#34;: &#34;_dpl_instance:BudgetAccountant&#34;}}]}&#39;,
+  &#39;feature_columns&#39;: [&#39;bill_length_mm&#39;,
+   &#39;bill_depth_mm&#39;,
+   &#39;flipper_length_mm&#39;,
+   &#39;body_mass_g&#39;],
+  &#39;target_columns&#39;: [&#39;species&#39;],
+  &#39;test_size&#39;: 0.1,
+  &#39;test_train_split_seed&#39;: 4,
+  &#39;imputer_strategy&#39;: &#39;mean&#39;},
+ &#39;response&#39;: {&#39;epsilon&#39;: 1.5,
+  &#39;delta&#39;: 0.0,
+  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
+  &#39;result&#39;: {&#39;res_type&#39;: &#39;diffprivlib&#39;,
+   &#39;score&#39;: 0.6,
+   &#39;model&#39;: Pipeline(steps=[(&#39;scaler&#39;,
+                    StandardScaler(accountant=BudgetAccountant(spent_budget=[(0.5, 0)]),
+                                   bounds=(array([  30.,   13.,  150., 2000.]),
+                                           array([  65.,   23.,  250., 7000.])),
+                                   epsilon=0.5)),
+                   (&#39;classifier&#39;,
+                    LogisticRegression(accountant=BudgetAccountant(spent_budget=[(1.0, 0)]),
+                                       data_norm=83.69469642643347))])}},
+ &#39;timestamp&#39;: 1728464751.4143507}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>query_2 = previous_queries[1]
+query_2
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
+ &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+ &#39;dp_librairy&#39;: &#39;diffprivlib&#39;,
+ &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+  &#39;diffprivlib_json&#39;: &#39;{&#34;module&#34;: &#34;diffprivlib&#34;, &#34;version&#34;: &#34;0.6.4&#34;, &#34;pipeline&#34;: [{&#34;type&#34;: &#34;_dpl_type:StandardScaler&#34;, &#34;name&#34;: &#34;scaler&#34;, &#34;params&#34;: {&#34;with_mean&#34;: true, &#34;with_std&#34;: true, &#34;copy&#34;: true, &#34;epsilon&#34;: 0.5, &#34;bounds&#34;: {&#34;_tuple&#34;: true, &#34;_items&#34;: [[30.0, 13.0, 150.0], [65.0, 23.0, 250.0]]}, &#34;random_state&#34;: null, &#34;accountant&#34;: &#34;_dpl_instance:BudgetAccountant&#34;}}, {&#34;type&#34;: &#34;_dpl_type:GaussianNB&#34;, &#34;name&#34;: &#34;gaussian&#34;, &#34;params&#34;: {&#34;priors&#34;: {&#34;_tuple&#34;: true, &#34;_items&#34;: [0.3, 0.3, 0.4]}, &#34;var_smoothing&#34;: 1e-09, &#34;epsilon&#34;: 1.0, &#34;bounds&#34;: {&#34;_tuple&#34;: true, &#34;_items&#34;: [[30.0, 13.0, 150.0], [65.0, 23.0, 250.0]]}, &#34;random_state&#34;: null, &#34;accountant&#34;: &#34;_dpl_instance:BudgetAccountant&#34;}}]}&#39;,
+  &#39;feature_columns&#39;: [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;],
+  &#39;target_columns&#39;: [&#39;species&#39;],
+  &#39;test_size&#39;: 0.15,
+  &#39;test_train_split_seed&#39;: 1,
+  &#39;imputer_strategy&#39;: &#39;median&#39;},
+ &#39;response&#39;: {&#39;epsilon&#39;: 1.5,
+  &#39;delta&#39;: 0.0,
+  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
+  &#39;result&#39;: {&#39;res_type&#39;: &#39;diffprivlib&#39;,
+   &#39;score&#39;: 0.17307692307692307,
+   &#39;model&#39;: Pipeline(steps=[(&#39;scaler&#39;,
+                    StandardScaler(accountant=BudgetAccountant(spent_budget=[(0.5, 0)]),
+                                   bounds=(array([ 30.,  13., 150.]),
+                                           array([ 65.,  23., 250.])),
+                                   epsilon=0.5)),
+                   (&#39;gaussian&#39;,
+                    GaussianNB(accountant=BudgetAccountant(spent_budget=[(1.0, 0)]),
+                               bounds=(array([ 30.,  13., 150.]),
+                                       array([ 65.,  23., 250.])),
+                               priors=(0.3, 0.3, 0.4)))])}},
+ &#39;timestamp&#39;: 1728464776.4250495}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>query_3 = previous_queries[2]
+query_3
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;user_name&#39;: &#39;Dr. Antartica&#39;,
+ &#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+ &#39;dp_librairy&#39;: &#39;diffprivlib&#39;,
+ &#39;client_input&#39;: {&#39;dataset_name&#39;: &#39;PENGUIN&#39;,
+  &#39;diffprivlib_json&#39;: &#39;{&#34;module&#34;: &#34;diffprivlib&#34;, &#34;version&#34;: &#34;0.6.4&#34;, &#34;pipeline&#34;: [{&#34;type&#34;: &#34;_dpl_type:RandomForestClassifier&#34;, &#34;name&#34;: &#34;rf&#34;, &#34;params&#34;: {&#34;n_estimators&#34;: 10, &#34;n_jobs&#34;: 1, &#34;random_state&#34;: null, &#34;verbose&#34;: 0, &#34;warm_start&#34;: false, &#34;max_depth&#34;: 5, &#34;epsilon&#34;: 2.0, &#34;bounds&#34;: {&#34;_tuple&#34;: true, &#34;_items&#34;: [[30.0, 13.0, 2000.0], [65.0, 23.0, 7000.0]]}, &#34;classes&#34;: [&#34;Torgersen&#34;, &#34;Biscoe&#34;, &#34;Dream&#34;], &#34;shuffle&#34;: false, &#34;accountant&#34;: &#34;_dpl_instance:BudgetAccountant&#34;}}]}&#39;,
+  &#39;feature_columns&#39;: [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;body_mass_g&#39;],
+  &#39;target_columns&#39;: [&#39;island&#39;],
+  &#39;test_size&#39;: 0.2,
+  &#39;test_train_split_seed&#39;: 1,
+  &#39;imputer_strategy&#39;: &#39;drop&#39;},
+ &#39;response&#39;: {&#39;epsilon&#39;: 2.0,
+  &#39;delta&#39;: 0.0,
+  &#39;requested_by&#39;: &#39;Dr. Antartica&#39;,
+  &#39;result&#39;: {&#39;res_type&#39;: &#39;diffprivlib&#39;,
+   &#39;score&#39;: 0.417910447761194,
+   &#39;model&#39;: Pipeline(steps=[(&#39;rf&#39;,
+                    RandomForestClassifier(accountant=BudgetAccountant(spent_budget=[(2.0, 0)]),
+                                           bounds=(array([  30.,   13., 2000.]),
+                                                   array([  65.,   23., 7000.])),
+                                           classes=[&#39;Torgersen&#39;, &#39;Biscoe&#39;,
+                                                    &#39;Dream&#39;],
+                                           epsilon=2.0))])}},
+ &#39;timestamp&#39;: 1728464804.2231035}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Demo_Client_Notebook_Smartnoise-SQL.html" class="btn btn-neutral float-left" title="Lomas Client Side: Using Smartnoise-SQL" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Demo_Client_Notebook_Smartnoise-Synth.html" class="btn btn-neutral float-right" title="Lomas Client Side: Using Smartnoise-Synth" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: stable
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.1/en/index.html">v0.4.1</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

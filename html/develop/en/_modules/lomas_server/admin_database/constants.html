@@ -51,6 +51,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../server_administration.html">Administration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_managing_dataset.html">Adding and referencing new dataset</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -63,7 +64,6 @@
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
@@ -116,6 +116,9 @@
 
 
 <span class="n">WRITE_CONCERN_LEVEL</span> <span class="o">=</span> <span class="s2">&quot;majority&quot;</span>
+
+<span class="c1"># Limit each element to a max MAX_BSON_SIZE (inserted document must be &lt; 16MB)</span>
+<span class="n">MAX_BSON_SIZE</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>  <span class="c1"># 4 MB</span>
 </pre></div>
 
            </div>

@@ -17,12 +17,10 @@
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="CLI" href="server_cli.html" />
+    <link rel="next" title="Adding and referencing new dataset" href="server_managing_dataset.html" />
     <link rel="prev" title="Onyxia" href="server_onyxia.html" /> 
 </head>
 
@@ -56,10 +54,13 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="server_deployment.html">Deployment</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Administration</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="server_cli.html">CLI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="server_dashboard.html">Dashboard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dashboard-access-when-deploying-via-devenv">Dashboard Access when deploying via devenv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dashboard-access-when-deploying-via-docker-compose">Dashboard Access when deploying via Docker compose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dashboard-access-when-deploying-via-kubernetes">Dashboard Access when deploying via Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#access-via-onyxia-platform">Access via Onyxia Platform</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="server_managing_dataset.html">Adding and referencing new dataset</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -72,7 +73,6 @@
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Notes for Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">poster</span></p>
@@ -106,31 +106,31 @@
              
   <section id="administration">
 <h1>Administration<a class="headerlink" href="#administration" title="Link to this heading"></a></h1>
-<p>This section explains how the data owner can manage the administrative database.
+<p>This section explains how the data owner can manage the administrative database as well as the Lomas keycloak realm.
 It covers some tasks such as adding data, making data available to certain users,
 managing the budget, etc.</p>
-<p>To familiarize yourself with this tool, we provide multiple notebooks demonstrating various
-CLI commands that users can use. These notebooks can be found in our
-<a class="reference external" href="https://github.com/dscc-admin-ch/lomas/tree/master/server/notebooks">GitHub repository</a>.</p>
-<p>In addition to the notebooks, we also provide a dashboard that facilitates these
-administrative tasks.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="server_cli.html">CLI</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="server_cli.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="server_cli.html#mongodb-connection">MongoDB Connection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="server_cli.html#mongodb-administration">MongoDB Administration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="server_cli.html#examples">Examples</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="server_dashboard.html">Dashboard</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="server_dashboard.html#local-access-via-docker">Local Access via Docker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="server_dashboard.html#access-via-kubernetes">Access via Kubernetes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="server_dashboard.html#access-via-onyxia-platform">Access via Onyxia Platform</a></li>
-</ul>
-</li>
-</ul>
-</div>
+<p>The administration of the Lomas service is handled through a dedicated dashboard. Access is described below.
+In addition, all administration tools are implemented in <code class="docutils literal notranslate"><span class="pre">lomas_server.administration</span></code>,
+one can thus execute the same tasks by writing a python script / notebook that uses these methods.</p>
+<section id="dashboard-access-when-deploying-via-devenv">
+<h2>Dashboard Access when deploying via devenv<a class="headerlink" href="#dashboard-access-when-deploying-via-devenv" title="Link to this heading"></a></h2>
+<p>When running with devenvThe dashboard is accessible on the localhost at the port specified at the top of the devenv.nix file.</p>
+</section>
+<section id="dashboard-access-when-deploying-via-docker-compose">
+<h2>Dashboard Access when deploying via Docker compose<a class="headerlink" href="#dashboard-access-when-deploying-via-docker-compose" title="Link to this heading"></a></h2>
+<p>When using Docker Compose, the dashboard is locally accessible. Simply run the Docker Compose setup, and the
+dashboard will be available at <code class="docutils literal notranslate"><span class="pre">localhost:8501</span></code>.</p>
+</section>
+<section id="dashboard-access-when-deploying-via-kubernetes">
+<h2>Dashboard Access when deploying via Kubernetes<a class="headerlink" href="#dashboard-access-when-deploying-via-kubernetes" title="Link to this heading"></a></h2>
+<p>If you are deploying with Kubernetes, ensure that the <code class="docutils literal notranslate"><span class="pre">dashboard.create</span></code> value is set to <code class="docutils literal notranslate"><span class="pre">true</span></code> in your values.yaml.
+If <code class="docutils literal notranslate"><span class="pre">dashboard.create</span></code> is not set to <code class="docutils literal notranslate"><span class="pre">true</span></code>, the server will only be accessible though the API, and the dashboard will not be available.</p>
+</section>
+<section id="access-via-onyxia-platform">
+<h2>Access via Onyxia Platform<a class="headerlink" href="#access-via-onyxia-platform" title="Link to this heading"></a></h2>
+<p>Users with access to the Onyxia platform can directly execute the dashboard here. In this platform,
+the <code class="docutils literal notranslate"><span class="pre">create</span></code> variable is activated by default in the dashboard configuration.</p>
+</section>
 </section>
 
 
@@ -138,7 +138,7 @@ administrative tasks.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="server_onyxia.html" class="btn btn-neutral float-left" title="Onyxia" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="server_cli.html" class="btn btn-neutral float-right" title="CLI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="server_managing_dataset.html" class="btn btn-neutral float-right" title="Adding and referencing new dataset" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

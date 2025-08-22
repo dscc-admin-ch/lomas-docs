@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Poster" href="poster.html" />
-    <link rel="prev" title="Notes for Client Contributors" href="CONTRIBUTING_CLIENT.html" /> 
+    <link rel="prev" title="Notes for Contributors" href="CONTRIBUTING.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -54,6 +54,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="server_deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="server_administration.html">Administration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server_managing_dataset.html">Adding and referencing new dataset</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -66,7 +67,6 @@
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Notes for Contributors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING_CLIENT.html">Notes for Client Contributors</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Notes for Server Contributors</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#tests">Tests</a></li>
 </ul>
@@ -105,11 +105,9 @@
 <h1>Notes for Server Contributors<a class="headerlink" href="#notes-for-server-contributors" title="Link to this heading"></a></h1>
 <section id="tests">
 <h2>Tests<a class="headerlink" href="#tests" title="Link to this heading"></a></h2>
-<p>It is possible to test the server without an mongodb administration database. One can do so by executing the <code class="docutils literal notranslate"><span class="pre">run_basic_tests.sh</span></code> script. Make sure to have an activated python venv in a linux environment with the server requirements installed for it to work.</p>
-<p>It is also possible to test the server with standard tests or integration tests (for the mongodb).
-The <code class="docutils literal notranslate"><span class="pre">run_tests_and_converage.sh</span></code> script runs the integration tests. Again, make sure to have an activated python venv in a linux environment with the server requirements installed for it to work.</p>
-<p>Local tests can also (except for those using the mongodb_admin) can be run with a simple <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">unittest</span> <span class="pre">discover</span> <span class="pre">-s</span> <span class="pre">.</span> </code> from the <code class="docutils literal notranslate"><span class="pre">lomas_server</span></code> directory. The tests will be based on the config in <code class="docutils literal notranslate"><span class="pre">lomas/server/lomas_server/tests/test_configs/test_config.yaml</span></code> and be executed with the AdminYamlDatabase.</p>
-<p>Tests are also automatically run in GitHub workflows during different events (pull requests, pushes, etc.). Please refer to the general notes for contributors for more informations.</p>
+<p>Tests are automatically run in GitHub workflows during different events (pull requests, pushes, etc.). Please refer to the general notes for contributors for more informations.</p>
+<p>The test suite relies on certain services to be up (with <code class="docutils literal notranslate"><span class="pre">devenv</span> <span class="pre">up</span></code>) and is run with <code class="docutils literal notranslate"><span class="pre">ut-coverage</span></code>.</p>
+<p>Individual tests can directly be run from the devenv environnent with <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-k</span> <span class="pre">&lt;keyword</span> <span class="pre">expression&gt;</span></code>, this without having to set the python path or any other configuration.</p>
 </section>
 </section>
 
@@ -117,7 +115,7 @@ The <code class="docutils literal notranslate"><span class="pre">run_tests_and_c
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="CONTRIBUTING_CLIENT.html" class="btn btn-neutral float-left" title="Notes for Client Contributors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="CONTRIBUTING.html" class="btn btn-neutral float-left" title="Notes for Contributors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="poster.html" class="btn btn-neutral float-right" title="Poster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
