@@ -116,12 +116,30 @@ If the dataset is stored externally and can be directly downloaded online.</p>
 If the dataset is stored externally on a s3 instance (minio, aws, etc.)</p>
 <p>Once the type of dataset is figured out, one can modify the file <cite>dataset_collection.yaml</cite> in the folder <cite>server/data/collections</cite>.</p>
 <p>Example with our fake dataset, the administrator needs to add this information (local example).</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datasets</span><span class="p">:</span>
+<span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">dataset_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FAKE&quot;</span>
+<span class="w">   </span><span class="nt">database_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PATH_DB&quot;</span>
+<span class="w">   </span><span class="nt">dataset_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;../data/datasets/fake.csv&quot;</span>
+<span class="w">   </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">     </span><span class="nt">database_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PATH_DB&quot;</span>
+<span class="w">     </span><span class="nt">metadata_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;../data/collections/metadata/fake.yaml&quot;</span>
+</pre></div>
+</div>
 <ul class="simple">
 <li><p>dataset_name: Name of the given dataset</p></li>
 <li><p>database_type: “S3_DB” if dataset stored on a S3 bucket, otherwise “PATH_DB”</p></li>
 <li><p>dataset_path: Needed if database_type is “PATH_DB”. For local dataset, one needs to privide the directory path to access the dataset. If HTTP, one should give the url where the dataset is stored.</p></li>
 </ul>
-<p>Note that if your dataset is stored on a S3 bucket, other parameters should be used instead of <cite>dataset_path</cite></p>
+<p>Note that if your dataset is stored on a S3 bucket, other parameters should be used instead of <cite>dataset_path</cite>.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datasets</span><span class="p">:</span>
+<span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">dataset_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FAKE&quot;</span>
+<span class="w">   </span><span class="nt">database_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;S3_DB&quot;</span>
+<span class="w">   </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your_bucket_name</span>
+<span class="w">   </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your_path_to_dataset</span><span class="w"> </span><span class="c1">#data/fake.csv</span>
+<span class="w">   </span><span class="nt">endpoint_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your_s3_url</span>
+<span class="w">   </span><span class="nt">crendentials_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your_credentials</span>
+</pre></div>
+</div>
 </section>
 <section id="metadata">
 <h2>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h2>
@@ -129,6 +147,23 @@ If the dataset is stored externally on a s3 instance (minio, aws, etc.)</p>
 to create the dummy dataset and to apply the different DP mechanisms correctly during the processing
 of the queries sent by the user.</p>
 <p>The metadata must be written into a YAML format with the following structure (example with <cite>fake.csv</cite>):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">max_ids</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">rows</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
+<span class="nt">columns</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">profession</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">    </span><span class="nt">cardinality</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">    </span><span class="nt">categories</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;teacher&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;researcher&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">max_partition_length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.6</span>
+<span class="w">    </span><span class="nt">max_influenced_partitions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">max_partition_contributions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="c1"># precision:</span>
+<span class="w">    </span><span class="c1"># upper:</span>
+<span class="w">    </span><span class="c1"># lower:</span>
+<span class="w">  </span><span class="nt">region</span><span class="p">:</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</pre></div>
+</div>
 <p>This format is based on the <a class="reference external" href="https://docs.smartnoise.org/sql/metadata.html#dictionary-format">SmartnoiseSQL dictionary format</a> with added options for Lomas.</p>
 <p>Table options:</p>
 <ul class="simple">

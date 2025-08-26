@@ -73,6 +73,7 @@
 <li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_Smartnoise-SQL.html">Lomas Client Side: Using Smartnoise-SQL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_DiffPrivLib.html">Lomas Client Side: Using DiffPrivlib</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_Smartnoise-Synth.html">Lomas Client Side: Using Smartnoise-Synth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Demo_Client_Notebook_OpenDP_Polars.html">Secure Data Disclosure: Client side</a></li>
 <li class="toctree-l2"><a class="reference internal" href="s3_example_notebook.html">S3 example</a></li>
 </ul>
 </li>
@@ -136,8 +137,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from IPython.display import Image
-Image(filename=&quot;images/image_demo_client.png&quot;, width=800)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;images/image_demo_client.png&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -159,7 +160,7 @@ Image(filename=&quot;images/image_demo_client.png&quot;, width=800)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># !pip install lomas-client
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install lomas-client</span>
 </pre></div>
 </div>
 </div>
@@ -167,11 +168,11 @@ Image(filename=&quot;images/image_demo_client.png&quot;, width=800)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%load_ext autoreload
-%autoreload 2
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
 
-from lomas_client import Client
-import numpy as np
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -185,30 +186,30 @@ import numpy as np
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The following would usually be set in the environment by a system administrator
-# and be tranparent to lomas users.
-# Uncomment them if you are running against a Kubernetes deployment.
-# They have already been set for you if you are running locally within a devenv or the Jupyter lab set up by Docker compose.
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The following would usually be set in the environment by a system administrator</span>
+<span class="c1"># and be tranparent to lomas users.</span>
+<span class="c1"># Uncomment them if you are running against a Kubernetes deployment.</span>
+<span class="c1"># They have already been set for you if you are running locally within a devenv or the Jupyter lab set up by Docker compose.</span>
 
-import os
-# os.environ[&quot;LOMAS_CLIENT_APP_URL&quot;] = &quot;https://lomas.example.com:443&quot;
-# os.environ[&quot;LOMAS_CLIENT_KEYCLOAK_URL&quot;] = &quot;https://keycloak.example.com:443&quot;
-# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__ENABLED&quot;] = &quot;false&quot;
-# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_ENDPOINT&quot;] = &quot;http://otel.example.com:445&quot;
-# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_INSECURE&quot;] = &quot;true&quot;
-# os.environ[&quot;LOMAS_CLIENT_TELEMETRY__SERVICE_ID&quot;] = &quot;my-app-client&quot;
-# os.environ[&quot;LOMAS_CLIENT_REALM&quot;] = &quot;lomas&quot;
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="c1"># os.environ[&quot;LOMAS_CLIENT_APP_URL&quot;] = &quot;https://lomas.example.com:443&quot;</span>
+<span class="c1"># os.environ[&quot;LOMAS_CLIENT_KEYCLOAK_URL&quot;] = &quot;https://keycloak.example.com:443&quot;</span>
+<span class="c1"># os.environ[&quot;LOMAS_CLIENT_TELEMETRY__ENABLED&quot;] = &quot;false&quot;</span>
+<span class="c1"># os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_ENDPOINT&quot;] = &quot;http://otel.example.com:445&quot;</span>
+<span class="c1"># os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_INSECURE&quot;] = &quot;true&quot;</span>
+<span class="c1"># os.environ[&quot;LOMAS_CLIENT_TELEMETRY__SERVICE_ID&quot;] = &quot;my-app-client&quot;</span>
+<span class="c1"># os.environ[&quot;LOMAS_CLIENT_REALM&quot;] = &quot;lomas&quot;</span>
 
-# We set these ones because they are specific to this notebook.
+<span class="c1"># We set these ones because they are specific to this notebook.</span>
 
-USER_NAME = &quot;Dr.Antartica&quot;
-os.environ[&quot;LOMAS_CLIENT_CLIENT_ID&quot;] = USER_NAME
-os.environ[&quot;LOMAS_CLIENT_CLIENT_SECRET&quot;] = USER_NAME.lower()
-os.environ[&quot;LOMAS_CLIENT_DATASET_NAME&quot;] = &quot;PENGUIN&quot;
+<span class="n">USER_NAME</span> <span class="o">=</span> <span class="s2">&quot;Dr.Antartica&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_CLIENT_ID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">USER_NAME</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_CLIENT_SECRET&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">USER_NAME</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_DATASET_NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;PENGUIN&quot;</span>
 
-# Note that all client settings can also be passed as keyword arguments to the Client constructor.
-# eg. client = Client(client_id = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_CLIENT_ID&quot;
-# environment variable.
+<span class="c1"># Note that all client settings can also be passed as keyword arguments to the Client constructor.</span>
+<span class="c1"># eg. client = Client(client_id = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_CLIENT_ID&quot;</span>
+<span class="c1"># environment variable.</span>
 </pre></div>
 </div>
 </div>
@@ -216,7 +217,7 @@ os.environ[&quot;LOMAS_CLIENT_DATASET_NAME&quot;] = &quot;PENGUIN&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client = Client()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -232,8 +233,8 @@ os.environ[&quot;LOMAS_CLIENT_DATASET_NAME&quot;] = &quot;PENGUIN&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata = client.get_dataset_metadata()
-penguin_metadata
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguin_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
+<span class="n">penguin_metadata</span>
 </pre></div>
 </div>
 </div>
@@ -314,7 +315,7 @@ penguin_metadata
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>NB_PENGUINS = penguin_metadata[&quot;rows&quot;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NB_PENGUINS</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;rows&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -329,8 +330,8 @@ metadata).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>NB_ROWS = 100
-SEED = 0
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NB_ROWS</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">SEED</span> <span class="o">=</span> <span class="mi">0</span>
 </pre></div>
 </div>
 </div>
@@ -338,13 +339,13 @@ SEED = 0
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df_dummy = client.get_dummy_dataset(
-    nb_rows = NB_ROWS,
-    seed = SEED
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span>
+    <span class="n">nb_rows</span> <span class="o">=</span> <span class="n">NB_ROWS</span><span class="p">,</span>
+    <span class="n">seed</span> <span class="o">=</span> <span class="n">SEED</span>
+<span class="p">)</span>
 
-print(df_dummy.shape)
-df_dummy.head()
+<span class="nb">print</span><span class="p">(</span><span class="n">df_dummy</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">df_dummy</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -450,7 +451,7 @@ df_dummy.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_initial_budget()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_initial_budget</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -468,7 +469,7 @@ InitialBudgetResponse(initial_epsilon=10.0, initial_delta=0.005)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_total_spent_budget()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -485,7 +486,7 @@ SpentBudgetResponse(total_spent_epsilon=0.0, total_spent_delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -522,8 +523,8 @@ RemainingBudgetResponse(remaining_epsilon=10.0, remaining_delta=0.005)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Average bill length in mm
-QUERY = &quot;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Average bill length in mm</span>
+<span class="n">QUERY</span> <span class="o">=</span> <span class="s2">&quot;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -536,8 +537,8 @@ QUERY = &quot;SELECT AVG(bill_length_mm) AS avg_bill_length_mm FROM df&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>EPSILON = 0.5
-DELTA = 1e-4
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EPSILON</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">DELTA</span> <span class="o">=</span> <span class="mf">1e-4</span>
 </pre></div>
 </div>
 </div>
@@ -545,12 +546,12 @@ DELTA = 1e-4
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost = client.smartnoise_sql.cost(
-    query = QUERY,
-    epsilon = EPSILON,
-    delta = DELTA
-)
-cost
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span>
+<span class="p">)</span>
+<span class="n">cost</span>
 </pre></div>
 </div>
 </div>
@@ -566,7 +567,7 @@ CostResponse(epsilon=1.0, delta=4.999999999999449e-05)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;This query would actually cost her {cost.epsilon} epsilon and {cost.delta} delta.&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;This query would actually cost her </span><span class="si">{</span><span class="n">cost</span><span class="o">.</span><span class="n">epsilon</span><span class="si">}</span><span class="s2"> epsilon and </span><span class="si">{</span><span class="n">cost</span><span class="o">.</span><span class="n">delta</span><span class="si">}</span><span class="s2"> delta.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -602,15 +603,15 @@ real dataset. This functionnal testing on the dummy does not have any impact on 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># On the remote server dummy dataframe
-dummy_res = client.smartnoise_sql.query(
-    query = QUERY,
-    epsilon = 100.0,
-    delta = 0.99,
-    dummy = True,
-    nb_rows = NB_ROWS,
-    seed = SEED
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On the remote server dummy dataframe</span>
+<span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">100.0</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="mf">0.99</span><span class="p">,</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">nb_rows</span> <span class="o">=</span> <span class="n">NB_ROWS</span><span class="p">,</span>
+    <span class="n">seed</span> <span class="o">=</span> <span class="n">SEED</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -618,7 +619,7 @@ dummy_res = client.smartnoise_sql.query(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;Average bill length in remote dummy: {np.round(dummy_res.result.df[&#39;avg_bill_length_mm&#39;][0], 2)}mm.&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average bill length in remote dummy: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;avg_bill_length_mm&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">mm.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -640,7 +641,7 @@ Average bill length in remote dummy: 48.59mm.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -656,12 +657,12 @@ RemainingBudgetResponse(remaining_epsilon=10.0, remaining_delta=0.005)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.smartnoise_sql.query(
-    query = QUERY,
-    epsilon = EPSILON,
-    delta = DELTA,
-    dummy = False # APPLIED ON SENSITIVE DATA, WILL SPEND BUDGET
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">QUERY</span><span class="p">,</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">EPSILON</span><span class="p">,</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">DELTA</span><span class="p">,</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># APPLIED ON SENSITIVE DATA, WILL SPEND BUDGET</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -669,8 +670,8 @@ RemainingBudgetResponse(remaining_epsilon=10.0, remaining_delta=0.005)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_bill_length = np.round(response.result.df[&#39;avg_bill_length_mm&#39;].iloc[0], 2)
-print(f&quot;Average bill length of penguins in real data: {avg_bill_length}mm.&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_bill_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;avg_bill_length_mm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average bill length of penguins in real data: </span><span class="si">{</span><span class="n">avg_bill_length</span><span class="si">}</span><span class="s2">mm.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -687,7 +688,7 @@ Average bill length of penguins in real data: 43.84mm.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_remaining_budget()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -704,7 +705,7 @@ RemainingBudgetResponse(remaining_epsilon=9.0, remaining_delta=0.004950000000000
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>client.get_total_spent_budget()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -725,9 +726,9 @@ SpentBudgetResponse(total_spent_epsilon=1.0, total_spent_delta=4.999999999999449
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import opendp as dp
-import opendp.transformations as trans
-import opendp.measurements as meas
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">opendp</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">opendp.transformations</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">trans</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">opendp.measurements</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">meas</span>
 </pre></div>
 </div>
 </div>
@@ -739,7 +740,7 @@ import opendp.measurements as meas
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>penguin_metadata[&quot;columns&quot;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -815,7 +816,7 @@ import opendp.measurements as meas
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>columns = list(penguin_metadata[&quot;columns&quot;].keys())
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -823,9 +824,9 @@ import opendp.measurements as meas
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bill_length_min = penguin_metadata[&#39;columns&#39;][&#39;bill_length_mm&#39;][&#39;lower&#39;]
-bill_length_max = penguin_metadata[&#39;columns&#39;][&#39;bill_length_mm&#39;][&#39;upper&#39;]
-bill_length_min, bill_length_max
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bill_length_min</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s1">&#39;bill_length_mm&#39;</span><span class="p">][</span><span class="s1">&#39;lower&#39;</span><span class="p">]</span>
+<span class="n">bill_length_max</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">][</span><span class="s1">&#39;bill_length_mm&#39;</span><span class="p">][</span><span class="s1">&#39;upper&#39;</span><span class="p">]</span>
+<span class="n">bill_length_min</span><span class="p">,</span> <span class="n">bill_length_max</span>
 </pre></div>
 </div>
 </div>
@@ -842,14 +843,14 @@ bill_length_min, bill_length_max
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bill_length_transformation_pipeline = (
-    trans.make_split_dataframe(separator=&quot;,&quot;, col_names=columns) &gt;&gt;
-    trans.make_select_column(key=&quot;bill_length_mm&quot;, TOA=str) &gt;&gt;
-    trans.then_cast_default(TOA=float) &gt;&gt;
-    trans.then_clamp(bounds=(bill_length_min, bill_length_max)) &gt;&gt;
-    trans.then_resize(size=NB_PENGUINS, constant=avg_bill_length) &gt;&gt;
-    trans.then_variance()
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bill_length_transformation_pipeline</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">make_split_dataframe</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">make_select_column</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="n">TOA</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">then_cast_default</span><span class="p">(</span><span class="n">TOA</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">then_clamp</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="n">bill_length_min</span><span class="p">,</span> <span class="n">bill_length_max</span><span class="p">))</span> <span class="o">&gt;&gt;</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">then_resize</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">NB_PENGUINS</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="n">avg_bill_length</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">then_variance</span><span class="p">()</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -858,11 +859,11 @@ bill_length_min, bill_length_max
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># No instruction for noise addition mechanism: Expect to fail !!!
-client.opendp.query(
-    opendp_pipeline = bill_length_transformation_pipeline,
-    dummy=True
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># No instruction for noise addition mechanism: Expect to fail !!!</span>
+<span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">bill_length_transformation_pipeline</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -916,10 +917,10 @@ client.opendp.query(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_bill_length_measurement_pipeline = (
-    bill_length_transformation_pipeline &gt;&gt;
-    meas.then_laplace(scale=5.0) # Noise addition mechanism instructions
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_bill_length_measurement_pipeline</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">bill_length_transformation_pipeline</span> <span class="o">&gt;&gt;</span>
+    <span class="n">meas</span><span class="o">.</span><span class="n">then_laplace</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span> <span class="c1"># Noise addition mechanism instructions</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -928,11 +929,11 @@ client.opendp.query(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_var_res = client.opendp.query(
-    opendp_pipeline = var_bill_length_measurement_pipeline,
-    dummy=True
-)
-print(f&quot;Dummy result for variance: {np.round(dummy_var_res.result.value, 2)}&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_var_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">var_bill_length_measurement_pipeline</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dummy result for variance: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dummy_var_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -952,10 +953,10 @@ Dummy result for variance: 37.73
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost_res = client.opendp.cost(
-    opendp_pipeline = var_bill_length_measurement_pipeline
-)
-cost_res
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
+    <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">var_bill_length_measurement_pipeline</span>
+<span class="p">)</span>
+<span class="n">cost_res</span>
 </pre></div>
 </div>
 </div>
@@ -975,9 +976,9 @@ CostResponse(epsilon=0.7122093023265229, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_res = client.opendp.query(
-    opendp_pipeline = var_bill_length_measurement_pipeline,
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">opendp_pipeline</span> <span class="o">=</span> <span class="n">var_bill_length_measurement_pipeline</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -985,8 +986,8 @@ CostResponse(epsilon=0.7122093023265229, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>var_bill_length = np.round(var_res.result.value, 2)
-print(f&quot;Variance of bill length: {var_bill_length} (from opendp query).&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_bill_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">var_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance of bill length: </span><span class="si">{</span><span class="n">var_bill_length</span><span class="si">}</span><span class="s2"> (from opendp query).&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1006,9 +1007,9 @@ Variance of bill length: 30.39 (from opendp query).
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get standard error
-standard_error = np.sqrt(var_bill_length / NB_PENGUINS)
-print(f&quot;Standard error of bill length: {np.round(standard_error, 2)}.&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get standard error</span>
+<span class="n">standard_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var_bill_length</span> <span class="o">/</span> <span class="n">NB_PENGUINS</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Standard error of bill length: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">standard_error</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1024,11 +1025,11 @@ Standard error of bill length: 0.3.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> # Compute the 95% confidence interval
-ZSCORE = 1.96
-lower_bound = np.round(avg_bill_length - ZSCORE * standard_error, 2)
-upper_bound = np.round(avg_bill_length + ZSCORE * standard_error, 2)
-print(f&quot;The 95% confidence interval of the bill length of all penguins is [{lower_bound}, {upper_bound}].&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Compute the 95% confidence interval</span>
+<span class="n">ZSCORE</span> <span class="o">=</span> <span class="mf">1.96</span>
+<span class="n">lower_bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">avg_bill_length</span> <span class="o">-</span> <span class="n">ZSCORE</span> <span class="o">*</span> <span class="n">standard_error</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">upper_bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">avg_bill_length</span> <span class="o">+</span> <span class="n">ZSCORE</span> <span class="o">*</span> <span class="n">standard_error</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The 95% confidence interval of the bill length of all penguins is [</span><span class="si">{</span><span class="n">lower_bound</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">upper_bound</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1048,9 +1049,9 @@ The 95% confidence interval of the bill length of all penguins is [43.26, 44.42]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sklearn.pipeline import Pipeline
-from diffprivlib import models
-import pandas as pd
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffprivlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 </pre></div>
 </div>
 </div>
@@ -1061,8 +1062,8 @@ import pandas as pd
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>feature_columns = [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
-target_columns = [&#39;species&#39;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bill_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;body_mass_g&#39;</span><span class="p">]</span>
+<span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1070,10 +1071,10 @@ target_columns = [&#39;species&#39;]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def get_bounds(cols_metadata, columns):
-    lower = [cols_metadata[col][&quot;lower&quot;] for col in columns]
-    upper = [cols_metadata[col][&quot;upper&quot;] for col in columns]
-    return (lower, upper)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_bounds</span><span class="p">(</span><span class="n">cols_metadata</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+    <span class="n">lower</span> <span class="o">=</span> <span class="p">[</span><span class="n">cols_metadata</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
+    <span class="n">upper</span> <span class="o">=</span> <span class="p">[</span><span class="n">cols_metadata</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1081,8 +1082,8 @@ target_columns = [&#39;species&#39;]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bounds = get_bounds(penguin_metadata[&#39;columns&#39;], columns=feature_columns)
-bounds
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bounds</span> <span class="o">=</span> <span class="n">get_bounds</span><span class="p">(</span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_columns</span><span class="p">)</span>
+<span class="n">bounds</span>
 </pre></div>
 </div>
 </div>
@@ -1098,14 +1099,14 @@ bounds
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dpl_pipeline = Pipeline([
-    (&#39;rf&#39;, models.RandomForestClassifier(
-        n_estimators=10,
-        epsilon = 2.0,
-        bounds=bounds,
-        classes=[&#39;Adelie&#39;, &#39;Chinstrap&#39;, &#39;Gentoo&#39;])
-    ),
-])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s1">&#39;rf&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">RandomForestClassifier</span><span class="p">(</span>
+        <span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+        <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Adelie&#39;</span><span class="p">,</span> <span class="s1">&#39;Chinstrap&#39;</span><span class="p">,</span> <span class="s1">&#39;Gentoo&#39;</span><span class="p">])</span>
+    <span class="p">),</span>
+<span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1113,16 +1114,16 @@ bounds
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_response = client.diffprivlib.query(
-    pipeline = dpl_pipeline,
-    feature_columns = feature_columns,
-    target_columns = target_columns,
-    test_size = 0.2,
-    test_train_split_seed = 1,
-    dummy = True
-)
-model = dummy_response.result.model
-model
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
+    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
+    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
+    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">test_train_split_seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dummy_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
+<span class="n">model</span>
 </pre></div>
 </div>
 </div>
@@ -1569,14 +1570,14 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cost_res = client.diffprivlib.cost(
-    dpl_pipeline,
-    feature_columns = feature_columns,
-    target_columns = target_columns,
-    test_size = 0.2,
-    test_train_split_seed = 1
-)
-cost_res
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
+    <span class="n">dpl_pipeline</span><span class="p">,</span>
+    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
+    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
+    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">test_train_split_seed</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">cost_res</span>
 </pre></div>
 </div>
 </div>
@@ -1595,14 +1596,14 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>response = client.diffprivlib.query(
-    pipeline = dpl_pipeline,
-    feature_columns = feature_columns,
-    target_columns = target_columns,
-    test_size = 0.1,
-    test_train_split_seed = 1,
-    dummy = False
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">dpl_pipeline</span><span class="p">,</span>
+    <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">feature_columns</span><span class="p">,</span>
+    <span class="n">target_columns</span> <span class="o">=</span> <span class="n">target_columns</span><span class="p">,</span>
+    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">test_train_split_seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1610,8 +1611,8 @@ CostResponse(epsilon=2.0, delta=0.0)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Return the mean accuracy.
-model_score = response.result.score
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Return the mean accuracy.</span>
+<span class="n">model_score</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">score</span>
 </pre></div>
 </div>
 </div>
@@ -1619,7 +1620,7 @@ model_score = response.result.score
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f&quot;The model has a mean accuracy of {np.round(model_score, 2)}. It is a harsh metric because we are in a multi-label classification case.&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sa">f</span><span class="s2">&quot;The model has a mean accuracy of </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">model_score</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">. It is a harsh metric because we are in a multi-label classification case.&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -1635,8 +1636,8 @@ model_score = response.result.score
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = response.result.model
-model
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
+<span class="n">model</span>
 </pre></div>
 </div>
 </div>
@@ -2080,11 +2081,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x_to_predict = pd.DataFrame({
-    &#39;bill_length_mm&#39;: [30.0], &#39;bill_depth_mm&#39;: [20.0], &#39;flipper_length_mm&#39;: [170.0], &#39;body_mass_g&#39;: [5000.0]
-})
-predictions = model.predict(x_to_predict)[0]
-f&quot;For these feature values, the predicted species is is {predictions}.&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_to_predict</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;bill_length_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">30.0</span><span class="p">],</span> <span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">20.0</span><span class="p">],</span> <span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">170.0</span><span class="p">],</span> <span class="s1">&#39;body_mass_g&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5000.0</span><span class="p">]</span>
+<span class="p">})</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_to_predict</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="sa">f</span><span class="s2">&quot;For these feature values, the predicted species is is </span><span class="si">{</span><span class="n">predictions</span><span class="si">}</span><span class="s2">.&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -2107,13 +2108,13 @@ f&quot;For these feature values, the predicted species is is {predictions}.&quot
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_dummy = client.smartnoise_synth.query(
-    synth_name=&quot;patectgan&quot;,
-    select_cols = [&quot;island&quot;, &quot;bill_length_mm&quot;, &quot;bill_depth_mm&quot;],
-    epsilon=1.0,
-    dummy=True,
-)
-dummy_synth_df = res_dummy.result.df_samples
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;patectgan&quot;</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">],</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">dummy_synth_df</span> <span class="o">=</span> <span class="n">res_dummy</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span>
 </pre></div>
 </div>
 </div>
@@ -2121,7 +2122,7 @@ dummy_synth_df = res_dummy.result.df_samples
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dummy_synth_df.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_synth_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -2194,12 +2195,12 @@ dummy_synth_df = res_dummy.result.df_samples
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_cost = client.smartnoise_synth.cost(
-    synth_name=&quot;patectgan&quot;,
-    epsilon=1.0,
-    select_cols = [&quot;island&quot;, &quot;bill_length_mm&quot;, &quot;bill_depth_mm&quot;],
-)
-res_cost
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_cost</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;patectgan&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">res_cost</span>
 </pre></div>
 </div>
 </div>
@@ -2218,13 +2219,13 @@ CostResponse(epsilon=1.0, delta=0.00015673368198174188)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res = client.smartnoise_synth.query(
-    synth_name=&quot;patectgan&quot;,
-    select_cols = [&quot;island&quot;, &quot;bill_length_mm&quot;, &quot;bill_depth_mm&quot;],
-    epsilon=1.0,
-    dummy=False,
-)
-synth_df = res.result.df_samples
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;patectgan&quot;</span><span class="p">,</span>
+    <span class="n">select_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;island&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">],</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">dummy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">synth_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span>
 </pre></div>
 </div>
 </div>
@@ -2232,7 +2233,7 @@ synth_df = res.result.df_samples
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth_df.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -2303,8 +2304,8 @@ synth_df = res.result.df_samples
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>synth_mean = np.round(synth_df[&quot;bill_length_mm&quot;].mean(), 2)
-synth_variance = np.round(synth_df[&quot;bill_length_mm&quot;].var(), 2)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">synth_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">synth_df</span><span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">synth_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">synth_df</span><span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2312,10 +2313,10 @@ synth_variance = np.round(synth_df[&quot;bill_length_mm&quot;].var(), 2)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(
-    f&quot;The average with Smartnoise-SQL on private data was {avg_bill_length}.\n&quot;
-    + f&quot;The average with Smartnoise-Synth on synthetic data is {synth_mean}.&quot;
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;The average with Smartnoise-SQL on private data was </span><span class="si">{</span><span class="n">avg_bill_length</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;The average with Smartnoise-Synth on synthetic data is </span><span class="si">{</span><span class="n">synth_mean</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2332,10 +2333,10 @@ The average with Smartnoise-Synth on synthetic data is 43.88.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(
-    f&quot;The variance with opendp on private data was {var_bill_length}.\n&quot;
-    + f&quot;The variance with Smartnoise-Synth on synthetic data is {synth_variance}.&quot;
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;The variance with opendp on private data was </span><span class="si">{</span><span class="n">var_bill_length</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;The variance with Smartnoise-Synth on synthetic data is </span><span class="si">{</span><span class="n">synth_variance</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2358,8 +2359,8 @@ The variance with Smartnoise-Synth on synthetic data is 35.01.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>previous_queries = client.get_previous_queries()
-len(previous_queries)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">previous_queries</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_previous_queries</span><span class="p">()</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">previous_queries</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2375,9 +2376,9 @@ len(previous_queries)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Smartnoise-SQL
-avg_bill_length_query = previous_queries[0]
-avg_bill_length_query
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Smartnoise-SQL</span>
+<span class="n">avg_bill_length_query</span> <span class="o">=</span> <span class="n">previous_queries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">avg_bill_length_query</span>
 </pre></div>
 </div>
 </div>
@@ -2411,9 +2412,9 @@ avg_bill_length_query
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># OpenDP
-var_bill_length_query = previous_queries[1]
-var_bill_length_query
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># OpenDP</span>
+<span class="n">var_bill_length_query</span> <span class="o">=</span> <span class="n">previous_queries</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">var_bill_length_query</span>
 </pre></div>
 </div>
 </div>
@@ -2444,9 +2445,9 @@ var_bill_length_query
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># DiffPrivLib
-reg_bill_length_query = previous_queries[2]
-reg_bill_length_query
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># DiffPrivLib</span>
+<span class="n">reg_bill_length_query</span> <span class="o">=</span> <span class="n">previous_queries</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">reg_bill_length_query</span>
 </pre></div>
 </div>
 </div>
@@ -2487,9 +2488,9 @@ reg_bill_length_query
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Smartnoise-Synth
-sysynth_query = previous_queries[3]
-sysynth_query
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Smartnoise-Synth</span>
+<span class="n">sysynth_query</span> <span class="o">=</span> <span class="n">previous_queries</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">sysynth_query</span>
 </pre></div>
 </div>
 </div>

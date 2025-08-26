@@ -1,0 +1,463 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lomas_client.tests.test_integrations &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Lomas
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_administration.html">Administration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_managing_dataset.html">Adding and referencing new dataset</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lomas_client.tests.test_integrations</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lomas_client.tests.test_integrations</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffprivlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mantelo</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeycloakAdmin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oauthlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">oauth2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnauthorizedAccessException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDPPolarsQueryResult</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.administration.keycloak_admin</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">add_kc_user</span><span class="p">,</span>
+    <span class="n">del_all_kc_users</span><span class="p">,</span>
+    <span class="n">get_kc_admin</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.administration.scripts.lomas_demo_setup</span><span class="w"> </span><span class="kn">import</span> <span class="n">lomas_demo_setup</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminConfig</span><span class="p">,</span> <span class="n">KeycloakClientConfig</span>
+
+
+<div class="viewcode-block" id="demo_setup">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.demo_setup">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">demo_setup</span><span class="p">():</span>
+    <span class="n">lomas_demo_setup</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="Aria">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.Aria">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Aria</span><span class="p">:</span>
+    <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;aria&quot;</span>
+    <span class="n">user_email</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;aria.stark@winterfell.no&quot;</span>
+    <span class="n">client_secret</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;secret_aria&quot;</span>
+
+<div class="viewcode-block" id="Aria.as_client">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.Aria.as_client">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;anyName&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Client</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user_name</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="n">dataset_name</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="aria">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.aria">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">aria</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">Aria</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="KC">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.KC">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">KC</span><span class="p">:</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">KeycloakClientConfig</span>
+    <span class="n">admin</span><span class="p">:</span> <span class="n">KeycloakAdmin</span></div>
+
+
+
+<div class="viewcode-block" id="kc">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.kc">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">kc</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Connection to keycloak.&quot;&quot;&quot;</span>
+    <span class="n">admin_config</span> <span class="o">=</span> <span class="n">AdminConfig</span><span class="p">()</span>
+    <span class="n">kc_config</span> <span class="o">=</span> <span class="n">admin_config</span><span class="o">.</span><span class="n">kc_config</span>
+    <span class="k">assert</span> <span class="n">kc_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="k">yield</span> <span class="n">KC</span><span class="p">(</span><span class="n">kc_config</span><span class="p">,</span> <span class="n">get_kc_admin</span><span class="p">(</span><span class="n">kc_config</span><span class="p">))</span>
+
+    <span class="c1"># Cleanup: delete all users to start fresh</span>
+    <span class="n">del_all_kc_users</span><span class="p">(</span><span class="n">kc_config</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_missing_configs">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_missing_configs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_missing_configs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;Missing one of or invalid:&quot;</span><span class="p">):</span>
+        <span class="n">Client</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="test_oauth2">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_oauth2">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_oauth2</span><span class="p">(</span><span class="n">aria</span><span class="p">,</span> <span class="n">kc</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">oauth2</span><span class="o">.</span><span class="n">InvalidClientError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;Invalid client credentials&quot;</span><span class="p">):</span>
+        <span class="n">aria</span><span class="o">.</span><span class="n">as_client</span><span class="p">()</span>
+
+    <span class="c1"># Add a user</span>
+    <span class="n">add_kc_user</span><span class="p">(</span><span class="n">kc</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">aria</span><span class="o">.</span><span class="n">user_name</span><span class="p">,</span> <span class="n">aria</span><span class="o">.</span><span class="n">user_email</span><span class="p">,</span> <span class="n">aria</span><span class="o">.</span><span class="n">client_secret</span><span class="p">)</span>
+
+    <span class="n">client</span> <span class="o">=</span> <span class="n">aria</span><span class="o">.</span><span class="n">as_client</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">UnauthorizedAccessException</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">aria</span><span class="o">.</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> does not exist&quot;</span><span class="p">):</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="test_oauth2_demo">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_oauth2_demo">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_oauth2_demo</span><span class="p">(</span><span class="n">kc</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">user_name</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="n">user_name</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;TITANIC&quot;</span><span class="p">)</span>
+
+    <span class="n">init_budget</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_initial_budget</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">init_budget</span><span class="o">.</span><span class="n">initial_delta</span> <span class="o">==</span> <span class="mf">0.2</span>
+    <span class="k">assert</span> <span class="n">init_budget</span><span class="o">.</span><span class="n">initial_epsilon</span> <span class="o">==</span> <span class="mi">45</span>
+
+    <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="p">{</span>
+        <span class="s2">&quot;censor_dims&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;columns&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;max_ids&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rows&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;row_privacy&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;clamp_columns&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;clamp_counts&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;use_dpsu&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">df_dummy</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">df_dummy</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+    <span class="n">df_dummy_lz</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span><span class="n">lazy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">df_dummy_lz</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+    <span class="c1"># Smartnoise</span>
+
+    <span class="c1">## Dummy Query</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT COUNT(*) AS nb_passengers, AVG(Age) AS avg_age FROM df&quot;</span>
+    <span class="n">dummy_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">avg_age</span> <span class="o">=</span> <span class="n">dummy_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avg_age&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">avg_age</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="mf">51.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">rem_budget</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">rem_budget</span><span class="o">.</span><span class="n">remaining_delta</span> <span class="o">==</span> <span class="mf">0.2</span>
+    <span class="k">assert</span> <span class="n">rem_budget</span><span class="o">.</span><span class="n">remaining_epsilon</span> <span class="o">==</span> <span class="mi">45</span>
+    <span class="n">tot_spent</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">tot_spent</span><span class="o">.</span><span class="n">total_spent_delta</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">tot_spent</span><span class="o">.</span><span class="n">total_spent_epsilon</span> <span class="o">==</span> <span class="mi">0</span>
+
+    <span class="c1"># True Query</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_sql</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+
+    <span class="n">avg_age</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avg_age&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">avg_age</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="mf">51.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">rem_budget</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">rem_budget</span><span class="o">.</span><span class="n">remaining_delta</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">rem_budget</span><span class="o">.</span><span class="n">remaining_epsilon</span> <span class="o">==</span> <span class="mf">43.5</span>
+    <span class="n">tot_spent</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">tot_spent</span><span class="o">.</span><span class="n">total_spent_delta</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">abs</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">tot_spent</span><span class="o">.</span><span class="n">total_spent_epsilon</span> <span class="o">==</span> <span class="mf">1.5</span>
+
+    <span class="n">prev_queries</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_previous_queries</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">prev_queries</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">prev_queries</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;TITANIC&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_demo_diffprivlib">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_demo_diffprivlib">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_demo_diffprivlib</span><span class="p">(</span><span class="n">kc</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">user_name</span> <span class="o">=</span> <span class="s2">&quot;Dr.Antartica&quot;</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="n">user_name</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;PENGUIN&quot;</span><span class="p">)</span>
+
+    <span class="n">penguin_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
+    <span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;flipper_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;body_mass_g&quot;</span><span class="p">]</span>
+    <span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span>
+    <span class="n">bounds</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">[</span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="n">feature</span><span class="p">][</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">feature_columns</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="n">feature</span><span class="p">][</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">feature_columns</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">data_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;scaler&quot;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s2">&quot;classifier&quot;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">data_norm</span><span class="o">=</span><span class="n">data_norm</span><span class="p">)),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">dummy_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+        <span class="n">pipeline</span><span class="o">=</span><span class="n">dpl_pipeline</span><span class="p">,</span> <span class="n">feature_columns</span><span class="o">=</span><span class="n">feature_columns</span><span class="p">,</span> <span class="n">target_columns</span><span class="o">=</span><span class="n">target_columns</span><span class="p">,</span> <span class="n">dummy</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="n">dummy_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">]</span>
+    <span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">]</span>
+    <span class="n">bill_length_meta</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">]</span>
+    <span class="n">bill_depth_meta</span> <span class="o">=</span> <span class="n">penguin_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">]</span>
+    <span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;lr&quot;</span><span class="p">,</span>
+                <span class="n">models</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">(</span>
+                    <span class="n">epsilon</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+                    <span class="n">bounds_X</span><span class="o">=</span><span class="p">(</span><span class="n">bill_length_meta</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">],</span> <span class="n">bill_length_meta</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]),</span>
+                    <span class="n">bounds_y</span><span class="o">=</span><span class="p">(</span><span class="n">bill_depth_meta</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">],</span> <span class="n">bill_depth_meta</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]),</span>
+                <span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
+        <span class="n">dpl_pipeline</span><span class="p">,</span>
+        <span class="n">feature_columns</span><span class="o">=</span><span class="n">feature_columns</span><span class="p">,</span>
+        <span class="n">target_columns</span><span class="o">=</span><span class="n">target_columns</span><span class="p">,</span>
+        <span class="n">imputer_strategy</span><span class="o">=</span><span class="s2">&quot;drop&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">cost_res</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">cost_res</span><span class="o">.</span><span class="n">delta</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">abs</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">diffprivlib</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+        <span class="n">pipeline</span><span class="o">=</span><span class="n">dpl_pipeline</span><span class="p">,</span> <span class="n">feature_columns</span><span class="o">=</span><span class="n">feature_columns</span><span class="p">,</span> <span class="n">target_columns</span><span class="o">=</span><span class="n">target_columns</span>
+    <span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">bill_length_meta</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">],</span> <span class="n">bill_length_meta</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]],</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="n">predictions</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> <span class="nb">abs</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_demo_smartnoise_synth">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_demo_smartnoise_synth">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">long</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
+    <span class="s2">&quot;ignore:.*synthesizer random generator.*is not cryptographically secure:UserWarning&quot;</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_demo_smartnoise_synth</span><span class="p">(</span><span class="n">kc</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">user_name</span> <span class="o">=</span> <span class="s2">&quot;Dr.Antartica&quot;</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="n">user_name</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;PENGUIN&quot;</span><span class="p">)</span>
+
+    <span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
+        <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">delta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
+        <span class="n">select_cols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;island&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">cost_res</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">cost_res</span><span class="o">.</span><span class="n">delta</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="mf">1e-4</span><span class="p">,</span> <span class="nb">abs</span><span class="o">=</span><span class="mf">5e-5</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">dummy</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+            <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;dpgan&quot;</span><span class="p">,</span>
+            <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">condition</span><span class="o">=</span><span class="s2">&quot;body_mass_g &gt; 5000&quot;</span><span class="p">,</span>
+            <span class="n">nb_samples</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">dummy</span><span class="o">=</span><span class="n">dummy</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">res_df</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df_samples</span>
+        <span class="k">assert</span> <span class="n">res_df</span><span class="o">.</span><span class="n">flipper_length_mm</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">res_df</span><span class="o">.</span><span class="n">body_mass_g</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">5000</span></div>
+
+
+
+<div class="viewcode-block" id="test_demo_opendp_polars">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_demo_opendp_polars">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_demo_opendp_polars</span><span class="p">(</span><span class="n">kc</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">user_name</span> <span class="o">=</span> <span class="s2">&quot;Dr.FSO&quot;</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="n">user_name</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;FSO_INCOME_SYNTHETIC&quot;</span><span class="p">)</span>
+    <span class="n">income_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
+    <span class="n">NB_ROWS</span><span class="p">,</span> <span class="n">SEED</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="n">dummy_lf</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span><span class="n">nb_rows</span><span class="o">=</span><span class="n">NB_ROWS</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">SEED</span><span class="p">,</span> <span class="n">lazy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span><span class="n">nb_rows</span><span class="o">=</span><span class="n">NB_ROWS</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">5</span>
+
+    <span class="n">income_lower_bound</span><span class="p">,</span> <span class="n">income_upper_bound</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">income_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="s2">&quot;income&quot;</span><span class="p">][</span><span class="s2">&quot;lower&quot;</span><span class="p">],</span>
+        <span class="n">income_metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="s2">&quot;income&quot;</span><span class="p">][</span><span class="s2">&quot;upper&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">plan</span> <span class="o">=</span> <span class="n">dummy_lf</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;income&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="n">income_lower_bound</span><span class="p">,</span> <span class="n">income_upper_bound</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="p">(</span><span class="mi">10_000</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="n">query_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">opendp</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">dummy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nb_rows</span><span class="o">=</span><span class="n">NB_ROWS</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">query_res</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">query_res</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">OpenDPPolarsQueryResult</span><span class="p">)</span>
+    <span class="n">df_polar</span> <span class="o">=</span> <span class="n">query_res</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">assert</span> <span class="n">df_polar</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: develop
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.1/en/index.html">v0.4.1</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

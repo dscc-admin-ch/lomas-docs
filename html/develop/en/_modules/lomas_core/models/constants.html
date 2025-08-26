@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lomas_core.models.constants &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Lomas
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_administration.html">Administration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../server_managing_dataset.html">Adding and referencing new dataset</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../poster.html">Poster</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lomas_core.models.constants</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lomas_core.models.constants</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntEnum</span><span class="p">,</span> <span class="n">StrEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">metadata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
+
+<span class="c1"># Field names</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+
+<span class="n">DB_TYPE_FIELD</span> <span class="o">=</span> <span class="s2">&quot;database_type&quot;</span>
+<span class="n">TYPE_FIELD</span> <span class="o">=</span> <span class="s2">&quot;type&quot;</span>
+<span class="n">CARDINALITY_FIELD</span> <span class="o">=</span> <span class="s2">&quot;cardinality&quot;</span>
+
+<span class="n">JSON_SCHEMA_EXAMPLES</span> <span class="o">=</span> <span class="s2">&quot;examples&quot;</span>
+
+
+<span class="c1"># Requests</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+
+<span class="n">DUMMY_NB_ROWS</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">DUMMY_SEED</span> <span class="o">=</span> <span class="mi">42</span>
+
+<span class="n">OPENDP_VERSION</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="s2">&quot;opendp&quot;</span><span class="p">)</span>
+<span class="n">OpenDPFeatures</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;contrib&quot;</span><span class="p">,</span> <span class="s2">&quot;floating-point&quot;</span><span class="p">,</span> <span class="s2">&quot;honest-but-curious&quot;</span><span class="p">]]</span>
+<span class="n">DIFFPRIVLIB_VERSION</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="s2">&quot;diffprivlib&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Metadata</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="MetadataColumnType">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.constants.MetadataColumnType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MetadataColumnType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Column types for metadata.&quot;&quot;&quot;</span>
+
+    <span class="n">STRING</span> <span class="o">=</span> <span class="s2">&quot;string&quot;</span>
+    <span class="n">INT</span> <span class="o">=</span> <span class="s2">&quot;int&quot;</span>
+    <span class="n">FLOAT</span> <span class="o">=</span> <span class="s2">&quot;float&quot;</span>
+    <span class="n">BOOLEAN</span> <span class="o">=</span> <span class="s2">&quot;boolean&quot;</span>
+    <span class="n">DATETIME</span> <span class="o">=</span> <span class="s2">&quot;datetime&quot;</span>
+    <span class="c1"># These two are only used by pydantic to select the model to parse.</span>
+    <span class="c1"># The pydantic models for the metadata columns never set their type to either one of these values.</span>
+    <span class="n">CAT_INT</span> <span class="o">=</span> <span class="s2">&quot;categorical_int&quot;</span>
+    <span class="n">CAT_STRING</span> <span class="o">=</span> <span class="s2">&quot;categorical_string&quot;</span></div>
+
+
+
+<span class="n">CATEGORICAL_TYPE_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;categorical_&quot;</span>
+
+
+<div class="viewcode-block" id="Precision">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.constants.Precision">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Precision</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Precision of integer and float data.&quot;&quot;&quot;</span>
+
+    <span class="n">SINGLE</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">DOUBLE</span> <span class="o">=</span> <span class="mi">64</span></div>
+
+
+
+<span class="c1"># Config / Dataset Connectors</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="TimeAttackMethod">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.constants.TimeAttackMethod">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TimeAttackMethod</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Possible methods against timing attacks.&quot;&quot;&quot;</span>
+
+    <span class="n">JITTER</span> <span class="o">=</span> <span class="s2">&quot;jitter&quot;</span>
+    <span class="n">STALL</span> <span class="o">=</span> <span class="s2">&quot;stall&quot;</span></div>
+
+
+
+<span class="c1"># Private Databases</span>
+<div class="viewcode-block" id="PrivateDatabaseType">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.constants.PrivateDatabaseType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PrivateDatabaseType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Type of Private Database for the private data.&quot;&quot;&quot;</span>
+
+    <span class="n">PATH</span> <span class="o">=</span> <span class="s2">&quot;PATH_DB&quot;</span>
+    <span class="n">S3</span> <span class="o">=</span> <span class="s2">&quot;S3_DB&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="AuthenticationType">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.constants.AuthenticationType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AuthenticationType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Type of Authenticator to identify users.&quot;&quot;&quot;</span>
+
+    <span class="n">FREE_PASS</span> <span class="o">=</span> <span class="s2">&quot;free_pass&quot;</span>
+    <span class="n">JWT</span> <span class="o">=</span> <span class="s2">&quot;jwt&quot;</span></div>
+
+
+
+<span class="n">DefaultLoggingConf</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;disable_existing_loggers&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;formatters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;simple&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> - </span><span class="si">%(name)s</span><span class="s2"> - </span><span class="si">%(levelname)s</span><span class="s2"> - </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">}},</span>
+    <span class="s2">&quot;handlers&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;stdout&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;logging.StreamHandler&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;formatter&quot;</span><span class="p">:</span> <span class="s2">&quot;simple&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;DEBUG&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;stream&quot;</span><span class="p">:</span> <span class="s2">&quot;ext://sys.stdout&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;loggers&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;aio_pika.exchange&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;DEBUG&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;aiormq.channel&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;aiormq.connection&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;botocore&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;botocore.endpoint&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;DEBUG&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;faker&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;WARN&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;pymongo.command&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;pymongo.connection&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;pymongo.serverSelection&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;pymongo.topology&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">},</span>
+        <span class="s2">&quot;urllib3&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;root&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;handlers&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;stdout&quot;</span><span class="p">],</span> <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;DEBUG&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="c1"># Exceptions</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="ExceptionType">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.constants.ExceptionType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExceptionType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lomas server exception types.</span>
+
+<span class="sd">    To be used as discriminator when parsing corresponding models</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">INVALID_QUERY</span> <span class="o">=</span> <span class="s2">&quot;InvalidQueryException&quot;</span>
+    <span class="n">EXTERNAL_LIBRARY</span> <span class="o">=</span> <span class="s2">&quot;ExternalLibraryException&quot;</span>
+    <span class="n">UNAUTHORIZED_ACCESS</span> <span class="o">=</span> <span class="s2">&quot;UnauthorizedAccessException&quot;</span>
+    <span class="n">INTERNAL_SERVER</span> <span class="o">=</span> <span class="s2">&quot;InternalServerException&quot;</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: develop
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.1/en/index.html">v0.4.1</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
