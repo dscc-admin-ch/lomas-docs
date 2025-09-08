@@ -104,7 +104,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">status</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">opendp.mod</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_features</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">opendp_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_logging</span><span class="p">,</span> <span class="n">make_load_json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opendp_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.instrumentation.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoggingInstrumentor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
 
@@ -121,16 +121,14 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">raise_error</span><span class="p">,</span> <span class="n">validate_model_response_direct</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPLibraries</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.instrumentation</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_telemetry</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">GetDummyDataset</span><span class="p">,</span>
-    <span class="n">LomasRequestModel</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">GetDummyDataset</span><span class="p">,</span> <span class="n">LomasRequestModel</span><span class="p">,</span> <span class="n">OpenDPQueryModel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DummyDsResponse</span><span class="p">,</span>
     <span class="n">InitialBudgetResponse</span><span class="p">,</span>
     <span class="n">RemainingBudgetResponse</span><span class="p">,</span>
     <span class="n">SpentBudgetResponse</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.opendp_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">reconstruct_measurement_pipeline</span>
 
 <span class="c1"># Opendp_logger</span>
 <span class="n">enable_logging</span><span class="p">()</span>
@@ -354,8 +352,10 @@
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">query</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="s2">&quot;result&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
                     <span class="k">case</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">:</span>
-                        <span class="n">opdp_query</span> <span class="o">=</span> <span class="n">make_load_json</span><span class="p">(</span><span class="n">query</span><span class="p">[</span><span class="s2">&quot;client_input&quot;</span><span class="p">][</span><span class="s2">&quot;opendp_json&quot;</span><span class="p">])</span>
-                        <span class="n">query</span><span class="p">[</span><span class="s2">&quot;client_input&quot;</span><span class="p">][</span><span class="s2">&quot;opendp_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opdp_query</span>
+                        <span class="n">query_json</span> <span class="o">=</span> <span class="n">OpenDPQueryModel</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">query</span><span class="p">[</span><span class="s2">&quot;client_input&quot;</span><span class="p">])</span>
+                        <span class="n">query</span><span class="p">[</span><span class="s2">&quot;client_input&quot;</span><span class="p">][</span><span class="s2">&quot;opendp_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reconstruct_measurement_pipeline</span><span class="p">(</span>
+                            <span class="n">query_json</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
+                        <span class="p">)</span>
                     <span class="k">case</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">:</span>
                         <span class="n">model</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">query</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">])</span>
                         <span class="n">query</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>

@@ -309,45 +309,6 @@ an AdminDatabase.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.add_global_margin">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">add_global_margin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lf_domain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Domain</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#add_global_margin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.add_global_margin" title="Link to this definition"></a></dt>
-<dd><p>Builds the “global” (by = []) margin from the metadata.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.extract_group_by_columns">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">extract_group_by_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#extract_group_by_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.extract_group_by_columns" title="Link to this definition"></a></dt>
-<dd><p>Extract column names used in the BY operation from the plan string.</p>
-<p>Parameters:
-plan (str): The polars query plan as a string.
-Returns:
-list: A list of column names used in the BY operation.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.get_lf_domain">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">get_lf_domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LazyFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Domain</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#get_lf_domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.get_lf_domain" title="Link to this definition"></a></dt>
-<dd><p>Returns the OpenDP LazyFrame domain given a metadata dictionary.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>metadata_dict</strong> (<em>dict</em>) – The metadata dictionary</p></li>
-<li><p><strong>plan</strong> (<em>LazyFrame</em>) – The polars query plan as a Polars LazyFrame</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>Exception</strong> – If there is missing information in the metadata.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The OpenDP domain for the metadata.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dp.mod.Domain</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.get_output_measure">
 <span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">get_output_measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opendp_pipe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Measurement</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#get_output_measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.get_output_measure" title="Link to this definition"></a></dt>
 <dd><p>Get output measure type.</p>
@@ -365,14 +326,6 @@ list: A list of column names used in the BY operation.</p>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.get_raw_lf_domain">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">get_raw_lf_domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Domain</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#get_raw_lf_domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.get_raw_lf_domain" title="Link to this definition"></a></dt>
-<dd><p>Builds the “raw” lf domain from the metadata.</p>
-<p>The domain in considered “raw” because it does not contain any margin.
-The domain is built by putting together series domains from each column.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -405,60 +358,6 @@ The domain is built by putting together series domains from each column.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.multiple_group_params">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">multiple_group_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#multiple_group_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.multiple_group_params" title="Link to this definition"></a></dt>
-<dd><p>Updates parameters for multiple-column grouping configuration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>metadata</strong> (<em>dict</em>) – The metadata dictionary.</p></li>
-<li><p><strong>by_config</strong> (<em>list</em>) – List of columns used for grouping.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(dict) updated margin_params for the groupby</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.multiply_or_none">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">multiply_or_none</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#multiply_or_none"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.multiply_or_none" title="Link to this definition"></a></dt>
-<dd><p>Multiply all values in the list, return None if any value is None.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>values</strong> (<em>list</em><em>[</em><em>Optional</em><em>[</em><em>int</em><em>]</em><em>]</em>) – A list of int or None</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None if any None in the list, multiplied values of list otherwise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.reconstruct_measurement_pipeline">
-<span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">reconstruct_measurement_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.OpenDPQueryModel" title="lomas_core.models.requests.OpenDPQueryModel"><span class="pre">OpenDPQueryModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Measurement</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#reconstruct_measurement_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.reconstruct_measurement_pipeline" title="Link to this definition"></a></dt>
-<dd><p>Reconstruct OpenDP pipeline from json representation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query_json</strong> (<em>BaseModel</em>) – The JSON request object for the query.</p></li>
-<li><p><strong>metadata</strong> (<em>dict</em>) – The dataset metadata dictionary.            Only used for polars pipelines.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If the pipeline is not a measurement or            the pipeline type is not supported.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The reconstructed pipeline.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dp.Measurement</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.set_opendp_features_config">
 <span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">set_opendp_features_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'contrib'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'floating-point'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'honest-but-curious'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#set_opendp_features_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.set_opendp_features_config" title="Link to this definition"></a></dt>
 <dd><p>Enable opendp features based on config.</p>
@@ -466,6 +365,20 @@ The domain is built by putting together series domains from each column.</p>
 <p>Also sets the “OPENDP_POLARS_LIB_PATH” environment variable
 for correctly creating private lazyframes from deserialized
 polars plans.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.opendp.validate_measurement_pipeline">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.opendp.</span></span><span class="sig-name descname"><span class="pre">validate_measurement_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opendp_pipe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Measurement</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/opendp.html#validate_measurement_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.opendp.validate_measurement_pipeline" title="Link to this definition"></a></dt>
+<dd><p>Verify that the pipeline is safe and valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pipeline</strong> (<em>dp.Measurement</em>) – The pipeline to check.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If the pipeline does not meet the requirements.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

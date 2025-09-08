@@ -99,10 +99,6 @@
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">opendp</span><span class="w"> </span><span class="kn">import</span> <span class="n">measures</span> <span class="k">as</span> <span class="n">ms</span><span class="p">,</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">tp</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDpMechanism</span>
-
 <span class="c1"># Misc</span>
 <span class="c1"># -----------------------------------------------------------------------------</span>
 
@@ -196,21 +192,6 @@
 
     <span class="n">INT_DISTANCE</span> <span class="o">=</span> <span class="s2">&quot;u32&quot;</span>  <span class="c1"># opendp type for distance between datasets</span></div>
 
-
-
-<span class="n">OPENDP_TYPE_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;int32&quot;</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">i32</span><span class="p">,</span>
-    <span class="s2">&quot;float32&quot;</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">f32</span><span class="p">,</span>
-    <span class="s2">&quot;int64&quot;</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">i64</span><span class="p">,</span>
-    <span class="s2">&quot;float64&quot;</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">f64</span><span class="p">,</span>
-    <span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">String</span><span class="p">,</span>
-    <span class="s2">&quot;boolean&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="n">OPENDP_OUTPUT_MEASURE</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">OpenDpMechanism</span><span class="p">,</span> <span class="n">tp</span><span class="o">.</span><span class="n">Measure</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">OpenDpMechanism</span><span class="o">.</span><span class="n">LAPLACE</span><span class="p">:</span> <span class="n">ms</span><span class="o">.</span><span class="n">max_divergence</span><span class="p">(),</span>
-    <span class="n">OpenDpMechanism</span><span class="o">.</span><span class="n">GAUSSIAN</span><span class="p">:</span> <span class="n">ms</span><span class="o">.</span><span class="n">zero_concentrated_divergence</span><span class="p">(),</span>
-<span class="p">}</span>
 </pre></div>
 
            </div>

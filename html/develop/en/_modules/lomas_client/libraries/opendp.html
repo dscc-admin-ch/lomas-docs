@@ -102,7 +102,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span> <span class="n">DUMMY_SEED</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client.http_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">LomasHttpClient</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_model_response</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDpMechanism</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDpMechanism</span><span class="p">,</span> <span class="n">OpenDpPipelineType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InvalidQueryException</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">OpenDPDummyQueryModel</span><span class="p">,</span>
     <span class="n">OpenDPQueryModel</span><span class="p">,</span>
@@ -153,12 +154,12 @@
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opendp_pipeline</span><span class="p">,</span> <span class="n">dp</span><span class="o">.</span><span class="n">Measurement</span><span class="p">):</span>
             <span class="n">body_json</span><span class="p">[</span><span class="s2">&quot;opendp_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opendp_pipeline</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
-            <span class="n">body_json</span><span class="p">[</span><span class="s2">&quot;pipeline_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;legacy&quot;</span>
+            <span class="n">body_json</span><span class="p">[</span><span class="s2">&quot;pipeline_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">OpenDpPipelineType</span><span class="o">.</span><span class="n">LEGACY</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opendp_pipeline</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">LazyFrame</span><span class="p">):</span>
             <span class="n">body_json</span><span class="p">[</span><span class="s2">&quot;opendp_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opendp_pipeline</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">)</span>
-            <span class="n">body_json</span><span class="p">[</span><span class="s2">&quot;pipeline_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;polars&quot;</span>
+            <span class="n">body_json</span><span class="p">[</span><span class="s2">&quot;pipeline_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">OpenDpPipelineType</span><span class="o">.</span><span class="n">POLARS</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Opendp_pipeline must either of type Measurement or LazyFrame, found </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">opendp_pipeline</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
 
