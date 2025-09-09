@@ -98,6 +98,7 @@
   <h1>Source code for lomas_server.dp_queries.dp_libraries.diffprivlib</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffprivlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">BudgetAccountant</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffprivlib.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivacyLeakWarning</span>
@@ -140,55 +141,111 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accountant</span> <span class="o">=</span> <span class="n">BudgetAccountant</span><span class="p">()</span>
 
-<div class="viewcode-block" id="DiffPrivLibQuerier.fit_model_on_data">
-<a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.fit_model_on_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">fit_model_on_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibRequestModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform necessary steps to fit the model on the data.</span>
+<div class="viewcode-block" id="DiffPrivLibQuerier.complete_pipeline">
+<a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.complete_pipeline">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">complete_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">target_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finalize the DiffPrivLib pipeline by injecting accountant and privacy constraints.</span>
+
+<span class="sd">        Steps:</span>
+<span class="sd">            1. Attach the shared budget accountant to all compatible steps.</span>
+<span class="sd">            2. Add metadata-driven privacy constraints (`data_norm`, `bounds`, `bounds_X`, `bounds_y`)</span>
+<span class="sd">            to the first pipeline step when supported.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            query_json (BaseModel): The JSON request object for the query.</span>
+<span class="sd">            feature_columns: List of feature columns used for training.</span>
+<span class="sd">            target_columns: Optional list of target columns (required if `bounds_y` is needed).</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ExternalLibraryException: For exceptions from libraries</span>
-<span class="sd">                external to this package.</span>
+<span class="sd">            InternalServerException: If pipeline is not initialized.</span>
+<span class="sd">            InvalidQueryException: If target bounds are required but not provided.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Prepare data</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_connector</span><span class="o">.</span><span class="n">get_pandas_df</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dpl_pipeline</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="s2">&quot;Pipeline must be initialized before calling complete_pipeline&quot;</span><span class="p">)</span>
 
-        <span class="c1"># Check for overlap</span>
-        <span class="n">useful_columns</span> <span class="o">=</span> <span class="n">query_json</span><span class="o">.</span><span class="n">feature_columns</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">query_json</span><span class="o">.</span><span class="n">target_columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">query_json</span><span class="o">.</span><span class="n">target_columns</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">query_json</span><span class="o">.</span><span class="n">feature_columns</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;A column may only be in one of features and target. </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> is in both.&quot;</span>
-                    <span class="p">)</span>
-                <span class="n">useful_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-
-        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">useful_columns</span><span class="p">]</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">handle_missing_data</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">imputer_strategy</span><span class="p">)</span>
-        <span class="n">x_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">split_train_test_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">query_json</span><span class="p">)</span>
-
-        <span class="c1"># Prepare DiffPrivLib pipeline</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">deserialise_pipeline</span><span class="p">(</span><span class="n">query_json</span><span class="o">.</span><span class="n">diffprivlib_json</span><span class="p">)</span>
-
-        <span class="c1"># Add budget accountant</span>
+        <span class="c1"># 1. Add budget accountant</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dpl_pipeline</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="s2">&quot;accountant&quot;</span><span class="p">):</span>
                 <span class="n">step</span><span class="o">.</span><span class="n">accountant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">accountant</span>
 
-        <span class="c1"># Fit the pipeline on the training set</span>
+        <span class="c1"># 2. Get metadata for features</span>
+        <span class="n">columns_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_connector</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">()</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span>
+        <span class="n">feature_metadata</span> <span class="o">=</span> <span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="n">columns_metadata</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">feature_columns</span><span class="p">}</span>
+
+        <span class="n">first_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dpl_pipeline</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># --- Handle feature constraints ---</span>
+        <span class="n">feature_bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">first_step</span><span class="p">,</span> <span class="s2">&quot;data_norm&quot;</span><span class="p">):</span>
+            <span class="n">first_step</span><span class="o">.</span><span class="n">data_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">meta</span> <span class="ow">in</span> <span class="n">feature_metadata</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">first_step</span><span class="p">,</span> <span class="s2">&quot;bounds&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">first_step</span><span class="p">,</span> <span class="s2">&quot;bounds_X&quot;</span><span class="p">):</span>
+            <span class="n">feature_bounds</span> <span class="o">=</span> <span class="n">get_dpl_bounds</span><span class="p">(</span><span class="n">feature_metadata</span><span class="p">,</span> <span class="n">feature_columns</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">first_step</span><span class="p">,</span> <span class="s2">&quot;bounds&quot;</span><span class="p">):</span>
+            <span class="n">first_step</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">feature_bounds</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">first_step</span><span class="p">,</span> <span class="s2">&quot;bounds_X&quot;</span><span class="p">):</span>
+            <span class="n">first_step</span><span class="o">.</span><span class="n">bounds_X</span> <span class="o">=</span> <span class="n">feature_bounds</span>
+
+        <span class="c1"># --- Handle target constraints ---</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">first_step</span><span class="p">,</span> <span class="s2">&quot;bounds_y&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">target_columns</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span><span class="s2">&quot;target_columns must be provided when bounds_y is required&quot;</span><span class="p">)</span>
+            <span class="n">target_metadata</span> <span class="o">=</span> <span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="n">columns_metadata</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">target_columns</span><span class="p">}</span>
+            <span class="n">first_step</span><span class="o">.</span><span class="n">bounds_y</span> <span class="o">=</span> <span class="n">get_dpl_bounds</span><span class="p">(</span><span class="n">target_metadata</span><span class="p">,</span> <span class="n">feature_columns</span><span class="o">=</span><span class="n">target_columns</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DiffPrivLibQuerier.fit_model_on_data">
+<a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.fit_model_on_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit_model_on_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibRequestModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit the DiffPrivLib pipeline on the dataset provided by the data connector.</span>
+
+<span class="sd">        Steps:</span>
+<span class="sd">            1. Validate inputs (no overlap between feature and target columns).</span>
+<span class="sd">            2. Select and preprocess relevant columns (handle missing data).</span>
+<span class="sd">            3. Split data into training and test sets.</span>
+<span class="sd">            4. Deserialize the pipeline and inject server parameters.</span>
+<span class="sd">            5. Fit the pipeline while treating PrivacyLeakWarning as an error.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query_json: Request object describing feature/target columns,</span>
+<span class="sd">                        pipeline definition, and preprocessing options.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            InvalidQueryException: If feature/target columns overlap.</span>
+<span class="sd">            ExternalLibraryException: If DiffPrivLib fitting fails.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 1. Validate feature/target columns</span>
+        <span class="n">feature_columns</span> <span class="o">=</span> <span class="n">query_json</span><span class="o">.</span><span class="n">feature_columns</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">target_columns</span> <span class="o">=</span> <span class="n">query_json</span><span class="o">.</span><span class="n">target_columns</span> <span class="ow">or</span> <span class="p">[]</span>
+
+        <span class="n">overlap</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">feature_columns</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">target_columns</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">overlap</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidQueryException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Columns cannot be both feature and target: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># 2. Select and preprocess data</span>
+        <span class="n">useful_columns</span> <span class="o">=</span> <span class="n">feature_columns</span> <span class="o">+</span> <span class="n">target_columns</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_connector</span><span class="o">.</span><span class="n">get_pandas_df</span><span class="p">()[</span><span class="n">useful_columns</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">handle_missing_data</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">imputer_strategy</span><span class="p">)</span>
+
+        <span class="c1"># 3. Split data</span>
+        <span class="n">x_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">split_train_test_data</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">query_json</span><span class="p">)</span>
+
+        <span class="c1"># 4. Deserialize and configure pipeline</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">deserialise_pipeline</span><span class="p">(</span><span class="n">query_json</span><span class="o">.</span><span class="n">diffprivlib_json</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">complete_pipeline</span><span class="p">(</span><span class="n">feature_columns</span><span class="p">,</span> <span class="n">query_json</span><span class="o">.</span><span class="n">target_columns</span><span class="p">)</span>
+
+        <span class="c1"># 5. Fit pipeline with strict warning handling</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">PrivacyLeakWarning</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">y_train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+            <span class="n">y_train</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">y_train</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">y_train</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dpl_pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">PrivacyLeakWarning</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
                 <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s2">&quot;PrivacyLeakWarning: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;Lomas server cannot fit pipeline on data, &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;PrivacyLeakWarning is a blocker.&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;PrivacyLeakWarning: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Lomas server cannot fit pipeline on data, PrivacyLeakWarning is a blocker.&quot;</span><span class="p">,</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>
@@ -200,22 +257,28 @@
 <div class="viewcode-block" id="DiffPrivLibQuerier.cost">
 <a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.cost">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibRequestModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate cost of query.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate the privacy budget cost of running a DiffPrivLib query.</span>
+
+<span class="sd">        Steps:</span>
+<span class="sd">            1. Fit the model on the dataset (including accountant injection).</span>
+<span class="sd">            2. Retrieve the total budget consumed from the accountant.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            query_json (DiffPrivLibRequestModel): The request model object.</span>
+<span class="sd">            query_json: The request object describing the query (features, targets, pipeline JSON).</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ExternalLibraryException: For exceptions from libraries</span>
-<span class="sd">                external to this package.</span>
+<span class="sd">            ExternalLibraryException: If the pipeline fitting fails.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            tuple[float, float]: The tuple of costs, the first value</span>
-<span class="sd">                is the epsilon cost, the second value is the delta value.</span>
+<span class="sd">            A tuple of (epsilon, delta) costs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 1. Fit model (this will attach accountant and configure constraints)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fit_model_on_data</span><span class="p">(</span><span class="n">query_json</span><span class="p">)</span>
-        <span class="n">spent_budget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">accountant</span><span class="o">.</span><span class="n">total</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">spent_budget</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">spent_budget</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+
+        <span class="c1"># 2. Retrieve total budget</span>
+        <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">accountant</span><span class="o">.</span><span class="n">total</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">delta</span></div>
 
 
 <div class="viewcode-block" id="DiffPrivLibQuerier.query">
@@ -224,19 +287,20 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">query_json</span><span class="p">:</span> <span class="n">DiffPrivLibQueryModel</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DiffPrivLibQueryResult</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform the query and return the response.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the query on the fitted DiffPrivLib pipeline and return the results.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            query_json (DiffPrivLibQueryModel): The request model object.</span>
+<span class="sd">            query_json: The request object describing the query parameters.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ExternalLibraryException: For exceptions from libraries</span>
-<span class="sd">                external to this package.</span>
-<span class="sd">            InvalidQueryException: If the budget values are too small to</span>
-<span class="sd">                perform the query.</span>
+<span class="sd">            InternalServerException: If `query` is called before `cost` (pipeline not initialized).</span>
+<span class="sd">            ExternalLibraryException: If the underlying pipeline evaluation fails.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            dict: The dictionary encoding of the resulting pd.DataFrame.</span>
+<span class="sd">            DiffPrivLibQueryResult containing:</span>
+<span class="sd">                - score: Model accuracy on the test set.</span>
+<span class="sd">                - model: The trained DiffPrivLib pipeline.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dpl_pipeline</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="s2">&quot;DiffPrivLib `query` method called before `cost` method&quot;</span><span class="p">)</span>
@@ -289,6 +353,25 @@
             <span class="n">random_state</span><span class="o">=</span><span class="n">query_json</span><span class="o">.</span><span class="n">test_train_split_seed</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span></div>
+
+
+
+<div class="viewcode-block" id="get_dpl_bounds">
+<a class="viewcode-back" href="../../../../lomas_server.dp_queries.dp_libraries.html#lomas_server.dp_queries.dp_libraries.diffprivlib.get_dpl_bounds">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_dpl_bounds</span><span class="p">(</span><span class="n">columns_metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">feature_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format metadata bounds of feature columns in format expected by DiffPrivLib.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        - columns_metadata: metadata</span>
+<span class="sd">        - feature_columns (list[str]): list of feature columns</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">        tuple of lower and upper bounds as expected by DiffPrivLib</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lower</span> <span class="o">=</span> <span class="p">[</span><span class="n">columns_metadata</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">feature_columns</span><span class="p">]</span>
+    <span class="n">upper</span> <span class="o">=</span> <span class="p">[</span><span class="n">columns_metadata</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s2">&quot;upper&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">feature_columns</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span></div>
 
 </pre></div>
 

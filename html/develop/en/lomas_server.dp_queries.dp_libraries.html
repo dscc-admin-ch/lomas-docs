@@ -127,26 +127,53 @@
 <dd><p>Bases: <a class="reference internal" href="lomas_server.dp_queries.html#lomas_server.dp_queries.dp_querier.DPQuerier" title="lomas_server.dp_queries.dp_querier.DPQuerier"><code class="xref py py-class docutils literal notranslate"><span class="pre">DPQuerier</span></code></a>[<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibRequestModel" title="lomas_core.models.requests.DiffPrivLibRequestModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffPrivLibRequestModel</span></code></a>, <a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibQueryModel" title="lomas_core.models.requests.DiffPrivLibQueryModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffPrivLibQueryModel</span></code></a>, <a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.DiffPrivLibQueryResult" title="lomas_core.models.responses.DiffPrivLibQueryResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffPrivLibQueryResult</span></code></a>]</p>
 <p>Concrete implementation of the DPQuerier ABC for the DiffPrivLib library.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.cost">
-<span class="sig-name descname"><span class="pre">cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibRequestModel" title="lomas_core.models.requests.DiffPrivLibRequestModel"><span class="pre">DiffPrivLibRequestModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/diffprivlib.html#DiffPrivLibQuerier.cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.cost" title="Link to this definition"></a></dt>
-<dd><p>Estimate cost of query.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibRequestModel" title="lomas_core.models.requests.DiffPrivLibRequestModel"><em>DiffPrivLibRequestModel</em></a>) – The request model object.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
-    external to this package.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt>The tuple of costs, the first value</dt><dd><p>is the epsilon cost, the second value is the delta value.</p>
+<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.complete_pipeline">
+<span class="sig-name descname"><span class="pre">complete_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/diffprivlib.html#DiffPrivLibQuerier.complete_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.complete_pipeline" title="Link to this definition"></a></dt>
+<dd><p>Finalize the DiffPrivLib pipeline by injecting accountant and privacy constraints.</p>
+<dl>
+<dt>Steps:</dt><dd><ol class="arabic simple">
+<li><p>Attach the shared budget accountant to all compatible steps.</p></li>
+</ol>
+<p>2. Add metadata-driven privacy constraints (<cite>data_norm</cite>, <cite>bounds</cite>, <cite>bounds_X</cite>, <cite>bounds_y</cite>)
+to the first pipeline step when supported.</p>
 </dd>
 </dl>
-</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>feature_columns</strong> – List of feature columns used for training.</p></li>
+<li><p><strong>target_columns</strong> – Optional list of target columns (required if <cite>bounds_y</cite> is needed).</p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>tuple[float, float]</p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – If pipeline is not initialized.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If target bounds are required but not provided.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.cost">
+<span class="sig-name descname"><span class="pre">cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibRequestModel" title="lomas_core.models.requests.DiffPrivLibRequestModel"><span class="pre">DiffPrivLibRequestModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/diffprivlib.html#DiffPrivLibQuerier.cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.cost" title="Link to this definition"></a></dt>
+<dd><p>Estimate the privacy budget cost of running a DiffPrivLib query.</p>
+<dl class="simple">
+<dt>Steps:</dt><dd><ol class="arabic simple">
+<li><p>Fit the model on the dataset (including accountant injection).</p></li>
+<li><p>Retrieve the total budget consumed from the accountant.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query_json</strong> – The request object describing the query (features, targets, pipeline JSON).</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – If the pipeline fitting fails.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A tuple of (epsilon, delta) costs.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -154,14 +181,27 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.fit_model_on_data">
 <span class="sig-name descname"><span class="pre">fit_model_on_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibRequestModel" title="lomas_core.models.requests.DiffPrivLibRequestModel"><span class="pre">DiffPrivLibRequestModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/diffprivlib.html#DiffPrivLibQuerier.fit_model_on_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.fit_model_on_data" title="Link to this definition"></a></dt>
-<dd><p>Perform necessary steps to fit the model on the data.</p>
+<dd><p>Fit the DiffPrivLib pipeline on the dataset provided by the data connector.</p>
+<dl class="simple">
+<dt>Steps:</dt><dd><ol class="arabic simple">
+<li><p>Validate inputs (no overlap between feature and target columns).</p></li>
+<li><p>Select and preprocess relevant columns (handle missing data).</p></li>
+<li><p>Split data into training and test sets.</p></li>
+<li><p>Deserialize the pipeline and inject server parameters.</p></li>
+<li><p>Fit the pipeline while treating PrivacyLeakWarning as an error.</p></li>
+</ol>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>query_json</strong> (<em>BaseModel</em>) – The JSON request object for the query.</p>
+<dd class="field-odd"><p><strong>query_json</strong> – Request object describing feature/target columns,
+pipeline definition, and preprocessing options.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
-    external to this package.</p>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If feature/target columns overlap.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – If DiffPrivLib fitting fails.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -169,28 +209,47 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.query">
 <span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibQueryModel" title="lomas_core.models.requests.DiffPrivLibQueryModel"><span class="pre">DiffPrivLibQueryModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.responses.DiffPrivLibQueryResult" title="lomas_core.models.responses.DiffPrivLibQueryResult"><span class="pre">DiffPrivLibQueryResult</span></a></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/diffprivlib.html#DiffPrivLibQuerier.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.diffprivlib.DiffPrivLibQuerier.query" title="Link to this definition"></a></dt>
-<dd><p>Perform the query and return the response.</p>
+<dd><p>Run the query on the fitted DiffPrivLib pipeline and return the results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.DiffPrivLibQueryModel" title="lomas_core.models.requests.DiffPrivLibQueryModel"><em>DiffPrivLibQueryModel</em></a>) – The request model object.</p>
+<dd class="field-odd"><p><strong>query_json</strong> – The request object describing the query parameters.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – For exceptions from libraries
-    external to this package.</p></li>
-<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InvalidQueryException" title="lomas_core.error_handler.InvalidQueryException"><strong>InvalidQueryException</strong></a> – If the budget values are too small to
-    perform the query.</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – If <cite>query</cite> is called before <cite>cost</cite> (pipeline not initialized).</p></li>
+<li><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.ExternalLibraryException" title="lomas_core.error_handler.ExternalLibraryException"><strong>ExternalLibraryException</strong></a> – If the underlying pipeline evaluation fails.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The dictionary encoding of the resulting pd.DataFrame.</p>
+<dd class="field-odd"><p><ul class="simple">
+<li><p>score: Model accuracy on the test set.</p></li>
+<li><p>model: The trained DiffPrivLib pipeline.</p></li>
+</ul>
+</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dict</p>
+<dd class="field-even"><p>DiffPrivLibQueryResult containing</p>
 </dd>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.dp_queries.dp_libraries.diffprivlib.get_dpl_bounds">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.dp_queries.dp_libraries.diffprivlib.</span></span><span class="sig-name descname"><span class="pre">get_dpl_bounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns_metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/lomas_server/dp_queries/dp_libraries/diffprivlib.html#get_dpl_bounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.dp_queries.dp_libraries.diffprivlib.get_dpl_bounds" title="Link to this definition"></a></dt>
+<dd><p>Format metadata bounds of feature columns in format expected by DiffPrivLib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>columns_metadata</strong> (<em>-</em>) – metadata</p></li>
+<li><p><strong>feature_columns</strong> (<em>-</em>) – list of feature columns</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple of lower and upper bounds as expected by DiffPrivLib</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">

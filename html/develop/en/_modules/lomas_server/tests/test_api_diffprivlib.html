@@ -199,9 +199,35 @@
             <span class="k">assert</span> <span class="n">job</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
             <span class="k">assert</span> <span class="n">job</span><span class="o">.</span><span class="n">error</span> <span class="o">==</span> <span class="n">InvalidQueryExceptionModel</span><span class="p">(</span>
                 <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Imputation strategy i_do_not_exist not supported.&quot;</span>
-            <span class="p">)</span>
+            <span class="p">)</span></div>
 
-            <span class="c1"># Should not work: Privacy Leak Warning</span>
+
+<div class="viewcode-block" id="TestDiffPrivLibEndpoint.test_diffprivlib_privacy_leak">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.TestDiffPrivLibEndpoint.test_diffprivlib_privacy_leak">[docs]</a>
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">long</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_diffprivlib_privacy_leak</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test diffprivlib privacy leak error.&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+
+            <span class="c1"># Should still work: automatically added for first step</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">PrivacyLeakWarning</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
+            <span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span><span class="s2">&quot;scaler&quot;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s2">&quot;classifier&quot;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">data_norm</span><span class="o">=</span><span class="mf">7000.0</span><span class="p">)),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">dpl_string</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">dpl_pipeline</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dpl_string</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">validate_pipeline</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+
+            <span class="c1"># Should not work: Privacy Leak Warning on data norm</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">PrivacyLeakWarning</span><span class="p">)</span>
             <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
             <span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
@@ -222,29 +248,61 @@
             <span class="k">assert</span> <span class="n">job</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_422_UNPROCESSABLE_ENTITY</span>
             <span class="k">assert</span> <span class="n">job</span><span class="o">.</span><span class="n">error</span> <span class="o">==</span> <span class="n">ExternalLibraryExceptionModel</span><span class="p">(</span>
                 <span class="n">message</span><span class="o">=</span><span class="s2">&quot;PrivacyLeakWarning: &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;Bounds parameter hasn&#39;t been specified, so falling back to &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;determining bounds from the data.</span><span class="se">\n</span><span class="s2"> &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;This will result in additional privacy leakage.  &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;To ensure differential privacy with no additional privacy &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;loss, specify `bounds` for each valued returned by &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;np.mean().. &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Data norm has not been specified and will be calculated on the data provided.  &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;This will result in additional privacy leakage. &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;To ensure differential privacy and no additional privacy leakage, specify &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;`data_norm` at initialisation. &quot;</span>
                 <span class="o">+</span> <span class="s2">&quot;Lomas server cannot fit pipeline on data, &quot;</span>
                 <span class="o">+</span> <span class="s2">&quot;PrivacyLeakWarning is a blocker.&quot;</span><span class="p">,</span>
                 <span class="n">library</span><span class="o">=</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">,</span>
             <span class="p">)</span>
 
-            <span class="c1"># Should not work: Compatibility Warning</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">DiffprivlibCompatibilityWarning</span><span class="p">)</span>
-            <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">DiffprivlibCompatibilityWarning</span><span class="p">):</span>
-                <span class="n">Pipeline</span><span class="p">(</span>
-                    <span class="p">[</span>
-                        <span class="p">(</span><span class="s2">&quot;scaler&quot;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)),</span>
-                        <span class="p">(</span>
-                            <span class="s2">&quot;classifier&quot;</span><span class="p">,</span>
-                            <span class="n">models</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">svd_solver</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">),</span>
-                        <span class="p">),</span>
-                    <span class="p">]</span>
-                <span class="p">)</span></div>
+            <span class="c1"># Should not work: Privacy Leak Warning on bounds</span>
+            <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
+            <span class="n">dpl_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span><span class="s2">&quot;scaler&quot;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s2">&quot;classifier&quot;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">GaussianNB</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">dpl_string</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">dpl_pipeline</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dpl_string</span>
+            <span class="n">job</span> <span class="o">=</span> <span class="n">submit_job_wait</span><span class="p">(</span>
+                <span class="n">client</span><span class="p">,</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">assert</span> <span class="n">job</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;failed&quot;</span>
+            <span class="k">assert</span> <span class="n">job</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_422_UNPROCESSABLE_ENTITY</span>
+            <span class="k">assert</span> <span class="n">job</span><span class="o">.</span><span class="n">error</span> <span class="o">==</span> <span class="n">ExternalLibraryExceptionModel</span><span class="p">(</span>
+                <span class="n">message</span><span class="o">=</span><span class="s2">&quot;PrivacyLeakWarning: &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Bounds have not been specified and will be calculated on the data provided. &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;This will result in additional privacy leakage. &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;To ensure differential privacy and no additional privacy leakage, &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;specify bounds for each dimension. &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Lomas server cannot fit pipeline on data, &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;PrivacyLeakWarning is a blocker.&quot;</span><span class="p">,</span>
+                <span class="n">library</span><span class="o">=</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestDiffPrivLibEndpoint.test_diffprivlib_compatibility_error">
+<a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_diffprivlib.TestDiffPrivLibEndpoint.test_diffprivlib_compatibility_error">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_diffprivlib_compatibility_error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test diffprivlib compatibility error.&quot;&quot;&quot;</span>
+        <span class="c1"># Should not work: Compatibility Warning</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">DiffprivlibCompatibilityWarning</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">DiffprivlibCompatibilityWarning</span><span class="p">):</span>
+            <span class="n">Pipeline</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span><span class="s2">&quot;scaler&quot;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)),</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;classifier&quot;</span><span class="p">,</span>
+                        <span class="n">models</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">svd_solver</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">),</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TestDiffPrivLibEndpoint.test_logistic_regression_models">
@@ -304,6 +362,28 @@
                 <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
                 <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="n">validate_pipeline</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+
+            <span class="c1"># Test Linear Regression: no bounds should also work</span>
+            <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;lr&quot;</span><span class="p">,</span>
+                        <span class="n">models</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">(</span>
+                            <span class="n">epsilon</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+                        <span class="p">),</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">diffprivlib_body</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">example_diffprivlib</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;feature_columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">]</span>
+            <span class="n">diffprivlib_body</span><span class="p">[</span><span class="s2">&quot;target_columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;flipper_length_mm&quot;</span><span class="p">]</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s2">&quot;/diffprivlib_query&quot;</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">diffprivlib_body</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">validate_pipeline</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span></div>
 
 
@@ -339,7 +419,7 @@
             <span class="k">assert</span> <span class="n">job</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;failed&quot;</span>
             <span class="k">assert</span> <span class="n">job</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
             <span class="k">assert</span> <span class="n">job</span><span class="o">.</span><span class="n">error</span> <span class="o">==</span> <span class="n">InvalidQueryExceptionModel</span><span class="p">(</span>
-                <span class="n">message</span><span class="o">=</span><span class="s2">&quot;A column may only be in one of features and target. &quot;</span> <span class="o">+</span> <span class="s2">&quot;bill_length_mm is in both.&quot;</span>
+                <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Columns cannot be both feature and target: bill_length_mm&quot;</span>
             <span class="p">)</span></div>
 
 
