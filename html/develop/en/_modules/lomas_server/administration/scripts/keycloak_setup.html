@@ -103,6 +103,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">HttpUrl</span><span class="p">,</span> <span class="n">computed_field</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseSettings</span><span class="p">,</span> <span class="n">SettingsConfigDict</span>
 
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="User">
 <a class="viewcode-back" href="../../../../lomas_server.administration.scripts.html#lomas_server.administration.scripts.keycloak_setup.User">[docs]</a>
@@ -199,14 +201,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">kc_admin</span><span class="o">.</span><span class="n">realms</span><span class="o">.</span><span class="n">post</span><span class="p">({</span><span class="s2">&quot;realm&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">lomas_realm</span><span class="p">,</span> <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Created application realm&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created application realm: </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">lomas_realm</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">HttpException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">409</span> <span class="ow">and</span> <span class="s2">&quot;Conflict detected&quot;</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s2">&quot;errorMessage&quot;</span><span class="p">]:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Application realm already exists.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Application realm already exists.&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">overwrite_realm</span><span class="p">:</span>
                 <span class="n">kc_admin</span><span class="o">.</span><span class="n">realms</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">lomas_realm</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
                 <span class="n">kc_admin</span><span class="o">.</span><span class="n">realms</span><span class="o">.</span><span class="n">post</span><span class="p">({</span><span class="s2">&quot;realm&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">lomas_realm</span><span class="p">,</span> <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Replaced existing with new application realm.&quot;</span><span class="p">)</span></div>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Replaced existing realm: </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">lomas_realm</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 
@@ -250,7 +252,7 @@
         <span class="p">)</span>
     <span class="k">except</span> <span class="n">HttpException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">409</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Realm role authp/admin already exists&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Realm role authp/admin already exists&quot;</span><span class="p">)</span>
 
     <span class="n">roles</span> <span class="o">=</span> <span class="n">kc_admin</span><span class="o">.</span><span class="n">realms</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">lomas_realm</span><span class="p">)</span><span class="o">.</span><span class="n">roles</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
@@ -258,7 +260,7 @@
         <span class="n">kc_admin</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">post</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;lomas-admin&quot;</span><span class="p">})</span>
     <span class="k">except</span> <span class="n">HttpException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">409</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Lomas Admins group already exists&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Lomas Admins group already exists&quot;</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">kc_admin</span><span class="o">.</span><span class="n">realms</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">lomas_realm</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
         <span class="k">match</span> <span class="n">group</span><span class="p">:</span>
@@ -270,7 +272,7 @@
                     <span class="p">)</span>
                 <span class="k">except</span> <span class="n">HttpException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">409</span><span class="p">:</span>
-                        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Lomas Admins role-mappings already exists&quot;</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Lomas Admins role-mappings already exists&quot;</span><span class="p">)</span>
             <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
                 <span class="k">pass</span>
 
@@ -291,7 +293,7 @@
             <span class="p">)</span>
         <span class="k">except</span> <span class="n">HttpException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">409</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s2"> group already exists&quot;</span><span class="p">)</span></div>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s2"> group already exists&quot;</span><span class="p">)</span></div>
 
 
 
@@ -318,6 +320,7 @@
     <span class="k">match</span> <span class="n">kc_admin</span><span class="o">.</span><span class="n">clients</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">clientId</span><span class="o">=</span><span class="n">client_id</span><span class="p">):</span>
         <span class="k">case</span> <span class="p">[{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">client_id</span><span class="p">,</span> <span class="o">**</span><span class="n">_rest</span><span class="p">}]:</span>
             <span class="nb">getattr</span><span class="p">(</span><span class="n">kc_admin</span><span class="o">.</span><span class="n">clients</span><span class="p">,</span> <span class="n">client_id</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deleting existing client </span><span class="si">{</span><span class="n">client_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># Create client</span>
     <span class="n">kc_admin</span><span class="o">.</span><span class="n">clients</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -345,16 +348,18 @@
     <span class="k">for</span> <span class="n">client</span><span class="p">,</span> <span class="n">roles_list</span> <span class="ow">in</span> <span class="n">roles</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="c1"># Fetch realm management and manage-clients role uids</span>
         <span class="n">client_uid</span> <span class="o">=</span> <span class="n">kc_admin</span><span class="o">.</span><span class="n">clients</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">clientId</span><span class="o">=</span><span class="n">client</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Setting up client </span><span class="si">{</span><span class="n">client_uid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="c1"># Create role config for user and client combination</span>
         <span class="n">roles_to_add</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">role</span> <span class="ow">in</span> <span class="n">roles_list</span><span class="p">:</span>
             <span class="n">role_uid</span> <span class="o">=</span> <span class="n">kc_admin</span><span class="o">.</span><span class="n">clients</span><span class="p">(</span><span class="n">client_uid</span><span class="p">)</span><span class="o">.</span><span class="n">roles</span><span class="p">(</span><span class="n">role</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
             <span class="n">roles_to_add</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">role_uid</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">role</span><span class="p">})</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding role: </span><span class="si">{</span><span class="n">role</span><span class="si">}</span><span class="s2"> (realm </span><span class="si">{</span><span class="n">client</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
         <span class="n">kc_admin</span><span class="o">.</span><span class="n">users</span><span class="p">(</span><span class="n">lomas_admin_service_account_uid</span><span class="p">)</span><span class="o">.</span><span class="n">role_mappings</span><span class="o">.</span><span class="n">clients</span><span class="p">(</span><span class="n">client_uid</span><span class="p">)</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">roles_to_add</span><span class="p">)</span>
 
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Created new confidential client.&quot;</span><span class="p">)</span></div>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Created new confidential client.&quot;</span><span class="p">)</span></div>
 
 
 
@@ -422,7 +427,7 @@
         <span class="p">}</span>
     <span class="p">)</span>
 
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Created client for lomas gateway.&quot;</span><span class="p">)</span></div>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created client for lomas gateway: </span><span class="si">{</span><span class="n">client_id</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
 
 
 
@@ -433,7 +438,8 @@
     <span class="n">kc_admin</span><span class="o">.</span><span class="n">realm_name</span> <span class="o">=</span> <span class="n">realm</span>
     <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">kc_admin</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;org.keycloak.keys.KeyProvider&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;rsa-generated&quot;</span><span class="p">:</span>
-            <span class="nb">getattr</span><span class="p">(</span><span class="n">kc_admin</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">kc_admin</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removed bad provider: </span><span class="si">{</span><span class="n">kp</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 
@@ -441,6 +447,9 @@
 <a class="viewcode-back" href="../../../../lomas_server.administration.scripts.html#lomas_server.administration.scripts.keycloak_setup.kc_setup">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">kc_setup</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Lomas keycloak setup script.&quot;&quot;&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">()</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
     <span class="c1"># Load config and get admin session</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">keycloak_use_tls</span><span class="p">:</span>
@@ -466,9 +475,6 @@
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">()</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-
     <span class="n">kc_setup</span><span class="p">()</span>
 </pre></div>
 

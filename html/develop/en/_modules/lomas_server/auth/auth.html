@@ -108,6 +108,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserId</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">KCAttributeNames</span>
 
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="UserAuthenticator">
 <a class="viewcode-back" href="../../../lomas_server.auth.html#lomas_server.auth.auth.UserAuthenticator">[docs]</a>
@@ -171,7 +173,7 @@
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span><span class="s2">&quot;Failed bearer token verification.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Authenticated user </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Authenticated user </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">user</span></div>
 </div>
 
@@ -242,7 +244,7 @@
             <span class="c1"># TODO problematic to add e into error message to client?</span>
             <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span><span class="s2">&quot;Failed bearer token verification.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Authenticated user </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Authenticated user </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">user</span></div>
 </div>
 

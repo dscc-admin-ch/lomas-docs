@@ -128,7 +128,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">keycloak_use_tls</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">lomas_service_use_tls</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                 <span class="s2">&quot;Keycloak or Lomas service configured without TLS -&gt; using oauthlib insecure transport&quot;</span>
             <span class="p">)</span>
             <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OAUTHLIB_INSECURE_TRANSPORT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
@@ -176,7 +176,7 @@
 <span class="sd">            requests.Response: The response object resulting from the POST request.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;User (with client id &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">client_id</span><span class="si">}</span><span class="s2">&#39;) is making a request &quot;</span>
             <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;to url &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">app_url</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
             <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;at the endpoint &#39;</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&#39; &quot;</span>

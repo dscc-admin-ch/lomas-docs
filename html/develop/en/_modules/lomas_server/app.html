@@ -122,6 +122,8 @@
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.routes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">rabbitmq_ctx</span>
 
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="lifespan">
 <a class="viewcode-back" href="../../lomas_server.html#lomas_server.app.lifespan">[docs]</a>
@@ -138,9 +140,6 @@
 <span class="sd">    side effects on the return values of the &quot;depends&quot;</span>
 <span class="sd">    functions, which check the server state.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Startup</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Startup message&quot;</span><span class="p">)</span>
-
     <span class="c1"># Load Config</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
 
@@ -149,13 +148,13 @@
 
     <span class="c1"># Load admin database</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading admin database&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Loading admin database&quot;</span><span class="p">)</span>
         <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span> <span class="o">=</span> <span class="n">AdminMongoDatabase</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="p">)</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading authenticator&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Loading authenticator&quot;</span><span class="p">)</span>
         <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">authenticator</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">user_auth</span><span class="p">()</span>
 
     <span class="k">except</span> <span class="n">InternalServerException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed at startup: </span><span class="si">{</span><span class="n">e</span><span class="si">!s}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed at startup: </span><span class="si">{</span><span class="n">e</span><span class="si">!s}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># Set DP Libraries config</span>
     <span class="n">set_opendp_features_config</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">opendp_features</span><span class="p">)</span>
