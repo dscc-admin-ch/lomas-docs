@@ -107,6 +107,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">starlette.routing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Match</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">starlette.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ASGIApp</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">TRACE_LOG_LEVEL</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.utils.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">FAST_API_EXCEPTION_COUNTER</span><span class="p">,</span>
     <span class="n">FAST_API_REQUESTS_COUNTER</span><span class="p">,</span>
@@ -165,10 +166,11 @@
             <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">query_params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">span</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;query_param.</span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="n">TRACE_LOG_LEVEL</span><span class="p">,</span>
                 <span class="sa">f</span><span class="s2">&quot;User is making a request to route &#39;</span><span class="si">{</span><span class="n">route</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
-                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;with query params: </span><span class="si">{</span><span class="n">query_params</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;trace_id=</span><span class="si">{</span><span class="n">format_trace_id</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">get_span_context</span><span class="p">()</span><span class="o">.</span><span class="n">trace_id</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;with query params: </span><span class="si">{</span><span class="n">query_params</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;trace_id=</span><span class="si">{</span><span class="n">format_trace_id</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">get_span_context</span><span class="p">()</span><span class="o">.</span><span class="n">trace_id</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
             <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">call_next</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
@@ -176,21 +178,24 @@
             <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&lt;</span> <span class="mi">400</span><span class="p">:</span>  <span class="c1"># Run only for successful requests.</span>
                 <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;user_name&quot;</span><span class="p">):</span>  <span class="c1"># Not all routes extract the user name.</span>
                     <span class="n">user_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">user_name</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                        <span class="n">TRACE_LOG_LEVEL</span><span class="p">,</span>
                         <span class="sa">f</span><span class="s2">&quot;Request with trace_id=</span><span class="si">{</span><span class="n">format_trace_id</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">get_span_context</span><span class="p">()</span><span class="o">.</span><span class="n">trace_id</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot; for user &#39;</span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2">&#39; completed.&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot; for user &#39;</span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2">&#39; completed.&quot;</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="n">span</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">&quot;user_name&quot;</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">user_name</span><span class="p">)</span>
 
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                    <span class="n">TRACE_LOG_LEVEL</span><span class="p">,</span>
                     <span class="sa">f</span><span class="s2">&quot;Request with trace_id=</span><span class="si">{</span><span class="n">format_trace_id</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">get_span_context</span><span class="p">()</span><span class="o">.</span><span class="n">trace_id</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="s2">&quot; completed successfully&quot;</span>
+                    <span class="s2">&quot; completed successfully&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                    <span class="n">TRACE_LOG_LEVEL</span><span class="p">,</span>
                     <span class="sa">f</span><span class="s2">&quot;Failed request with trace_id=</span><span class="si">{</span><span class="n">format_trace_id</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">get_span_context</span><span class="p">()</span><span class="o">.</span><span class="n">trace_id</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;Status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">response</span></div>

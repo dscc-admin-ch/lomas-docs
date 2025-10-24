@@ -351,9 +351,7 @@
 <div class="viewcode-block" id="test_demo_smartnoise_synth">
 <a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_demo_smartnoise_synth">[docs]</a>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">long</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
-    <span class="s2">&quot;ignore:.*synthesizer random generator.*is not cryptographically secure:UserWarning&quot;</span>
-<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;waiting on OpenDP 0.14 synth&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_demo_smartnoise_synth</span><span class="p">(</span><span class="n">kc</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">user_name</span> <span class="o">=</span> <span class="s2">&quot;Dr.Antartica&quot;</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="n">user_name</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;PENGUIN&quot;</span><span class="p">)</span>

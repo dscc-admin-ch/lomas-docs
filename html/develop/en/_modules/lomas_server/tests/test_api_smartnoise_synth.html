@@ -447,6 +447,7 @@
 
 <div class="viewcode-block" id="TestSmartnoiseSynthEndpoint.test_smartnoise_synth_query_datetime">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_smartnoise_synth.TestSmartnoiseSynthEndpoint.test_smartnoise_synth_query_datetime">[docs]</a>
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xfail</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;snsynth wrongly call numpy timedelta with an np.float&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">test_smartnoise_synth_query_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test smartnoise synth query on other dataset for datetime columns.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
@@ -493,6 +494,7 @@
 <div class="viewcode-block" id="TestSmartnoiseSynthEndpoint.test_smartnoise_synth_query_aim">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_smartnoise_synth.TestSmartnoiseSynthEndpoint.test_smartnoise_synth_query_aim">[docs]</a>
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">long</span>
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;waiting on OpenDP 0.14 synth&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">test_smartnoise_synth_query_aim</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test smartnoise synth query AIM Synthesizer.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
@@ -521,6 +523,7 @@
 <div class="viewcode-block" id="TestSmartnoiseSynthEndpoint.test_smartnoise_synth_query_mwem">
 <a class="viewcode-back" href="../../../lomas_server.tests.html#lomas_server.tests.test_api_smartnoise_synth.TestSmartnoiseSynthEndpoint.test_smartnoise_synth_query_mwem">[docs]</a>
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">long</span>
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;waiting on OpenDP 0.14 synth&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">test_smartnoise_synth_query_mwem</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test smartnoise synth query MWEM Synthesizer.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
