@@ -117,6 +117,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnauthorizedAccessException</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserId</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeAttackMethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">LomasServerExceptionTypeAdapter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DummyQueryModel</span><span class="p">,</span>
     <span class="n">LomasRequestModel</span><span class="p">,</span>
@@ -143,16 +144,17 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">ack</span><span class="p">()</span>
 
+                    <span class="n">message_body</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
                     <span class="k">match</span> <span class="n">message</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
                         <span class="k">case</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;exception&quot;</span><span class="p">,</span> <span class="s2">&quot;status_code&quot;</span><span class="p">:</span> <span class="n">status_code</span><span class="p">}:</span>
-                            <span class="n">jobs</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">]</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                            <span class="n">jobs</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">]</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="n">LomasServerExceptionTypeAdapter</span><span class="o">.</span><span class="n">validate_json</span><span class="p">(</span><span class="n">message_body</span><span class="p">)</span>
+                            <span class="p">)</span>
                             <span class="n">jobs</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;failed&quot;</span>
                             <span class="n">jobs</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">]</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
                             <span class="n">jobs</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">]</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">status_code</span>
                         <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-                            <span class="n">jobs</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">]</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span>
-                                <span class="n">message</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
-                            <span class="p">)</span>
+                            <span class="n">jobs</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">]</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">message_body</span><span class="p">)</span>
                             <span class="n">jobs</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;complete&quot;</span></div>
 
 
