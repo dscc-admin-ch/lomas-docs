@@ -97,7 +97,6 @@
              
   <h1>Source code for lomas_server.app</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging.config</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncGenerator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">asynccontextmanager</span>
 
@@ -110,6 +109,7 @@
     <span class="n">add_exception_handlers</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.instrumentation</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_telemetry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.mongodb_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminMongoDatabase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dp_libraries.opendp</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">set_opendp_features_config</span><span class="p">,</span>
@@ -121,6 +121,8 @@
     <span class="n">LoggingAndTracingMiddleware</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.routes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">rabbitmq_ctx</span>
+
+<span class="n">init_logging</span><span class="p">()</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -148,9 +150,9 @@
 
     <span class="c1"># Load admin database</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Loading admin database&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading admin database&quot;</span><span class="p">)</span>
         <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span> <span class="o">=</span> <span class="n">AdminMongoDatabase</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Loading authenticator&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading authenticator&quot;</span><span class="p">)</span>
         <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">authenticator</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">user_auth</span><span class="p">()</span>
 
     <span class="k">except</span> <span class="n">InternalServerException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -166,7 +168,6 @@
 
 <span class="c1"># Init config for logging purposes</span>
 <span class="n">initConfig</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
-<span class="n">logging</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">dictConfig</span><span class="p">(</span><span class="n">initConfig</span><span class="o">.</span><span class="n">logging_config</span><span class="p">)</span>
 
 <span class="c1"># Initalise telemetry</span>
 <span class="k">if</span> <span class="n">initConfig</span><span class="o">.</span><span class="n">telemetry</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
