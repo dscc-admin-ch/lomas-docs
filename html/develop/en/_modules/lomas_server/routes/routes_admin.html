@@ -128,6 +128,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.routes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_user_id_from_authenticator</span>
 
 <span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">()</span>
+<span class="n">example_get_admin_db_data_body</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_admin_db_data</span><span class="p">)</span>
+<span class="n">example_get_dummy_dataset_body</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_dummy_dataset</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="root">
@@ -212,7 +214,6 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        JSONResponse: The state of the server instance.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span>
         <span class="n">content</span><span class="o">=</span><span class="p">{</span>
             <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;live&quot;</span><span class="p">,</span>
@@ -253,7 +254,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_dataset_metadata</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">user_id</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">UserId</span><span class="p">,</span> <span class="n">Security</span><span class="p">(</span><span class="n">get_user_id_from_authenticator</span><span class="p">)],</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">LomasRequestModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_admin_db_data</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">LomasRequestModel</span> <span class="o">=</span> <span class="n">example_get_admin_db_data_body</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Metadata</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Retrieves metadata for a given dataset.</span>
@@ -263,7 +264,7 @@
 <span class="sd">        user_id (UserId): A UserId object identifying the user.</span>
 <span class="sd">        query_json (LomasRequestModel, optional): A JSON object containing</span>
 <span class="sd">            the dataset_name key for indicating the dataset.</span>
-<span class="sd">            Defaults to Body(example_get_admin_db_data).</span>
+<span class="sd">            Defaults to example_get_admin_db_data_body.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ExternalLibraryException: For exceptions from libraries</span>
@@ -304,7 +305,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_dataset</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">user_id</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">UserId</span><span class="p">,</span> <span class="n">Security</span><span class="p">(</span><span class="n">get_user_id_from_authenticator</span><span class="p">)],</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">GetDummyDataset</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_dummy_dataset</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">GetDummyDataset</span> <span class="o">=</span> <span class="n">example_get_dummy_dataset_body</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DummyDsResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates and returns a dummy dataset.</span>
@@ -319,7 +320,7 @@
 <span class="sd">                - seed (int, optional): The random seed for generating</span>
 <span class="sd">                  the dummy dataset (default: 42).</span>
 
-<span class="sd">            Defaults to Body(example_get_dummy_dataset).</span>
+<span class="sd">            Defaults to example_get_dummy_dataset_body.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ExternalLibraryException: For exceptions from libraries</span>
@@ -364,7 +365,6 @@
 
 
 
-<span class="c1"># MongoDB get initial budget</span>
 <div class="viewcode-block" id="get_initial_budget">
 <a class="viewcode-back" href="../../../lomas_server.routes.html#lomas_server.routes.routes_admin.get_initial_budget">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -374,7 +374,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_initial_budget</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">user_id</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">UserId</span><span class="p">,</span> <span class="n">Security</span><span class="p">(</span><span class="n">get_user_id_from_authenticator</span><span class="p">)],</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">LomasRequestModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_admin_db_data</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">LomasRequestModel</span> <span class="o">=</span> <span class="n">example_get_admin_db_data_body</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InitialBudgetResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the initial budget for a user and dataset.</span>
@@ -385,7 +385,7 @@
 <span class="sd">        query_json (LomasRequestModel, optional): A JSON object containing:</span>
 <span class="sd">            - dataset_name (str): The name of the dataset.</span>
 
-<span class="sd">            Defaults to Body(example_get_admin_db_data).</span>
+<span class="sd">            Defaults to example_get_admin_db_data_body.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ExternalLibraryException: For exceptions from libraries</span>
@@ -415,7 +415,6 @@
 
 
 
-<span class="c1"># MongoDB get total spent budget</span>
 <div class="viewcode-block" id="get_total_spent_budget">
 <a class="viewcode-back" href="../../../lomas_server.routes.html#lomas_server.routes.routes_admin.get_total_spent_budget">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -425,7 +424,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_total_spent_budget</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">user_id</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">UserId</span><span class="p">,</span> <span class="n">Security</span><span class="p">(</span><span class="n">get_user_id_from_authenticator</span><span class="p">)],</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">LomasRequestModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_admin_db_data</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">LomasRequestModel</span> <span class="o">=</span> <span class="n">example_get_admin_db_data_body</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpentBudgetResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the spent budget for a user and dataset.</span>
@@ -436,7 +435,7 @@
 <span class="sd">        query_json (LomasRequestModel, optional): A JSON object containing:</span>
 <span class="sd">            - dataset_name (str): The name of the dataset.</span>
 
-<span class="sd">            Defaults to Body(example_get_admin_db_data).</span>
+<span class="sd">            Defaults to example_get_admin_db_data_body.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ExternalLibraryException: For exceptions from libraries</span>
@@ -466,7 +465,6 @@
 
 
 
-<span class="c1"># MongoDB get remaining budget</span>
 <div class="viewcode-block" id="get_remaining_budget">
 <a class="viewcode-back" href="../../../lomas_server.routes.html#lomas_server.routes.routes_admin.get_remaining_budget">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -476,7 +474,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_remaining_budget</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">user_id</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">UserId</span><span class="p">,</span> <span class="n">Security</span><span class="p">(</span><span class="n">get_user_id_from_authenticator</span><span class="p">)],</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">LomasRequestModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_admin_db_data</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">LomasRequestModel</span> <span class="o">=</span> <span class="n">example_get_admin_db_data_body</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RemainingBudgetResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the remaining budget for a user and dataset.</span>
@@ -487,7 +485,7 @@
 <span class="sd">        query_json (LomasRequestModel, optional): A JSON object containing:</span>
 <span class="sd">            - dataset_name (str): The name of the dataset.</span>
 
-<span class="sd">            Defaults to Body(example_get_admin_db_data).</span>
+<span class="sd">            Defaults to example_get_admin_db_data_body.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ExternalLibraryException: For exceptions from libraries</span>
@@ -516,7 +514,6 @@
 
 
 
-<span class="c1"># MongoDB get archives</span>
 <div class="viewcode-block" id="get_user_previous_queries">
 <a class="viewcode-back" href="../../../lomas_server.routes.html#lomas_server.routes.routes_admin.get_user_previous_queries">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -526,7 +523,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_user_previous_queries</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">user_id</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">UserId</span><span class="p">,</span> <span class="n">Security</span><span class="p">(</span><span class="n">get_user_id_from_authenticator</span><span class="p">)],</span>
-    <span class="n">query_json</span><span class="p">:</span> <span class="n">LomasRequestModel</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">example_get_admin_db_data</span><span class="p">),</span>
+    <span class="n">query_json</span><span class="p">:</span> <span class="n">LomasRequestModel</span> <span class="o">=</span> <span class="n">example_get_admin_db_data_body</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the query history of a user on a specific dataset.</span>
@@ -537,7 +534,7 @@
 <span class="sd">        query_json (LomasRequestModel, optional): A JSON object containing:</span>
 <span class="sd">            - dataset_name (str): The name of the dataset.</span>
 
-<span class="sd">            Defaults to Body(example_get_admin_db_data).</span>
+<span class="sd">            Defaults to example_get_admin_db_data_body.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ExternalLibraryException: For exceptions from libraries</span>

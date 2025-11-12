@@ -96,15 +96,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_core.error_handler</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Never</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Never</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">status</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.encoders</span><span class="w"> </span><span class="kn">import</span> <span class="n">jsonable_encoder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONResponse</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pymongo.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">WriteConcernError</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPLibraries</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ExternalLibraryExceptionModel</span><span class="p">,</span>
     <span class="n">InternalServerExceptionModel</span><span class="p">,</span>
@@ -113,7 +112,7 @@
     <span class="n">UnauthorizedAccessExceptionModel</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">init_logging</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="InvalidQueryException">
@@ -188,7 +187,6 @@
     <span class="n">InternalServerException</span><span class="p">,</span>
     <span class="n">InvalidQueryException</span><span class="p">,</span>
     <span class="n">UnauthorizedAccessException</span><span class="p">,</span>
-    <span class="n">WriteConcernError</span><span class="p">,</span>
 <span class="p">)</span>
 
 

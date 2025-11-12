@@ -105,71 +105,66 @@
 <span id="lomas-server-auth-auth-module"></span><h2>lomas_server.auth.auth module<a class="headerlink" href="#module-lomas_server.auth.auth" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="lomas_server.auth.auth.FreePassAuthenticator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.auth.auth.</span></span><span class="sig-name descname"><span class="pre">FreePassAuthenticator</span></span><a class="reference internal" href="_modules/lomas_server/auth/auth.html#FreePassAuthenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.auth.auth.FreePassAuthenticator" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#lomas_server.auth.auth.UserAuthenticator" title="lomas_server.auth.auth.UserAuthenticator"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserAuthenticator</span></code></a></p>
-<p>Authenticator class that simply extracts user information from.</p>
-<p>the provided bearer.
-! No verification is performed!</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.auth.auth.FreePassAuthenticator.get_user_id">
-<span class="sig-name descname"><span class="pre">get_user_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security_scopes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SecurityScopes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_creds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HTTPAuthorizationCredentials</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId"><span class="pre">UserId</span></a></span></span><a class="reference internal" href="_modules/lomas_server/auth/auth.html#FreePassAuthenticator.get_user_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.auth.auth.FreePassAuthenticator.get_user_id" title="Link to this definition"></a></dt>
-<dd><p>Parses the HTTP bearer token as a json string to construct a UserId.</p>
-<p>!Does NOT perform any verification!</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>security_scopes</strong> (<em>SecurityScopes</em>) – The required scopes for the endpoint.</p></li>
-<li><p><strong>auth_creds</strong> (<em>HTTPAuthorizationCredentials</em>) – Authorization credentials.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The parsed UserId.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId">UserId</a></p>
-</dd>
-</dl>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.auth.auth.</span></span><span class="sig-name descname"><span class="pre">FreePassAuthenticator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authentication_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">AuthenticationType.FREE_PASS</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/auth/auth.html#FreePassAuthenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.auth.auth.FreePassAuthenticator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Authenticator that Bypass Auth.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.auth.auth.FreePassAuthenticator.authentication_type">
+<span class="sig-name descname"><span class="pre">authentication_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">AuthenticationType.FREE_PASS</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#lomas_server.auth.auth.FreePassAuthenticator.authentication_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.auth.auth.FreePassAuthenticator.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#lomas_server.auth.auth.FreePassAuthenticator.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="lomas_server.auth.auth.JWTAuthenticator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.auth.auth.</span></span><span class="sig-name descname"><span class="pre">JWTAuthenticator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keycloak_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HttpUrl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">realm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/auth/auth.html#JWTAuthenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.auth.auth.JWTAuthenticator" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#lomas_server.auth.auth.UserAuthenticator" title="lomas_server.auth.auth.UserAuthenticator"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserAuthenticator</span></code></a></p>
-<p>Authenticator class that identifies users by validating the provided JWT token.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.auth.auth.JWTAuthenticator.get_user_id">
-<span class="sig-name descname"><span class="pre">get_user_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security_scopes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SecurityScopes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_creds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HTTPAuthorizationCredentials</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId"><span class="pre">UserId</span></a></span></span><a class="reference internal" href="_modules/lomas_server/auth/auth.html#JWTAuthenticator.get_user_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.auth.auth.JWTAuthenticator.get_user_id" title="Link to this definition"></a></dt>
-<dd><p>Parses the JWT bearer token to construct a UserId.</p>
-<p>The JWT is verified against the certificates provided by the Id Provider.</p>
-<p>! Does not verify scopes yet !</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.auth.auth.</span></span><span class="sig-name descname"><span class="pre">JWTAuthenticator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authentication_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">AuthenticationType.JWT</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keycloak_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HttpUrl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">realm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lomas_server/auth/auth.html#JWTAuthenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.auth.auth.JWTAuthenticator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Authenticator that identifies users by validating the provided JWT token.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.auth.auth.JWTAuthenticator.authentication_type">
+<span class="sig-name descname"><span class="pre">authentication_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">AuthenticationType.JWT</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#lomas_server.auth.auth.JWTAuthenticator.authentication_type" title="Link to this definition"></a></dt>
+<dd><p>The keycloak address for this app instance.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="lomas_server.auth.auth.JWTAuthenticator.jwk_client">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">jwk_client</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">PyJWKClient</span></em><a class="reference internal" href="_modules/lomas_server/auth/auth.html#JWTAuthenticator.jwk_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.auth.auth.JWTAuthenticator.jwk_client" title="Link to this definition"></a></dt>
+<dd><p>Initializes instance PyJWKClient with caching.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.auth.auth.JWTAuthenticator.keycloak_url">
+<span class="sig-name descname"><span class="pre">keycloak_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HttpUrl</span></em><a class="headerlink" href="#lomas_server.auth.auth.JWTAuthenticator.keycloak_url" title="Link to this definition"></a></dt>
+<dd><p>The realm name for this app instance.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>security_scopes</strong> (<em>SecurityScopes</em>) – The required scopes for the endpoint.</p></li>
-<li><p><strong>auth_creds</strong> (<em>HTTPAuthorizationCredentials</em>) – Authorization credentials.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The parsed UserId.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId">UserId</a></p>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Realm</p>
 </dd>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.auth.auth.JWTAuthenticator.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#lomas_server.auth.auth.JWTAuthenticator.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="lomas_server.auth.auth.UserAuthenticator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lomas_server.auth.auth.</span></span><span class="sig-name descname"><span class="pre">UserAuthenticator</span></span><a class="reference internal" href="_modules/lomas_server/auth/auth.html#UserAuthenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.auth.auth.UserAuthenticator" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<p>Abstract base class for providing user authentification methods.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="lomas_server.auth.auth.UserAuthenticator.get_user_id">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_user_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">security_scopes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SecurityScopes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_creds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HTTPAuthorizationCredentials</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId"><span class="pre">UserId</span></a></span></span><a class="reference internal" href="_modules/lomas_server/auth/auth.html#UserAuthenticator.get_user_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.auth.auth.UserAuthenticator.get_user_id" title="Link to this definition"></a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lomas_server.auth.auth.JWTAuthenticator.realm">
+<span class="sig-name descname"><span class="pre">realm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#lomas_server.auth.auth.JWTAuthenticator.realm" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.auth.auth.get_user_id">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.auth.auth.</span></span><span class="sig-name descname"><span class="pre">get_user_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">authenticator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#lomas_server.auth.auth.FreePassAuthenticator" title="lomas_server.auth.auth.FreePassAuthenticator"><span class="pre">FreePassAuthenticator</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#lomas_server.auth.auth.JWTAuthenticator" title="lomas_server.auth.auth.JWTAuthenticator"><span class="pre">JWTAuthenticator</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">annotation</span></span><span class="o"><span class="pre">=</span></span><span class="pre">NoneType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">discriminator</span></span><span class="o"><span class="pre">=</span></span><span class="s"><span class="pre">'authentication_type'</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">security_scopes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SecurityScopes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_creds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HTTPAuthorizationCredentials</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId"><span class="pre">UserId</span></a></span></span><a class="reference internal" href="_modules/lomas_server/auth/auth.html#get_user_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.auth.auth.get_user_id" title="Link to this definition"></a></dt>
 <dd><p>Extracts user id from bearer token.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -185,8 +180,6 @@
 <dd class="field-odd"><p><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId">UserId</a></p>
 </dd>
 </dl>
-</dd></dl>
-
 </dd></dl>
 
 </section>

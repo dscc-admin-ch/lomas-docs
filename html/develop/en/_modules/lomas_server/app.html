@@ -96,8 +96,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.app</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncGenerator</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncGenerator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">asynccontextmanager</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
@@ -110,7 +109,7 @@
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.instrumentation</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_telemetry</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.mongodb_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminMongoDatabase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.local_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalAdminDatabase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dp_libraries.opendp</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">set_opendp_features_config</span><span class="p">,</span>
 <span class="p">)</span>
@@ -122,9 +121,7 @@
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.routes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">rabbitmq_ctx</span>
 
-<span class="n">init_logging</span><span class="p">()</span>
-
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">init_logging</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="lifespan">
@@ -151,10 +148,10 @@
     <span class="c1"># Load admin database</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading admin database&quot;</span><span class="p">)</span>
-        <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span> <span class="o">=</span> <span class="n">AdminMongoDatabase</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">admin_database</span><span class="p">)</span>
+        <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span> <span class="o">=</span> <span class="n">LocalAdminDatabase</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">admin_database_url</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading authenticator&quot;</span><span class="p">)</span>
-        <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">authenticator</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">user_auth</span><span class="p">()</span>
-
+        <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">authenticator</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">authenticator</span>
+        <span class="n">lomas_app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">private_db_credentials</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">private_db_credentials</span>
     <span class="k">except</span> <span class="n">InternalServerException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed at startup: </span><span class="si">{</span><span class="n">e</span><span class="si">!s}</span><span class="s2">&quot;</span><span class="p">)</span>
 

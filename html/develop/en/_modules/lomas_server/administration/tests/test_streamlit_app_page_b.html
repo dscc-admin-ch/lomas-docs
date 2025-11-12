@@ -105,15 +105,14 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">streamlit.testing.v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">AppTest</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivateDatabaseType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.administration.mongodb_admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">drop_collection</span><span class="p">,</span> <span class="n">get_mongodb</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminConfig</span><span class="p">,</span> <span class="n">MongoDBConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminConfig</span>
 
 
-<div class="viewcode-block" id="mock_mongodb_and_helpers">
-<a class="viewcode-back" href="../../../../lomas_server.administration.tests.html#lomas_server.administration.tests.test_streamlit_app_page_b.mock_mongodb_and_helpers">[docs]</a>
+<div class="viewcode-block" id="mock_and_helpers">
+<a class="viewcode-back" href="../../../../lomas_server.administration.tests.html#lomas_server.administration.tests.test_streamlit_app_page_b.mock_and_helpers">[docs]</a>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">mock_mongodb_and_helpers</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixture to mock the MongoDB and helper functions used in the Streamlit app.&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mock_and_helpers</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixture to mock the helper functions used in the Streamlit app.&quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s2">&quot;streamlit.file_uploader&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mock_file_uploader</span><span class="p">:</span>
         <span class="n">mock_file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;../../../data/collections/metadata/iris_metadata.yaml&quot;</span>
         <span class="n">mock_file</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">(</span><span class="n">mock_file_path</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span>
@@ -124,37 +123,24 @@
 
 
 
-<div class="viewcode-block" id="wipe_db">
-<a class="viewcode-back" href="../../../../lomas_server.administration.tests.html#lomas_server.administration.tests.test_streamlit_app_page_b.wipe_db">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">wipe_db</span><span class="p">(</span><span class="n">mg_config</span><span class="p">:</span> <span class="n">MongoDBConfig</span><span class="p">):</span>
-    <span class="n">drop_collection</span><span class="p">(</span><span class="n">mg_config</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">)</span>
-    <span class="n">drop_collection</span><span class="p">(</span><span class="n">mg_config</span><span class="p">,</span> <span class="s2">&quot;datasets&quot;</span><span class="p">)</span>
-    <span class="n">drop_collection</span><span class="p">(</span><span class="n">mg_config</span><span class="p">,</span> <span class="s2">&quot;users&quot;</span><span class="p">)</span>
-    <span class="n">drop_collection</span><span class="p">(</span><span class="n">mg_config</span><span class="p">,</span> <span class="s2">&quot;queries_archives&quot;</span><span class="p">)</span></div>
-
-
-
 <div class="viewcode-block" id="at">
 <a class="viewcode-back" href="../../../../lomas_server.administration.tests.html#lomas_server.administration.tests.test_streamlit_app_page_b.at">[docs]</a>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">at</span><span class="p">():</span>
-    <span class="n">mg_config</span> <span class="o">=</span> <span class="n">AdminConfig</span><span class="p">()</span><span class="o">.</span><span class="n">mg_config</span>
-
-    <span class="c1"># pre-clean MongoDB (typical case: we are here after notebooks run)</span>
-    <span class="n">wipe_db</span><span class="p">(</span><span class="n">mg_config</span><span class="p">)</span>
-    <span class="n">get_mongodb</span><span class="p">(</span><span class="n">mg_config</span><span class="p">)</span>
+    <span class="n">admin_db</span> <span class="o">=</span> <span class="n">AdminConfig</span><span class="p">()</span><span class="o">.</span><span class="n">database</span>
+    <span class="n">admin_db</span><span class="o">.</span><span class="n">wipe</span><span class="p">()</span>
 
     <span class="k">yield</span> <span class="n">AppTest</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s2">&quot;../dashboard/pages/b_database_administration.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 
     <span class="c1"># post-clean by politesse</span>
-    <span class="n">wipe_db</span><span class="p">(</span><span class="n">mg_config</span><span class="p">)</span></div>
+    <span class="n">admin_db</span><span class="o">.</span><span class="n">wipe</span><span class="p">()</span></div>
 
 
 
 <div class="viewcode-block" id="dataset_iris">
 <a class="viewcode-back" href="../../../../lomas_server.administration.tests.html#lomas_server.administration.tests.test_streamlit_app_page_b.dataset_iris">[docs]</a>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">dataset_iris</span><span class="p">(</span><span class="n">at</span><span class="p">:</span> <span class="n">AppTest</span><span class="p">,</span> <span class="n">mock_mongodb_and_helpers</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dataset_iris</span><span class="p">(</span><span class="n">at</span><span class="p">:</span> <span class="n">AppTest</span><span class="p">,</span> <span class="n">mock_and_helpers</span><span class="p">):</span>
     <span class="n">at</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;ad_dataset&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="s2">&quot;IRIS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
     <span class="n">at</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s2">&quot;ad_type&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
     <span class="n">at</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s2">&quot;ad_meta_type&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
@@ -266,16 +252,16 @@
 
     <span class="c1"># Subheader &quot;Show full collection&quot;</span>
     <span class="n">at</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;content_show_all_users&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-    <span class="k">assert</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;test&quot;</span>
+    <span class="k">assert</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)[</span><span class="s2">&quot;test&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;test&quot;</span>
 
     <span class="n">at</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;content_show_all_datasets&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
     <span class="k">assert</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;IRIS&quot;</span>
 
     <span class="n">at</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;content_show_all_metadata&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-    <span class="k">assert</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;IRIS&quot;</span><span class="p">][</span><span class="s2">&quot;max_ids&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)[</span><span class="s2">&quot;IRIS&quot;</span><span class="p">][</span><span class="s2">&quot;max_ids&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
 
     <span class="n">at</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;content_show_archives&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-    <span class="k">assert</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="p">[]</span>
+    <span class="k">assert</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="p">{}</span>
 
     <span class="c1"># Deletion tab</span>
     <span class="c1"># Subheader &quot;Delete one element&quot;</span>
@@ -336,7 +322,7 @@
 
     <span class="c1"># Check tab &quot;delete content&quot;</span>
     <span class="k">assert</span> <span class="n">at</span><span class="o">.</span><span class="n">tabs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="s2">&quot;:wastebasket: Delete Content (:red[DANGEROUS])&quot;</span>
-    <span class="k">assert</span> <span class="n">at</span><span class="o">.</span><span class="n">markdown</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;:warning: :red[**Danger Zone: deleting is final**] :warning:&quot;</span>
+    <span class="k">assert</span> <span class="n">at</span><span class="o">.</span><span class="n">markdown</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;:warning: :red[**Danger Zone: deleting is final**]&quot;</span>
 
     <span class="k">assert</span> <span class="s2">&quot;Delete one element&quot;</span> <span class="ow">in</span> <span class="n">at</span><span class="o">.</span><span class="n">subheader</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
     <span class="k">assert</span> <span class="n">at</span><span class="o">.</span><span class="n">markdown</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;**Delete one user**&quot;</span>

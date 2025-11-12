@@ -143,14 +143,15 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: if a synthesizer or its parameters are not valid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">synth_name</span> <span class="ow">in</span> <span class="p">[</span>
+    <span class="k">if</span> <span class="n">synth_name</span> <span class="ow">in</span> <span class="p">{</span>
         <span class="n">SSynthGanSynthesizer</span><span class="o">.</span><span class="n">DP_CTGAN</span><span class="p">,</span>
         <span class="n">SSynthGanSynthesizer</span><span class="o">.</span><span class="n">DP_GAN</span><span class="p">,</span>
-    <span class="p">]:</span>
+    <span class="p">}:</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Warning:</span><span class="si">{</span><span class="n">synth_name</span><span class="si">}</span><span class="s2"> synthesizer random generator for noise and &quot;</span>
             <span class="o">+</span> <span class="s2">&quot;shuffling is not cryptographically secure. &quot;</span>
-            <span class="o">+</span> <span class="s2">&quot;(pseudo-rng in vanilla PyTorch).&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot;(pseudo-rng in vanilla PyTorch).&quot;</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">if</span> <span class="n">synth_name</span> <span class="o">==</span> <span class="n">SSynthMarginalSynthesizer</span><span class="o">.</span><span class="n">MST</span> <span class="ow">and</span> <span class="n">return_model</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>

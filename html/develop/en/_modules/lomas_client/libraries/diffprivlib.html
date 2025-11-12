@@ -126,8 +126,8 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">cost</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">pipeline</span><span class="p">:</span> <span class="n">Pipeline</span><span class="p">,</span>
-        <span class="n">feature_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">],</span>
-        <span class="n">target_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">],</span>
+        <span class="n">feature_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">target_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">test_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
         <span class="n">test_train_split_seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">imputer_strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;drop&quot;</span><span class="p">,</span>
@@ -161,6 +161,10 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Optional[dict[str, float]]: A dictionary containing the estimated cost.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">target_columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">target_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">feature_columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
         <span class="n">body_dict</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;dataset_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_client</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
             <span class="s2">&quot;diffprivlib_json&quot;</span><span class="p">:</span> <span class="n">serialise_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">),</span>

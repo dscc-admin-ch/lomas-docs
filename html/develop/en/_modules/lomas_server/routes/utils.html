@@ -97,7 +97,6 @@
              
   <h1>Source code for lomas_server.routes.utils</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">posix</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">Status</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
@@ -109,14 +108,18 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">uuid</span><span class="w"> </span><span class="kn">import</span> <span class="n">UUID</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">aio_pika</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aio_pika.patterns</span><span class="w"> </span><span class="kn">import</span> <span class="n">RPC</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Request</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.security</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPAuthorizationCredentials</span><span class="p">,</span> <span class="n">HTTPBearer</span><span class="p">,</span> <span class="n">SecurityScopes</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.instrumentation.aio_pika</span><span class="w"> </span><span class="kn">import</span> <span class="n">AioPikaInstrumentor</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPLibraries</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnauthorizedAccessException</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserId</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeAttackMethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">InternalServerException</span><span class="p">,</span>
+    <span class="n">UnauthorizedAccessException</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">DSPathAccess</span><span class="p">,</span> <span class="n">DSS3Access</span><span class="p">,</span> <span class="n">UserId</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivateDatabaseType</span><span class="p">,</span> <span class="n">TimeAttackMethod</span><span class="p">,</span> <span class="n">init_logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">LomasServerExceptionTypeAdapter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DummyQueryModel</span><span class="p">,</span>
@@ -124,7 +127,12 @@
     <span class="n">QueryModel</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">CostResponse</span><span class="p">,</span> <span class="n">Job</span><span class="p">,</span> <span class="n">QueryResponse</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.auth.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_user_id</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.path_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathConnector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.s3_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3Connector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">PrivateDBCredentials</span><span class="p">,</span> <span class="n">S3CredentialsConfig</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">init_logging</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">AioPikaInstrumentor</span><span class="p">()</span><span class="o">.</span><span class="n">instrument</span><span class="p">()</span>
 
@@ -135,7 +143,6 @@
     <span class="n">queue</span><span class="p">:</span> <span class="n">aio_pika</span><span class="o">.</span><span class="n">Queue</span><span class="p">,</span> <span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">QueryResponse</span> <span class="o">|</span> <span class="n">CostResponse</span><span class="p">],</span> <span class="n">jobs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UUID</span><span class="p">,</span> <span class="n">Job</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process responses queue into Jobs.&quot;&quot;&quot;</span>
-
     <span class="k">async</span> <span class="k">with</span> <span class="n">queue</span><span class="o">.</span><span class="n">iterator</span><span class="p">()</span> <span class="k">as</span> <span class="n">queue_iter</span><span class="p">:</span>
         <span class="k">async</span> <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">queue_iter</span><span class="p">:</span>
             <span class="k">async</span> <span class="k">with</span> <span class="n">message</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">ignore_processed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -147,9 +154,9 @@
                     <span class="n">message_body</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
                     <span class="k">match</span> <span class="n">message</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
                         <span class="k">case</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;exception&quot;</span><span class="p">,</span> <span class="s2">&quot;status_code&quot;</span><span class="p">:</span> <span class="n">status_code</span><span class="p">}:</span>
-                            <span class="n">jobs</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">]</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="p">(</span>
-                                <span class="n">LomasServerExceptionTypeAdapter</span><span class="o">.</span><span class="n">validate_json</span><span class="p">(</span><span class="n">message_body</span><span class="p">)</span>
-                            <span class="p">)</span>
+                            <span class="n">jobs</span><span class="p">[</span>
+                                <span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span>
+                            <span class="p">]</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">LomasServerExceptionTypeAdapter</span><span class="o">.</span><span class="n">validate_json</span><span class="p">(</span><span class="n">message_body</span><span class="p">)</span>
                             <span class="n">jobs</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">]</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;failed&quot;</span>
                             <span class="n">jobs</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">]</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
                             <span class="n">jobs</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">]</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">status_code</span>
@@ -174,7 +181,7 @@
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">connection</span>
     <span class="k">except</span> <span class="ne">TimeoutError</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Couldn&#39;t connect to queue </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">amqp</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2"> in time&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Couldn&#39;t connect to queue </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">amqp</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2"> in time&quot;</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">Status</span><span class="o">.</span><span class="n">EX_UNAVAILABLE</span><span class="p">)</span></div>
 
 
@@ -184,7 +191,6 @@
 <span class="nd">@asynccontextmanager</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">rabbitmq_ctx</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">FastAPI</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;RabbitMQ queue context to connect and register callbacks.&quot;&quot;&quot;</span>
-
     <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
 
     <span class="n">connection</span> <span class="o">=</span> <span class="k">await</span> <span class="n">rabbitmq_connect_queue</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
@@ -211,6 +217,14 @@
     <span class="n">dummy_response_task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">process_response</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">QueryResponse</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">jobs</span><span class="p">))</span>
     <span class="n">background_tasks</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dummy_response_task</span><span class="p">)</span>
     <span class="n">dummy_response_task</span><span class="o">.</span><span class="n">add_done_callback</span><span class="p">(</span><span class="n">background_tasks</span><span class="o">.</span><span class="n">discard</span><span class="p">)</span>
+
+    <span class="n">rpc</span> <span class="o">=</span> <span class="k">await</span> <span class="n">RPC</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">rpc</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;get_and_set_may_user_query&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_and_set_may_user_query</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">rpc</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;set_may_user_query&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">set_may_user_query</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">rpc</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;get_remaining_budget&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">rpc</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;update_budget&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">update_budget</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">rpc</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;save_query&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">save_query</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">rpc</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;get_dataset_metadata&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">)</span>
 
     <span class="k">yield</span>  <span class="c1"># app is handling requests</span>
 
@@ -264,10 +278,45 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        UserId: A UserId instance extracted from the token.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">user_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">get_user_id</span><span class="p">(</span><span class="n">security_scopes</span><span class="p">,</span> <span class="n">auth_creds</span><span class="p">)</span>
+    <span class="n">user_id</span> <span class="o">=</span> <span class="n">get_user_id</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">authenticator</span><span class="p">,</span> <span class="n">security_scopes</span><span class="p">,</span> <span class="n">auth_creds</span><span class="p">)</span>
     <span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">user_name</span> <span class="o">=</span> <span class="n">user_id</span><span class="o">.</span><span class="n">name</span>
 
     <span class="k">return</span> <span class="n">user_id</span></div>
+
+
+
+<div class="viewcode-block" id="get_dataset_credentials">
+<a class="viewcode-back" href="../../../lomas_server.routes.html#lomas_server.routes.utils.get_dataset_credentials">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_dataset_credentials</span><span class="p">(</span>
+    <span class="n">private_db_credentials</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">PrivateDBCredentials</span><span class="p">],</span>
+    <span class="n">db_type</span><span class="p">:</span> <span class="n">PrivateDatabaseType</span><span class="p">,</span>
+    <span class="n">credentials_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PrivateDBCredentials</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Search the list of private database credentials and.</span>
+
+<span class="sd">    returns the one that matches the database type and</span>
+<span class="sd">    credentials name.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        private_db_credentials (Sequence[PrivateDBCredentials]):\</span>
+<span class="sd">            The list of private database credentials.</span>
+<span class="sd">        db_type (PrivateDatabaseType): The type of the database.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        InternalServerException: If the credentials are not found.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        PrivateDBCredentials: The matching credentials.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">db_type</span> <span class="o">==</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">private_db_credentials</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">S3CredentialsConfig</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">credentials_name</span> <span class="o">==</span> <span class="n">c</span><span class="o">.</span><span class="n">credentials_name</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">c</span>
+
+    <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
+        <span class="s2">&quot;Could not find credentials for private dataset. Please contact server administrator.&quot;</span>
+    <span class="p">)</span></div>
 
 
 
@@ -299,10 +348,38 @@
 <span class="sd">            or a CostResponse containing the epsilon, delta and privacy-loss budget cost for the request.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span>
+    <span class="n">admin_database</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span>
+    <span class="n">private_db_credentials</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">private_db_credentials</span>
 
     <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">dataset_name</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="o">.</span><span class="n">has_user_access_to_dataset</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">admin_database</span><span class="o">.</span><span class="n">has_user_access_to_dataset</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> does not have access to </span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="n">ds_access</span> <span class="o">=</span> <span class="n">admin_database</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">)</span><span class="o">.</span><span class="n">dataset_access</span>
+    <span class="n">ds_metadata</span> <span class="o">=</span> <span class="n">admin_database</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">)</span>
+    <span class="n">data_connector</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">match</span> <span class="n">ds_access</span><span class="p">:</span>
+        <span class="k">case</span> <span class="n">DSPathAccess</span><span class="p">():</span>
+            <span class="n">data_connector</span> <span class="o">=</span> <span class="n">PathConnector</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">ds_metadata</span><span class="p">,</span> <span class="n">dataset_path</span><span class="o">=</span><span class="n">ds_access</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">case</span> <span class="n">DSS3Access</span><span class="p">():</span>
+            <span class="n">credentials</span> <span class="o">=</span> <span class="n">get_dataset_credentials</span><span class="p">(</span>
+                <span class="n">private_db_credentials</span><span class="p">,</span>
+                <span class="n">ds_access</span><span class="o">.</span><span class="n">database_type</span><span class="p">,</span>
+                <span class="n">ds_access</span><span class="o">.</span><span class="n">credentials_name</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">S3CredentialsConfig</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="s2">&quot;Could not get correct credentials&quot;</span><span class="p">)</span>
+
+            <span class="n">ds_access</span> <span class="o">=</span> <span class="n">DSS3Access</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">ds_access</span><span class="p">)</span>
+            <span class="n">ds_access</span><span class="o">.</span><span class="n">access_key_id</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">access_key_id</span>
+            <span class="n">ds_access</span><span class="o">.</span><span class="n">secret_access_key</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">secret_access_key</span>
+
+            <span class="n">data_connector</span> <span class="o">=</span> <span class="n">S3Connector</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">ds_metadata</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">ds_access</span><span class="p">)</span>
+        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown database type: </span><span class="si">{</span><span class="n">ds_access</span><span class="o">.</span><span class="n">database_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">match</span> <span class="n">query</span><span class="p">:</span>
         <span class="k">case</span> <span class="n">DummyQueryModel</span><span class="p">():</span>
@@ -318,7 +395,8 @@
 
     <span class="k">await</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">cost_queue_channel</span><span class="o">.</span><span class="n">default_exchange</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span>
         <span class="n">aio_pika</span><span class="o">.</span><span class="n">Message</span><span class="p">(</span>
-            <span class="n">body</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">dp_library</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">query</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(),</span> <span class="n">correlation_id</span><span class="o">=</span><span class="n">new_task</span><span class="o">.</span><span class="n">uid</span>
+            <span class="n">body</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2">λ</span><span class="si">{</span><span class="n">dp_library</span><span class="si">}</span><span class="s2">λ</span><span class="si">{</span><span class="n">data_connector</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">()</span><span class="si">}</span><span class="s2">λ</span><span class="si">{</span><span class="n">query</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(),</span>
+            <span class="n">correlation_id</span><span class="o">=</span><span class="n">new_task</span><span class="o">.</span><span class="n">uid</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">routing_key</span><span class="o">=</span><span class="n">queue_name</span><span class="p">,</span>
     <span class="p">)</span>

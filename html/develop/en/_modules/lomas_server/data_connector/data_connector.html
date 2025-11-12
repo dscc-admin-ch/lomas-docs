@@ -97,31 +97,55 @@
              
   <h1>Source code for lomas_server.data_connector.data_connector</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">ConfigDict</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+    <span class="n">PlainSerializer</span><span class="p">,</span>
+    <span class="n">computed_field</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatetimeMetadata</span><span class="p">,</span> <span class="n">Metadata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">dataframe_to_dict</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="DataConnector">
 <a class="viewcode-back" href="../../../lomas_server.data_connector.html#lomas_server.data_connector.data_connector.DataConnector">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DataConnector</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataConnector</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Overall access to sensitive data.&quot;&quot;&quot;</span>
 
-    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializer.</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            metadata (Metadata): The metadata for this dataset</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span> <span class="o">=</span> <span class="n">metadata</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">PlainSerializer</span><span class="p">(</span><span class="n">dataframe_to_dict</span><span class="p">)]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
-        <span class="n">dtypes</span><span class="p">,</span> <span class="n">datetime_columns</span> <span class="o">=</span> <span class="n">get_column_dtypes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dtypes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">dtypes</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">datetime_columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime_columns</span>
+    <span class="nd">@computed_field</span>  <span class="c1"># type: ignore[prop-decorator]</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dtypes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="n">dtypes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">DatetimeMetadata</span><span class="p">):</span>
+                <span class="n">dtypes</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;string&quot;</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">):</span>
+                <span class="n">dtypes</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">type</span><span class="si">}{</span><span class="n">data</span><span class="o">.</span><span class="n">precision</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dtypes</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">type</span>
+
+        <span class="k">return</span> <span class="n">dtypes</span>
+
+    <span class="nd">@computed_field</span>  <span class="c1"># type: ignore[prop-decorator]</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">datetime_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">col_name</span> <span class="k">for</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">DatetimeMetadata</span><span class="p">)</span>
+        <span class="p">]</span>
 
 <div class="viewcode-block" id="DataConnector.get_pandas_df">
 <a class="viewcode-back" href="../../../lomas_server.data_connector.html#lomas_server.data_connector.data_connector.DataConnector.get_pandas_df">[docs]</a>
@@ -136,26 +160,13 @@
 
 <div class="viewcode-block" id="DataConnector.get_polars_lf">
 <a class="viewcode-back" href="../../../lomas_server.data_connector.html#lomas_server.data_connector.data_connector.DataConnector.get_polars_lf">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_polars_lf</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">LazyFrame</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_polars_lf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">LazyFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the data in polars lazyframe format.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pl.LazyFrame: The polars lazyframe for this dataset.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pl</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_pandas_df</span><span class="p">())</span><span class="o">.</span><span class="n">lazy</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="DataConnector.get_metadata">
-<a class="viewcode-back" href="../../../lomas_server.data_connector.html#lomas_server.data_connector.data_connector.DataConnector.get_metadata">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Metadata</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the metadata for this dataset.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Metadata: The metadata object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span></div>
 </div>
 
 
@@ -173,7 +184,6 @@
 <span class="sd">           dict: The dictionary of the column type.</span>
 <span class="sd">            list: The list of columns of datetime type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">dtypes</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">datetime_columns</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>

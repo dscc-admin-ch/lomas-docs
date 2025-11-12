@@ -96,157 +96,112 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.auth.auth</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Literal</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.security</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPAuthorizationCredentials</span><span class="p">,</span> <span class="n">SecurityScopes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">HttpUrl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">HttpUrl</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">Scopes</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnauthorizedAccessException</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserId</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthenticationType</span><span class="p">,</span> <span class="n">init_logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">KCAttributeNames</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-
-<div class="viewcode-block" id="UserAuthenticator">
-<a class="viewcode-back" href="../../../lomas_server.auth.html#lomas_server.auth.auth.UserAuthenticator">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">UserAuthenticator</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for providing user authentification methods.&quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="UserAuthenticator.get_user_id">
-<a class="viewcode-back" href="../../../lomas_server.auth.html#lomas_server.auth.auth.UserAuthenticator.get_user_id">[docs]</a>
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_user_id</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">security_scopes</span><span class="p">:</span> <span class="n">SecurityScopes</span><span class="p">,</span>
-        <span class="n">auth_creds</span><span class="p">:</span> <span class="n">HTTPAuthorizationCredentials</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UserId</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extracts user id from bearer token.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            security_scopes (SecurityScopes): The required scopes for the endpoint.</span>
-<span class="sd">            auth_creds (HTTPAuthorizationCredentials): Authorization credentials.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            UserId: The UserId object containing user infos.</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
-</div>
-
+<span class="n">logger</span> <span class="o">=</span> <span class="n">init_logging</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="FreePassAuthenticator">
 <a class="viewcode-back" href="../../../lomas_server.auth.html#lomas_server.auth.auth.FreePassAuthenticator">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">FreePassAuthenticator</span><span class="p">(</span><span class="n">UserAuthenticator</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Authenticator class that simply extracts user information from.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FreePassAuthenticator</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Authenticator that Bypass Auth.&quot;&quot;&quot;</span>
 
-<span class="sd">    the provided bearer.</span>
-<span class="sd">    ! No verification is performed!</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="FreePassAuthenticator.get_user_id">
-<a class="viewcode-back" href="../../../lomas_server.auth.html#lomas_server.auth.auth.FreePassAuthenticator.get_user_id">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_user_id</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">security_scopes</span><span class="p">:</span> <span class="n">SecurityScopes</span><span class="p">,</span>
-        <span class="n">auth_creds</span><span class="p">:</span> <span class="n">HTTPAuthorizationCredentials</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UserId</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parses the HTTP bearer token as a json string to construct a UserId.</span>
-
-<span class="sd">        !Does NOT perform any verification!</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            security_scopes (SecurityScopes): The required scopes for the endpoint.</span>
-<span class="sd">            auth_creds (HTTPAuthorizationCredentials): Authorization credentials.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            UserId: The parsed UserId.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">Scopes</span><span class="o">.</span><span class="n">ADMIN</span> <span class="ow">in</span> <span class="n">security_scopes</span><span class="o">.</span><span class="n">scopes</span><span class="p">:</span>
-                <span class="c1"># Admins don&#39;t come with proper user id, so we create a dummy one.</span>
-                <span class="n">user</span> <span class="o">=</span> <span class="n">UserId</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s2">&quot;admin@example.com&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">user</span> <span class="o">=</span> <span class="n">UserId</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">auth_creds</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span><span class="s2">&quot;Failed bearer token verification.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Authenticated user </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">user</span></div>
-</div>
+    <span class="n">authentication_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">AuthenticationType</span><span class="o">.</span><span class="n">FREE_PASS</span><span class="p">]</span></div>
 
 
 
 <div class="viewcode-block" id="JWTAuthenticator">
 <a class="viewcode-back" href="../../../lomas_server.auth.html#lomas_server.auth.auth.JWTAuthenticator">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">JWTAuthenticator</span><span class="p">(</span><span class="n">UserAuthenticator</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Authenticator class that identifies users by validating the provided JWT token.&quot;&quot;&quot;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">JWTAuthenticator</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Authenticator that identifies users by validating the provided JWT token.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keycloak_url</span><span class="p">:</span> <span class="n">HttpUrl</span><span class="p">,</span> <span class="n">realm</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor method.</span>
+    <span class="n">authentication_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">AuthenticationType</span><span class="o">.</span><span class="n">JWT</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The keycloak address for this app instance.&quot;&quot;&quot;</span>
+    <span class="n">keycloak_url</span><span class="p">:</span> <span class="n">HttpUrl</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Realm: The realm name for this app instance.&quot;&quot;&quot;</span>
+    <span class="n">realm</span><span class="p">:</span> <span class="nb">str</span>
 
-<span class="sd">        Initializes instance PyJWKClient with caching.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            keycloak_address (str): The keycloak address for this app instance.</span>
-<span class="sd">            keycloak_port (int): The keycloak port</span>
-<span class="sd">            keycloak_use_tls (str): Whether to use tls or not for interacting with keycloak.</span>
-<span class="sd">            realm (str): The realm name for this app instance.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">jwk_client</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">PyJWKClient</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">keycloak_url</span><span class="si">}</span><span class="s2">/realms/</span><span class="si">{</span><span class="n">realm</span><span class="si">}</span><span class="s2">/protocol/openid-connect/certs&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="JWTAuthenticator.jwk_client">
+<a class="viewcode-back" href="../../../lomas_server.auth.html#lomas_server.auth.auth.JWTAuthenticator.jwk_client">[docs]</a>
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">jwk_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jwt</span><span class="o">.</span><span class="n">PyJWKClient</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes instance PyJWKClient with caching.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">jwt</span><span class="o">.</span><span class="n">PyJWKClient</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">keycloak_url</span><span class="si">}</span><span class="s2">/realms/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">realm</span><span class="si">}</span><span class="s2">/protocol/openid-connect/certs&quot;</span><span class="p">,</span>
             <span class="n">cache_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-
-<div class="viewcode-block" id="JWTAuthenticator.get_user_id">
-<a class="viewcode-back" href="../../../lomas_server.auth.html#lomas_server.auth.auth.JWTAuthenticator.get_user_id">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_user_id</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">security_scopes</span><span class="p">:</span> <span class="n">SecurityScopes</span><span class="p">,</span>
-        <span class="n">auth_creds</span><span class="p">:</span> <span class="n">HTTPAuthorizationCredentials</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UserId</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parses the JWT bearer token to construct a UserId.</span>
-
-<span class="sd">        The JWT is verified against the certificates provided by the Id Provider.</span>
-
-<span class="sd">        ! Does not verify scopes yet !</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            security_scopes (SecurityScopes): The required scopes for the endpoint.</span>
-<span class="sd">            auth_creds (HTTPAuthorizationCredentials): Authorization credentials.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            UserId: The parsed UserId.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Extracts kid from JWT and fetches corresponding key from keycloak (or cache).</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jwk_client</span><span class="o">.</span><span class="n">get_signing_key_from_jwt</span><span class="p">(</span><span class="n">auth_creds</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
-            <span class="c1"># Decodes and validates JWT</span>
-            <span class="n">token_content</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">auth_creds</span><span class="o">.</span><span class="n">credentials</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">Scopes</span><span class="o">.</span><span class="n">ADMIN</span> <span class="ow">in</span> <span class="n">security_scopes</span><span class="o">.</span><span class="n">scopes</span><span class="p">:</span>
-                <span class="c1"># We use only one generic admin for now</span>
-                <span class="k">if</span> <span class="p">(</span>
-                    <span class="n">token_content</span><span class="p">[</span><span class="s2">&quot;client_id&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;lomas_admin&quot;</span>
-                <span class="p">):</span>  <span class="c1"># TODO need to add admin role/scope see issue 399</span>
-                    <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span><span class="s2">&quot;Only admin user can query this endpoint.&quot;</span><span class="p">)</span>
-                <span class="n">user</span> <span class="o">=</span> <span class="n">UserId</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s2">&quot;noemailexample.com&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">user</span> <span class="o">=</span> <span class="n">UserId</span><span class="p">(</span>
-                    <span class="n">name</span><span class="o">=</span><span class="n">token_content</span><span class="p">[</span><span class="n">KCAttributeNames</span><span class="o">.</span><span class="n">USER_NAME</span><span class="p">],</span>
-                    <span class="n">email</span><span class="o">=</span><span class="n">token_content</span><span class="p">[</span><span class="n">KCAttributeNames</span><span class="o">.</span><span class="n">USER_EMAIL</span><span class="p">],</span>
-                <span class="p">)</span>
-        <span class="k">except</span> <span class="n">UnauthorizedAccessException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">e</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="c1"># TODO problematic to add e into error message to client?</span>
-            <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span><span class="s2">&quot;Failed bearer token verification.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Authenticated user </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">user</span></div>
+        <span class="p">)</span></div>
 </div>
+
+
+
+<span class="c1"># Ideally should be at the top of the file with forward type reference but oh well</span>
+<span class="n">AuthenticatorT</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span>
+    <span class="n">FreePassAuthenticator</span> <span class="o">|</span> <span class="n">JWTAuthenticator</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;authentication_type&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="get_user_id">
+<a class="viewcode-back" href="../../../lomas_server.auth.html#lomas_server.auth.auth.get_user_id">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_user_id</span><span class="p">(</span>
+    <span class="n">authenticator</span><span class="p">:</span> <span class="n">AuthenticatorT</span><span class="p">,</span> <span class="n">security_scopes</span><span class="p">:</span> <span class="n">SecurityScopes</span><span class="p">,</span> <span class="n">auth_creds</span><span class="p">:</span> <span class="n">HTTPAuthorizationCredentials</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UserId</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extracts user id from bearer token.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        security_scopes (SecurityScopes): The required scopes for the endpoint.</span>
+<span class="sd">        auth_creds (HTTPAuthorizationCredentials): Authorization credentials.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        UserId: The UserId object containing user infos.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">match</span> <span class="n">authenticator</span><span class="p">:</span>
+        <span class="k">case</span> <span class="n">FreePassAuthenticator</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">Scopes</span><span class="o">.</span><span class="n">ADMIN</span> <span class="ow">in</span> <span class="n">security_scopes</span><span class="o">.</span><span class="n">scopes</span><span class="p">:</span>
+                    <span class="c1"># Admins don&#39;t come with proper user id, so we create a dummy one.</span>
+                    <span class="n">user</span> <span class="o">=</span> <span class="n">UserId</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s2">&quot;admin@example.com&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">user</span> <span class="o">=</span> <span class="n">UserId</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">auth_creds</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span><span class="s2">&quot;Failed bearer token verification.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+        <span class="k">case</span> <span class="n">JWTAuthenticator</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Extracts kid from JWT and fetches corresponding key from keycloak (or cache).</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">authenticator</span><span class="o">.</span><span class="n">jwk_client</span><span class="o">.</span><span class="n">get_signing_key_from_jwt</span><span class="p">(</span><span class="n">auth_creds</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
+                <span class="c1"># Decodes and validates JWT</span>
+                <span class="n">token_content</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">auth_creds</span><span class="o">.</span><span class="n">credentials</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">Scopes</span><span class="o">.</span><span class="n">ADMIN</span> <span class="ow">in</span> <span class="n">security_scopes</span><span class="o">.</span><span class="n">scopes</span><span class="p">:</span>
+                    <span class="c1"># We use only one generic admin for now</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="n">token_content</span><span class="p">[</span><span class="s2">&quot;client_id&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;lomas_admin&quot;</span>
+                    <span class="p">):</span>  <span class="c1"># TODO need to add admin role/scope see issue 399</span>
+                        <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span><span class="s2">&quot;Only admin user can query this endpoint.&quot;</span><span class="p">)</span>
+                    <span class="n">user</span> <span class="o">=</span> <span class="n">UserId</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s2">&quot;noemailexample.com&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">user</span> <span class="o">=</span> <span class="n">UserId</span><span class="p">(</span>
+                        <span class="n">name</span><span class="o">=</span><span class="n">token_content</span><span class="p">[</span><span class="n">KCAttributeNames</span><span class="o">.</span><span class="n">USER_NAME</span><span class="p">],</span>
+                        <span class="n">email</span><span class="o">=</span><span class="n">token_content</span><span class="p">[</span><span class="n">KCAttributeNames</span><span class="o">.</span><span class="n">USER_EMAIL</span><span class="p">],</span>
+                    <span class="p">)</span>
+            <span class="k">except</span> <span class="n">UnauthorizedAccessException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="c1"># TODO problematic to add e into error message to client?</span>
+                <span class="k">raise</span> <span class="n">UnauthorizedAccessException</span><span class="p">(</span><span class="s2">&quot;Failed bearer token verification.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="k">return</span> <span class="n">user</span></div>
 
 </pre></div>
 

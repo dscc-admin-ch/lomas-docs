@@ -97,6 +97,7 @@
              
   <h1>Source code for lomas_server.dp_queries.dp_libraries.smartnoise_sql</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aio_pika.patterns.rpc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Proxy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">snsql</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mechanism</span><span class="p">,</span> <span class="n">Privacy</span><span class="p">,</span> <span class="n">Stat</span><span class="p">,</span> <span class="n">from_connection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">snsql.reader.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sqlglot</span><span class="w"> </span><span class="kn">import</span> <span class="n">exp</span><span class="p">,</span> <span class="n">parse_one</span>
@@ -110,7 +111,6 @@
     <span class="n">SmartnoiseSQLRequestModel</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">SmartnoiseSQLQueryResult</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">SSQL_MAX_ITERATION</span><span class="p">,</span> <span class="n">SSQL_STATS</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.data_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dp_querier</span><span class="w"> </span><span class="kn">import</span> <span class="n">DPQuerier</span>
@@ -126,7 +126,7 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">data_connector</span><span class="p">:</span> <span class="n">DataConnector</span><span class="p">,</span>
-        <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span>
+        <span class="n">admin_database</span><span class="p">:</span> <span class="n">Proxy</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data_connector</span><span class="p">,</span> <span class="n">admin_database</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">:</span> <span class="n">Reader</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -163,7 +163,7 @@
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">query_columns</span><span class="p">]</span>
 
         <span class="c1"># Prepare metadata in smartnoise-sql format</span>
-        <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_connector</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">()</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_connector</span><span class="o">.</span><span class="n">metadata</span>
         <span class="n">smartnoise_metadata</span> <span class="o">=</span> <span class="n">convert_to_smartnoise_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_columns</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">from_connection</span><span class="p">(</span>

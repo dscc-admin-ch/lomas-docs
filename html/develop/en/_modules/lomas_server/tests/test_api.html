@@ -223,9 +223,9 @@
             <span class="n">response_dict</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
             <span class="n">r_model</span> <span class="o">=</span> <span class="n">DummyDsResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">response_dict</span><span class="p">)</span>
 
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">DUMMY_NB_ROWS</span>
-            <span class="p">),</span> <span class="s2">&quot;Dummy pd.DataFrame does not have expected number of rows&quot;</span>
+            <span class="k">assert</span> <span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span> <span class="p">(</span>
+                <span class="s2">&quot;Dummy pd.DataFrame does not have expected number of rows&quot;</span>
+            <span class="p">)</span>
             <span class="k">assert</span> <span class="n">response_dict</span><span class="p">[</span><span class="s2">&quot;datetime_columns&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="p">[]</span>
 
             <span class="n">expected_dtypes</span> <span class="o">=</span> <span class="p">[</span>
@@ -237,9 +237,9 @@
                 <span class="s2">&quot;float&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;string&quot;</span><span class="p">,</span>
             <span class="p">]</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="n">expected_dtypes</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;Dtypes do not match: </span><span class="si">{</span><span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">dtypes</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">expected_dtypes</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">assert</span> <span class="p">(</span><span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="n">expected_dtypes</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Dtypes do not match: </span><span class="si">{</span><span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">dtypes</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">expected_dtypes</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
             <span class="c1"># Expect to fail: dataset does not exist</span>
             <span class="n">fake_dataset</span> <span class="o">=</span> <span class="s2">&quot;I_do_not_exist&quot;</span>
@@ -324,9 +324,9 @@
             <span class="k">assert</span> <span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Dummy pd.DataFrame does not have expected number of rows&quot;</span>
 
             <span class="n">expected_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;&lt;M8[ns]&quot;</span><span class="p">)</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">expected_dtype</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Dtypes do not match: </span><span class="si">{</span><span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">dtypes</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">expected_dtype</span><span class="si">}</span><span class="s2">&quot;</span></div>
+            <span class="k">assert</span> <span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">expected_dtype</span><span class="p">,</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Dtypes do not match: </span><span class="si">{</span><span class="n">r_model</span><span class="o">.</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">dtypes</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">expected_dtype</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TestRootAPIEndpoint.test_get_initial_budget">

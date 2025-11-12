@@ -239,7 +239,7 @@ to the next middleware or request handler.</p></li>
 <li><p><strong>user_id</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId"><em>UserId</em></a>) – A UserId object identifying the user.</p></li>
 <li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><em>LomasRequestModel</em></a><em>, </em><em>optional</em>) – A JSON object containing
 the dataset_name key for indicating the dataset.
-Defaults to Body(example_get_admin_db_data).</p></li>
+Defaults to example_get_admin_db_data_body.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -280,7 +280,7 @@ the dummy dataset (default: 42).</p></li>
 </ul>
 </dd>
 </dl>
-<p>Defaults to Body(example_get_dummy_dataset).</p>
+<p>Defaults to example_get_dummy_dataset_body.</p>
 </p></li>
 </ul>
 </dd>
@@ -315,7 +315,7 @@ the dummy dataset (default: 42).</p></li>
 <li><p><strong>user_id</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId"><em>UserId</em></a>) – A UserId object identifying the user.</p></li>
 <li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><em>LomasRequestModel</em></a><em>, </em><em>optional</em>) – <p>A JSON object containing:
 - dataset_name (str): The name of the dataset.</p>
-<p>Defaults to Body(example_get_admin_db_data).</p>
+<p>Defaults to example_get_admin_db_data_body.</p>
 </p></li>
 </ul>
 </dd>
@@ -356,7 +356,7 @@ the dummy dataset (default: 42).</p></li>
 <li><p><strong>user_id</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId"><em>UserId</em></a>) – A UserId object identifying the user.</p></li>
 <li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><em>LomasRequestModel</em></a><em>, </em><em>optional</em>) – <p>A JSON object containing:
 - dataset_name (str): The name of the dataset.</p>
-<p>Defaults to Body(example_get_admin_db_data).</p>
+<p>Defaults to example_get_admin_db_data_body.</p>
 </p></li>
 </ul>
 </dd>
@@ -431,7 +431,7 @@ the dummy dataset (default: 42).</p></li>
 <li><p><strong>user_id</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId"><em>UserId</em></a>) – A UserId object identifying the user.</p></li>
 <li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><em>LomasRequestModel</em></a><em>, </em><em>optional</em>) – <p>A JSON object containing:
 - dataset_name (str): The name of the dataset.</p>
-<p>Defaults to Body(example_get_admin_db_data).</p>
+<p>Defaults to example_get_admin_db_data_body.</p>
 </p></li>
 </ul>
 </dd>
@@ -472,7 +472,7 @@ the dummy dataset (default: 42).</p></li>
 <li><p><strong>user_id</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId"><em>UserId</em></a>) – A UserId object identifying the user.</p></li>
 <li><p><strong>query_json</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.requests.LomasRequestModel" title="lomas_core.models.requests.LomasRequestModel"><em>LomasRequestModel</em></a><em>, </em><em>optional</em>) – <p>A JSON object containing:
 - dataset_name (str): The name of the dataset.</p>
-<p>Defaults to Body(example_get_admin_db_data).</p>
+<p>Defaults to example_get_admin_db_data_body.</p>
 </p></li>
 </ul>
 </dd>
@@ -959,6 +959,31 @@ or SmartnoiseSynthSamples.</p>
 </section>
 <section id="module-lomas_server.routes.utils">
 <span id="lomas-server-routes-utils-module"></span><h2>lomas_server.routes.utils module<a class="headerlink" href="#module-lomas_server.routes.utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lomas_server.routes.utils.get_dataset_credentials">
+<span class="sig-prename descclassname"><span class="pre">lomas_server.routes.utils.</span></span><span class="sig-name descname"><span class="pre">get_dataset_credentials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">private_db_credentials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PrivateDBCredentials</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.constants.PrivateDatabaseType" title="lomas_core.models.constants.PrivateDatabaseType"><span class="pre">PrivateDatabaseType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">credentials_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">PrivateDBCredentials</span></span></span><a class="reference internal" href="_modules/lomas_server/routes/utils.html#get_dataset_credentials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.utils.get_dataset_credentials" title="Link to this definition"></a></dt>
+<dd><p>Search the list of private database credentials and.</p>
+<p>returns the one that matches the database type and
+credentials name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>private_db_credentials</strong> (<em>Sequence</em><em>[</em><em>PrivateDBCredentials</em><em>]</em>) – The list of private database credentials.</p></li>
+<li><p><strong>db_type</strong> (<a class="reference internal" href="lomas_core.models.html#lomas_core.models.constants.PrivateDatabaseType" title="lomas_core.models.constants.PrivateDatabaseType"><em>PrivateDatabaseType</em></a>) – The type of the database.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="lomas_core.html#lomas_core.error_handler.InternalServerException" title="lomas_core.error_handler.InternalServerException"><strong>InternalServerException</strong></a> – If the credentials are not found.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The matching credentials.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>PrivateDBCredentials</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="lomas_server.routes.utils.get_user_id_from_authenticator">
 <span class="sig-prename descclassname"><span class="pre">lomas_server.routes.utils.</span></span><span class="sig-name descname"><span class="pre">get_user_id_from_authenticator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">security_scopes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SecurityScopes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_creds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">HTTPAuthorizationCredentials</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Depends</span><span class="p"><span class="pre">(</span></span><span class="pre">HTTPBearer</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="lomas_core.models.html#lomas_core.models.collections.UserId" title="lomas_core.models.collections.UserId"><span class="pre">UserId</span></a></span></span><a class="reference internal" href="_modules/lomas_server/routes/utils.html#get_user_id_from_authenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lomas_server.routes.utils.get_user_id_from_authenticator" title="Link to this definition"></a></dt>

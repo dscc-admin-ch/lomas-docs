@@ -101,6 +101,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeGuard</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aio_pika.patterns.rpc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Proxy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">smartnoise_synth_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">deserialise_constraints</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">snsynth</span><span class="w"> </span><span class="kn">import</span> <span class="n">Synthesizer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">snsynth.transform</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
@@ -140,7 +141,6 @@
     <span class="n">SmartnoiseSynthRequestModel</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">SmartnoiseSynthModel</span><span class="p">,</span> <span class="n">SmartnoiseSynthSamples</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">SSYNTH_DEFAULT_BINS</span><span class="p">,</span>
     <span class="n">SSYNTH_MIN_ROWS_PATE_GAN</span><span class="p">,</span>
@@ -195,7 +195,7 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">data_connector</span><span class="p">:</span> <span class="n">DataConnector</span><span class="p">,</span>
-        <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span>
+        <span class="n">admin_database</span><span class="p">:</span> <span class="n">Proxy</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data_connector</span><span class="p">,</span> <span class="n">admin_database</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span> <span class="n">Synthesizer</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -456,7 +456,7 @@
             <span class="n">table_transformer_style</span> <span class="o">=</span> <span class="n">SSynthTableTransStyle</span><span class="o">.</span><span class="n">GAN</span>
 
         <span class="c1"># Preprocessing information from metadata</span>
-        <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_connector</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">()</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_connector</span><span class="o">.</span><span class="n">metadata</span>
         <span class="k">if</span> <span class="n">query_json</span><span class="o">.</span><span class="n">synth_name</span> <span class="o">==</span> <span class="n">SSynthGanSynthesizer</span><span class="o">.</span><span class="n">PATE_GAN</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">metadata</span><span class="o">.</span><span class="n">rows</span> <span class="o">&lt;</span> <span class="n">SSYNTH_MIN_ROWS_PATE_GAN</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ExternalLibraryException</span><span class="p">(</span>

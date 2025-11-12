@@ -96,9 +96,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_client.http_client</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">json</span><span class="w"> </span><span class="kn">import</span> <span class="n">loads</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
@@ -108,10 +106,11 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">CONNECT_TIMEOUT</span><span class="p">,</span> <span class="n">DEFAULT_READ_TIMEOUT</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">LomasRequestModel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">Job</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">init_logging</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="LomasHttpClient">
@@ -175,7 +174,6 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            requests.Response: The response object resulting from the POST request.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;User (with client id &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">client_id</span><span class="si">}</span><span class="s2">&#39;) is making a request &quot;</span>
             <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;to url &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">app_url</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
@@ -208,7 +206,6 @@
 <a class="viewcode-back" href="../../lomas_client.html#lomas_client.http_client.LomasHttpClient.wait_for_job">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">wait_for_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_uid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n_retry</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1800</span><span class="p">,</span> <span class="n">sleep_sec</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Job</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Periodically query the job endpoint sleeping in between until it completes / times-out.&quot;&quot;&quot;</span>
-
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_retry</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">job_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_oauth2_session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
@@ -222,11 +219,8 @@
                 <span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
             <span class="c1"># Check for error before accessing &quot;status&quot;</span>
-            <span class="k">if</span> <span class="s2">&quot;status&quot;</span> <span class="ow">in</span> <span class="n">job_query</span> <span class="ow">and</span> <span class="n">job_query</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;complete&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;status&quot;</span> <span class="ow">in</span> <span class="n">job_query</span> <span class="ow">and</span> <span class="n">job_query</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;complete&quot;</span><span class="p">,</span> <span class="s2">&quot;failed&quot;</span><span class="p">}:</span>
                 <span class="k">return</span> <span class="n">Job</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">job_query</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="p">(</span><span class="n">job_err</span> <span class="o">:=</span> <span class="n">job_query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">Job</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">job_query</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="n">loads</span><span class="p">(</span><span class="n">job_err</span><span class="p">)})</span>
 
             <span class="k">if</span> <span class="s2">&quot;type&quot;</span> <span class="ow">in</span> <span class="n">job_query</span> <span class="ow">and</span> <span class="n">job_query</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;UnauthorizedAccessException&quot;</span><span class="p">:</span>
                 <span class="c1"># Handle unauthorized specifically</span>

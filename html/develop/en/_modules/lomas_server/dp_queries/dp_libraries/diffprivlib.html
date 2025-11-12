@@ -100,6 +100,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aio_pika.patterns.rpc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Proxy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffprivlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">BudgetAccountant</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffprivlib.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivacyLeakWarning</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffprivlib_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">deserialise_pipeline</span>
@@ -117,7 +118,6 @@
     <span class="n">DiffPrivLibRequestModel</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffPrivLibQueryResult</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.data_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.dp_queries.dp_libraries.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">handle_missing_data</span><span class="p">,</span>
@@ -133,7 +133,7 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">data_connector</span><span class="p">:</span> <span class="n">DataConnector</span><span class="p">,</span>
-        <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span>
+        <span class="n">admin_database</span><span class="p">:</span> <span class="n">Proxy</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data_connector</span><span class="p">,</span> <span class="n">admin_database</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dpl_pipeline</span><span class="p">:</span> <span class="n">Pipeline</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -169,7 +169,7 @@
                 <span class="n">step</span><span class="o">.</span><span class="n">accountant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">accountant</span>
 
         <span class="c1"># 2. Get metadata for features</span>
-        <span class="n">columns_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_connector</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">()</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span>
+        <span class="n">columns_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_connector</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span>
         <span class="n">feature_metadata</span> <span class="o">=</span> <span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="n">columns_metadata</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">feature_columns</span><span class="p">}</span>
 
         <span class="n">first_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dpl_pipeline</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>

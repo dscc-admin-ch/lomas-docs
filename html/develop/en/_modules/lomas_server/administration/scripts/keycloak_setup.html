@@ -96,8 +96,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.administration.scripts.keycloak_setup</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">mantelo</span><span class="w"> </span><span class="kn">import</span> <span class="n">HttpException</span><span class="p">,</span> <span class="n">KeycloakAdmin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">HttpUrl</span><span class="p">,</span> <span class="n">computed_field</span>
@@ -105,8 +104,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_logging</span>
 
-<span class="n">init_logging</span><span class="p">()</span>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">init_logging</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="User">
@@ -177,7 +175,6 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        KeycloakAdmin: KeycloakAdmin session.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">return</span> <span class="n">KeycloakAdmin</span><span class="o">.</span><span class="n">from_username_password</span><span class="p">(</span>
         <span class="n">server_url</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">keycloak_url</span><span class="p">,</span>
         <span class="n">realm_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">keycloak_authentication_realm</span><span class="p">,</span>
@@ -227,7 +224,6 @@
 <span class="sd">        config (Config): Config for creating the clients.</span>
 <span class="sd">        kc_admin (KeycloakAdmin): A KeycloakAdmin session.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">create_confidential_client</span><span class="p">(</span>
         <span class="n">kc_admin</span><span class="p">,</span>
         <span class="n">config</span><span class="o">.</span><span class="n">lomas_admin_client_id</span><span class="p">,</span>
@@ -246,7 +242,6 @@
 <a class="viewcode-back" href="../../../../lomas_server.administration.scripts.html#lomas_server.administration.scripts.keycloak_setup.create_lomas_admin_users">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_lomas_admin_users</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">Config</span><span class="p">,</span> <span class="n">kc_admin</span><span class="p">:</span> <span class="n">KeycloakAdmin</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates standard User.&quot;&quot;&quot;</span>
-
     <span class="n">realm_role_name</span> <span class="o">=</span> <span class="s2">&quot;authp/admin&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
@@ -303,7 +298,7 @@
 <div class="viewcode-block" id="create_confidential_client">
 <a class="viewcode-back" href="../../../../lomas_server.administration.scripts.html#lomas_server.administration.scripts.keycloak_setup.create_confidential_client">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_confidential_client</span><span class="p">(</span>
-    <span class="n">kc_admin</span><span class="p">:</span> <span class="n">KeycloakAdmin</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">roles</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">kc_admin</span><span class="p">:</span> <span class="n">KeycloakAdmin</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">roles</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a confidential client with an associated service account.</span>
 
@@ -320,6 +315,8 @@
 <span class="sd">            to assign to the associated service account.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Idempotent creation</span>
+    <span class="k">if</span> <span class="n">roles</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">roles</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">match</span> <span class="n">kc_admin</span><span class="o">.</span><span class="n">clients</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">clientId</span><span class="o">=</span><span class="n">client_id</span><span class="p">):</span>
         <span class="k">case</span> <span class="p">[{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">client_id</span><span class="p">,</span> <span class="o">**</span><span class="n">_rest</span><span class="p">}]:</span>
             <span class="nb">getattr</span><span class="p">(</span><span class="n">kc_admin</span><span class="o">.</span><span class="n">clients</span><span class="p">,</span> <span class="n">client_id</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
@@ -442,7 +439,7 @@
     <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">kc_admin</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;org.keycloak.keys.KeyProvider&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;rsa-generated&quot;</span><span class="p">:</span>
             <span class="nb">getattr</span><span class="p">(</span><span class="n">kc_admin</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removed bad provider: </span><span class="si">{</span><span class="n">kp</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removed bad provider: </span><span class="si">{</span><span class="n">kp</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 
@@ -450,9 +447,6 @@
 <a class="viewcode-back" href="../../../../lomas_server.administration.scripts.html#lomas_server.administration.scripts.keycloak_setup.kc_setup">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">kc_setup</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Lomas keycloak setup script.&quot;&quot;&quot;</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">()</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-
     <span class="c1"># Load config and get admin session</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">keycloak_use_tls</span><span class="p">:</span>

@@ -98,6 +98,7 @@
   <h1>Source code for lomas_server.dp_queries.dummy_dataset</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aio_pika.patterns.rpc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Proxy</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
@@ -112,7 +113,6 @@
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DUMMY_NB_ROWS</span><span class="p">,</span> <span class="n">DUMMY_SEED</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">DummyQueryModel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">RANDOM_STRINGS</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.in_memory_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryConnector</span>
 
@@ -204,29 +204,26 @@
 
 <div class="viewcode-block" id="get_dummy_dataset_for_query">
 <a class="viewcode-back" href="../../../lomas_server.dp_queries.html#lomas_server.dp_queries.dummy_dataset.get_dummy_dataset_for_query">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_dataset_for_query</span><span class="p">(</span>
-    <span class="n">admin_database</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DummyQueryModel</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_dataset_for_query</span><span class="p">(</span>
+    <span class="n">admin_database</span><span class="p">:</span> <span class="n">Proxy</span><span class="p">,</span> <span class="n">query_json</span><span class="p">:</span> <span class="n">DummyQueryModel</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InMemoryConnector</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a dummy dataset for a given query.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        admin_database (AdminDatabase): An initialized instance</span>
-<span class="sd">            of AdminDatabase.</span>
+<span class="sd">        admin_database (Proxy): A Proxy for an initialized instance of an AdminDatabase.</span>
 <span class="sd">        query_json (RequestModel): The request object for the query.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        InMemoryConnector: An in memory dummy dataset instance.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Create dummy dataset based on seed and number of rows</span>
-    <span class="n">ds_metadata</span> <span class="o">=</span> <span class="n">admin_database</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">(</span><span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">)</span>
-    <span class="n">ds_df</span> <span class="o">=</span> <span class="n">make_dummy_dataset</span><span class="p">(</span>
-        <span class="n">ds_metadata</span><span class="p">,</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="k">await</span> <span class="n">admin_database</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">(</span><span class="n">dataset_name</span><span class="o">=</span><span class="n">query_json</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">make_dummy_dataset</span><span class="p">(</span>
+        <span class="n">metadata</span><span class="p">,</span>
         <span class="n">query_json</span><span class="o">.</span><span class="n">dummy_nb_rows</span><span class="p">,</span>
         <span class="n">query_json</span><span class="o">.</span><span class="n">dummy_seed</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">ds_data_connector</span> <span class="o">=</span> <span class="n">InMemoryConnector</span><span class="p">(</span><span class="n">ds_metadata</span><span class="p">,</span> <span class="n">ds_df</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">ds_data_connector</span></div>
+    <span class="k">return</span> <span class="n">InMemoryConnector</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">)</span></div>
 
 </pre></div>
 

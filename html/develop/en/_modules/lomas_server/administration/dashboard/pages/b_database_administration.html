@@ -1,0 +1,896 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lomas_server.administration.dashboard.pages.b_database_administration &mdash; Lomas 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            Lomas
+              <img src="../../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../client_quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../client_examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../client_errors.html">Errors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../server_deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../server_administration.html">Administration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../server_managing_dataset.html">Adding and referencing new dataset</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api.html">API Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../observability.html">Observability with FastAPI, OpenTelemetry, Grafana, Loki, Tempo, and Prometheus</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../CONTRIBUTING.html">Notes for Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../CONTRIBUTING_SERVER.html">Notes for Server Contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">poster</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../poster.html">Poster</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Lomas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lomas_server.administration.dashboard.pages.b_database_administration</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lomas_server.administration.dashboard.pages.b_database_administration</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">streamlit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatasetsCollection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrivateDatabaseType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.admin_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminDatabase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.admin_database.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">BudgetDBKey</span><span class="p">,</span> <span class="n">TopDBKey</span> <span class="k">as</span> <span class="n">TK</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.administration.keycloak_admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_kc_user_client_secret</span><span class="p">,</span> <span class="n">set_kc_user_client_secret</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.administration.lomas_admin</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">add_lomas_user</span><span class="p">,</span>
+    <span class="n">add_lomas_user_with_budget</span><span class="p">,</span>
+    <span class="n">add_lomas_users_via_yaml</span><span class="p">,</span>
+    <span class="n">del_lomas_user</span><span class="p">,</span>
+    <span class="n">drop_lomas_collection</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DELTA_LIMIT</span><span class="p">,</span> <span class="n">EPSILON_LIMIT</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminConfig</span>
+
+<span class="n">EPSILON_STEP</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">DELTA_STEP</span> <span class="o">=</span> <span class="mf">0.00001</span>
+
+
+<div class="viewcode-block" id="get_list_of_datasets_from_user">
+<a class="viewcode-back" href="../../../../../lomas_server.administration.dashboard.pages.html#lomas_server.administration.dashboard.pages.b_database_administration.get_list_of_datasets_from_user">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_list_of_datasets_from_user</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">AdminDatabase</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List of datasets User has access to.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="nb">map</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">ds</span><span class="p">:</span> <span class="n">ds</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
+            <span class="nb">next</span><span class="p">(</span><span class="n">user</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="p">()</span> <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">username</span><span class="p">)</span><span class="o">.</span><span class="n">datasets_list</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="warning_field_missing">
+<a class="viewcode-back" href="../../../../../lomas_server.administration.dashboard.pages.html#lomas_server.administration.dashboard.pages.b_database_administration.warning_field_missing">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">warning_field_missing</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Writes warning that some fields are missing.&quot;&quot;&quot;</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Please fill all fields.&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1">###############################################################################</span>
+<span class="c1"># BACKEND</span>
+<span class="c1">###############################################################################</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">&quot;dashboard_config&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">:</span>
+        <span class="c1"># Store dashboard config</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;dashboard_config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AdminConfig</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">InternalServerException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to load server or dashboard config. Initial exception: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="sync_datasets">
+<a class="viewcode-back" href="../../../../../lomas_server.administration.dashboard.pages.html#lomas_server.administration.dashboard.pages.b_database_administration.sync_datasets">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sync_datasets</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Refresh the list of datasets.&quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dashboard_config&quot;</span><span class="p">,</span> <span class="n">AdminConfig</span><span class="p">())</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;list_datasets&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">ds</span><span class="p">:</span> <span class="n">ds</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">datasets</span><span class="p">()))</span></div>
+
+
+
+<div class="viewcode-block" id="sync_users">
+<a class="viewcode-back" href="../../../../../lomas_server.administration.dashboard.pages.html#lomas_server.administration.dashboard.pages.b_database_administration.sync_users">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sync_users</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Refresh the list of users.&quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dashboard_config&quot;</span><span class="p">,</span> <span class="n">AdminConfig</span><span class="p">())</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">[</span><span class="s2">&quot;list_users&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">users</span><span class="p">()))</span></div>
+
+
+
+<span class="k">if</span> <span class="s2">&quot;list_users&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">:</span>
+    <span class="n">sync_users</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="s2">&quot;list_datasets&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="p">:</span>
+    <span class="n">sync_datasets</span><span class="p">()</span>
+
+
+<span class="c1">###############################################################################</span>
+<span class="c1"># GUI and user interactions</span>
+<span class="c1">###############################################################################</span>
+
+<span class="c1"># Initialization</span>
+<span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Admin Database Management&quot;</span><span class="p">)</span>
+
+<span class="n">user_tab</span><span class="p">,</span> <span class="n">dataset_tab</span><span class="p">,</span> <span class="n">content_tab</span><span class="p">,</span> <span class="n">deletion_tab</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">tabs</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;:technologist: User Management&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;:file_cabinet: Dataset Management&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;:eyes: View Database Content&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;:wastebasket: Delete Content (:red[DANGEROUS])&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="k">with</span> <span class="n">user_tab</span><span class="p">:</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Add user&quot;</span><span class="p">)</span>
+    <span class="n">au_1</span><span class="p">,</span> <span class="n">au_2</span><span class="p">,</span> <span class="n">au_3</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">au_1</span><span class="p">:</span>
+        <span class="n">au_username</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Username (add user)&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;au_username_key&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">au_2</span><span class="p">:</span>
+        <span class="n">au_email</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Email (add user)&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;au_email_key&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">au_3</span><span class="p">:</span>
+        <span class="n">au_client_secret</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span>
+            <span class="s2">&quot;Client secret (add user), can be left empty.&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;au_client_secret_key&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Add user&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;add_user_button&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">au_username</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">au_username</span><span class="si">}</span><span class="s2"> is already in the database.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">au_username</span> <span class="ow">and</span> <span class="n">au_email</span><span class="p">:</span>
+            <span class="n">add_lomas_user</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="p">,</span> <span class="n">au_username</span><span class="p">,</span> <span class="n">au_email</span><span class="p">,</span> <span class="n">au_client_secret</span><span class="p">)</span>
+            <span class="n">sync_users</span><span class="p">()</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">au_username</span><span class="si">}</span><span class="s2"> was added.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Add user with budget&quot;</span><span class="p">)</span>
+    <span class="n">auwb_1</span><span class="p">,</span> <span class="n">auwb_2</span><span class="p">,</span> <span class="n">auwb_3</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">auwb_1</span><span class="p">:</span>
+        <span class="n">auwb_username</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Username (add user with budget)&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;auwb_username&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">auwb_username</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">auwb_username</span><span class="si">}</span><span class="s2"> is already in the database.&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">auwb_2</span><span class="p">:</span>
+        <span class="n">auwb_email</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Email (add user)&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;auwb_email_key&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">auwb_3</span><span class="p">:</span>
+        <span class="n">auwb_client_secret</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span>
+            <span class="s2">&quot;Client secret (add user), can be left empty.&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;auwb_client_secret_key&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">auwb_4</span><span class="p">,</span> <span class="n">auwb_5</span><span class="p">,</span> <span class="n">auwb_6</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">auwb_4</span><span class="p">:</span>
+        <span class="n">auwb_dataset</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Dataset (add user with budget)&quot;</span><span class="p">,</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_datasets</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;dataset of add user with budget&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">auwb_5</span><span class="p">:</span>
+        <span class="n">auwb_epsilon</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">number_input</span><span class="p">(</span>
+            <span class="s2">&quot;Epsilon (add user with budget)&quot;</span><span class="p">,</span>
+            <span class="n">min_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">max_value</span><span class="o">=</span><span class="n">EPSILON_LIMIT</span><span class="p">,</span>
+            <span class="n">step</span><span class="o">=</span><span class="n">EPSILON_STEP</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;auwb_epsilon&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">auwb_6</span><span class="p">:</span>
+        <span class="n">auwb_delta</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">number_input</span><span class="p">(</span>
+            <span class="s2">&quot;Delta (add user with budget)&quot;</span><span class="p">,</span>
+            <span class="n">min_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">max_value</span><span class="o">=</span><span class="n">DELTA_LIMIT</span><span class="p">,</span>
+            <span class="n">step</span><span class="o">=</span><span class="n">DELTA_STEP</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;auwb_delta&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Add user with dataset&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;add_user_with_budget&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">auwb_username</span> <span class="ow">and</span> <span class="n">auwb_email</span> <span class="ow">and</span> <span class="n">auwb_dataset</span> <span class="ow">and</span> <span class="n">auwb_epsilon</span> <span class="ow">and</span> <span class="n">auwb_delta</span><span class="p">:</span>
+            <span class="n">add_lomas_user_with_budget</span><span class="p">(</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="p">,</span>
+                <span class="n">auwb_username</span><span class="p">,</span>
+                <span class="n">auwb_email</span><span class="p">,</span>
+                <span class="n">auwb_dataset</span><span class="p">,</span>
+                <span class="n">auwb_epsilon</span><span class="p">,</span>
+                <span class="n">auwb_delta</span><span class="p">,</span>
+                <span class="n">auwb_client_secret</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">sync_users</span><span class="p">()</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">auwb_username</span><span class="si">}</span><span class="s2"> was added with dataset </span><span class="si">{</span><span class="n">auwb_dataset</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Add dataset to user&quot;</span><span class="p">)</span>
+    <span class="n">adtu_1</span><span class="p">,</span> <span class="n">adtu_2</span><span class="p">,</span> <span class="n">adtu_3</span><span class="p">,</span> <span class="n">adtu_4</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">adtu_1</span><span class="p">:</span>
+        <span class="n">adtu_username</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Username (add dataset to user)&quot;</span><span class="p">,</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;username of add dataset to user&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">adtu_2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">adtu_username</span><span class="p">:</span>
+            <span class="n">adtu_datasets_from_user</span> <span class="o">=</span> <span class="n">get_list_of_datasets_from_user</span><span class="p">(</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="p">,</span> <span class="n">adtu_username</span>
+            <span class="p">)</span>
+            <span class="n">adtu_dataset_available</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">dataset</span>
+                <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_datasets</span>
+                <span class="k">if</span> <span class="n">dataset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">adtu_datasets_from_user</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">adtu_dataset_available</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_datasets</span>
+        <span class="n">adtu_dataset</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Dataset (add dataset to user)&quot;</span><span class="p">,</span>
+            <span class="n">adtu_dataset_available</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;dataset of add dataset to user&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">adtu_3</span><span class="p">:</span>
+        <span class="n">adtu_epsilon</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">number_input</span><span class="p">(</span>
+            <span class="s2">&quot;Epsilon (add dataset to user)&quot;</span><span class="p">,</span>
+            <span class="n">min_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">max_value</span><span class="o">=</span><span class="n">EPSILON_LIMIT</span><span class="p">,</span>
+            <span class="n">step</span><span class="o">=</span><span class="n">EPSILON_STEP</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;adtu_epsilon&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">adtu_4</span><span class="p">:</span>
+        <span class="n">adtu_delta</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">number_input</span><span class="p">(</span>
+            <span class="s2">&quot;Delta (add dataset to user)&quot;</span><span class="p">,</span>
+            <span class="n">min_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">max_value</span><span class="o">=</span><span class="n">DELTA_LIMIT</span><span class="p">,</span>
+            <span class="n">step</span><span class="o">=</span><span class="n">DELTA_STEP</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;adtu_delta&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Add dataset to user&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;add_dataset_to_user&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">adtu_username</span> <span class="ow">and</span> <span class="n">adtu_dataset</span> <span class="ow">and</span> <span class="n">adtu_epsilon</span> <span class="ow">and</span> <span class="n">adtu_delta</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">add_dataset_to_user</span><span class="p">(</span>
+                <span class="n">adtu_username</span><span class="p">,</span>
+                <span class="n">adtu_dataset</span><span class="p">,</span>
+                <span class="n">adtu_epsilon</span><span class="p">,</span>
+                <span class="n">adtu_delta</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">adtu_dataset</span><span class="si">}</span><span class="s2"> was added to user </span><span class="si">{</span><span class="n">adtu_username</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; with epsilon = </span><span class="si">{</span><span class="n">adtu_epsilon</span><span class="si">}</span><span class="s2"> and delta = </span><span class="si">{</span><span class="n">adtu_delta</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Set user client secret&quot;</span><span class="p">)</span>
+    <span class="n">sucs_1</span><span class="p">,</span> <span class="n">sucs_2</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">sucs_1</span><span class="p">:</span>
+        <span class="n">sucs_username</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Username (set user client_secret)&quot;</span><span class="p">,</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;sucs_username&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">sucs_2</span><span class="p">:</span>
+        <span class="n">sucs_client_secret</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span>
+            <span class="s2">&quot;Client secret (set user client_secret)&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;sucs_client_secret&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Set user client secret&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;set_user_client_secret&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">sucs_username</span> <span class="ow">and</span> <span class="n">sucs_client_secret</span><span class="p">:</span>
+            <span class="n">set_kc_user_client_secret</span><span class="p">(</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">kc_config</span><span class="p">,</span> <span class="n">sucs_username</span><span class="p">,</span> <span class="n">sucs_client_secret</span>
+            <span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Set new client secret for user </span><span class="si">{</span><span class="n">sucs_username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Modify user epsilon&quot;</span><span class="p">)</span>
+    <span class="n">sue_1</span><span class="p">,</span> <span class="n">sue_2</span><span class="p">,</span> <span class="n">sue_3</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">sue_1</span><span class="p">:</span>
+        <span class="n">sue_username</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Username (modify user epsilon)&quot;</span><span class="p">,</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;username of modify user epsilon&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">sue_2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sue_username</span><span class="p">:</span>
+            <span class="n">sue_datasets_from_user</span> <span class="o">=</span> <span class="n">get_list_of_datasets_from_user</span><span class="p">(</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="p">,</span> <span class="n">sue_username</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sue_datasets_from_user</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_datasets</span>
+        <span class="n">sue_dataset</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Dataset (modify user epsilon)&quot;</span><span class="p">,</span>
+            <span class="n">sue_datasets_from_user</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;dataset of modify user epsilon&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">sue_3</span><span class="p">:</span>
+        <span class="n">sue_epsilon</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">number_input</span><span class="p">(</span>
+            <span class="s2">&quot;Epsilon value (modify user epsilon)&quot;</span><span class="p">,</span>
+            <span class="n">min_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">max_value</span><span class="o">=</span><span class="n">EPSILON_LIMIT</span><span class="p">,</span>
+            <span class="n">step</span><span class="o">=</span><span class="n">EPSILON_STEP</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;sue_epsilon&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Modify user epsilon&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;modify_user_epsilon&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">sue_username</span> <span class="ow">and</span> <span class="n">sue_dataset</span> <span class="ow">and</span> <span class="n">sue_epsilon</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">update_epsilon_or_delta</span><span class="p">(</span>
+                <span class="n">sue_username</span><span class="p">,</span> <span class="n">sue_dataset</span><span class="p">,</span> <span class="n">BudgetDBKey</span><span class="o">.</span><span class="n">EPSILON_INIT</span><span class="p">,</span> <span class="n">sue_epsilon</span>
+            <span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">sue_username</span><span class="si">}</span><span class="s2"> on dataset </span><span class="si">{</span><span class="n">sue_dataset</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;initial epsilon value was modified to </span><span class="si">{</span><span class="n">sue_epsilon</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Modify user delta&quot;</span><span class="p">)</span>
+    <span class="n">sud_1</span><span class="p">,</span> <span class="n">sud_2</span><span class="p">,</span> <span class="n">sud_3</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">sud_1</span><span class="p">:</span>
+        <span class="n">sud_username</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Username (modify user delta)&quot;</span><span class="p">,</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;username of modify user delta&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">sud_2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sud_username</span><span class="p">:</span>
+            <span class="n">sud_datasets_from_user</span> <span class="o">=</span> <span class="n">get_list_of_datasets_from_user</span><span class="p">(</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="p">,</span> <span class="n">sud_username</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sud_datasets_from_user</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_datasets</span>
+        <span class="n">sud_dataset</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Dataset (modify user delta)&quot;</span><span class="p">,</span>
+            <span class="n">sud_datasets_from_user</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;dataset of modify user delta&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">sud_3</span><span class="p">:</span>
+        <span class="n">sud_delta</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">number_input</span><span class="p">(</span>
+            <span class="s2">&quot;Delta value (modify user delta)&quot;</span><span class="p">,</span>
+            <span class="n">min_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">max_value</span><span class="o">=</span><span class="n">DELTA_LIMIT</span><span class="p">,</span>
+            <span class="n">step</span><span class="o">=</span><span class="n">DELTA_STEP</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;sud_delta&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Modify user delta&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;modify_user_delta&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">sud_username</span> <span class="ow">and</span> <span class="n">sud_dataset</span> <span class="ow">and</span> <span class="n">sud_delta</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">update_epsilon_or_delta</span><span class="p">(</span>
+                <span class="n">sud_username</span><span class="p">,</span>
+                <span class="n">sud_dataset</span><span class="p">,</span>
+                <span class="n">BudgetDBKey</span><span class="o">.</span><span class="n">DELTA_INIT</span><span class="p">,</span>
+                <span class="n">sud_delta</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">sud_username</span><span class="si">}</span><span class="s2"> on dataset </span><span class="si">{</span><span class="n">sud_dataset</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;initial delta value was modified to </span><span class="si">{</span><span class="n">sud_delta</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Modify user may query&quot;</span><span class="p">)</span>
+    <span class="n">umq_1</span><span class="p">,</span> <span class="n">umq_2</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">umq_1</span><span class="p">:</span>
+        <span class="n">umq_username</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Username (user may query)&quot;</span><span class="p">,</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;username of user may query&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">umq_2</span><span class="p">:</span>
+        <span class="n">umq_may_query</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s2">&quot;May query&quot;</span><span class="p">,</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;umq_may_query&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Modify user may query&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;m_u_m_q&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">umq_username</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">set_may_user_query</span><span class="p">(</span><span class="n">umq_username</span><span class="p">,</span> <span class="n">umq_may_query</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;User&quot;</span><span class="p">,</span> <span class="n">umq_username</span><span class="p">,</span> <span class="s2">&quot;may_query is now:&quot;</span><span class="p">,</span> <span class="n">umq_may_query</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Add many users via a yaml file&quot;</span><span class="p">)</span>
+    <span class="n">u_clean</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">toggle</span><span class="p">(</span><span class="s2">&quot;Clean: recreate collection from scratch &quot;</span> <span class="o">+</span> <span class="s2">&quot;(will delete all previous users)&quot;</span><span class="p">)</span>
+    <span class="n">u_uploaded_file</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">file_uploader</span><span class="p">(</span>
+        <span class="s2">&quot;Choose a YAML file for the user collection&quot;</span><span class="p">,</span>
+        <span class="n">accept_multiple_files</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Add users&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">u_uploaded_file</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Click to add users&quot;</span><span class="p">)</span>
+            <span class="n">user_collection</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">u_uploaded_file</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">add_lomas_users_via_yaml</span><span class="p">(</span>
+                    <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="p">,</span>
+                    <span class="n">user_collection</span><span class="p">,</span>
+                    <span class="n">u_clean</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">sync_users</span><span class="p">()</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Users were added.&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to import collection because </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Users imported: </span><span class="si">{</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">dataset_tab</span><span class="p">:</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Add one dataset&quot;</span><span class="p">)</span>
+    <span class="n">ad_1</span><span class="p">,</span> <span class="n">ad_2</span><span class="p">,</span> <span class="n">ad_3</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">ad_1</span><span class="p">:</span>
+        <span class="n">ad_dataset</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Dataset name (add dataset)&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;ad_dataset&quot;</span><span class="p">)</span>
+        <span class="n">ad_dataset_warning</span> <span class="o">=</span> <span class="n">ad_dataset</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_datasets</span>
+        <span class="k">if</span> <span class="n">ad_dataset_warning</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">ad_dataset</span><span class="si">}</span><span class="s2"> is already in the database.&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">ad_2</span><span class="p">:</span>
+        <span class="n">ad_type</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Dataset type (add dataset)&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">,</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;ad_type&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">ad_3</span><span class="p">:</span>
+        <span class="n">ad_meta_type</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Metadata type (add dataset)&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">,</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;ad_meta_type&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">match</span> <span class="n">ad_type</span><span class="p">:</span>
+        <span class="k">case</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">:</span>
+            <span class="n">ad_path</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Dataset path (add dataset)&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;ad_path&quot;</span><span class="p">)</span>
+        <span class="k">case</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">:</span>
+            <span class="n">ad_s3_1</span><span class="p">,</span> <span class="n">ad_s3_2</span><span class="p">,</span> <span class="n">ad_s3_3</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">ad_s3_1</span><span class="p">:</span>
+                <span class="n">ad_s3_bucket</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;bucket (add dataset)&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;ad_s3_bucket&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">ad_s3_2</span><span class="p">:</span>
+                <span class="n">ad_s3_key</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;key (add dataset)&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;ad_s3_key&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">ad_s3_3</span><span class="p">:</span>
+                <span class="n">ad_s3_url</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;endpoint_url (add dataset)&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;ad_s3_url&quot;</span><span class="p">)</span>
+
+    <span class="k">match</span> <span class="n">ad_meta_type</span><span class="p">:</span>
+        <span class="k">case</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">:</span>
+            <span class="n">uploaded_metadata</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">file_uploader</span><span class="p">(</span><span class="s2">&quot;Import your related metadata file&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;uploaded_metadata&quot;</span><span class="p">)</span>
+            <span class="n">ad_meta_path</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># pylint: disable=invalid-name</span>
+            <span class="k">if</span> <span class="n">uploaded_metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ad_meta_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/metadata.yaml&quot;</span><span class="p">)</span>
+                <span class="n">ad_meta_path</span><span class="o">.</span><span class="n">write_bytes</span><span class="p">(</span><span class="n">uploaded_metadata</span><span class="o">.</span><span class="n">getbuffer</span><span class="p">())</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">uploaded_metadata</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> uploaded successfully!&quot;</span><span class="p">)</span>
+
+        <span class="k">case</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">:</span>
+            <span class="p">(</span>
+                <span class="n">ad_meta_s3_1</span><span class="p">,</span>
+                <span class="n">ad_meta_s3_2</span><span class="p">,</span>
+                <span class="n">ad_meta_s3_3</span><span class="p">,</span>
+                <span class="n">ad_meta_s3_4</span><span class="p">,</span>
+                <span class="n">ad_meta_s3_5</span><span class="p">,</span>
+            <span class="p">)</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">ad_meta_s3_1</span><span class="p">:</span>
+                <span class="n">ad_meta_s3_bucket</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span>
+                    <span class="s2">&quot;Metadata bucket (add dataset)&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;ad_meta_s3_bucket&quot;</span>
+                <span class="p">)</span>
+            <span class="k">with</span> <span class="n">ad_meta_s3_2</span><span class="p">:</span>
+                <span class="n">ad_meta_s3_key</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Metadata key (add dataset)&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;ad_meta_s3_key&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">ad_meta_s3_3</span><span class="p">:</span>
+                <span class="n">ad_meta_s3_url</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span>
+                    <span class="s2">&quot;Metadata endpoint_url (add dataset)&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;ad_meta_s3_url&quot;</span>
+                <span class="p">)</span>
+            <span class="k">with</span> <span class="n">ad_meta_s3_4</span><span class="p">:</span>
+                <span class="n">ad_meta_s3_kid</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span>
+                    <span class="s2">&quot;Metadata access_key_id (add dataset)&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;ad_meta_s3_kid&quot;</span>
+                <span class="p">)</span>
+            <span class="k">with</span> <span class="n">ad_meta_s3_5</span><span class="p">:</span>
+                <span class="n">ad_meta_s3_sk</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Metadata secret_key (add dataset)&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;ad_meta_s3_sk&quot;</span><span class="p">)</span>
+
+    <span class="n">keyword_args</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">DATASET_READY</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">METADATA_READY</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">ad_type</span> <span class="o">==</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span> <span class="ow">and</span> <span class="n">ad_path</span><span class="p">:</span>
+        <span class="n">keyword_args</span><span class="p">[</span><span class="s2">&quot;dataset_path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ad_path</span>
+        <span class="n">DATASET_READY</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">ad_type</span> <span class="o">==</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span> <span class="ow">and</span> <span class="n">ad_s3_bucket</span> <span class="ow">and</span> <span class="n">ad_s3_key</span> <span class="ow">and</span> <span class="n">ad_s3_url</span><span class="p">:</span>
+        <span class="n">keyword_args</span><span class="p">[</span><span class="s2">&quot;bucket&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ad_s3_bucket</span>
+        <span class="n">keyword_args</span><span class="p">[</span><span class="s2">&quot;key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ad_s3_key</span>
+        <span class="n">keyword_args</span><span class="p">[</span><span class="s2">&quot;endpoint_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ad_s3_url</span>
+        <span class="n">DATASET_READY</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">ad_dataset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Please, fill all empty fields for dataset.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ad_meta_type</span> <span class="o">==</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span> <span class="ow">and</span> <span class="n">ad_meta_path</span><span class="p">:</span>
+        <span class="n">keyword_args</span><span class="p">[</span><span class="s2">&quot;metadata_path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">ad_meta_path</span><span class="p">)</span>
+        <span class="n">METADATA_READY</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">ad_meta_type</span> <span class="o">==</span> <span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">ad_meta_s3_bucket</span><span class="p">,</span> <span class="n">ad_meta_s3_key</span><span class="p">,</span> <span class="n">ad_meta_s3_url</span><span class="p">,</span> <span class="n">ad_meta_s3_kid</span><span class="p">,</span> <span class="n">ad_meta_s3_sk</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="n">keyword_args</span><span class="p">[</span><span class="s2">&quot;metadata_bucket&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ad_meta_s3_bucket</span>
+        <span class="n">keyword_args</span><span class="p">[</span><span class="s2">&quot;metadata_key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ad_meta_s3_key</span>
+        <span class="n">keyword_args</span><span class="p">[</span><span class="s2">&quot;metadata_endpoint_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ad_meta_s3_url</span>
+        <span class="n">keyword_args</span><span class="p">[</span><span class="s2">&quot;metadata_access_key_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ad_meta_s3_kid</span>
+        <span class="n">keyword_args</span><span class="p">[</span><span class="s2">&quot;metadata_secret_access_key&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ad_meta_s3_sk</span>
+        <span class="n">METADATA_READY</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">ad_dataset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Please, fill all empty fields for the metadata.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Add </span><span class="si">{</span><span class="n">ad_type</span><span class="si">}</span><span class="s2"> dataset with </span><span class="si">{</span><span class="n">ad_meta_type</span><span class="si">}</span><span class="s2"> metadata&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;add_dataset_with_metadata&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">DATASET_READY</span> <span class="ow">and</span> <span class="n">METADATA_READY</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ad_dataset_warning</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">add_dataset</span><span class="p">(</span>
+                    <span class="n">ad_dataset</span><span class="p">,</span>
+                    <span class="n">ad_type</span><span class="p">,</span>
+                    <span class="n">ad_meta_type</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">keyword_args</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to add dataset because </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">DATASET_READY</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">METADATA_READY</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">sync_datasets</span><span class="p">()</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Dataset&quot;</span><span class="p">,</span> <span class="n">ad_dataset</span><span class="p">,</span> <span class="s2">&quot;was added.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Add many datasets via a yaml file&quot;</span><span class="p">)</span>
+    <span class="n">d_clean</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">toggle</span><span class="p">(</span><span class="s2">&quot;Clean: will delete all previous datasets&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;d_clean&quot;</span><span class="p">)</span>
+    <span class="n">dataset_collection</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">file_uploader</span><span class="p">(</span>
+        <span class="s2">&quot;Select a YAML file for the dataset collection&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;yaml&quot;</span><span class="p">,</span>
+        <span class="n">accept_multiple_files</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Add datasets&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;Add datasets&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dataset_collection</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Click to add datasets&quot;</span><span class="p">)</span>
+            <span class="n">dataset_collection</span> <span class="o">=</span> <span class="n">DatasetsCollection</span><span class="p">(</span><span class="o">**</span><span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">dataset_collection</span><span class="p">))</span><span class="o">.</span><span class="n">datasets</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">load_dataset_collection</span><span class="p">(</span><span class="n">dataset_collection</span><span class="p">)</span>
+            <span class="n">sync_datasets</span><span class="p">()</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datasets imported: </span><span class="si">{</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_datasets</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">content_tab</span><span class="p">:</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Show one element&quot;</span><span class="p">)</span>
+    <span class="n">elem_users</span><span class="p">,</span> <span class="n">elem_archives</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">elem_users</span><span class="p">:</span>
+        <span class="n">user_selected</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;User to show&quot;</span><span class="p">,</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;username of user to show&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Displaying information of: </span><span class="si">{</span><span class="n">user_selected</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;content_user_display&quot;</span><span class="p">):</span>
+            <span class="n">user_to_show</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+                <span class="nb">filter</span><span class="p">(</span>
+                    <span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">user_selected</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">users</span><span class="p">()</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">user_to_show</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
+
+    <span class="k">with</span> <span class="n">elem_archives</span><span class="p">:</span>
+        <span class="n">user_archives_selected</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Archives from user&quot;</span><span class="p">,</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;username of archives from user&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Displaying previous queries of: </span><span class="si">{</span><span class="n">user_archives_selected</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;content_user_archive_display&quot;</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="n">user_archives_to_show</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">get_archives_of_user</span><span class="p">(</span>
+                <span class="n">user_archives_selected</span>
+            <span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">user_archives_to_show</span><span class="p">)</span>
+
+    <span class="n">user_client_secret_selected</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s2">&quot;Client secret for user&quot;</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;user_to_show_client_secret&quot;</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Display client secret for user: </span><span class="si">{</span><span class="n">user_client_secret_selected</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;user_to_show_client_secret_display&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">user_client_secret</span> <span class="o">=</span> <span class="n">get_kc_user_client_secret</span><span class="p">(</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">kc_config</span><span class="p">,</span> <span class="n">user_client_secret_selected</span>
+        <span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Client secret for user </span><span class="si">{</span><span class="n">user_client_secret_selected</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">,</span> <span class="n">user_client_secret</span><span class="p">)</span>
+
+    <span class="n">elem_datasets</span><span class="p">,</span> <span class="n">elem_metadata</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">elem_datasets</span><span class="p">:</span>
+        <span class="n">dataset_selected</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Dataset to show&quot;</span><span class="p">,</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_datasets</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;dataset_to_show&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Displaying dataset: </span><span class="si">{</span><span class="n">dataset_selected</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;content_dataset_display&quot;</span><span class="p">):</span>
+            <span class="n">dataset_to_show</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="n">dataset_selected</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dataset_to_show</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">elem_metadata</span><span class="p">:</span>
+        <span class="n">metadata_selected</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Metadata to show from dataset&quot;</span><span class="p">,</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_datasets</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;metadata_of_dataset_to_show&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Displaying metadata of: </span><span class="si">{</span><span class="n">metadata_selected</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;content_metadata_dataset_display&quot;</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="n">metadata_to_show</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">(</span>
+                <span class="n">metadata_selected</span>
+            <span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">metadata_to_show</span><span class="p">)</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Show full collection&quot;</span><span class="p">)</span>
+    <span class="n">col_users</span><span class="p">,</span> <span class="n">col_datasets</span><span class="p">,</span> <span class="n">col_metadata</span><span class="p">,</span> <span class="n">col_archives</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">col_users</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Show all users&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;content_show_all_users&quot;</span><span class="p">):</span>
+            <span class="n">users</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="n">TK</span><span class="o">.</span><span class="n">USERS</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">users</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">col_datasets</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Show all datasets&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;content_show_all_datasets&quot;</span><span class="p">):</span>
+            <span class="n">datasets</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="n">TK</span><span class="o">.</span><span class="n">DATASETS</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">col_metadata</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Show all metadata&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;content_show_all_metadata&quot;</span><span class="p">):</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="n">TK</span><span class="o">.</span><span class="n">METADATA</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">col_archives</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Show archives&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;content_show_archives&quot;</span><span class="p">):</span>
+            <span class="n">archives</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="n">TK</span><span class="o">.</span><span class="n">ARCHIVE</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">archives</span><span class="p">)</span>
+
+
+<span class="k">with</span> <span class="n">deletion_tab</span><span class="p">:</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">center</span><span class="p">:</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;:warning: :red[**Danger Zone: deleting is final**]&quot;</span><span class="p">)</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Delete one element&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;**Delete one user**&quot;</span><span class="p">)</span>
+    <span class="n">du_username</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s2">&quot;Username (delete user)&quot;</span><span class="p">,</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;du_username&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Delete user </span><span class="si">{</span><span class="n">du_username</span><span class="si">}</span><span class="s2"> from the list of users.&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;delete_user&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">du_username</span><span class="p">:</span>
+            <span class="n">del_lomas_user</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="p">,</span> <span class="n">du_username</span><span class="p">)</span>
+            <span class="n">sync_users</span><span class="p">()</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">du_username</span><span class="si">}</span><span class="s2"> was deleted.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;**Remove dataset from user**&quot;</span><span class="p">)</span>
+    <span class="n">rdtu_1</span><span class="p">,</span> <span class="n">rdtu_2</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">rdtu_1</span><span class="p">:</span>
+        <span class="n">rdtu_user</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Username (remove dataset from user)&quot;</span><span class="p">,</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_users</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;rdtu_user&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">rdtu_2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rdtu_user</span><span class="p">:</span>
+            <span class="n">rdtu_datasets_from_user</span> <span class="o">=</span> <span class="n">get_list_of_datasets_from_user</span><span class="p">(</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="p">,</span> <span class="n">rdtu_user</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rdtu_datasets_from_user</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_datasets</span>
+        <span class="n">rdtu_dataset</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+            <span class="s2">&quot;Dataset (remove dataset from user)&quot;</span><span class="p">,</span>
+            <span class="n">rdtu_datasets_from_user</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;rdtu_dataset&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Remove dataset </span><span class="si">{</span><span class="n">rdtu_dataset</span><span class="si">}</span><span class="s2"> from user </span><span class="si">{</span><span class="n">rdtu_user</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;delete_dataset_from_user&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">rdtu_user</span> <span class="ow">and</span> <span class="n">rdtu_dataset</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">del_dataset_to_user</span><span class="p">(</span><span class="n">rdtu_user</span><span class="p">,</span> <span class="n">rdtu_dataset</span><span class="p">)</span>
+            <span class="n">sync_datasets</span><span class="p">()</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">rdtu_dataset</span><span class="si">}</span><span class="s2"> was removed from user </span><span class="si">{</span><span class="n">rdtu_user</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;**Remove dataset and it&#39;s associated metadata**&quot;</span><span class="p">)</span>
+    <span class="n">rd_dataset</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s2">&quot;Dataset (remove dataset)&quot;</span><span class="p">,</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">list_datasets</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;rd_dataset&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Delete dataset </span><span class="si">{</span><span class="n">rd_dataset</span><span class="si">}</span><span class="s2"> from the list of datasets.&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;delete_dataset_and_metadata&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">rd_dataset</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">del_dataset</span><span class="p">(</span><span class="n">rd_dataset</span><span class="p">)</span>
+            <span class="n">sync_datasets</span><span class="p">()</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">rd_dataset</span><span class="si">}</span><span class="s2"> was deleted.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning_field_missing</span><span class="p">()</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Delete full collection&quot;</span><span class="p">)</span>
+    <span class="n">d_col_users</span><span class="p">,</span> <span class="n">d_col_datasets</span><span class="p">,</span> <span class="n">d_col_metadata</span><span class="p">,</span> <span class="n">d_col_archives</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">d_col_users</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Delete all users&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;delete_all_users&quot;</span><span class="p">):</span>
+            <span class="n">drop_lomas_collection</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="p">,</span> <span class="s2">&quot;users&quot;</span><span class="p">)</span>
+            <span class="n">sync_users</span><span class="p">()</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Users were all deleted.&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">d_col_datasets</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span>
+            <span class="s2">&quot;Delete all datasets&quot;</span><span class="p">,</span>
+            <span class="n">on_click</span><span class="o">=</span><span class="n">drop_lomas_collection</span><span class="p">,</span>
+            <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="p">,</span> <span class="s2">&quot;datasets&quot;</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;delete_all_datasets&quot;</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="n">sync_datasets</span><span class="p">()</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Datasets were all deleted.&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">d_col_metadata</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span>
+            <span class="s2">&quot;Delete all metadata&quot;</span><span class="p">,</span>
+            <span class="n">on_click</span><span class="o">=</span><span class="n">drop_lomas_collection</span><span class="p">,</span>
+            <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;delete_all_metadata&quot;</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Metadata were all deleted.&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">d_col_archives</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span>
+            <span class="s2">&quot;Delete all archives&quot;</span><span class="p">,</span>
+            <span class="n">on_click</span><span class="o">=</span><span class="n">drop_lomas_collection</span><span class="p">,</span>
+            <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">session_state</span><span class="o">.</span><span class="n">dashboard_config</span><span class="p">,</span> <span class="s2">&quot;archives&quot;</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">&quot;delete_all_archives&quot;</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Archives were all deleted.&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DSCC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: develop
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      
+      <dl>
+        <dt>Languages</dt>
+          
+            <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">en</a></dd>
+          
+      </dl>
+      
+      
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/index.html">stable</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/develop/en/index.html">develop</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.0/en/index.html">v0.1.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.1/en/index.html">v0.1.1</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.1.2/en/index.html">v0.1.2</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.2.0/en/index.html">v0.2.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.0/en/index.html">v0.3.0</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.3/en/index.html">v0.3.3</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.3.5/en/index.html">v0.3.5</a></dd>
+        
+          <dd><a href="https://dscc-admin-ch.github.io/lomas-docs/v0.4.1/en/index.html">v0.4.1</a></dd>
+        
+      </dl>
+      
+      <br>
+      </dl>
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

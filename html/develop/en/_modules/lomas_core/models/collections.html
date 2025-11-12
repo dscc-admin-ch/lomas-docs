@@ -97,9 +97,10 @@
              
   <h1>Source code for lomas_core.models.collections</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Self</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Discriminator</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">Tag</span><span class="p">,</span> <span class="n">model_validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Discriminator</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">HttpUrl</span><span class="p">,</span> <span class="n">Tag</span><span class="p">,</span> <span class="n">model_validator</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CARDINALITY_FIELD</span><span class="p">,</span>
@@ -123,8 +124,8 @@
     <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">initial_epsilon</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">initial_delta</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">total_spent_epsilon</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">total_spent_delta</span><span class="p">:</span> <span class="nb">float</span></div>
+    <span class="n">total_spent_epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">total_spent_delta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></div>
 
 
 
@@ -170,32 +171,23 @@
 <span class="c1"># -----------------------------------------------------------------------------</span>
 
 
-<div class="viewcode-block" id="DSAccess">
-<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.collections.DSAccess">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DSAccess</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for access info to a private dataset.&quot;&quot;&quot;</span>
-
-    <span class="n">database_type</span><span class="p">:</span> <span class="nb">str</span></div>
-
-
-
 <div class="viewcode-block" id="DSPathAccess">
 <a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.collections.DSPathAccess">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DSPathAccess</span><span class="p">(</span><span class="n">DSAccess</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DSPathAccess</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for a local dataset.&quot;&quot;&quot;</span>
 
     <span class="n">database_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">PATH</span><span class="p">]</span>
-    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span></div>
+    <span class="n">path</span><span class="p">:</span> <span class="n">HttpUrl</span> <span class="o">|</span> <span class="n">Path</span>  <span class="c1"># force check Path should be relative ? or move prefix logic closer</span></div>
 
 
 
 <div class="viewcode-block" id="DSS3Access">
 <a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.collections.DSS3Access">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DSS3Access</span><span class="p">(</span><span class="n">DSAccess</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DSS3Access</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BaseModel for a dataset on S3.&quot;&quot;&quot;</span>
 
     <span class="n">database_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">PrivateDatabaseType</span><span class="o">.</span><span class="n">S3</span><span class="p">]</span>
-    <span class="n">endpoint_url</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">endpoint_url</span><span class="p">:</span> <span class="n">HttpUrl</span>
     <span class="n">bucket</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">access_key_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -382,10 +374,10 @@
 
     <span class="k">if</span> <span class="p">(</span>
         <span class="n">col_type</span>
-        <span class="ow">in</span> <span class="p">(</span>
+        <span class="ow">in</span> <span class="p">{</span>
             <span class="n">MetadataColumnType</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span>
             <span class="n">MetadataColumnType</span><span class="o">.</span><span class="n">INT</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="p">}</span>
     <span class="p">)</span> <span class="ow">and</span> <span class="p">(((</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span> <span class="ow">and</span> <span class="n">CARDINALITY_FIELD</span> <span class="ow">in</span> <span class="n">v</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">CARDINALITY_FIELD</span><span class="p">))):</span>
         <span class="n">col_type</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">CATEGORICAL_TYPE_PREFIX</span><span class="si">}{</span><span class="n">col_type</span><span class="si">}</span><span class="s2">&quot;</span>
 

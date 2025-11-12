@@ -239,7 +239,7 @@
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">res_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">DIFFPRIVLIB</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Result type description.&quot;&quot;&quot;</span>
     <span class="n">score</span><span class="p">:</span> <span class="nb">float</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The trained model score.&quot;&quot;&quot;</span>
@@ -260,7 +260,7 @@
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">res_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SQL</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Result type description.&quot;&quot;&quot;</span>
     <span class="n">df</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -279,10 +279,10 @@
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">res_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result type description.&quot;&quot;&quot;</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Synthesizer</span><span class="p">,</span> <span class="n">PlainSerializer</span><span class="p">(</span><span class="n">serialize_model</span><span class="p">),</span> <span class="n">PlainValidator</span><span class="p">(</span><span class="n">deserialize_model</span><span class="p">)]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Synthetic data generator model.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Synthetic data generator model.&quot;&quot;&quot;</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">SMARTNOISE_SYNTH</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result type description.&quot;&quot;&quot;</span></div>
 
 
 
@@ -293,7 +293,7 @@
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">res_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;sn_synth_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sn_synth_samples&quot;</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;sn_synth_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sn_synth_samples&quot;</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Result type description.&quot;&quot;&quot;</span>
     <span class="n">df_samples</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -310,7 +310,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">OpenDPQueryResult</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Type for opendp result.&quot;&quot;&quot;</span>
 
-    <span class="n">res_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Result type description.&quot;&quot;&quot;</span>
     <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The result value of the query.&quot;&quot;&quot;</span></div>
@@ -322,7 +322,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">OpenDPPolarsQueryResult</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Type for opendp Polars result.&quot;&quot;&quot;</span>
 
-    <span class="n">res_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP_POLARS</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP_POLARS</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP_POLARS</span><span class="p">]</span> <span class="o">=</span> <span class="n">DPLibraries</span><span class="o">.</span><span class="n">OPENDP_POLARS</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Result type description.&quot;&quot;&quot;</span>
     <span class="c1"># order of PlainValidator and PlainSerializer matters in that case:</span>
     <span class="c1"># https://github.com/pydantic/pydantic/issues/8512</span>
@@ -336,14 +336,15 @@
 
 
 <span class="c1"># Response object</span>
-<span class="n">QueryResultTypeAlias</span> <span class="o">=</span> <span class="p">(</span>
+<span class="n">QueryResultT</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span>
     <span class="n">DiffPrivLibQueryResult</span>
     <span class="o">|</span> <span class="n">SmartnoiseSQLQueryResult</span>
     <span class="o">|</span> <span class="n">SmartnoiseSynthModel</span>
     <span class="o">|</span> <span class="n">SmartnoiseSynthSamples</span>
     <span class="o">|</span> <span class="n">OpenDPQueryResult</span>
-    <span class="o">|</span> <span class="n">OpenDPPolarsQueryResult</span>
-<span class="p">)</span>
+    <span class="o">|</span> <span class="n">OpenDPPolarsQueryResult</span><span class="p">,</span>
+    <span class="n">Discriminator</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">),</span>
+<span class="p">]</span>
 
 
 <div class="viewcode-block" id="QueryResponse">
@@ -353,10 +354,7 @@
 
     <span class="n">requested_by</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The user that triggered the query.&quot;&quot;&quot;</span>
-    <span class="n">result</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
-        <span class="n">QueryResultTypeAlias</span><span class="p">,</span>
-        <span class="n">Discriminator</span><span class="p">(</span><span class="s2">&quot;res_type&quot;</span><span class="p">),</span>
-    <span class="p">]</span>
+    <span class="n">result</span><span class="p">:</span> <span class="n">QueryResultT</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The query result object.&quot;&quot;&quot;</span></div>
 
 

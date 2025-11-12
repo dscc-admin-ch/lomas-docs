@@ -150,18 +150,18 @@ Once the release process is complete (see below), the release branch is merged t
 <p>The following utilities are now available in your shell:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">yelp</span></code> will print a similar help page.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">devenv</span> <span class="pre">up</span></code> will start up the environment (lomas server, worker, keycloak, mongodb, rabbitmq) and set up the components. Demo users and datasets will also be added to the service.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">devenv</span> <span class="pre">up</span></code> will start up the environment (lomas server, worker, keycloak, rabbitmq) and set up the components. Demo users and datasets will also be added to the service.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">devenv</span> <span class="pre">up</span> <span class="pre">--</span> <span class="pre">--namespace=telemetry</span></code> or <code class="docutils literal notranslate"><span class="pre">process-compose</span> <span class="pre">up</span></code> will do the same as above but with telemetry enabled.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">yq</span> <span class="pre">$PC_CONFIG_FILES</span></code> will show what process-compose is doing.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ut</span> <span class="pre">/</span> <span class="pre">pytest</span> <span class="pre">-k</span> <span class="pre">&lt;name</span> <span class="pre">of</span> <span class="pre">your</span> <span class="pre">test&gt;</span></code> will run individual tests, no need to setup the python path. If your tests require the services to be up, run <code class="docutils literal notranslate"><span class="pre">devenv</span> <span class="pre">up</span></code> before.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ut-coverage</span></code> will run tests and coverage.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span> <span class="pre">--all-extras</span> <span class="pre">[-U]</span></code> will fix broken/out of sync/missing packages.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">add</span> <span class="pre">&lt;packages&gt;</span></code> will add new packages.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">run-linter</span></code> will run all the Linting suit (black/ruff/pylint/pydocstringformatter/mypy)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run-linter</span></code> will run all the Linting suit (ruff/pydocstringformatter/mypy)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">build-docs</span></code> builds all version of the docs (requires <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span> <span class="pre">--all-extras</span></code> first)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">build-docs-local</span></code> builds the local version of the doc (requires <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span> <span class="pre">--all-extras</span></code> first), the htlm will open automatically.</p></li>
 </ul>
-<p>Note that some of the utilities (fast enough) are integrated as git pre-commit hook (namely black/ruff/pylint).</p>
+<p>Note that some of the utilities (fast enough) are integrated as git pre-commit hook (namely ruff/pylint).</p>
 </section>
 <section id="python-package-management">
 <h2>Python package management<a class="headerlink" href="#python-package-management" title="Link to this heading"></a></h2>
@@ -178,7 +178,7 @@ Once the release process is complete (see below), the release branch is merged t
 <h2>Linting and Other Checks<a class="headerlink" href="#linting-and-other-checks" title="Link to this heading"></a></h2>
 <p>To ensure code quality and consistency, we perform several checks using various tools. Below is a list of the checks that are performed by the <code class="docutils literal notranslate"><span class="pre">run-linter</span></code> command:</p>
 <ul class="simple">
-<li><p><strong>Code Formatting:</strong> We use <code class="docutils literal notranslate"><span class="pre">black</span></code> to automatically format the code.</p></li>
+<li><p><strong>Code Formatting:</strong> We use <code class="docutils literal notranslate"><span class="pre">ruff</span></code> to automatically format the code.</p></li>
 <li><p><strong>Code Style and Static Analysis</strong>: We use ruff to verify formatting and perform static code.</p></li>
 <li><p><strong>Static Type Checking</strong>: We use mypy for static type checking. Note that both the server and the client have their own pyproject.toml files with configs to ignore specific warnings.</p></li>
 <li><p><strong>Additional Static Analysis</strong>: We use pylint for further static analysis. Note that both the server and the client have their own config in their respective pyproject.toml files to ignore specific warnings.</p></li>

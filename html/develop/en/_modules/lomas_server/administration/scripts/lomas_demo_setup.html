@@ -96,15 +96,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.administration.scripts.lomas_demo_setup</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">SettingsConfigDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.pretty</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.administration.lomas_admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_lomas_users_via_yaml</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.administration.mongodb_admin</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">add_datasets_via_yaml</span><span class="p">,</span>
-    <span class="n">drop_collection</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.administration.keycloak_admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_kc_users_via_yaml</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminConfig</span>
 
 
@@ -121,42 +119,50 @@
         <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">path_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">user_yaml</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/data/collections/user_collection.yaml&quot;</span>
-    <span class="n">dataset_yaml</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/data/collections/dataset_collection.yaml&quot;</span></div>
+    <span class="n">path_prefix</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))</span>
+    <span class="n">user_yaml</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/data/collections/user_collection.yaml&quot;</span><span class="p">))</span>
+    <span class="n">dataset_yaml</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/data/collections/dataset_collection.yaml&quot;</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="add_lomas_demo_data">
 <a class="viewcode-back" href="../../../../lomas_server.administration.scripts.html#lomas_server.administration.scripts.lomas_demo_setup.add_lomas_demo_data">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">add_lomas_demo_data</span><span class="p">(</span>
-    <span class="n">config</span><span class="p">:</span> <span class="n">DemoAdminConfig</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_lomas_demo_data</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">DemoAdminConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Adds the demo data to the mongodb admindb as well as the keycloak instance if required.</span>
+<span class="sd">    Adds the demo data to the admindb as well as the keycloak instance if required.</span>
 
 <span class="sd">    Meant to be used in the develop mode of the service or for testing</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        config (AdminConfig): The administration config.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating user collection&quot;</span><span class="p">)</span>
-    <span class="n">add_lomas_users_via_yaml</span><span class="p">(</span>
-        <span class="n">config</span><span class="p">,</span> <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">yaml_file</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">user_yaml</span><span class="p">,</span> <span class="n">path_prefix</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">path_prefix</span>
-    <span class="p">)</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="s2">&quot;Creating user collection from Config&quot;</span><span class="p">)</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating datasets and metadata collection&quot;</span><span class="p">)</span>
-    <span class="n">add_datasets_via_yaml</span><span class="p">(</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">mg_config</span><span class="p">,</span>
+    <span class="n">user_yaml_file</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">path_prefix</span> <span class="o">/</span> <span class="n">config</span><span class="o">.</span><span class="n">user_yaml</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="n">dataset_yaml_file</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">path_prefix</span> <span class="o">/</span> <span class="n">config</span><span class="o">.</span><span class="n">dataset_yaml</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+
+    <span class="n">config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">add_users_via_yaml</span><span class="p">(</span>
         <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">overwrite_datasets</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">overwrite_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">yaml_file</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">dataset_yaml</span><span class="p">,</span>
-        <span class="n">path_prefix</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">path_prefix</span><span class="p">,</span>
+        <span class="n">yaml_file</span><span class="o">=</span><span class="n">user_yaml_file</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">kc_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">add_kc_users_via_yaml</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">kc_config</span><span class="p">,</span>
+            <span class="n">yaml_file</span><span class="o">=</span><span class="n">user_yaml_file</span><span class="p">,</span>
+            <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">pprint</span><span class="p">(</span><span class="s2">&quot;Creating datasets and metadata collection&quot;</span><span class="p">)</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">add_datasets_via_yaml</span><span class="p">(</span>
+        <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">yaml_file</span><span class="o">=</span><span class="n">dataset_yaml_file</span><span class="p">,</span>
+        <span class="n">path_prefix</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">path_prefix</span><span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Empty archives&quot;</span><span class="p">)</span>
-    <span class="n">drop_collection</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">mg_config</span><span class="p">,</span> <span class="n">collection</span><span class="o">=</span><span class="s2">&quot;queries_archives&quot;</span><span class="p">)</span></div>
+    <span class="n">pprint</span><span class="p">(</span><span class="s2">&quot;Empty archives&quot;</span><span class="p">)</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">drop_archive</span><span class="p">()</span></div>
 
 
 
@@ -165,7 +171,6 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">lomas_demo_setup</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Script for setting up demo users and dataset.&quot;&quot;&quot;</span>
     <span class="n">demo_config</span> <span class="o">=</span> <span class="n">DemoAdminConfig</span><span class="p">()</span>
-
     <span class="n">add_lomas_demo_data</span><span class="p">(</span><span class="n">demo_config</span><span class="p">)</span></div>
 
 

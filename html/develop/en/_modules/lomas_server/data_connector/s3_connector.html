@@ -96,11 +96,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for lomas_server.data_connector.s3_connector</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">computed_field</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">InternalServerException</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">DSS3Access</span><span class="p">,</span> <span class="n">Metadata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">DSS3Access</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.data_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnector</span>
 
 
@@ -109,28 +113,29 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">S3Connector</span><span class="p">(</span><span class="n">DataConnector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;DataConnector for dataset in S3 storage.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">metadata</span><span class="p">:</span> <span class="n">Metadata</span><span class="p">,</span>
-        <span class="n">credentials</span><span class="p">:</span> <span class="n">DSS3Access</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializer.</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;S3Connector&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;S3Connector&quot;</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            metadata (Metadata): The metadata dictionary.</span>
-<span class="sd">            s3_parameters (dict): informations to access metadata</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="n">credentials</span><span class="p">:</span> <span class="n">DSS3Access</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+    <span class="c1"># private to avoid serialization</span>
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">boto3</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">Session</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
             <span class="s2">&quot;s3&quot;</span><span class="p">,</span>
-            <span class="n">endpoint_url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">endpoint_url</span><span class="p">,</span>
-            <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">access_key_id</span><span class="p">,</span>
-            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">secret_access_key</span><span class="p">,</span>
+            <span class="n">endpoint_url</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">credentials</span><span class="o">.</span><span class="n">endpoint_url</span><span class="p">),</span>
+            <span class="n">aws_access_key_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">credentials</span><span class="o">.</span><span class="n">access_key_id</span><span class="p">,</span>
+            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">credentials</span><span class="o">.</span><span class="n">secret_access_key</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">bucket</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">key</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@computed_field</span>  <span class="c1"># type: ignore[prop-decorator]</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">credentials</span><span class="o">.</span><span class="n">bucket</span>
+
+    <span class="nd">@computed_field</span>  <span class="c1"># type: ignore[prop-decorator]</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">credentials</span><span class="o">.</span><span class="n">key</span>
 
 <div class="viewcode-block" id="S3Connector.get_pandas_df">
 <a class="viewcode-back" href="../../../lomas_server.data_connector.html#lomas_server.data_connector.s3_connector.S3Connector.get_pandas_df">[docs]</a>
@@ -143,16 +148,17 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            pd.DataFrame: pandas dataframe of dataset</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s2">&quot;Body&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
-                    <span class="s2">&quot;Error reading csv at s3 path:&quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span></div>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s2">&quot;Body&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InternalServerException</span><span class="p">(</span>
+                <span class="s2">&quot;Error reading csv at s3 path:&quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span></div>
 </div>
 
 </pre></div>

@@ -197,10 +197,6 @@ In Kubernetes, secret values are stored separately and managed through a dedicat
 Secret values are either provided to the Lomas chart directly via the values.yaml file (for testing purposes) or preferably via existing Kubernetes secrets.
 The secret format is sometimes enforced by the underlying charts Lomas depends on. Here is a list of all secret resources used/created by the Lomas chart.</p>
 <ul class="simple">
-<li><p><strong>MongoDB</strong>
-* Lomas relies on Bitnami’s MongoDB chart. One secret is used for both the root password as well as for user passwords.
-* Existing secret: <code class="docutils literal notranslate"><span class="pre">mongodb.auth.existingSecret</span></code> can be set to point to an existing secret. It should contain a <code class="docutils literal notranslate"><span class="pre">mongo-root-password</span></code> key for the root password as well as a <code class="docutils literal notranslate"><span class="pre">mongodb-passwords</span></code> key containing a single user password. (The Bitnami chart allows for a list of passwords, Lomas does not support that.)
-* Values file: <code class="docutils literal notranslate"><span class="pre">mongo.auth.rootPassword</span></code> is used for setting the root password and <code class="docutils literal notranslate"><span class="pre">mongo.auth.passwords</span></code> for the list of (a single) password.</p></li>
 <li><p><strong>RabbitMQ</strong>
 * Lomas relies on Bitnami’s RabbitMQ chart. One secret is used for RabbitMQ’s password.
 * Existing secret: The secret name can be specified with <code class="docutils literal notranslate"><span class="pre">rabbitmq.auth.existingPasswordSecret</span></code> while the key with <code class="docutils literal notranslate"><span class="pre">rabbitmq.auth.existingSecretPasswordKey</span></code>.
