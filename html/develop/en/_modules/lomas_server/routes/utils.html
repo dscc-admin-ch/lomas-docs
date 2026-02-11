@@ -127,7 +127,7 @@
     <span class="n">QueryModel</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">CostResponse</span><span class="p">,</span> <span class="n">Job</span><span class="p">,</span> <span class="n">QueryResponse</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.auth.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_user_id</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.auth.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">authorize_user</span><span class="p">,</span> <span class="n">get_user_id</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.path_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathConnector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.data_connector.s3_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3Connector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">PrivateDBCredentials</span><span class="p">,</span> <span class="n">S3CredentialsConfig</span>
@@ -278,8 +278,10 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        UserId: A UserId instance extracted from the token.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">user_id</span> <span class="o">=</span> <span class="n">get_user_id</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">authenticator</span><span class="p">,</span> <span class="n">security_scopes</span><span class="p">,</span> <span class="n">auth_creds</span><span class="p">)</span>
+    <span class="n">user_id</span> <span class="o">=</span> <span class="n">get_user_id</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">authenticator</span><span class="p">,</span> <span class="n">auth_creds</span><span class="p">)</span>
     <span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">user_name</span> <span class="o">=</span> <span class="n">user_id</span><span class="o">.</span><span class="n">name</span>
+    <span class="c1"># This raises an exception if authz fails</span>
+    <span class="n">authorize_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">admin_database</span><span class="p">,</span> <span class="n">security_scopes</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">user_id</span></div>
 

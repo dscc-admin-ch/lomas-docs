@@ -100,12 +100,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oauthlib.oauth2</span><span class="w"> </span><span class="kn">import</span> <span class="n">BackendApplicationClient</span><span class="p">,</span> <span class="n">TokenExpiredError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oauthlib.oauth2</span><span class="w"> </span><span class="kn">import</span> <span class="n">LegacyApplicationClient</span><span class="p">,</span> <span class="n">TokenExpiredError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.instrumentation.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">RequestsInstrumentor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">requests_oauthlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">OAuth2Session</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">CONNECT_TIMEOUT</span><span class="p">,</span> <span class="n">DEFAULT_READ_TIMEOUT</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">OIDC_LOMAS_CLIENT__CLIENT_ID</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">LomasRequestModel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">Job</span>
@@ -126,16 +127,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Content-type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span> <span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;*/*&quot;</span><span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">keycloak_use_tls</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">lomas_service_use_tls</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">oidc_use_tls</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">lomas_service_use_tls</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;Keycloak or Lomas service configured without TLS -&gt; using oauthlib insecure transport&quot;</span>
+                <span class="s2">&quot;OIDC IdP or Lomas service configured without TLS -&gt; using oauthlib insecure transport&quot;</span>
             <span class="p">)</span>
             <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OAUTHLIB_INSECURE_TRANSPORT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Reset in case it was changed before</span>
             <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OAUTHLIB_INSECURE_TRANSPORT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
 
-        <span class="n">oauth_client</span> <span class="o">=</span> <span class="n">BackendApplicationClient</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">client_id</span><span class="p">)</span>
+        <span class="n">oauth_client</span> <span class="o">=</span> <span class="n">LegacyApplicationClient</span><span class="p">(</span><span class="n">OIDC_LOMAS_CLIENT__CLIENT_ID</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_oauth2_session</span> <span class="o">=</span> <span class="n">OAuth2Session</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">oauth_client</span><span class="p">)</span>
 
         <span class="c1"># Fetch first token:</span>
@@ -144,9 +145,10 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_token</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetches an authorization token and stores it.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_oauth2_session</span><span class="o">.</span><span class="n">fetch_token</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">token_endpoint</span><span class="p">,</span>
-            <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
-            <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">oidc_config</span><span class="o">.</span><span class="n">token_endpoint</span><span class="p">),</span>
+            <span class="n">username</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user_name</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user_password</span><span class="p">,</span>
+            <span class="n">scope</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;openid&quot;</span><span class="p">,</span> <span class="s2">&quot;profile&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">],</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="LomasHttpClient.post">
@@ -175,7 +177,7 @@
 <span class="sd">            requests.Response: The response object resulting from the POST request.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;User (with client id &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">client_id</span><span class="si">}</span><span class="s2">&#39;) is making a request &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;User &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">user_name</span><span class="si">}</span><span class="s2">&#39;) is making a request &quot;</span>
             <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;to url &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">app_url</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
             <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;at the endpoint &#39;</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
             <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;with query params: </span><span class="si">{</span><span class="n">body</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span><span class="si">}</span><span class="s2">.&quot;</span>

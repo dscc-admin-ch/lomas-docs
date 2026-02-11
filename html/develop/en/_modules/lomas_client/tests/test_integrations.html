@@ -103,20 +103,18 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffprivlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">mantelo</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeycloakAdmin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oauthlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">oauth2</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.error_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnauthorizedAccessException</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_core.models.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDPPolarsQueryResult</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.administration.keycloak_admin</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">add_kc_user</span><span class="p">,</span>
-    <span class="n">del_all_kc_users</span><span class="p">,</span>
-    <span class="n">get_kc_admin</span><span class="p">,</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.administration.dex.dex_admin</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">add_dex_user</span><span class="p">,</span>
+    <span class="n">del_all_dex_users</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.administration.scripts.lomas_demo_setup</span><span class="w"> </span><span class="kn">import</span> <span class="n">lomas_demo_setup</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminConfig</span><span class="p">,</span> <span class="n">KeycloakClientConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lomas_server.models.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdminConfig</span>
 
 
 <div class="viewcode-block" id="demo_setup">
@@ -133,12 +131,12 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">Aria</span><span class="p">:</span>
     <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;aria&quot;</span>
     <span class="n">user_email</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;aria.stark@winterfell.no&quot;</span>
-    <span class="n">client_secret</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;secret_aria&quot;</span>
+    <span class="n">user_password</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;secret_aria&quot;</span>
 
 <div class="viewcode-block" id="Aria.as_client">
 <a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.Aria.as_client">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">as_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;anyName&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Client</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user_name</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="n">dataset_name</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">Client</span><span class="p">(</span><span class="n">user_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user_email</span><span class="p">,</span> <span class="n">user_password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user_password</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="n">dataset_name</span><span class="p">)</span></div>
 </div>
 
 
@@ -151,47 +149,43 @@
 
 
 
-<div class="viewcode-block" id="KC">
-<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.KC">[docs]</a>
-<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">KC</span><span class="p">:</span>
-    <span class="n">config</span><span class="p">:</span> <span class="n">KeycloakClientConfig</span>
-    <span class="n">admin</span><span class="p">:</span> <span class="n">KeycloakAdmin</span></div>
-
-
-
-<div class="viewcode-block" id="kc">
-<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.kc">[docs]</a>
+<div class="viewcode-block" id="dex_config">
+<a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.dex_config">[docs]</a>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">kc</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Connection to keycloak.&quot;&quot;&quot;</span>
-    <span class="n">admin_config</span> <span class="o">=</span> <span class="n">AdminConfig</span><span class="p">()</span>
-    <span class="n">kc_config</span> <span class="o">=</span> <span class="n">admin_config</span><span class="o">.</span><span class="n">kc_config</span>
-    <span class="k">assert</span> <span class="n">kc_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dex_config</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dex config.</span>
 
-    <span class="k">yield</span> <span class="n">KC</span><span class="p">(</span><span class="n">kc_config</span><span class="p">,</span> <span class="n">get_kc_admin</span><span class="p">(</span><span class="n">kc_config</span><span class="p">))</span>
+<span class="sd">    Removes all dex users before yield.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">admin_config</span> <span class="o">=</span> <span class="n">AdminConfig</span><span class="p">()</span>
+    <span class="n">dex_config</span> <span class="o">=</span> <span class="n">admin_config</span><span class="o">.</span><span class="n">dex_config</span>
+    <span class="k">assert</span> <span class="n">dex_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="c1"># Cleanup for tests</span>
+    <span class="n">del_all_dex_users</span><span class="p">(</span><span class="n">dex_config</span><span class="p">)</span>
+
+    <span class="k">yield</span> <span class="n">dex_config</span>
 
     <span class="c1"># Cleanup: delete all users to start fresh</span>
-    <span class="n">del_all_kc_users</span><span class="p">(</span><span class="n">kc_config</span><span class="p">)</span></div>
+    <span class="n">del_all_dex_users</span><span class="p">(</span><span class="n">dex_config</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="test_missing_configs">
 <a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_missing_configs">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_missing_configs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;Missing one of or invalid:&quot;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;Missing client config parameters&quot;</span><span class="p">):</span>
         <span class="n">Client</span><span class="p">()</span></div>
 
 
 
 <div class="viewcode-block" id="test_oauth2">
 <a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_oauth2">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_oauth2</span><span class="p">(</span><span class="n">aria</span><span class="p">,</span> <span class="n">kc</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">oauth2</span><span class="o">.</span><span class="n">InvalidClientError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;Invalid client credentials&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_oauth2</span><span class="p">(</span><span class="n">aria</span><span class="p">,</span> <span class="n">dex_config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">oauth2</span><span class="o">.</span><span class="n">AccessDeniedError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;Invalid username or password&quot;</span><span class="p">):</span>
         <span class="n">aria</span><span class="o">.</span><span class="n">as_client</span><span class="p">()</span>
 
     <span class="c1"># Add a user</span>
-    <span class="n">add_kc_user</span><span class="p">(</span><span class="n">kc</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">aria</span><span class="o">.</span><span class="n">user_name</span><span class="p">,</span> <span class="n">aria</span><span class="o">.</span><span class="n">user_email</span><span class="p">,</span> <span class="n">aria</span><span class="o">.</span><span class="n">client_secret</span><span class="p">)</span>
+    <span class="n">add_dex_user</span><span class="p">(</span><span class="n">dex_config</span><span class="p">,</span> <span class="n">aria</span><span class="o">.</span><span class="n">user_name</span><span class="p">,</span> <span class="n">aria</span><span class="o">.</span><span class="n">user_email</span><span class="p">,</span> <span class="n">aria</span><span class="o">.</span><span class="n">user_password</span><span class="p">)</span>
 
     <span class="n">client</span> <span class="o">=</span> <span class="n">aria</span><span class="o">.</span><span class="n">as_client</span><span class="p">()</span>
 
@@ -202,9 +196,11 @@
 
 <div class="viewcode-block" id="test_oauth2_demo">
 <a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_oauth2_demo">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_oauth2_demo</span><span class="p">(</span><span class="n">kc</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_oauth2_demo</span><span class="p">(</span><span class="n">dex_config</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">user_name</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>
-    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="n">user_name</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;TITANIC&quot;</span><span class="p">)</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span>
+        <span class="n">user_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user_name</span><span class="si">}</span><span class="s2">@example.com&quot;</span><span class="p">,</span> <span class="n">user_password</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;TITANIC&quot;</span>
+    <span class="p">)</span>
 
     <span class="n">init_budget</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_initial_budget</span><span class="p">()</span>
     <span class="k">assert</span> <span class="n">init_budget</span><span class="o">.</span><span class="n">initial_delta</span> <span class="o">==</span> <span class="mf">0.2</span>
@@ -265,9 +261,11 @@
 
 <div class="viewcode-block" id="test_demo_diffprivlib">
 <a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_demo_diffprivlib">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_demo_diffprivlib</span><span class="p">(</span><span class="n">kc</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_demo_diffprivlib</span><span class="p">(</span><span class="n">dex_config</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">user_name</span> <span class="o">=</span> <span class="s2">&quot;Dr.Antartica&quot;</span>
-    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="n">user_name</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;PENGUIN&quot;</span><span class="p">)</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span>
+        <span class="n">user_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">@example.com&quot;</span><span class="p">,</span> <span class="n">user_password</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;PENGUIN&quot;</span>
+    <span class="p">)</span>
 
     <span class="n">penguin_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
     <span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_depth_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;flipper_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;body_mass_g&quot;</span><span class="p">]</span>
@@ -352,9 +350,11 @@
 <a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_demo_smartnoise_synth">[docs]</a>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">long</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;waiting on OpenDP 0.14 synth&quot;</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_demo_smartnoise_synth</span><span class="p">(</span><span class="n">kc</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_demo_smartnoise_synth</span><span class="p">(</span><span class="n">dex_config</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">user_name</span> <span class="o">=</span> <span class="s2">&quot;Dr.Antartica&quot;</span>
-    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="n">user_name</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;PENGUIN&quot;</span><span class="p">)</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span>
+        <span class="n">user_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">@example.com&quot;</span><span class="p">,</span> <span class="n">user_password</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;PENGUIN&quot;</span>
+    <span class="p">)</span>
 
     <span class="n">cost_res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">smartnoise_synth</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span>
         <span class="n">synth_name</span><span class="o">=</span><span class="s2">&quot;aim&quot;</span><span class="p">,</span>
@@ -389,9 +389,13 @@
 
 <div class="viewcode-block" id="test_demo_opendp_polars">
 <a class="viewcode-back" href="../../../lomas_client.tests.html#lomas_client.tests.test_integrations.test_demo_opendp_polars">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_demo_opendp_polars</span><span class="p">(</span><span class="n">kc</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_demo_opendp_polars</span><span class="p">(</span><span class="n">dex_config</span><span class="p">,</span> <span class="n">demo_setup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">user_name</span> <span class="o">=</span> <span class="s2">&quot;Dr.FSO&quot;</span>
-    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="n">user_name</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;FSO_INCOME_SYNTHETIC&quot;</span><span class="p">)</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span>
+        <span class="n">user_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">@example.com&quot;</span><span class="p">,</span>
+        <span class="n">user_password</span><span class="o">=</span><span class="n">user_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+        <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;FSO_INCOME_SYNTHETIC&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">income_metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dataset_metadata</span><span class="p">()</span>
     <span class="n">NB_ROWS</span><span class="p">,</span> <span class="n">SEED</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">0</span>
     <span class="n">dummy_lf</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dummy_dataset</span><span class="p">(</span><span class="n">nb_rows</span><span class="o">=</span><span class="n">NB_ROWS</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">SEED</span><span class="p">,</span> <span class="n">lazy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

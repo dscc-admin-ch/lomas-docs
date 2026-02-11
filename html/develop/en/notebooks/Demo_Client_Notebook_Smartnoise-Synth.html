@@ -183,7 +183,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="c1"># os.environ[&quot;LOMAS_CLIENT_APP_URL&quot;] = &quot;https://lomas.example.com:443&quot;</span>
-<span class="c1"># os.environ[&quot;LOMAS_CLIENT_KEYCLOAK_URL&quot;] = &quot;https://keycloak.example.com:443&quot;</span>
+<span class="c1"># os.environ[&quot;LOMAS_CLIENT_OIDC_DISCOVERY_URL&quot;] = &quot;https://dex.example.com:443/.well-known/openid-configuration&quot;</span>
 <span class="c1"># os.environ[&quot;LOMAS_CLIENT_TELEMETRY__ENABLED&quot;] = &quot;false&quot;</span>
 <span class="c1"># os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_ENDPOINT&quot;] = &quot;http://otel.example.com:445&quot;</span>
 <span class="c1"># os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_INSECURE&quot;] = &quot;true&quot;</span>
@@ -192,13 +192,12 @@
 
 <span class="c1"># We set these ones because they are specific to this notebook.</span>
 
-<span class="n">USER_NAME</span> <span class="o">=</span> <span class="s2">&quot;Dr.Antartica&quot;</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_CLIENT_ID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">USER_NAME</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_CLIENT_SECRET&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">USER_NAME</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_USER_NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;dr.antartica@example.com&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_USER_PASSWORD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;dr.antartica&quot;</span>
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_DATASET_NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;PENGUIN&quot;</span>
 
 <span class="c1"># Note that all client settings can also be passed as keyword arguments to the Client constructor.</span>
-<span class="c1"># eg. client = Client(client_id = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_CLIENT_ID&quot;</span>
+<span class="c1"># eg. client = Client(user_name = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_USER_NAME&quot;</span>
 <span class="c1"># environment variable.</span>
 </pre></div>
 </div>

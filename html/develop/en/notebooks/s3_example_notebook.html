@@ -141,7 +141,7 @@
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
@@ -149,6 +149,15 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/aymond/work/lomas/lomas/.devenv/state/venv/lib/python3.13/site-packages/opendp_logger/deserialize.py:7: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.
+  import pkg_resources
+</pre></div></div>
 </div>
 </section>
 <section id="Step-2:-Initialise-the-client">
@@ -159,14 +168,14 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The following would usually be set in the environment by a system administrator</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="c1"># The following would usually be set in the environment by a system administrator</span>
 <span class="c1"># and be tranparent to lomas users.</span>
 <span class="c1"># Uncomment them if you are running against a Kubernetes deployment.</span>
 <span class="c1"># They have already been set for you if you are running locally within a devenv or the Jupyter lab set up by Docker compose.</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="c1"># os.environ[&quot;LOMAS_CLIENT_APP_URL&quot;] = &quot;https://lomas.example.com:443&quot;</span>
-<span class="c1"># os.environ[&quot;LOMAS_CLIENT_KEYCLOAK_URL&quot;] = &quot;https://keycloak.example.com:443&quot;</span>
+<span class="c1"># os.environ[&quot;LOMAS_CLIENT_OIDC_DISCOVERY_URL&quot;] = &quot;https://dex.example.com:443/.well-known/openid-configuration&quot;</span>
 <span class="c1"># os.environ[&quot;LOMAS_CLIENT_TELEMETRY__ENABLED&quot;] = &quot;false&quot;</span>
 <span class="c1"># os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_ENDPOINT&quot;] = &quot;http://otel.example.com:445&quot;</span>
 <span class="c1"># os.environ[&quot;LOMAS_CLIENT_TELEMETRY__COLLECTOR_INSECURE&quot;] = &quot;true&quot;</span>
@@ -175,24 +184,31 @@
 
 <span class="c1"># We set these ones because they are specific to this notebook.</span>
 
-<span class="n">USER_NAME</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_CLIENT_ID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">USER_NAME</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_CLIENT_SECRET&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">USER_NAME</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_USER_NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;jack@example.com&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_USER_PASSWORD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;jack&quot;</span>
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LOMAS_CLIENT_DATASET_NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;TITANIC&quot;</span>
 
 <span class="c1"># Note that all client settings can also be passed as keyword arguments to the Client constructor.</span>
-<span class="c1"># eg. client = Client(client_id = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_CLIENT_ID&quot;</span>
+<span class="c1"># eg. client = Client(user_name = &quot;Dr.Antartica&quot;) takes precedence over setting the &quot;LOMAS_CLIENT_USER_NAME&quot;</span>
 <span class="c1"># environment variable.</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">[15:25:49] </span><span style="color: #808000; text-decoration-color: #808000">WARNING </span> Keycloak or Lomas service configured without TLS -&gt; using oauthlib insecure   <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#31" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">31</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         transport                                                                     <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
 </div>
 </section>
 <section id="Step-3:-Understand-the-functionnalities-of-the-library">
@@ -208,6 +224,15 @@
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'get_dataset_metadata'</span> with query params: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>:    <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span><span style="font-weight: bold">}</span>.                                                                   <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
@@ -216,9 +241,12 @@
 {&#39;max_ids&#39;: 1,
  &#39;rows&#39;: 887,
  &#39;row_privacy&#39;: True,
- &#39;censor_dims&#39;: False,
+ &#39;censor_dims&#39;: True,
+ &#39;clamp_counts&#39;: True,
+ &#39;clamp_columns&#39;: True,
+ &#39;use_dpsu&#39;: False,
  &#39;columns&#39;: {&#39;Pclass&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
@@ -227,13 +255,13 @@
    &#39;lower&#39;: 1,
    &#39;upper&#39;: 3},
   &#39;Name&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
    &#39;type&#39;: &#39;string&#39;},
   &#39;Sex&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
@@ -241,16 +269,17 @@
    &#39;cardinality&#39;: 2,
    &#39;categories&#39;: [&#39;male&#39;, &#39;female&#39;]},
   &#39;Age&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
    &#39;type&#39;: &#39;float&#39;,
    &#39;precision&#39;: 64,
    &#39;lower&#39;: 0.1,
-   &#39;upper&#39;: 100.0},
+   &#39;upper&#39;: 100.0,
+   &#39;int_with_nulls&#39;: False},
   &#39;SibSp&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
@@ -259,7 +288,7 @@
    &#39;lower&#39;: 0,
    &#39;upper&#39;: 10},
   &#39;Parch&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
@@ -268,28 +297,29 @@
    &#39;lower&#39;: 0,
    &#39;upper&#39;: 10},
   &#39;Ticket&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
    &#39;type&#39;: &#39;string&#39;},
   &#39;Fare&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
    &#39;type&#39;: &#39;float&#39;,
    &#39;precision&#39;: 64,
    &#39;lower&#39;: 0.0,
-   &#39;upper&#39;: 1000.0},
+   &#39;upper&#39;: 1000.0,
+   &#39;int_with_nulls&#39;: False},
   &#39;Cabin&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
    &#39;type&#39;: &#39;string&#39;},
   &#39;Embarked&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
@@ -297,7 +327,7 @@
    &#39;cardinality&#39;: 3,
    &#39;categories&#39;: [&#39;C&#39;, &#39;Q&#39;, &#39;S&#39;]},
   &#39;Survived&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
@@ -329,6 +359,15 @@
 <span class="n">df_dummy</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'get_dummy_dataset'</span> with query params: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>:       <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span>, <span style="color: #008000; text-decoration-color: #008000">'dummy_nb_rows'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span>, <span style="color: #008000; text-decoration-color: #008000">'dummy_seed'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">}</span>.                            <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
@@ -464,7 +503,7 @@
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
@@ -480,6 +519,18 @@
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'dummy_smartnoise_sql_query'</span> with query params:               <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>: <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span>, <span style="color: #008000; text-decoration-color: #008000">'dummy_nb_rows'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span>, <span style="color: #008000; text-decoration-color: #008000">'dummy_seed'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,            <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'query_str'</span>: <span style="color: #008000; text-decoration-color: #008000">'SELECT COUNT(*) AS nb_passengers,         AVG(Age) AS avg_age  </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">FROM df'</span>, <span style="color: #008000; text-decoration-color: #008000">'epsilon'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">100.0</span>, <span style="color: #008000; text-decoration-color: #008000">'delta'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.0</span>, <span style="color: #008000; text-decoration-color: #008000">'mechanisms'</span>: <span style="font-weight: bold">{}</span>, <span style="color: #008000; text-decoration-color: #008000">'postprocess'</span>:    <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">}</span>.                                                                        <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -494,8 +545,8 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Average age in remote dummy: 51.69 years old.
-Number of rows in remote dummy: 200.
+Average age in remote dummy: 51.7 years old.
+Number of rows in remote dummy: 199.
 </pre></div></div>
 </div>
 </section>
@@ -509,6 +560,15 @@ Number of rows in remote dummy: 200.
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_initial_budget</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">[15:25:51] </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'get_initial_budget'</span> with query params: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>:      <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span><span style="font-weight: bold">}</span>.                                                                   <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -526,6 +586,15 @@ InitialBudgetResponse(initial_epsilon=45.0, initial_delta=0.2)
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'get_total_spent_budget'</span> with query params: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>:  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span><span style="font-weight: bold">}</span>.                                                                   <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
@@ -542,6 +611,15 @@ SpentBudgetResponse(total_spent_epsilon=0.0, total_spent_delta=0.0)
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'get_remaining_budget'</span> with query params: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>:    <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span><span style="font-weight: bold">}</span>.                                                                   <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -578,6 +656,17 @@ RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'estimate_smartnoise_sql_cost'</span> with query params:             <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>: <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span>, <span style="color: #008000; text-decoration-color: #008000">'query_str'</span>: <span style="color: #008000; text-decoration-color: #008000">'SELECT COUNT(*) AS nb_passengers,  </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">AVG(Age) AS avg_age         FROM df'</span>, <span style="color: #008000; text-decoration-color: #008000">'epsilon'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>, <span style="color: #008000; text-decoration-color: #008000">'delta'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0001</span>,        <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'mechanisms'</span>: <span style="font-weight: bold">{}}</span>.                                                            <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
@@ -597,6 +686,15 @@ CostResponse(epsilon=1.5, delta=0.00014999500000001387)
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">[15:25:53] </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'get_remaining_budget'</span> with query params: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>:    <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span><span style="font-weight: bold">}</span>.                                                                   <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
@@ -605,7 +703,7 @@ CostResponse(epsilon=1.5, delta=0.00014999500000001387)
 RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
@@ -617,6 +715,17 @@ RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'smartnoise_sql_query'</span> with query params: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>:    <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span>, <span style="color: #008000; text-decoration-color: #008000">'query_str'</span>: <span style="color: #008000; text-decoration-color: #008000">'SELECT COUNT(*) AS nb_passengers,         AVG(Age) </span>  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">AS avg_age         FROM df'</span>, <span style="color: #008000; text-decoration-color: #008000">'epsilon'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>, <span style="color: #008000; text-decoration-color: #008000">'delta'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0001</span>, <span style="color: #008000; text-decoration-color: #008000">'mechanisms'</span>:   <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="font-weight: bold">{}</span>, <span style="color: #008000; text-decoration-color: #008000">'postprocess'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">}</span>.                                                     <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -635,8 +744,8 @@ RemainingBudgetResponse(remaining_epsilon=45.0, remaining_delta=0.2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Number of passengers in real data: 884.
-Average age in real data: 28.46.
+Number of passengers in real data: 887.
+Average age in real data: 29.95.
 </pre></div></div>
 </div>
 <p>After each query on the real dataset, the budget informations are also returned to the researcher. It is possible possible to check the remaining budget again afterwards:</p>
@@ -647,6 +756,15 @@ Average age in real data: 28.46.
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_remaining_budget</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">[15:25:54] </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'get_remaining_budget'</span> with query params: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>:    <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span><span style="font-weight: bold">}</span>.                                                                   <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -664,6 +782,15 @@ RemainingBudgetResponse(remaining_epsilon=43.5, remaining_delta=0.199850005)
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">get_total_spent_budget</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'get_total_spent_budget'</span> with query params: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>:  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span><span style="font-weight: bold">}</span>.                                                                   <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -705,9 +832,12 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
 {&#39;max_ids&#39;: 1,
  &#39;rows&#39;: 887,
  &#39;row_privacy&#39;: True,
- &#39;censor_dims&#39;: False,
+ &#39;censor_dims&#39;: True,
+ &#39;clamp_counts&#39;: True,
+ &#39;clamp_columns&#39;: True,
+ &#39;use_dpsu&#39;: False,
  &#39;columns&#39;: {&#39;Pclass&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
@@ -716,13 +846,13 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
    &#39;lower&#39;: 1,
    &#39;upper&#39;: 3},
   &#39;Name&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
    &#39;type&#39;: &#39;string&#39;},
   &#39;Sex&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
@@ -730,16 +860,17 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
    &#39;cardinality&#39;: 2,
    &#39;categories&#39;: [&#39;male&#39;, &#39;female&#39;]},
   &#39;Age&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
    &#39;type&#39;: &#39;float&#39;,
    &#39;precision&#39;: 64,
    &#39;lower&#39;: 0.1,
-   &#39;upper&#39;: 100.0},
+   &#39;upper&#39;: 100.0,
+   &#39;int_with_nulls&#39;: False},
   &#39;SibSp&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
@@ -748,7 +879,7 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
    &#39;lower&#39;: 0,
    &#39;upper&#39;: 10},
   &#39;Parch&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
@@ -757,28 +888,29 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
    &#39;lower&#39;: 0,
    &#39;upper&#39;: 10},
   &#39;Ticket&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
    &#39;type&#39;: &#39;string&#39;},
   &#39;Fare&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
    &#39;type&#39;: &#39;float&#39;,
    &#39;precision&#39;: 64,
    &#39;lower&#39;: 0.0,
-   &#39;upper&#39;: 1000.0},
+   &#39;upper&#39;: 1000.0,
+   &#39;int_with_nulls&#39;: False},
   &#39;Cabin&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
    &#39;type&#39;: &#39;string&#39;},
   &#39;Embarked&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
@@ -786,7 +918,7 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
    &#39;cardinality&#39;: 3,
    &#39;categories&#39;: [&#39;C&#39;, &#39;Q&#39;, &#39;S&#39;]},
   &#39;Survived&#39;: {&#39;private_id&#39;: False,
-   &#39;nullable&#39;: False,
+   &#39;nullable_proportion&#39;: 0.0,
    &#39;max_partition_length&#39;: None,
    &#39;max_influenced_partitions&#39;: None,
    &#39;max_partition_contributions&#39;: None,
@@ -852,7 +984,7 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-red-fg">InvalidQueryException</span>                     Traceback (most recent call last)
 <span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[26]</span><span class="ansi-green-fg">, line 2</span>
 <span class="ansi-green-fg">      1</span> <span style="color: rgb(95,135,135)"># Expect to fail !!!</span>
 <span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">2</span> <span class="ansi-yellow-bg">client</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">opendp</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg">(</span>
@@ -860,35 +992,34 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
 <span class="ansi-green-fg">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">dummy</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span>
 <span class="ansi-green-fg">      5</span> <span class="ansi-yellow-bg">)</span>
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/libraries/opendp.py:141</span>, in <span class="ansi-cyan-fg">OpenDPClient.query</span><span class="ansi-blue-fg">(self, opendp_pipeline, fixed_delta, mechanism, dummy, nb_rows, seed)</span>
-<span class="ansi-green-fg">    104</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-fg">query</span>(
-<span class="ansi-green-fg">    105</span>     <span style="color: rgb(0,135,0)">self</span>,
-<span class="ansi-green-fg">    106</span>     opendp_pipeline: dp.Measurement | pl.LazyFrame,
-<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">    111</span>     seed: <span style="color: rgb(0,135,0)">int</span> = DUMMY_SEED,
-<span class="ansi-green-fg">    112</span> ) -&gt; QueryResponse | <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
-<span class="ansi-green-fg">    113</span> <span style="color: rgb(188,188,188)">    </span><span class="ansi-yellow-fg">&#34;&#34;&#34;This function executes an OpenDP query.</span>
-<span class="ansi-green-fg">    114</span>
-<span class="ansi-green-fg">    115</span> <span class="ansi-yellow-fg">    Args:</span>
-<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">    139</span> <span class="ansi-yellow-fg">            containing the deserialized pipeline result.</span>
-<span class="ansi-green-fg">    140</span> <span class="ansi-yellow-fg">    &#34;&#34;&#34;</span>
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">141</span>     body_json = <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_get_opendp_request_body</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">    142</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">opendp_pipeline</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    143</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">fixed_delta</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">fixed_delta</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    144</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">mechanism</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">mechanism</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    145</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    147</span>     request_model: <span style="color: rgb(0,135,0)">type</span>[OpenDPRequestModel]
-<span class="ansi-green-fg">    148</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> dummy:
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/lomas/lomas/client/lomas_client/libraries/opendp.py:139</span>, in <span class="ansi-cyan-fg">OpenDPClient.query</span><span class="ansi-blue-fg">(self, opendp_pipeline, fixed_delta, mechanism, dummy, nb_rows, seed)</span>
+<span class="ansi-green-fg">    103</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-fg">query</span>(
+<span class="ansi-green-fg">    104</span>     <span style="color: rgb(0,135,0)">self</span>,
+<span class="ansi-green-fg">    105</span>     opendp_pipeline: dp.Measurement | pl.LazyFrame,
+<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">    110</span>     seed: <span style="color: rgb(0,135,0)">int</span> = DUMMY_SEED,
+<span class="ansi-green-fg">    111</span> ) -&gt; QueryResponse:
+<span class="ansi-green-fg">    112</span> <span style="color: rgb(188,188,188)">    </span><span class="ansi-yellow-fg">&#34;&#34;&#34;This function executes an OpenDP query.</span>
+<span class="ansi-green-fg">    113</span>
+<span class="ansi-green-fg">    114</span> <span class="ansi-yellow-fg">    Args:</span>
+<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">    137</span> <span class="ansi-yellow-fg">        QueryResponse: A dictionary of the response body containing the deserialized pipeline result.</span>
+<span class="ansi-green-fg">    138</span> <span class="ansi-yellow-fg">    &#34;&#34;&#34;</span>
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">139</span>     body_json = <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_get_opendp_request_body</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">    140</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">opendp_pipeline</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    141</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">fixed_delta</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">fixed_delta</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    142</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">mechanism</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">mechanism</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    143</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    145</span>     request_model: <span style="color: rgb(0,135,0)">type</span>[OpenDPRequestModel]
+<span class="ansi-green-fg">    146</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> dummy:
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/sdd-poc-server/client/lomas_client/libraries/opendp.py:61</span>, in <span class="ansi-cyan-fg">OpenDPClient._get_opendp_request_body</span><span class="ansi-blue-fg">(self, opendp_pipeline, fixed_delta, mechanism)</span>
-<span class="ansi-green-fg">     59</span>     body_json[<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">pipeline_type</span><span class="ansi-yellow-fg">&#34;</span>] = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">polars</span><span class="ansi-yellow-fg">&#34;</span>
-<span class="ansi-green-fg">     60</span> <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">61</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">TypeError</span>(
-<span class="ansi-green-fg">     62</span>         <span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">Opendp_pipeline must either of type Measurement</span><span class="ansi-yellow-fg">&#34;</span>
-<span class="ansi-green-fg">     63</span>         <span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg"> or LazyFrame, found </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span><span style="color: rgb(0,135,0)">type</span>(opendp_pipeline)<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">&#34;</span>
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/lomas/lomas/client/lomas_client/libraries/opendp.py:62</span>, in <span class="ansi-cyan-fg">OpenDPClient._get_opendp_request_body</span><span class="ansi-blue-fg">(self, opendp_pipeline, fixed_delta, mechanism)</span>
+<span class="ansi-green-fg">     60</span>     body_json[<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">pipeline_type</span><span class="ansi-yellow-fg">&#34;</span>] = OpenDpPipelineType.POLARS
+<span class="ansi-green-fg">     61</span> <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
+<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">62</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> InvalidQueryException(
+<span class="ansi-green-fg">     63</span>         <span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">Opendp_pipeline must either of type Measurement or LazyFrame, found </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span><span style="color: rgb(0,135,0)">type</span>(opendp_pipeline)<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">&#34;</span>
 <span class="ansi-green-fg">     64</span>     )
 <span class="ansi-green-fg">     66</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> body_json
 
-<span class="ansi-red-fg">TypeError</span>: Opendp_pipeline must either of type Measurement or LazyFrame, found &lt;class &#39;opendp.mod.Transformation&#39;&gt;
+<span class="ansi-red-fg">InvalidQueryException</span>: Opendp_pipeline must either of type Measurement or LazyFrame, found &lt;class &#39;opendp.mod.Transformation&#39;&gt;
 </pre></div></div>
 </div>
 <p>This is because the server will only allow measurement pipeline with differentially private results. We add Laplacian noise to the pipeline and should be able to instantiate the pipeline.</p>
@@ -916,12 +1047,41 @@ SpentBudgetResponse(total_spent_epsilon=1.5, total_spent_delta=0.000149995000000
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'dummy_opendp_query'</span> with query params: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>:      <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span>, <span style="color: #008000; text-decoration-color: #008000">'dummy_nb_rows'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">100</span>, <span style="color: #008000; text-decoration-color: #008000">'dummy_seed'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">42</span>, <span style="color: #008000; text-decoration-color: #008000">'opendp_json'</span>:             <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'{"version": "0.12.0", "ast": {"_type": "partial_chain", "lhs": {"_type": </span>    <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"partial_chain", "lhs": {"_type": "partial_chain", "lhs": {"_type": </span>          <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"partial_chain", "lhs": {"_type": "partial_chain", "lhs": {"_type": </span>          <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"constructor", "func": "make_chain_tt", "module": "combinators", "args": </span>     <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">[{"_type": "constructor", "func": "make_select_column", "module": </span>            <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"transformations", "kwargs": {"key": "Age", "TOA": "String"}}, {"_type": </span>     <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"constructor", "func": "make_split_dataframe", "module": "transformations", </span>  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"kwargs": {"separator": ",", "col_names": {"_type": "list", "_items": </span>        <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">["PassengerId", "Pclass", "Name", "Sex", "Age", "SibSp", "Parch"]}}}]}, </span>      <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"rhs": {"_type": "constructor", "func": "then_cast_default", "module": </span>       <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"transformations", "kwargs": {"TOA": "f64"}}}, "rhs": {"_type": </span>              <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"constructor", "func": "then_clamp", "module": "transformations", "kwargs": </span>  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">{"bounds": [0.1, 100.0]}}}, "rhs": {"_type": "constructor", "func": </span>          <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"then_resize", "module": "transformations", "kwargs": {"size": 887, </span>          <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"constant": 29.95}}}, "rhs": {"_type": "constructor", "func": </span>                <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"then_variance", "module": "transformations"}}, "rhs": {"_type": </span>             <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"constructor", "func": "then_laplace", "module": "measurements", "kwargs": </span>   <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">{"scale": 5.0}}}}'</span>, <span style="color: #008000; text-decoration-color: #008000">'fixed_delta'</span>: <span style="color: #800080; text-decoration-color: #800080; font-style: italic">None</span>, <span style="color: #008000; text-decoration-color: #008000">'pipeline_type'</span>:                     <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">OpenDpPipelineType.LEGACY:</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'legacy'</span><span style="color: #000000; text-decoration-color: #000000">&gt;, </span><span style="color: #008000; text-decoration-color: #008000">'mechanism'</span><span style="color: #000000; text-decoration-color: #000000">: &lt;OpenDpMechanism.LAPLACE:</span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'laplace'</span><span style="font-weight: bold">&gt;}</span>.                                                                  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Dummy result for variance: 50.59
+Dummy result for variance: 66.47
 </pre></div></div>
 </div>
 <p>With opendp, the function <code class="docutils literal notranslate"><span class="pre">estimate_opendp_cost</span></code> is particularly useful to estimate the used <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> and <code class="docutils literal notranslate"><span class="pre">delta</span></code> based on the <code class="docutils literal notranslate"><span class="pre">scale</span></code> value.</p>
@@ -936,16 +1096,44 @@ Dummy result for variance: 50.59
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">[15:25:56] </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'estimate_opendp_cost'</span> with query params: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>:    <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span>, <span style="color: #008000; text-decoration-color: #008000">'opendp_json'</span>: <span style="color: #008000; text-decoration-color: #008000">'{"version": "0.12.0", "ast": {"_type": </span>            <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"partial_chain", "lhs": {"_type": "partial_chain", "lhs": {"_type": </span>          <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"partial_chain", "lhs": {"_type": "partial_chain", "lhs": {"_type": </span>          <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"partial_chain", "lhs": {"_type": "constructor", "func": "make_chain_tt", </span>    <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"module": "combinators", "args": [{"_type": "constructor", "func": </span>           <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"make_select_column", "module": "transformations", "kwargs": {"key": "Age", </span>  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"TOA": "String"}}, {"_type": "constructor", "func": "make_split_dataframe", </span>  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"module": "transformations", "kwargs": {"separator": ",", "col_names": </span>       <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">{"_type": "list", "_items": ["PassengerId", "Pclass", "Name", "Sex", "Age", </span>  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"SibSp", "Parch"]}}}]}, "rhs": {"_type": "constructor", "func": </span>              <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"then_cast_default", "module": "transformations", "kwargs": {"TOA": "f64"}}},</span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"rhs": {"_type": "constructor", "func": "then_clamp", "module": </span>              <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"transformations", "kwargs": {"bounds": [0.1, 100.0]}}}, "rhs": {"_type": </span>    <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"constructor", "func": "then_resize", "module": "transformations", "kwargs": </span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">{"size": 887, "constant": 29.95}}}, "rhs": {"_type": "constructor", "func": </span>  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"then_variance", "module": "transformations"}}, "rhs": {"_type": </span>             <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"constructor", "func": "then_laplace", "module": "measurements", "kwargs": </span>   <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">{"scale": 5.0}}}}'</span>, <span style="color: #008000; text-decoration-color: #008000">'fixed_delta'</span>: <span style="color: #800080; text-decoration-color: #800080; font-style: italic">None</span>, <span style="color: #008000; text-decoration-color: #008000">'pipeline_type'</span>:                     <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">OpenDpPipelineType.LEGACY:</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'legacy'</span><span style="color: #000000; text-decoration-color: #000000">&gt;, </span><span style="color: #008000; text-decoration-color: #008000">'mechanism'</span><span style="color: #000000; text-decoration-color: #000000">: &lt;OpenDpMechanism.LAPLACE:</span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'laplace'</span><span style="font-weight: bold">&gt;}</span>.                                                                  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CostResponse(epsilon=2.2579208144884366, delta=0.0)
+CostResponse(epsilon=2.2502841037292076, delta=0.0)
 </pre></div></div>
 </div>
 <p>One can now execute the query on the real dataset.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
@@ -954,6 +1142,34 @@ CostResponse(epsilon=2.2579208144884366, delta=0.0)
 <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span><span style="color: #008000; text-decoration-color: #008000">DEBUG   </span> User <span style="color: #008000; text-decoration-color: #008000">'jack@example.com'</span><span style="font-weight: bold">)</span> is making a request to url <span style="color: #008000; text-decoration-color: #008000">'http://localhost:48080/'</span> <a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">http_client.py</span></a><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">:</span><a href="file:///home/aymond/work/lomas/lomas/client/lomas_client/http_client.py#77" target="_blank"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">77</span></a>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         at the endpoint <span style="color: #008000; text-decoration-color: #008000">'opendp_query'</span> with query params: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset_name'</span>: <span style="color: #008000; text-decoration-color: #008000">'TITANIC'</span>, <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'opendp_json'</span>: <span style="color: #008000; text-decoration-color: #008000">'{"version": "0.12.0", "ast": {"_type": "partial_chain", </span>      <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"lhs": {"_type": "partial_chain", "lhs": {"_type": "partial_chain", "lhs": </span>   <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">{"_type": "partial_chain", "lhs": {"_type": "partial_chain", "lhs": {"_type":</span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"constructor", "func": "make_chain_tt", "module": "combinators", "args": </span>     <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">[{"_type": "constructor", "func": "make_select_column", "module": </span>            <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"transformations", "kwargs": {"key": "Age", "TOA": "String"}}, {"_type": </span>     <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"constructor", "func": "make_split_dataframe", "module": "transformations", </span>  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"kwargs": {"separator": ",", "col_names": {"_type": "list", "_items": </span>        <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">["PassengerId", "Pclass", "Name", "Sex", "Age", "SibSp", "Parch"]}}}]}, </span>      <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"rhs": {"_type": "constructor", "func": "then_cast_default", "module": </span>       <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"transformations", "kwargs": {"TOA": "f64"}}}, "rhs": {"_type": </span>              <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"constructor", "func": "then_clamp", "module": "transformations", "kwargs": </span>  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">{"bounds": [0.1, 100.0]}}}, "rhs": {"_type": "constructor", "func": </span>          <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"then_resize", "module": "transformations", "kwargs": {"size": 887, </span>          <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"constant": 29.95}}}, "rhs": {"_type": "constructor", "func": </span>                <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"then_variance", "module": "transformations"}}, "rhs": {"_type": </span>             <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">"constructor", "func": "then_laplace", "module": "measurements", "kwargs": </span>   <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">{"scale": 5.0}}}}'</span>, <span style="color: #008000; text-decoration-color: #008000">'fixed_delta'</span>: <span style="color: #800080; text-decoration-color: #800080; font-style: italic">None</span>, <span style="color: #008000; text-decoration-color: #008000">'pipeline_type'</span>:                     <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">OpenDpPipelineType.LEGACY:</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'legacy'</span><span style="color: #000000; text-decoration-color: #000000">&gt;, </span><span style="color: #008000; text-decoration-color: #008000">'mechanism'</span><span style="color: #000000; text-decoration-color: #000000">: &lt;OpenDpMechanism.LAPLACE:</span> <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+<span style="color: #7fbfbf; text-decoration-color: #7fbfbf">           </span>         <span style="color: #008000; text-decoration-color: #008000">'laplace'</span><span style="font-weight: bold">&gt;}</span>.                                                                  <span style="color: #7f7f7f; text-decoration-color: #7f7f7f">                 </span>
+</pre></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -973,9 +1189,9 @@ CostResponse(epsilon=2.2579208144884366, delta=0.0)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Number of passengers: 884 (from previous smartnoise-sql query).
-Average age: 28.46 (from previous smartnoise-sql query).
-Variance of age: 190.72 (from opendp query).
+Number of passengers: 887 (from previous smartnoise-sql query).
+Average age: 29.95 (from previous smartnoise-sql query).
+Variance of age: 203.128 (from opendp query).
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -993,7 +1209,7 @@ Variance of age: 190.72 (from opendp query).
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Standard error of age: 0.46.
+Standard error of age: 0.48.
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1013,7 +1229,7 @@ Standard error of age: 0.46.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The 95% confidence interval of the age of all passengers is [27.55, 29.37].
+The 95% confidence interval of the age of all passengers is [29.01, 30.89].
 </pre></div></div>
 </div>
 </section>

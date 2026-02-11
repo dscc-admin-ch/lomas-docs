@@ -153,10 +153,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">ClientConfig</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Missing one of or invalid: client_id, client_secret, keycloak_url&quot;</span>
-                <span class="s2">&quot;or realm when using jwt authentication method.&quot;</span>
+                <span class="s2">&quot;Missing client config parameters.&quot;</span>
                 <span class="s2">&quot;If you are using this library from a managed environment and don&#39;t know &quot;</span>
-                <span class="s2">&quot;about your credentials, please contact your system administrator.&quot;</span>
+                <span class="s2">&quot;about your credentials or other parameters, please contact your system administrator.&quot;</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">telemetry</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>

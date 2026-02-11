@@ -528,6 +528,15 @@
             <span class="k">return</span> <span class="n">Metadata</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="LocalAdminDatabase.is_user_admin">
+<a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.LocalAdminDatabase.is_user_admin">[docs]</a>
+    <span class="nd">@override</span>
+    <span class="nd">@user_must_exist</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_user_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">shelve</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">db</span><span class="p">[</span><span class="n">TK</span><span class="o">.</span><span class="n">USERS</span><span class="p">][</span><span class="n">user_name</span><span class="p">][</span><span class="s2">&quot;admin&quot;</span><span class="p">]</span></div>
+
+
 <div class="viewcode-block" id="LocalAdminDatabase.get_and_set_may_user_query">
 <a class="viewcode-back" href="../../../lomas_server.admin_database.html#lomas_server.admin_database.LocalAdminDatabase.get_and_set_may_user_query">[docs]</a>
     <span class="nd">@override</span>

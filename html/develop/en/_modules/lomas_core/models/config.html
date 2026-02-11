@@ -100,6 +100,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">ConfigDict</span><span class="p">,</span>
     <span class="n">Field</span><span class="p">,</span>
     <span class="n">HttpUrl</span><span class="p">,</span>
     <span class="n">UrlConstraints</span><span class="p">,</span>
@@ -151,6 +152,24 @@
 
         <span class="k">return</span> <span class="bp">self</span></div>
 </div>
+
+
+
+<div class="viewcode-block" id="OIDCConfig">
+<a class="viewcode-back" href="../../../lomas_core.models.html#lomas_core.models.config.OIDCConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OIDCConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base model for oidc config returned from discovery endpoint.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Only useful (to us) fields are present in the model.</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+    <span class="n">issuer</span><span class="p">:</span> <span class="n">HttpUrl</span>
+    <span class="n">authorization_endpoint</span><span class="p">:</span> <span class="n">HttpUrl</span>
+    <span class="n">token_endpoint</span><span class="p">:</span> <span class="n">HttpUrl</span>
+    <span class="n">jwks_uri</span><span class="p">:</span> <span class="n">HttpUrl</span>
+    <span class="n">userinfo_endpoint</span><span class="p">:</span> <span class="n">HttpUrl</span>
+    <span class="n">device_authorization_endpoint</span><span class="p">:</span> <span class="n">HttpUrl</span>
+    <span class="n">introspection_endpoint</span><span class="p">:</span> <span class="n">HttpUrl</span></div>
 
 </pre></div>
 
